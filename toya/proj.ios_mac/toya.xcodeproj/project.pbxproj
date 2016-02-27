@@ -11,6 +11,14 @@
 		1AC6FB30180E99EB004C840B /* libcocos2d iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AC6FB07180E9839004C840B /* libcocos2d iOS.a */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765A40DF7441C002DB57D /* CoreGraphics.framework */; };
+		2B70487A1C81F89600C0E759 /* ToyaGameRoot.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2B7048791C81F89600C0E759 /* ToyaGameRoot.cpp */; };
+		2B70487B1C81F89600C0E759 /* ToyaGameRoot.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2B7048791C81F89600C0E759 /* ToyaGameRoot.cpp */; };
+		2B70487E1C81F99500C0E759 /* ToyaGameController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2B70487C1C81F99500C0E759 /* ToyaGameController.cpp */; };
+		2B70487F1C81F99500C0E759 /* ToyaGameController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2B70487C1C81F99500C0E759 /* ToyaGameController.cpp */; };
+		2B7048831C81FCB100C0E759 /* Models in Resources */ = {isa = PBXBuildFile; fileRef = 2B7048821C81FCB100C0E759 /* Models */; };
+		2B7048841C81FCB100C0E759 /* Models in Resources */ = {isa = PBXBuildFile; fileRef = 2B7048821C81FCB100C0E759 /* Models */; };
+		2B7048871C82069300C0E759 /* ToyaInputController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2B7048861C82069300C0E759 /* ToyaInputController.cpp */; };
+		2B7048881C82069300C0E759 /* ToyaInputController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2B7048861C82069300C0E759 /* ToyaInputController.cpp */; };
 		46880B8819C43A87006E1F66 /* AppDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 46880B8419C43A87006E1F66 /* AppDelegate.cpp */; };
 		46880B8919C43A87006E1F66 /* AppDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 46880B8419C43A87006E1F66 /* AppDelegate.cpp */; };
 		46880B8A19C43A87006E1F66 /* HelloWorld.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 46880B8619C43A87006E1F66 /* HelloWorld.cpp */; };
@@ -106,6 +114,13 @@
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D6058910D05DD3D006BFB54 /* toya-mobile.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "toya-mobile.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		288765A40DF7441C002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		2B7048781C81F56400C0E759 /* ToyaGameRoot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToyaGameRoot.h; sourceTree = "<group>"; };
+		2B7048791C81F89600C0E759 /* ToyaGameRoot.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ToyaGameRoot.cpp; sourceTree = "<group>"; };
+		2B70487C1C81F99500C0E759 /* ToyaGameController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ToyaGameController.cpp; sourceTree = "<group>"; };
+		2B7048811C81FA6600C0E759 /* ToyaGameController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToyaGameController.h; sourceTree = "<group>"; };
+		2B7048821C81FCB100C0E759 /* Models */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Models; sourceTree = "<group>"; };
+		2B7048851C8205B300C0E759 /* ToyaInputController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToyaInputController.h; sourceTree = "<group>"; };
+		2B7048861C82069300C0E759 /* ToyaInputController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ToyaInputController.cpp; sourceTree = "<group>"; };
 		46880B8419C43A87006E1F66 /* AppDelegate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AppDelegate.cpp; sourceTree = "<group>"; };
 		46880B8519C43A87006E1F66 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		46880B8619C43A87006E1F66 /* HelloWorld.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HelloWorld.cpp; sourceTree = "<group>"; };
@@ -300,6 +315,13 @@
 				46880B8519C43A87006E1F66 /* AppDelegate.h */,
 				46880B8619C43A87006E1F66 /* HelloWorld.cpp */,
 				46880B8719C43A87006E1F66 /* HelloWorld.h */,
+				2B7048791C81F89600C0E759 /* ToyaGameRoot.cpp */,
+				2B7048781C81F56400C0E759 /* ToyaGameRoot.h */,
+				2B70487C1C81F99500C0E759 /* ToyaGameController.cpp */,
+				2B7048811C81FA6600C0E759 /* ToyaGameController.h */,
+				2B7048861C82069300C0E759 /* ToyaInputController.cpp */,
+				2B7048851C8205B300C0E759 /* ToyaInputController.h */,
+				2B7048821C81FCB100C0E759 /* Models */,
 			);
 			name = Classes;
 			path = ../Classes;
@@ -487,6 +509,7 @@
 				50EF62A317ECD613001EB2F8 /* Icon-50.png in Resources */,
 				5087E78017EB970100C73F5D /* Icon-114.png in Resources */,
 				50EF62A217ECD613001EB2F8 /* Icon-29.png in Resources */,
+				2B7048831C81FCB100C0E759 /* Models in Resources */,
 				50EF629617ECD46A001EB2F8 /* Icon-40.png in Resources */,
 				5087E78217EB970100C73F5D /* Icon-144.png in Resources */,
 				50EF629817ECD46A001EB2F8 /* Icon-80.png in Resources */,
@@ -504,6 +527,7 @@
 			files = (
 				EB24EB911C5B10C60069DBBE /* textures in Resources */,
 				503AE0F817EB97AB00D1A890 /* Icon.icns in Resources */,
+				2B7048841C81FCB100C0E759 /* Models in Resources */,
 				521A8EAA19F11F5000D177D7 /* fonts in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -516,9 +540,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				46880B8819C43A87006E1F66 /* AppDelegate.cpp in Sources */,
+				2B7048871C82069300C0E759 /* ToyaInputController.cpp in Sources */,
 				46880B8A19C43A87006E1F66 /* HelloWorld.cpp in Sources */,
 				503AE10017EB989F00D1A890 /* AppController.mm in Sources */,
+				2B70487E1C81F99500C0E759 /* ToyaGameController.cpp in Sources */,
 				503AE10217EB989F00D1A890 /* RootViewController.mm in Sources */,
+				2B70487A1C81F89600C0E759 /* ToyaGameRoot.cpp in Sources */,
 				503AE10117EB989F00D1A890 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -527,6 +554,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2B70487B1C81F89600C0E759 /* ToyaGameRoot.cpp in Sources */,
+				2B7048881C82069300C0E759 /* ToyaInputController.cpp in Sources */,
+				2B70487F1C81F99500C0E759 /* ToyaGameController.cpp in Sources */,
 				46880B8919C43A87006E1F66 /* AppDelegate.cpp in Sources */,
 				503AE10517EB98FF00D1A890 /* main.cpp in Sources */,
 				46880B8B19C43A87006E1F66 /* HelloWorld.cpp in Sources */,

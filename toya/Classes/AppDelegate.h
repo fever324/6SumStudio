@@ -8,8 +8,8 @@
 //
 //  This file is based on the CS 3152 PhysicsDemo Lab by Don Holden, 2007
 //
-//  Author: Walker White
-//  Version: 12/10/15
+//  Author: 6SumStudio
+//  Version: 27/02/16
 //
 #ifndef  _APP_DELEGATE_H_
 #define  _APP_DELEGATE_H_

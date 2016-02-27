@@ -8,11 +8,11 @@
 //
 //  This file is based on the CS 3152 PhysicsDemo Lab by Don Holden, 2007
 //
-//  Author: Walker White
-//  Version: 12/10/15
+//  Author: 6SumStudio
+//  Version: 27/02/2016
 //
 #include "AppDelegate.h"
-#include "HelloWorld.h"
+#include "ToyaGameRoot.h"
 #include <cornell/CUSoundEngine.h>
 #include <cornell/CUAssetManager.h>
 
@@ -74,10 +74,10 @@ bool AppDelegate::applicationDidFinishLaunching() {
     auto glview = director->getOpenGLView();
     if(!glview) {
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32) || (CC_TARGET_PLATFORM == CC_PLATFORM_MAC) || (CC_TARGET_PLATFORM == CC_PLATFORM_LINUX)
-        glview = GLViewImpl::createWithRect("Hello World",
+        glview = GLViewImpl::createWithRect("Toya",
                                             Rect(0, 0, designResolutionSize.width,designResolutionSize.height));
 #else
-        glview = GLViewImpl::create("Hello World");
+        glview = GLViewImpl::create("Toya");
 #endif
         director->setOpenGLView(glview);
     }
@@ -104,7 +104,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
     AssetManager::init();
     
     // MODIFY this line to use your root class
-    auto scene = GameRoot::createScene<HelloWorld>();
+    auto scene = GameRoot::createScene<ToyaRoot>();
 
     // Run the game
     director->runWithScene(scene);
