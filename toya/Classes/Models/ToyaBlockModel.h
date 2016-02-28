@@ -1,25 +1,19 @@
-//
-//  BlockModel.h
-//
-//
-//  Created by 6Sum Studio on 2/27/16.
-//
-//
-
+/**
+ * ToyaBlockModel.h
+ *
+ * Created by 6Sum Studio on 2/27/16.
+ */
 #ifndef __TOYA_BLOCK_MODEL_H__
 #define __TOYA_BLOCK_MODEL_H__
 
-class BlockModel : public BoxObstacle {  // Block demo game controller line 420
-private:
-    /** The size of this block. **/
-    Size _size;
+class BlockModel : public BoxObstacle {
+protected:
     /** The texture of this block. **/
     String _texture;
-    /** The coordinate of this block. **/
-    Vec2 _pos;
-    
+
 #pragma mark -
 #pragma mark Static Constructors
+public:
     /**
      * Creates a new block at the origin.
      *
@@ -113,7 +107,9 @@ CC_CONSTRUCTOR_ACCESS:
      *
      * @return  true if the obstacle is initialized properly, false otherwise.
      */
-    virtual bool init() override { return init(Vec2::ZERO, Size::ZERO); }
+    virtual bool init() override {
+        return init(Vec2::ZERO, Size::ZERO);
+    }
     
     /**
      * Initializes a new block with the given position
@@ -130,7 +126,9 @@ CC_CONSTRUCTOR_ACCESS:
      *
      * @return  true if the obstacle is initialized properly, false otherwise.
      */
-    virtual bool init(const Vec2& pos) override { return init(pos, Size(1,1)); }
+    virtual bool init(const Vec2& pos) override {
+        return init(pos, Size(1,1));
+    }
     
     /**
      * Initializes a new block with the given position and size.
@@ -172,14 +170,18 @@ CC_CONSTRUCTOR_ACCESS:
      *
      * @return the position of the block.
      */
-    virtual const Vec2& getPosition() const { return _pos; }
+    virtual const Vec2& getPosition() const {
+        return _pos;
+    }
     
     /**
      * Sets the position of the block.
      *
      * @param value  the postion assigned to the block.
      */
-    virtual void setPosition(const Vec2& value) { _pos.set(value); }
+    virtual void setPosition(const Vec2& value) {
+        _pos.set(value);
+    }
     
     /**
      * Returns the texture (key) for this block.
@@ -215,5 +217,3 @@ CC_CONSTRUCTOR_ACCESS:
 
 #endif
 /* defined(__TOYA_BLOCK_MODEL_H__) */
-
-
