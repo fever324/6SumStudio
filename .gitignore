@@ -1,4 +1,7 @@
 toya/cocos2d/build
+toya/proj.ios_mac/.idea/
+toya/proj.ios_mac/toya.xcodeproj/xcuserdata/
+
 *.pbxuser
 !default.pbxuser
 *.mode1v3
