@@ -20,9 +20,9 @@ using namespace cocos2d;
 /** Cooldown (in animation frames) for shooting */
 #define SHOOT_COOLDOWN  20
 /** The amount to shrink the body fixture (vertically) relative to the image */
-#define AVATAR_VSHRINK  0.95f
+#define AVATAR_VSHRINK  0.5f
 /** The amount to shrink the body fixture (horizontally) relative to the image */
-#define AVATAR_HSHRINK  0.7f
+#define AVATAR_HSHRINK  0.5f
 /** The amount to shrink the sensor fixture (horizontally) relative to the image */
 #define AVATAR_SSHRINK  0.6f
 /** Height of the sensor attached to the player's feet */
@@ -131,34 +131,27 @@ bool AvatarModel::init(const Vec2& pos, const Vec2& scale) {
     float cscale = Director::getInstance()->getContentScaleFactor();
     SceneManager* scene = AssetManager::getInstance()->getCurrent();
     
-    Texture2D* image = scene->get<Texture2D>(AVATAR_TEXTURE);
+    Texture2D* image = scene->get<Texture2D>("bear");
     
     // Multiply by the scaling factor so we can be resolution independent
-    Size nsize = image->getContentSize()*cscale;
+    Size avatarSize = Size(image->getContentSize().width*cscale/scale.x,image->getContentSize().height*cscale/scale.y);
     
-    PolygonNode* pnode = PolygonNode::createWithTexture(image);
-    
-    nsize.width  *= AVATAR_HSHRINK/scale.x;
-    nsize.height *= AVATAR_VSHRINK/scale.y;
-    
-    if (CapsuleObstacle::init(pos,nsize)) {
+    if (CapsuleObstacle::init(pos, avatarSize)) {
         
         setDensity(AVATAR_DENSITY);
         setFriction(0.0f);      // HE WILL STICK TO WALLS IF YOU FORGET
         setFixedRotation(true); // OTHERWISE, HE IS A WEEBLE WOBBLE
-        Rect bounds;
-        bounds.size = getDimension();
-        bounds.size.width  *= _drawScale.x/cscale;
-        bounds.size.height *= _drawScale.y/cscale;
-        
-        pnode->setPolygon(bounds);
-        pnode->setTexture(image);
 
         // Gameplay attributes
-        _movement = AVATAR_INITIAL_SPEED;
+//        _movement = AVATAR_INITIAL_SPEED;
         _faceRight  = true;
         _isGrounded = false;
-        setSceneNode(pnode);
+        setDrawScale(scale);
+        setLinearVelocity((Vec2){AVATAR_INITIAL_SPEED,0});
+        
+        PolygonNode* sprite = PolygonNode::createWithTexture(image);
+        sprite->setScale(cscale);
+        setSceneNode(sprite);
         
         return true;
     }
@@ -184,22 +177,12 @@ bool AvatarModel::init(const Vec2& pos, const Vec2& scale, const std::string& av
  */
 void AvatarModel::setMovement(float value) {
     _movement = value;
-    bool face = _movement > 0;
-    if (_movement == 0 || _faceRight == face) {
-        return;
-    }
-    
-    // Change facing
-    TexturedNode* image = dynamic_cast<TexturedNode*>(_node);
-    if (image != nullptr) {
-        image->flipHorizontal(!image->isFlipHorizontal());
-    }
-    _faceRight = (_movement > 0);
 }
 
 
 #pragma mark -
 #pragma mark Physics Methods
+
 /**
  * Create new fixtures for this body, defining the shape
  *
@@ -211,27 +194,49 @@ void AvatarModel::createFixtures() {
     }
     
     CapsuleObstacle::createFixtures();
-    b2FixtureDef sensorDef;
-    sensorDef.density = AVATAR_DENSITY;
-    sensorDef.isSensor = true;
+    b2FixtureDef leftSensorDef;
+    leftSensorDef.density = AVATAR_DENSITY;
+    leftSensorDef.isSensor = true;
     
-    // Sensor dimensions
-    b2Vec2 corners[4];
-    corners[0].x = getWidth()/2.0f;
-    corners[0].y = AVATAR_SSHRINK*getHeight()/2.0f;
-    corners[1].x = getWidth()/2.0f;
-    corners[1].y = -AVATAR_SSHRINK*getHeight()/2.0f;
-    corners[2].x =  AVATAR_SSHRINK*(getWidth()+SENSOR_HEIGHT)/2.0f;
-    corners[2].y = -AVATAR_SSHRINK*getHeight()/2.0f;
-    corners[3].x =  AVATAR_SSHRINK*(getWidth()+SENSOR_HEIGHT)/2.0f;
-    corners[3].y = AVATAR_SSHRINK*getHeight()/2.0f;
+    //Left Sensor dimensions
+    b2Vec2 leftCorners[4];
+    leftCorners[0].x = -getWidth()/2.0f;
+    leftCorners[0].y = AVATAR_SSHRINK*getHeight()/2.0f;
+    leftCorners[1].x = -getWidth()/2.0f;
+    leftCorners[1].y = -AVATAR_SSHRINK*getHeight()/2.0f;
+    leftCorners[2].x = -AVATAR_SSHRINK*(getWidth()+SENSOR_HEIGHT)/2.0f;
+    leftCorners[2].y = -AVATAR_SSHRINK*getHeight()/2.0f;
+    leftCorners[3].x = -AVATAR_SSHRINK*(getWidth()+SENSOR_HEIGHT)/2.0f;
+    leftCorners[3].y = AVATAR_SSHRINK*getHeight()/2.0f;
+    
+    b2PolygonShape leftSensorShape;
+    leftSensorShape.Set(leftCorners,4);
+    
+    leftSensorDef.shape = &leftSensorShape;
+    _sensorFixture = _body->CreateFixture(&leftSensorDef);
+    _sensorFixture->SetUserData(getLeftSensorName());
+    
+    b2FixtureDef rightSensorDef;
+    rightSensorDef.density = AVATAR_DENSITY;
+    rightSensorDef.isSensor = true;
+    
+    //Right Sensor dimensions
+    b2Vec2 rightCorners[4];
+    rightCorners[0].x = getWidth()/2.0f;
+    rightCorners[0].y = AVATAR_SSHRINK*getHeight()/2.0f;
+    rightCorners[1].x = getWidth()/2.0f;
+    rightCorners[1].y = -AVATAR_SSHRINK*getHeight()/2.0f;
+    rightCorners[2].x = AVATAR_SSHRINK*(getWidth()+SENSOR_HEIGHT)/2.0f;
+    rightCorners[2].y = -AVATAR_SSHRINK*getHeight()/2.0f;
+    rightCorners[3].x = AVATAR_SSHRINK*(getWidth()+SENSOR_HEIGHT)/2.0f;
+    rightCorners[3].y = AVATAR_SSHRINK*getHeight()/2.0f;
     
     b2PolygonShape sensorShape;
-    sensorShape.Set(corners,4);
+    sensorShape.Set(rightCorners,4);
     
-    sensorDef.shape = &sensorShape;
-    _sensorFixture = _body->CreateFixture(&sensorDef);
-    _sensorFixture->SetUserData(getSensorName());
+    rightSensorDef.shape = &sensorShape;
+    _sensorFixture = _body->CreateFixture(&rightSensorDef);
+    _sensorFixture->SetUserData(getRightSensorName());
 }
 
 /**
@@ -260,7 +265,6 @@ void AvatarModel::applyForce() {
     if (!isActive()) {
         return;
     }
-    
     // Don't want to be moving. Damp out player motion
     if (getMovement() == 0.0f) {
         b2Vec2 force(-getDamping()*getVX(),0);
@@ -285,9 +289,12 @@ void AvatarModel::applyForce() {
  * @param delta Number of seconds since last animation frame
  */
 void AvatarModel::update(float dt) {
-    // Apply cooldowns
-    
     CapsuleObstacle::update(dt);
+    
+    int direction = isFacingRight() ? 1 : -1;
+    setMovement(direction*getForce());
+    applyForce();
+    cout << getLinearVelocity().x << endl;
 }
 
 

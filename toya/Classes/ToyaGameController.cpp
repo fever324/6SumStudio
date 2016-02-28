@@ -53,7 +53,7 @@ float BOXES[] = { 14.5f, 14.25f,
 
 
 /** The initial avatar position */
-float AVATAR_POS[] = {24, 4};
+float AVATAR_POS[] = {13, 4};
 /** The goal door position */
 float GOAL_POS[] = {6, 12};
 
@@ -72,7 +72,7 @@ float GOAL_POS[] = {6, 12};
 #define AVATAR_TEXTURE      "avatar"
 /** The key for the block texture in the asset manager */
 #define BLOCK_TEXTURE       "block"
-
+#define BEAR_TEXTURE "bear"
 /** Color to outline the physics nodes */
 #define DEBUG_COLOR     Color3B::YELLOW
 /** Opacity of the physics outlines */
@@ -414,7 +414,7 @@ void GameController::populate() {
     for (int ii = 0; ii < 0; ii++) {
         
         // Create the sprite for this crate
-        image  = _assets->get<Texture2D>("block");
+        image  = _assets->get<Texture2D>(BLOCK_TEXTURE);
         sprite = PolygonNode::createWithTexture(image);
         sprite->setScale(cscale);
         
@@ -423,7 +423,7 @@ void GameController::populate() {
         
         BlockModel* crate = BlockModel::create(boxPos,boxSize);
         crate->setDrawScale(_scale.x, _scale.y);
-//        crate->setName(ss.str());
+        //        crate->setName(ss.str());
         crate->setAngleSnap(0);     // Snap to the nearest degree
         
         // Set the physics attributes
@@ -445,12 +445,7 @@ void GameController::populate() {
     
 #pragma mark : Avatar
     Vec2 avatarPos = ((Vec2)AVATAR_POS);
-    image  = _assets->get<Texture2D>(AVATAR_TEXTURE);
-    Size avatarSize(image->getContentSize().width*cscale/_scale.x,image->getContentSize().height*cscale/_scale.y);
-    
     _avatar = AvatarModel::create(avatarPos,_scale);
-    
-    _avatar->setDrawScale(_scale.x, _scale.y);
     
     draw = WireNode::create();
     draw->setColor(DEBUG_COLOR);
@@ -508,10 +503,7 @@ void GameController::update(float dt) {
         _worldnode->setRotation(_input.getTurning());
     }
     // Apply the force to the rocket // Hongfei TODO
-    _avatar->applyForce();
     _avatar->update(dt);
-    
-    
     // Turn the physics engine crank.
     _world->update(dt);
 }
@@ -547,9 +539,12 @@ void GameController::beginContact(b2Contact* contact) {
         setComplete(true);
     } else {
         // See if we have hit a wall.
-        if ((_avatar->getSensorName() == fd2 && _avatar != bd1) ||
-            (_avatar->getSensorName() == fd1 && _avatar != bd2)) {
-            _avatar->setFacingRight(!_avatar->isFacingRight());
+        if ((_avatar->getLeftSensorName() == fd2 && _avatar != bd1) ||
+            (_avatar->getLeftSensorName() == fd1 && _avatar != bd2)) {
+            _avatar->setFacingRight(true);
+        } else if ((_avatar->getRightSensorName() == fd2 && _avatar != bd1) ||
+                   (_avatar->getRightSensorName() == fd1 && _avatar != bd2)) {
+            _avatar->setFacingRight(false);
         }
     }
 }
@@ -584,13 +579,13 @@ void GameController::beforeSolve(b2Contact* contact, const b2Manifold* oldManifo
             speed = b2Dot(dv,worldManifold.normal);
         }
     }
-//    
-//    // Play a sound if above threshold
-//    if (speed > SOUND_THRESHOLD) {
-//        string key = ((Obstacle*)body1->GetUserData())->getName()+((Obstacle*)body2->GetUserData())->getName();
-//        Sound* source = _assets->get<Sound>(COLLISION_SOUND);
-//        SoundEngine::getInstance()->playEffect(key, source, false, 0.5);
-//    }
+    //
+    //    // Play a sound if above threshold
+    //    if (speed > SOUND_THRESHOLD) {
+    //        string key = ((Obstacle*)body1->GetUserData())->getName()+((Obstacle*)body2->GetUserData())->getName();
+    //        Sound* source = _assets->get<Sound>(COLLISION_SOUND);
+    //        SoundEngine::getInstance()->playEffect(key, source, false, 0.5);
+    //    }
 }
 
 
@@ -612,6 +607,7 @@ void GameController::preload() {
     tloader->loadAsync(AVATAR_TEXTURE,   "textures/avatar.png");
     tloader->loadAsync(BLOCK_TEXTURE,   "textures/block.png");
     tloader->loadAsync(GOAL_TEXTURE,   "textures/goaldoor.png");
+    tloader->loadAsync(BEAR_TEXTURE,   "textures/bear.png");
 }
 
 

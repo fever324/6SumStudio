@@ -23,18 +23,19 @@ using namespace cocos2d;
 /** The texture for the character avatar */
 #define AVATAR_TEXTURE    "avatar"
 /** Identifier to allow us to track the sensor in ContactListener */
-#define SENSOR_NAME    "avatarsensor"
+#define LEFT_SENSOR_NAME    "avatarLeftSensor"
+#define RIGHT_SENSOR_NAME    "avatarRightSensor"
 
 #pragma mark -
 #pragma mark Physics Constants
 /** The initial speed of avatar **/
-#define AVATAR_INITIAL_SPEED 0.0f
+#define AVATAR_INITIAL_SPEED 2.0f
 /** The factor to multiply by the input */
 #define AVATAR_FORCE    20.0f
 /** The amount to slow the character down */
-#define AVATAR_DAMPING    10.0f
+#define AVATAR_DAMPING    5.0f
 /** The maximum character speed */
-#define AVATAR_MAXSPEED    5.0f
+#define AVATAR_MAXSPEED    2.0f
 
 #pragma mark -
 #pragma mark Avatar Model
@@ -61,8 +62,9 @@ protected:
     /** Ground sensor to represent our feet */
     b2Fixture*  _sensorFixture;
     /** Reference to the sensor name (since a constant cannot have a pointer) */
-    std::string _sensorName;
-    /** The node for debugging the sensor */
+    std::string _leftSensorName;
+    std::string _rightSensorName;
+/** The node for debugging the sensor */
     WireNode* _sensorNode;
     
     /** The texture filmstrip for the avatar */
@@ -199,7 +201,9 @@ public:
      *
      * @return the name of the ground sensor
      */
-    std::string* getSensorName() { return &_sensorName; }
+    std::string* getLeftSensorName() { return &_leftSensorName; }
+    std::string* getRightSensorName() { return &_rightSensorName; }
+    
     
     /**
      * Returns true if this avatar is facing right
@@ -207,7 +211,17 @@ public:
      * @return true if this avatar is facing right
      */
     bool isFacingRight() const { return _faceRight; }
-    void setFacingRight(bool faceRight) { _faceRight = faceRight; }
+    void setFacingRight(bool faceRight) {
+        _faceRight = faceRight;
+        
+        // Change facing
+        TexturedNode* image = dynamic_cast<TexturedNode*>(_node);
+        if (image != nullptr) {
+            image->flipHorizontal(!faceRight);
+        }
+        int direction = _faceRight ? 1 : -1;
+        setLinearVelocity((Vec2){direction * getForce(), 0});
+    }
     
     
 #pragma mark Physics Methods
@@ -254,7 +268,7 @@ CC_CONSTRUCTOR_ACCESS:
      * This constructor does not initialize any of the dude values beyond
      * the defaults.  To use a DudeModel, you must call init().
      */
-    AvatarModel() : CapsuleObstacle(), _sensorName(SENSOR_NAME) { }
+    AvatarModel() : CapsuleObstacle(), _leftSensorName(LEFT_SENSOR_NAME), _rightSensorName(RIGHT_SENSOR_NAME) { }
     
     /**
      * Initializes a new avatar at the origin.
