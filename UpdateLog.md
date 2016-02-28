@@ -26,3 +26,4 @@ Updates:
 
 ##### Date: 02/27/16. Author: @sb2345
 1. Add method create(), init() and the method to release all resources in /Classes/Models/ToyaBlockModel.cpp.
+2. Modify the header /Classes/Models/ToyaBlockModel.h.
