@@ -163,7 +163,7 @@ CC_CONSTRUCTOR_ACCESS:
      *
      * @return  true if the obstacle is initialized properly, false otherwise.
      */
-    virtual bool init(const Vec2& pos, const Size& size, const String& texture) override;
+    virtual bool init(const Vec2& pos, const Size& size, const String& texture);
     
     /**
      * Returns the texture (key) for this block.

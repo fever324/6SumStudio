@@ -11,6 +11,7 @@
 #define __TOYA_AVATAR_MODEL_H__
 
 #include <cornell/CUBoxObstacle.h>
+#include <cornell/CUCapsuleObstacle.h>
 #include <cornell/CUAnimationNode.h>
 
 
@@ -274,7 +275,7 @@ CC_CONSTRUCTOR_ACCESS:
      *
      * @return  true if the obstacle is initialized properly, false otherwise.
      */
-    virtual bool init() override { return init(Vec2::ZERO, Vec2::ONE); }
+//    virtual bool init() override { return init(Vec2::ZERO, Vec2::ONE); }
     
     /**
      * Initializes a new avatar at the given position.
@@ -290,7 +291,7 @@ CC_CONSTRUCTOR_ACCESS:
      *
      * @return  true if the obstacle is initialized properly, false otherwise.
      */
-    virtual bool init(const Vec2& pos) override { return init(pos, Vec2::ONE); }
+//    virtual bool init(const Vec2& pos) override { return init(pos, Vec2::ONE); }
     
     /**
      * Initializes a new avatar at the given position.
@@ -331,6 +332,8 @@ CC_CONSTRUCTOR_ACCESS:
      * @param  strip    the texture (key) for this rocket
      */
     void setAvatarTexture(std::string strip) { _avatarTexture = strip; }
+    
+    void setFacingRight(bool faceRight) { _faceRight = faceRight; }
 };
 
 #endif /* defined(__TOYA_AVATAR_MODEL_H__) */

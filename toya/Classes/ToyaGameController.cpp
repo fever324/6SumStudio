@@ -33,6 +33,25 @@ using namespace std;
 /** To automate the loading of crate files */
 #define NUM_CRATES 2
 
+float WALL1[] = { 0.0f, 18.0f, 16.0f, 18.0f, 16.0f, 17.0f,
+    8.0f, 15.0f,  1.0f, 17.0f,  2.0f,  7.0f,
+    3.0f,  5.0f,  3.0f,  1.0f, 16.0f,  1.0f,
+    16.0f,  0.0f,  0.0f,  0.0f};
+float WALL2[] = {32.0f, 18.0f, 32.0f,  0.0f, 16.0f,  0.0f,
+    16.0f,  1.0f, 31.0f,  1.0f, 30.0f, 10.0f,
+    31.0f, 16.0f, 16.0f, 17.0f, 16.0f, 18.0f};
+
+float WALL3[] = { 2.0f, 10.5f,  8.0f, 10.5f,
+    8.0f,  9.5f,  2.0f,  9.5f};
+/** The positions of the crate pyramid */
+float BOXES[] = { 14.5f, 14.25f,
+    13.0f, 12.00f, 16.0f, 12.00f,
+    11.5f,  9.75f, 14.5f,  9.75f, 17.5f, 9.75f,
+    13.0f,  7.50f, 16.0f,  7.50f,
+    11.5f,  5.25f, 14.5f,  5.25f, 17.5f, 5.25f,
+    10.0f,  3.00f, 13.0f,  3.00f, 16.0f, 3.00f, 19.0f, 3.0f};
+
+
 /** The initial avatar position */
 float AVATAR_POS[] = {24, 4};
 /** The goal door position */
@@ -399,7 +418,7 @@ void GameController::populate() {
         
         BlockModel* crate = BlockModel::create(boxPos,boxSize);
         crate->setDrawScale(_scale.x, _scale.y);
-        crate->setName(ss.str());
+//        crate->setName(ss.str());
         crate->setAngleSnap(0);     // Snap to the nearest degree
         
         // Set the physics attributes
@@ -529,7 +548,7 @@ void GameController::beginContact(b2Contact* contact) {
         // See if we have hit a wall.
         if ((_avatar->getSensorName() == fd2 && _avatar != bd1) ||
             (_avatar->getSensorName() == fd1 && _avatar != bd2)) {
-            _avatar.setFacingRight(!_avatar.isFacingRight());
+            _avatar->setFacingRight(!_avatar->isFacingRight());
         }
     }
 }
