@@ -98,9 +98,9 @@ float GOAL_POS[] = {6, 12};
 /** Density of the crate objects */
 #define CRATE_DENSITY       1.0f
 /** Friction of non-crate objects */
-#define BASIC_FRICTION      0.1f
+#define BASIC_FRICTION      0.05f
 /** Friction of the crate objects */
-#define CRATE_FRICTION      0.2f
+#define CRATE_FRICTION      0.05f
 /** Angular damping of the crate objects */
 #define CRATE_DAMPING       1.0f
 /** Collision restitution for all objects */
@@ -226,7 +226,7 @@ bool GameController::init(RootLayer* root, const Rect& rect, const Vec2& gravity
     
     // set anchor points for rotating
     _worldnode->setContentSize(root->getContentSize());
-    _worldnode->setAnchorPoint(ccp(0.5,0.5));
+    _worldnode->setAnchorPoint(Vec2(0.5,0.5));
     _worldnode->setPosition(root->getContentSize().width/2.0f,root->getContentSize().height/2.0f);
     
     populate();
@@ -411,7 +411,7 @@ void GameController::populate() {
     
     
 #pragma mark : Crates
-    for (int ii = 0; ii < 0; ii++) {
+    for (int ii = 0; ii < 2; ii++) {
         
         // Create the sprite for this crate
         image  = _assets->get<Texture2D>("block");
@@ -503,14 +503,19 @@ void GameController::update(float dt) {
         CCLOG("Shutting down");
         _rootnode->shutdown();
     }
-    
     if(_input.didRotate()) {
-        _worldnode->setRotation(_input.getTurning());
+        float cRotation = _worldnode->getRotation() + _input.getTurning();
+        cRotation = (int)cRotation % 360;
+        _worldnode->setRotation(cRotation);
+
+        Vec2 gravity = Vec2(DEFAULT_GRAVITY,DEFAULT_GRAVITY);
+        Vec2 newGravity = _input.getGravity(gravity,cRotation);
+        _world->setGravity(newGravity);
+        CCLOG("%3.2f, %3.2f",_world->getGravity().x,_world->getGravity().y);
     }
     // Apply the force to the rocket // Hongfei TODO
     _avatar->applyForce();
     _avatar->update(dt);
-    
     
     // Turn the physics engine crank.
     _world->update(dt);

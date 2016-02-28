@@ -15,6 +15,7 @@
 #include <cornell/CUTouchListener.h>
 
 using namespace cocos2d;
+using namespace std;
 
 #pragma mark Polled Input
 /**
@@ -181,9 +182,17 @@ public:
     float getTurning() const { return _turning; }
     
     /** return gravity */
-    Vec2 getGravity(Vec2* gravity) const { Vec2 newGravity;
-        newGravity.x = gravity->x * sin(_turning);
-        newGravity.y = gravity->y * cos(_turning);
+    Vec2 getGravity(Vec2& gravity, float rotation) const {
+        Vec2 newGravity;
+        if (rotation >= 0) {
+            newGravity.x = -gravity.x * sin(rotation*3.1415/180);
+            newGravity.y = gravity.y * cos(rotation*3.1415/180);
+        } else {
+            newGravity.x = -gravity.x * sin(rotation*3.1415/180);
+            newGravity.y = gravity.y * cos(rotation*3.1415/180);
+        }
+        
+        CCLOG("%3.2f, %3.2f, %3.2f",newGravity.x,newGravity.y,rotation);
         return newGravity;
     }
     
