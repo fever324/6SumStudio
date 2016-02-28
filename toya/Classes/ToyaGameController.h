@@ -14,8 +14,8 @@
 #include <cornell.h>
 #include <Box2D/Dynamics/b2WorldCallbacks.h>
 #include "ToyaInputController.h"
-#include "Models/ToyaBlockModel.h"
-#include "Models/ToyaAvatarModel.h"
+#include "ToyaBlockModel.h"
+#include "ToyaAvatarModel.h"
 
 
 using namespace cocos2d;

@@ -10,6 +10,9 @@
 #include <cornell/CUAssetManager.h>
 #include <cornell/CUSceneManager.h>
 
+
+
+
 #define SIGNUM(x)  ((x > 0) - (x < 0))
 
 #pragma mark -
@@ -311,6 +314,4 @@ void AvatarModel::resetDebugNode() {
     _sensorNode->setPosition(Vec2(_debug->getContentSize().width/2.0f, 0.0f));
     _debug->addChild(_sensorNode);
 }
-
-
 

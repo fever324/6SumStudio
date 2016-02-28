@@ -105,7 +105,7 @@ bool BlockModel::init(const Vec2& pos, const Size& size) {
  *
  * @return  true if the obstacle is initialized properly, false otherwise.
  */
-bool BlockModel::init(const Vec2& pos, const Size& size, const String& texture) {
+bool BlockModel::init(const Vec2& pos, const Size& size, const std::string& texture) {
     BoxObstacle::init(pos, size);
     _texture = texture;
     return true;
@@ -116,7 +116,5 @@ bool BlockModel::init(const Vec2& pos, const Size& size, const String& texture) 
  */
 BlockModel::~BlockModel(void) {
     // We do not own any of these, so we just set to null
-    _size = nullptr;
     _texture = nullptr;
-    _pos = nullptr;
 }

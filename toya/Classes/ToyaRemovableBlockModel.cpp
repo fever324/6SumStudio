@@ -16,18 +16,6 @@ using namespace cocos2d;
 #pragma mark Initializers
 
 /**
- * Destroys this block, releasing all resources.
- */
-RemovableBlockModel::~RemovableBlockModel(void) {
-    // We do not own any of these, so we can just set to null
-    _animationNode = nullptr;
-}
-
-#pragma mark -
-#pragma mark Static Constructor
-
-public:
-/**
  * Creates a new removable box at the given position.
  *
  * The removable box is sized according to the given drawing scale.
@@ -44,21 +32,34 @@ public:
  *
  * @return  An autoreleased physics object
  */
+
 static RemovableBlockModel* create(const Vec2& pos, const Vec2& scale, const String& texture, const int& state) {
     
-    RemovableBlockModel* bm = new (std::nothrow) RemovableBlockModel(const Vec2& pos, const Vec2& scale, const String& texture);
-    
-    if (bm && bm->init()) {
-        bm->autorelease();
-        
-        bm._state = state;
-        bm._frameCount = 0;
-        
-        return bm;
-    }
-    CC_SAFE_DELETE(rocket);
+//    RemovableBlockModel* bm = new (std::nothrow) RemovableBlockModel(const Vec2& pos, const Vec2& scale, const String& texture);
+//    
+//    if (bm && bm->init()) {
+//        bm->autorelease();
+//        
+//        bm._state = state;
+//        bm._frameCount = 0;
+//        
+//        return bm;
+//    }
+//    CC_SAFE_DELETE(rocket);
     return nullptr;
 }
+
+/**
+ * Destroys this block, releasing all resources.
+ */
+RemovableBlockModel::~RemovableBlockModel(void) {
+    // We do not own any of these, so we can just set to null
+    _animationNode = nullptr;
+}
+
+#pragma mark -
+#pragma mark Static Constructor
+
 
 #pragma mark -
 #pragma mark Animation
@@ -87,7 +88,7 @@ void RemovableBlockModel::resetSceneNode() {
         
         Texture2D* image = assets->get<Texture2D>(_texture);
         
-        pnode->setTexture(image); Main object does not contain a image
+        pnode->setTexture(image); //Main object does not contain a image
         pnode->setPolygon(bounds);
         //
         //
@@ -106,36 +107,36 @@ void RemovableBlockModel::resetSceneNode() {
  *   Function to destroy this block
  *   Will update the status code to STATE_DESTROYING and change frameCount = 0
  */
-public void destroy() {
-    _state = STATE_DESTROYING;
-    _frameCount = 0;
+void destroy() {
+    //_state = STATE_DESTROYING;
+    //_frameCount = 0;
 }
 /**
  *   Update block for controller access
  *   If state = STATE_DESTROYING and frameCount == MAX_FRAME_COUNT, ready for garabage collection
  */
-public void update() {
-    animateBlock();
+void update() {
+    //animateBlock();
 }
 /**
  *   Function that updates the block's animation node frame based on block state and frame count
  */
-private void animateBlock() {
-//    if(_state == STATE_STABLE) {
-//        return;
-//    }
-//    
-//    if(_state == STATE_GROWING) {
-//        _node.image = "";
-//        frameCount++;
-//    }
-//    
-//    if(_state == STATE_DESTROYING) {
-//        frameCount--;
-//    }
-//    
-//    AnimationNode* node = _animationNode;
-//    node->setFrame(frameCount);
-//
-//
+void animateBlock() {
+    //    if(_state == STATE_STABLE) {
+    //        return;
+    //    }
+    //
+    //    if(_state == STATE_GROWING) {
+    //        _node.image = "";
+    //        frameCount++;
+    //    }
+    //
+    //    if(_state == STATE_DESTROYING) {
+    //        frameCount--;
+    //    }
+    //
+    //    AnimationNode* node = _animationNode;
+    //    node->setFrame(frameCount);
+    //
+    //
 }

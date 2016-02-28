@@ -6,6 +6,9 @@
 #ifndef __TOYA_BLOCK_MODEL_H__
 #define __TOYA_BLOCK_MODEL_H__
 
+#include <cornell/CUBoxObstacle.h>
+using namespace cocos2d;
+
 class BlockModel : public BoxObstacle {
 protected:
     /** The texture of this block. **/
@@ -79,7 +82,7 @@ public:
      *
      * @return  An autoreleased physics object
      */
-    static BlockModel* create(const Vec2& pos, const Size& size, const String& texture);
+    static BlockModel* create(const Vec2& pos, const Size& size, const std::string& texture);
     
 #pragma mark -
 #pragma mark Initializers
@@ -163,7 +166,7 @@ CC_CONSTRUCTOR_ACCESS:
      *
      * @return  true if the obstacle is initialized properly, false otherwise.
      */
-    virtual bool init(const Vec2& pos, const Size& size, const String& texture);
+    virtual bool init(const Vec2& pos, const Size& size, const std::string texture);
     
     /**
      * Returns the texture (key) for this block.
@@ -173,14 +176,14 @@ CC_CONSTRUCTOR_ACCESS:
      *
      * @return the texture (key) for this rocket
      */
-    const string& getTexture() const { return _texture; }
+    const std::string& getTexture() const { return _texture; }
     
     /**
      * Set the texture of this block.
      *
      * @param  texture    the texture (key) for this block
      */
-    virtual void setTexture(string texture) { _texture = texture; }
+    virtual void setTexture(std::string texture) { _texture = texture; }
 
 };
 

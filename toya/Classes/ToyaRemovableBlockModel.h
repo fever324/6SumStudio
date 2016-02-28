@@ -15,7 +15,10 @@
 
 #define MAX_FRAME_COUNT       60
 
-#include "BlockModel.h"
+#include "ToyaBlockModel.h"
+#include "cornell/CUAnimationNode.h"
+
+using namespace cocos2d;
 
 class RemovableBlockModel : public BlockModel {  // Block demo game controller line 420
     
@@ -28,7 +31,7 @@ private:
     
     /** The animation node for the main afterburner */
     AnimationNode* _animationNode;
-
+    
 protected:
     /**
      * Performs any necessary additions to the scene graph node.
@@ -38,7 +41,11 @@ protected:
      * manage our own afterburner animations.
      */
     virtual void resetSceneNode() override;
-
+    /**
+     *   Function that updates the block's animation node frame based on block state and frame count
+     */
+    void animateBlock();
+    
     
 public:
     /**
@@ -62,20 +69,19 @@ public:
                                        const String& texture, const int& state);
     
     
+    virtual ~RemovableBlockModel(void);
+    
+    
     /**
      *   Function to destroy this block
      *   Will update the status code to STATE_DESTROYING and change frameCount = 0
      */
-    public void destroy();
+    void destroy();
     /**
      *   Update block for controller access
      *   If state = STATE_DESTROYING and frameCount == MAX_FRAME_COUNT, ready for garabage collection
      */
-    public void update();
-    /**
-     *   Function that updates the block's animation node frame based on block state and frame count
-     */
-    private void animateBlock();
-    
-    
+    void update();
+};
+
 #endif /** __TOYA_REMOVABLEBLOCK_MODEL_H__ **/
