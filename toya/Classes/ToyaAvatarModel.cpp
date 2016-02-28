@@ -20,9 +20,9 @@ using namespace cocos2d;
 /** Cooldown (in animation frames) for shooting */
 #define SHOOT_COOLDOWN  20
 /** The amount to shrink the body fixture (vertically) relative to the image */
-#define AVATAR_VSHRINK  0.5f
+#define AVATAR_VSHRINK  0.1f
 /** The amount to shrink the body fixture (horizontally) relative to the image */
-#define AVATAR_HSHRINK  0.5f
+#define AVATAR_HSHRINK  0.1f
 /** The amount to shrink the sensor fixture (horizontally) relative to the image */
 #define AVATAR_SSHRINK  0.6f
 /** Height of the sensor attached to the player's feet */

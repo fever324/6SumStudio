@@ -33,7 +33,7 @@
 /** Adjustment factor for touch input */
 #define KEY_ADJUST_FACTOR          1.0f
 // Key board rotation degree increment
-#define KEYBOARD_ROTATION_INCREMENT 10.0f
+#define KEYBOARD_ROTATION_INCREMENT 1.0f
 // maxium rotation degree
 #define INPUT_MAXIMUM_ROTATION 90.0f
 // max rotate time
@@ -168,28 +168,37 @@ void InputController::update(float dt) {
     
     // rotation angles increase the longer you hold a key.
     if (keys->keyDown(EventKeyboard::KeyCode::KEY_LEFT_ARROW)) {
-        _keyLeft += KEYBOARD_ROTATION_INCREMENT;
+        _keyLeft = KEYBOARD_ROTATION_INCREMENT;
     } else {
         _keyLeft  = 0.0f;
+        _keyRotate = false;
     }
     if (keys->keyDown(EventKeyboard::KeyCode::KEY_RIGHT_ARROW)) {
-        _keyRight += KEYBOARD_ROTATION_INCREMENT;
+        _keyRight = KEYBOARD_ROTATION_INCREMENT;
     } else {
         _keyRight  = 0.0f;
+        _keyRotate = false;
     }
     
     // Clamp everything so it does not fly off to infinity.
-    _keyLeft  = (_keyLeft  > INPUT_MAXIMUM_ROTATION ? INPUT_MAXIMUM_ROTATION : _keyLeft);
-    _keyRight = (_keyRight > INPUT_MAXIMUM_ROTATION ? INPUT_MAXIMUM_ROTATION : _keyRight);
-    
+//    _keyLeft  = (_keyLeft  > INPUT_MAXIMUM_ROTATION ? INPUT_MAXIMUM_ROTATION : _keyLeft);
+//    _keyRight = (_keyRight > INPUT_MAXIMUM_ROTATION ? INPUT_MAXIMUM_ROTATION : _keyRight);
+//    
     // update _keyTurning
+    _keyTurning = 0;
     _keyTurning += _keyLeft;
     _keyTurning -= _keyRight;
 
     // TODO: RANGE_CLAMP
-    _keyTurning = RANGE_CLAMP(_keyTurning/KEY_ADJUST_FACTOR,-INPUT_MAXIMUM_ROTATION,INPUT_MAXIMUM_ROTATION);
+//    _keyTurning = RANGE_CLAMP(_keyTurning/KEY_ADJUST_FACTOR,-INPUT_MAXIMUM_ROTATION,INPUT_MAXIMUM_ROTATION);
 
+    
     _turning = _keyTurning;
+    if ( fabs(_turning) > 0.5f) {
+        _keyRotate = true;
+    }else{
+        _keyRotate = false;
+    }
     
 #else
     // mobile controls

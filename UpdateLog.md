@@ -22,6 +22,9 @@ Updates:
 ##### Date: 02/27/16. Author: @TaoAlpha
 1. Set up project: toya.
 2. Set up class structure.
+3. Rotate around the center by setting the contentSize of wordnode.
+4. Update gravity based on rotation.
+
 =======
 
 ##### Date: 02/27/16. Author: @sb2345
