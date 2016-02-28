@@ -41,8 +41,6 @@ float GOAL_POS[] = {6, 12};
 #pragma mark Assset Constants
 /** The key for the earth texture in the asset manager */
 #define EARTH_TEXTURE       "earth"
-/** The key for the rocket texture in the asset manager */
-#define ROCK_TEXTURE        "rocket"
 /** The key for the win door texture in the asset manager */
 #define GOAL_TEXTURE        "goal"
 /** The key prefix for the multiple crate assets */
@@ -51,8 +49,9 @@ float GOAL_POS[] = {6, 12};
 #define MAIN_FIRE_TEXTURE   "flames"
 #define RGHT_FIRE_TEXTURE   "flames-right"
 #define LEFT_FIRE_TEXTURE   "flames-left"
-
+/** The key for the avatar texture in the asset manager */
 #define AVATAR_TEXTURE      "avatar"
+/** The key for the block texture in the asset manager */
 #define BLOCK_TEXTURE       "block"
 
 /** Color to outline the physics nodes */
@@ -397,7 +396,8 @@ void GameController::populate() {
         
         Vec2 boxPos(BOXES[2*ii], BOXES[2*ii+1]);
         Size boxSize(image->getContentSize().width*cscale/_scale.x,image->getContentSize().height*cscale/_scale.y);
-        BoxObstacle* crate = BoxObstacle::create(boxPos,boxSize);
+        
+        BlockModel* crate = BlockModel::create(boxPos,boxSize);
         crate->setDrawScale(_scale.x, _scale.y);
         crate->setName(ss.str());
         crate->setAngleSnap(0);     // Snap to the nearest degree
@@ -411,7 +411,7 @@ void GameController::populate() {
         // Add the scene graph nodes to this object
         crate->setSceneNode(sprite);
         
-        draw = WireNode::create();
+        // Add debug node
         draw = WireNode::create();
         draw->setColor(DEBUG_COLOR);
         draw->setOpacity(DEBUG_OPACITY);
@@ -420,23 +420,23 @@ void GameController::populate() {
     }
     
 #pragma mark : Avatar
-    Vec2 rockPos = ((Vec2)ROCK_POS);
-    image  = _assets->get<Texture2D>(ROCK_TEXTURE);
-    Size rockSize(image->getContentSize().width*cscale/_scale.x,image->getContentSize().height*cscale/_scale.y);
+    Vec2 avatarPos = ((Vec2)AVATAR_POS);
+    image  = _assets->get<Texture2D>(AVATAR_TEXTURE);
+    Size avatarSize(image->getContentSize().width*cscale/_scale.x,image->getContentSize().height*cscale/_scale.y);
     
-    _rocket = RocketModel::create(rockPos,rockSize);
-    _rocket->setDrawScale(_scale.x, _scale.y);
+    _avatar = AvatarModel::create(avatarPos,avatarSize);
+    _avatar->setDrawScale(_scale.x, _scale.y);
     
     // Create the polygon node (empty, as the model will initialize)
     sprite = PolygonNode::create();
     sprite->setScale(cscale);
-    _rocket->setSceneNode(sprite);
+    _avatar->setSceneNode(sprite);
     
     draw = WireNode::create();
     draw->setColor(DEBUG_COLOR);
     draw->setOpacity(DEBUG_OPACITY);
-    _rocket->setDebugNode(draw);
-    addObstacle(_rocket,3);
+    _avatar->setDebugNode(draw);
+    addObstacle(_avatar,3);
 }
 
 /**
@@ -483,7 +483,10 @@ void GameController::update(float dt) {
         CCLOG("Shutting down");
         _rootnode->shutdown();
     }
-    //TODOTODOTODOTODOTODOTODOTODOTODOTODOTODOTODOTODOTODOTODO
+    
+    if(_input.didRotate()) {
+        _worldnode->setRotation(_input.getTurning());
+    }
     // Apply the force to the rocket // Hongfei TODO
     _avatar->applyForce();
     _avatar->update(dt);
@@ -505,17 +508,27 @@ void GameController::update(float dt) {
  * @param  contact  The two bodies that collided
  */
 void GameController::beginContact(b2Contact* contact) {
-    b2Body* body1 = contact->GetFixtureA()->GetBody();
-    b2Body* body2 = contact->GetFixtureB()->GetBody();
+    b2Fixture* fix1 = contact->GetFixtureA();
+    b2Fixture* fix2 = contact->GetFixtureB();
+    
+    b2Body* body1 = fix1->GetBody();
+    b2Body* body2 = fix2->GetBody();
+    
+    void* fd1 = fix1->GetUserData();
+    void* fd2 = fix2->GetUserData();
+    
+    Obstacle* bd1 = (Obstacle*)body1->GetUserData();
+    Obstacle* bd2 = (Obstacle*)body2->GetUserData();
+    
     
     // If we hit the "win" door, we are done
     if((body1->GetUserData() == _avatar && body2->GetUserData() == _goalDoor) ||
        (body1->GetUserData() == _goalDoor && body2->GetUserData() == _avatar)) {
         setComplete(true);
     } else {
-        
-        // If we hit any other wall, avatar turns aroung
-        if((body1->GetUserData() == _avatar || (body2->GetUserData() == _avatar)) {
+        // See if we have hit a wall.
+        if ((_avatar->getSensorName() == fd2 && _avatar != bd1) ||
+            (_avatar->getSensorName() == fd1 && _avatar != bd2)) {
             _avatar.setFacingRight(!_avatar.isFacingRight());
         }
     }

@@ -9,7 +9,7 @@
 class BlockModel : public BoxObstacle {
 protected:
     /** The texture of this block. **/
-    String _texture;
+    std::string _texture;
 
 #pragma mark -
 #pragma mark Static Constructors
@@ -166,24 +166,6 @@ CC_CONSTRUCTOR_ACCESS:
     virtual bool init(const Vec2& pos, const Size& size, const String& texture) override;
     
     /**
-     * Returns the position of the block.
-     *
-     * @return the position of the block.
-     */
-    virtual const Vec2& getPosition() const {
-        return _pos;
-    }
-    
-    /**
-     * Sets the position of the block.
-     *
-     * @param value  the postion assigned to the block.
-     */
-    virtual void setPosition(const Vec2& value) {
-        _pos.set(value);
-    }
-    
-    /**
      * Returns the texture (key) for this block.
      *
      * The value returned is not a Texture2D value.  Instead, it is a key for
@@ -199,20 +181,7 @@ CC_CONSTRUCTOR_ACCESS:
      * @param  texture    the texture (key) for this block
      */
     virtual void setTexture(string texture) { _texture = texture; }
-    
-    /**
-     * Returns the size for this block.
-     *
-     * @return the size for this rocket
-     */
-    const string& getSize() const { return _size; }
-    
-    /**
-     * Returns the size for this block.
-     *
-     * @param  size    the size for this block
-     */
-    virtual void setSize(const Size& size) { _size = size; }
+
 };
 
 #endif
