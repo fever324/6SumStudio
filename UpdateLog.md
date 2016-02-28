@@ -22,3 +22,7 @@ Updates:
 ##### Date: 02/27/16. Author: @TaoAlpha
 1. Set up project: toya.
 2. Set up class structure.
+=======
+
+##### Date: 02/27/16. Author: @sb2345
+1. Add method create(), init() and the method to release all resources in /Classes/Models/ToyaBlockModel.cpp.

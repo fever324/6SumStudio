@@ -38,6 +38,8 @@
 #define INPUT_MAXIMUM_ROTATION 90.0f
 // max rotate time
 #define EVENT_ROTATE_TIME 100000
+// minimum rotation
+#define MIN_ROTATION 5.0f
 
 
 #pragma mark -
@@ -138,6 +140,7 @@ void InputController::stop() {
         KeyboardPoller::stop();
     }
 }
+
 
 /**
  * Processes the currently cached inputs.
@@ -262,14 +265,13 @@ bool InputController::touchBeganCB(Touch* t, timestamp_t current) {
 void InputController::touchEndedCB(Touch* t, timestamp_t current) {
     CCLOG("Touch is up %d", t->getID());
     if (_touch1.touchid == t->getID()) {
-        _touch1.touchid = -1;
-        _touch1.stop = t->getLocation();
+        resetTouch(&_touch1);
     } else if (_touch2.touchid == t->getID()) {
-        _touch2.touchid = -1;
-        _touch2.stop = t->getLocation();
+        resetTouch(&_touch2);
     }
     _keyTap = checkTap(current);
     _touchCount --;
+    _keyRotate = false;
 }
 
 bool InputController::checkTap(timestamp_t current) {
@@ -296,7 +298,7 @@ bool InputController::checkRotate(timestamp_t current) {
     // TODO: maybe over 90 for start or end
     float initialDeg = atanf(fabsf(_touch1.start.y - _touch2.start.y) / fabsf(_touch1.start.x - _touch2.start.x));
     float finishDeg = atanf(fabsf(_touch1.start.y - _touch2.start.y) / fabsf(_touch1.start.x - _touch2.start.x));
-    if(finishDeg - initialDeg > 5.0f && elapsed_millis(_rotateTime,current) <= EVENT_ROTATE_TIME){
+    if(finishDeg - initialDeg > MIN_ROTATION && elapsed_millis(_rotateTime,current) <= EVENT_ROTATE_TIME){
         _turning = finishDeg - initialDeg;
         return true;
     }
@@ -311,12 +313,16 @@ bool InputController::checkRotate(timestamp_t current) {
  * @param event The associated event
  */
 void InputController::touchMovedCB(Touch* t, timestamp_t current) {
+    if (t->getID() == _touch1.touchid) {
+        _touch1.start = _touch1.stop;
+        _touch1.stop = t->getLocation();
+    } else if (t->getID() == _touch2.touchid) {
+        _touch2.start = _touch2.stop;
+        _touch2.stop = t->getLocation();
+    } else {
+        return;
+    }
     _keyRotate = checkRotate(current);
-//    if (t->getID() == _touch1.touchid) {
-//
-//    } else if (t->getID() == _touch2.touchid) {
-//        
-//    }
 }
 
 /**
@@ -342,4 +348,17 @@ void InputController::touchCancelCB(Touch* t, timestamp_t current) {
     _touch1.touchid = -1;
     _touch2.touchid = -1;
     _turning = 0;
+}
+
+/**
+ * reset touch instance to default
+ *
+ */
+void InputController::resetTouch(TouchInstance* t) {
+    // reset the touch
+    t->touchid = -1;
+    t->start.x = 0;
+    t->start.y = 0;
+    t->stop.x = 0;
+    t->stop.y = 0;
 }

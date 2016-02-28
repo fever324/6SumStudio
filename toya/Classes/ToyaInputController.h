@@ -102,6 +102,7 @@ protected:
     /** check whether it is a rotation or not **/
     bool checkRotate(timestamp_t current);
     bool checkTap(timestamp_t current);
+    void resetTouch(TouchInstance* t);
     
     
 public:
@@ -170,6 +171,14 @@ public:
      * @return true if the reset button was pressed.
      */
     bool didReset() const { return _resetPressed; }
+    
+    bool didTap() const { return _keyTap; }
+    
+    /* return true if it is a rotation */
+    bool didRotate() const { return _keyRotate; }
+    
+    /** return turning */
+    float getTurning() const { return _turning; }
     
     /**
      * Returns true if the player wants to go toggle the debug mode.
