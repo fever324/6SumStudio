@@ -1,5 +1,5 @@
 //
-//  ToyaModel.h
+//  ToyaAvatarModel.h
 //  toya
 //  This is the root class for a single game scene.
 //
@@ -19,11 +19,15 @@ using namespace cocos2d;
 
 #pragma mark -
 #pragma mark Drawing Constants
+/** The texture for the character avatar */
+#define AVATAR_TEXTURE    "avatar"
 /** Identifier to allow us to track the sensor in ContactListener */
 #define SENSOR_NAME    "avatarsensor"
 
 #pragma mark -
 #pragma mark Physics Constants
+/** The initial speed of avatar **/
+#define AVATAR_INITIAL_SPEED 0.0f
 /** The factor to multiply by the input */
 #define AVATAR_FORCE    20.0f
 /** The amount to slow the character down */
@@ -171,7 +175,7 @@ public:
     void setGrounded(bool value) { _isGrounded = value; }
     
     /**
-     * Returns how much force to apply to get the dude moving
+     * Returns how much force to apply to get the avatar moving
      *
      * Multiply this by the input to get the movement value.
      *
@@ -303,7 +307,7 @@ CC_CONSTRUCTOR_ACCESS:
      *
      * @return  true if the obstacle is initialized properly, false otherwise.
      */
-    virtual bool init(const Vec2& pos, const Vec2& scale);
+    virtual bool init(const Vec2& pos, const Vec2& scale, const string& avatarTexture);
     
     
 #pragma mark -
