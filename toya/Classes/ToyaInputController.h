@@ -180,6 +180,13 @@ public:
     /** return turning */
     float getTurning() const { return _turning; }
     
+    /** return gravity */
+    Vec2 getGravity(Vec2* gravity) const { Vec2 newGravity;
+        newGravity.x = gravity->x * sin(_turning);
+        newGravity.y = gravity->y * cos(_turning);
+        return newGravity;
+    }
+    
     /**
      * Returns true if the player wants to go toggle the debug mode.
      *
