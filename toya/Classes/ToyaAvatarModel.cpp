@@ -10,9 +10,7 @@
 #include <cornell/CUAssetManager.h>
 #include <cornell/CUSceneManager.h>
 
-
-
-
+using namespace cocos2d;
 #define SIGNUM(x)  ((x > 0) - (x < 0))
 
 #pragma mark -
@@ -129,30 +127,47 @@ AvatarModel* AvatarModel::create(const Vec2& pos, const Vec2& scale) {
  *
  * @return  true if the obstacle is initialized properly, false otherwise.
  */
-bool AvatarModel::init(const Vec2& pos, const Vec2& scale, const string& avatarTexture) {
+bool AvatarModel::init(const Vec2& pos, const Vec2& scale) {
+    float cscale = Director::getInstance()->getContentScaleFactor();
     SceneManager* scene = AssetManager::getInstance()->getCurrent();
+
     Texture2D* image = scene->get<Texture2D>(AVATAR_TEXTURE);
     
-    // Multiply by the scaling factor so we can be resolution independent
-    float cscale = Director::getInstance()->getContentScaleFactor();
-    Size nsize = image->getContentSize()*cscale;
-    
-    nsize.width  *= AVATAR_HSHRINK/scale.x;
-    nsize.height *= AVATAR_VSHRINK/scale.y;
-    if (CapsuleObstacle::init(pos,nsize)) {
-        setDensity(AVATAR_DENSITY);
-        setFriction(0.0f);      // HE WILL STICK TO WALLS IF YOU FORGET
-        //setFixedRotation(true); // OTHERWISE, HE IS A WEEBLE WOBBLE
+    PolygonNode* pnode = PolygonNode::createWithTexture(image);
+    if(pnode != nullptr) {
+        Rect bounds;
+        bounds.size = getDimension();
+        bounds.size.width  *= _drawScale.x/cscale;
+        bounds.size.height *= _drawScale.y/cscale;
         
-        // Gameplay attributes
-        _movement = AVATAR_INITIAL_SPEED;
-        _faceRight  = true;
-        _isGrounded = false;
-        _avatarTexture = avatarTexture;
+        pnode->setTexture(image);
+        pnode->setPolygon(bounds);
         
-        return true;
+        // Multiply by the scaling factor so we can be resolution independent
+        Size nsize = image->getContentSize()*cscale;
+        
+        nsize.width  *= AVATAR_HSHRINK/scale.x;
+        nsize.height *= AVATAR_VSHRINK/scale.y;
+        
+        if (CapsuleObstacle::init(pos,nsize)) {
+            setDensity(AVATAR_DENSITY);
+            setFriction(0.0f);      // HE WILL STICK TO WALLS IF YOU FORGET
+            setFixedRotation(true); // OTHERWISE, HE IS A WEEBLE WOBBLE
+            
+            // Gameplay attributes
+            _movement = AVATAR_INITIAL_SPEED;
+            _faceRight  = true;
+            _isGrounded = false;
+            
+            return true;
+        }
     }
     return false;
+}
+
+bool AvatarModel::init(const Vec2& pos, const Vec2& scale, const std::string& avatarTexture) {
+    _avatarTexture = avatarTexture;
+    return init(pos, scale);
 }
 
 
@@ -201,14 +216,14 @@ void AvatarModel::createFixtures() {
     
     // Sensor dimensions
     b2Vec2 corners[4];
-    corners[0].x = -AVATAR_SSHRINK*getWidth()/2.0f;
-    corners[0].y = (-getHeight()+SENSOR_HEIGHT)/2.0f;
-    corners[1].x = -AVATAR_SSHRINK*getWidth()/2.0f;
-    corners[1].y = (-getHeight()-SENSOR_HEIGHT)/2.0f;
-    corners[2].x =  AVATAR_SSHRINK*getWidth()/2.0f;
-    corners[2].y = (-getHeight()-SENSOR_HEIGHT)/2.0f;
-    corners[3].x =  AVATAR_SSHRINK*getWidth()/2.0f;
-    corners[3].y = (-getHeight()+SENSOR_HEIGHT)/2.0f;
+    corners[0].x = getWidth()/2.0f;
+    corners[0].y = AVATAR_SSHRINK*getHeight()/2.0f;
+    corners[1].x = getWidth()/2.0f;
+    corners[1].y = -AVATAR_SSHRINK*getHeight()/2.0f;
+    corners[2].x =  AVATAR_SSHRINK*(getWidth()+SENSOR_HEIGHT)/2.0f;
+    corners[2].y = -AVATAR_SSHRINK*getHeight()/2.0f;
+    corners[3].x =  AVATAR_SSHRINK*(getWidth()+SENSOR_HEIGHT)/2.0f;
+    corners[3].y = AVATAR_SSHRINK*getHeight()/2.0f;
     
     b2PolygonShape sensorShape;
     sensorShape.Set(corners,4);
@@ -259,11 +274,6 @@ void AvatarModel::applyForce() {
         _body->ApplyForce(force,_body->GetPosition(),true);
     }
     
-    // Jump!
-    if (isJumping() && isGrounded()) {
-        b2Vec2 force(0, AVATAR_JUMP);
-        _body->ApplyLinearImpulse(force,_body->GetPosition(),true);
-    }
 }
 
 /**
@@ -275,18 +285,6 @@ void AvatarModel::applyForce() {
  */
 void AvatarModel::update(float dt) {
     // Apply cooldowns
-    if (isJumping()) {
-        _jumpCooldown = JUMP_COOLDOWN;
-    } else {
-        // Only cooldown while grounded
-        _jumpCooldown = (_jumpCooldown > 0 ? _jumpCooldown-1 : 0);
-    }
-    
-    if (isShooting()) {
-        _shootCooldown = SHOOT_COOLDOWN;
-    } else {
-        _shootCooldown = (_shootCooldown > 0 ? _shootCooldown-1 : 0);
-    }
     
     CapsuleObstacle::update(dt);
 }
@@ -314,4 +312,6 @@ void AvatarModel::resetDebugNode() {
     _sensorNode->setPosition(Vec2(_debug->getContentSize().width/2.0f, 0.0f));
     _debug->addChild(_sensorNode);
 }
+
+
 

@@ -73,7 +73,7 @@ BlockModel* BlockModel::create(const Vec2& pos, const Size& size) {
  *
  * @return  An autoreleased physics object
  */
-BlockModel* BlockModel::create(const Vec2& pos, const Size& size, const String& texture) {
+BlockModel* BlockModel::create(const Vec2& pos, const Size& size, const std::string& texture) {
     BlockModel* block = new (std::nothrow) BlockModel();
     if (block && block->init(pos, size, texture)) {
         block->autorelease();

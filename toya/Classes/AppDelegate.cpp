@@ -42,7 +42,7 @@ AppDelegate::AppDelegate() {
 AppDelegate::~AppDelegate() {
     // If you started sound or an asset manager, it must be stopped here
     AssetManager::shutdown();
-    //SoundEngine::stop();
+    SoundEngine::stop();
 }
 
 /**
@@ -100,7 +100,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
     }
     
     // Start any global asset managers (Sound, etc...)
-    //SoundEngine::start();
+    SoundEngine::start();
     AssetManager::init();
     
     // MODIFY this line to use your root class

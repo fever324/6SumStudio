@@ -11,9 +11,9 @@
 #define __TOYA_AVATAR_MODEL_H__
 
 #include <cornell/CUBoxObstacle.h>
-#include <cornell/CUCapsuleObstacle.h>
 #include <cornell/CUAnimationNode.h>
-
+#include <cornell/CUCapsuleObstacle.h>
+#include <cornell/CUWireNode.h>
 
 using namespace cocos2d;
 
@@ -70,14 +70,6 @@ protected:
     
 #pragma mark -
 #pragma mark Scene Graph Management
-    /**
-     * Performs any necessary additions to the scene graph node.
-     *
-     * This method is necessary for custom physics objects that are composed
-     * of multiple scene graph nodes. In this case, it is because we
-     * manage our own animations.
-     */
-    virtual void resetSceneNode() override;
     
     /**
      * Redraws the outline of the physics fixtures to the debug node
@@ -140,7 +132,7 @@ public:
      *
      * @return  An autoreleased physics object
      */
-    static AvatarModel* create(const Vec2& pos, const Size& size);
+    static AvatarModel* create(const Vec2& pos, const Vec2& scale);
     
 #pragma mark Attribute Properties
     /**
@@ -215,6 +207,7 @@ public:
      * @return true if this avatar is facing right
      */
     bool isFacingRight() const { return _faceRight; }
+    void setFacingRight(bool faceRight) { _faceRight = faceRight; }
     
     
 #pragma mark Physics Methods
@@ -293,9 +286,8 @@ CC_CONSTRUCTOR_ACCESS:
      */
     virtual bool init(const Vec2& pos) override { return init(pos, Vec2::ONE); }
     
-    
     virtual bool init(const Vec2& pos, const Vec2& scale);
-
+    
     /**
      * Initializes a new avatar at the given position.
      *
@@ -335,8 +327,6 @@ CC_CONSTRUCTOR_ACCESS:
      * @param  strip    the texture (key) for this rocket
      */
     void setAvatarTexture(std::string strip) { _avatarTexture = strip; }
-    
-    void setFacingRight(bool faceRight) { _faceRight = faceRight; }
 };
 
 #endif /* defined(__TOYA_AVATAR_MODEL_H__) */

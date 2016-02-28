@@ -406,7 +406,7 @@ void GameController::populate() {
     
     
 #pragma mark : Crates
-    for (int ii = 0; ii < 15; ii++) {
+    for (int ii = 0; ii < 0; ii++) {
         
         // Create the sprite for this crate
         image  = _assets->get<Texture2D>("block");
@@ -606,10 +606,11 @@ void GameController::preload() {
     
     _assets = AssetManager::getInstance()->getCurrent();
     TextureLoader* tloader = (TextureLoader*)_assets->access<Texture2D>();
-    _assets->loadAsync<TTFont>(PRIMARY_FONT, "fonts/RetroGame.ttf");
+    _assets->loadAsync<TTFont>(PRIMARY_FONT, "fonts/arial.ttf");
     tloader->loadAsync(EARTH_TEXTURE,       "textures/earthtile.png", params);
     tloader->loadAsync(AVATAR_TEXTURE,   "textures/avatar.png");
-    tloader->loadAsync(BLOCK_TEXTURE,   "textures/block");
+    tloader->loadAsync(BLOCK_TEXTURE,   "textures/block.png");
+    tloader->loadAsync(GOAL_TEXTURE,   "textures/goaldoor.png");
 }
 
 
