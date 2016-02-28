@@ -224,6 +224,11 @@ bool GameController::init(RootLayer* root, const Rect& rect, const Vec2& gravity
     root->addChild(_winnode,3);
     _rootnode = root;
     
+    // set anchor points for rotating
+    _worldnode->setContentSize(root->getContentSize());
+    _worldnode->setAnchorPoint(ccp(0.5,0.5));
+    _worldnode->setPosition(root->getContentSize().width/2.0f,root->getContentSize().height/2.0f);
+    
     populate();
     _active = true;
     _complete = false;
