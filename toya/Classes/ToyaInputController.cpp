@@ -36,6 +36,8 @@
 #define KEYBOARD_ROTATION_INCREMENT 10.0f
 // maxium rotation degree
 #define INPUT_MAXIMUM_ROTATION 90.0f
+// max rotate time
+#define EVENT_ROTATE_TIME 100000
 
 
 #pragma mark -
@@ -58,14 +60,10 @@ _touchListener(nullptr)
     _keyReset = false;
     _keyDebug = false;
     _keyExit  = false;
+    _keyRotate = false;
     
-    _horizontal = 0.0f;
-    _vertical   = 0.0f;
-    
-    _ltouch.touchid = -1;
-    _rtouch.touchid = -1;
-    _ltouch.count = 0;
-    _rtouch.count = 0;
+    _touch1.touchid = -1;
+    _touch2.touchid = -1;
 }
 
 /**
@@ -89,6 +87,7 @@ InputController::~InputController() {
  */
 bool InputController::init() {
     _timestamp = current_time();
+    _rotateTime = current_time();
     // Create the touch listener. This is an autorelease object.
     _touchListener = TouchListener::create();
     if (_touchListener != nullptr) {
@@ -217,6 +216,9 @@ void InputController::clear() {
     _keyLeft  = 0.0f;
     _keyRight = 0.0f;
     
+    _touch1.touchid = -1;
+    _touch2.touchid = -1;
+    
     _timestamp = current_time();
 }
 
@@ -231,15 +233,23 @@ void InputController::clear() {
  * @return True if the touch was processed; false otherwise.
  */
 bool InputController::touchBeganCB(Touch* t, timestamp_t current) {
-    // Check for a double tap.
-    _keyReset = (elapsed_millis(_timestamp,current) <= EVENT_DOUBLE_CLICK);
-    
-    // If we reset, do not record the thrust
-    if (_keyReset) {
-        return false;
+    Vec2 pos = t->getLocation();
+    if (_touch1.touchid == -1) {
+        _touch1.start = pos;
+        _touch1.touchid = t->getID();
+        _touch1.stop = pos;
+        _touchCount ++;
+    } else if (_touch2.touchid == -1) {
+        _touch2.start = pos;
+        _touch2.touchid = t->getID();
+        _touch2.stop = pos;
+        _touchCount ++;
+    } else {
+        CCLOG("No more than 2 fingers");
     }
     
     _timestamp = current;
+    _rotateTime = current;
     return true;
 }
 
@@ -250,15 +260,49 @@ bool InputController::touchBeganCB(Touch* t, timestamp_t current) {
  * @param event The associated event
  */
 void InputController::touchEndedCB(Touch* t, timestamp_t current) {
-    // Move the ship in this direction
-    Vec2 finishTouch = t->getLocation();
-    finishTouch.x = RANGE_CLAMP(finishTouch.x, -INPUT_MAXIMUM_ROTATION, INPUT_MAXIMUM_ROTATION);
-    finishTouch.y = RANGE_CLAMP(finishTouch.y, -INPUT_MAXIMUM_ROTATION, INPUT_MAXIMUM_ROTATION);
-    
-    // Go ahead and apply to thrust now.
-    
+    CCLOG("Touch is up %d", t->getID());
+    if (_touch1.touchid == t->getID()) {
+        _touch1.touchid = -1;
+        _touch1.stop = t->getLocation();
+    } else if (_touch2.touchid == t->getID()) {
+        _touch2.touchid = -1;
+        _touch2.stop = t->getLocation();
+    }
+    _keyTap = checkTap(current);
+    _touchCount --;
 }
 
+bool InputController::checkTap(timestamp_t current) {
+    // tap
+    if (_touchCount != 1) {
+        return false;
+    }
+    // tap should have same stop position as start position.
+    if (_touch1.start.x == _touch1.stop.x && _touch1.start.y == _touch1.stop.y) {
+        return true;
+    }
+    if (_touch2.start.x == _touch2.stop.x && _touch2.start.y == _touch2.stop.y) {
+        return true;
+    }
+    return false;
+}
+
+bool InputController::checkRotate(timestamp_t current) {
+    // calculate the turning
+    if (_touchCount != 2) {
+        _turning = 0.0f;
+        return false;
+    }
+    // TODO: maybe over 90 for start or end
+    float initialDeg = atanf(fabsf(_touch1.start.y - _touch2.start.y) / fabsf(_touch1.start.x - _touch2.start.x));
+    float finishDeg = atanf(fabsf(_touch1.start.y - _touch2.start.y) / fabsf(_touch1.start.x - _touch2.start.x));
+    if(finishDeg - initialDeg > 5.0f && elapsed_millis(_rotateTime,current) <= EVENT_ROTATE_TIME){
+        _turning = finishDeg - initialDeg;
+        return true;
+    }
+    _turning = 0.0f;
+    return false;
+}
 
 /**
  * Callback for a touch movement event
@@ -267,7 +311,12 @@ void InputController::touchEndedCB(Touch* t, timestamp_t current) {
  * @param event The associated event
  */
 void InputController::touchMovedCB(Touch* t, timestamp_t current) {
-    // This example only has gesture support.  Nothing to do here.
+    _keyRotate = checkRotate(current);
+//    if (t->getID() == _touch1.touchid) {
+//
+//    } else if (t->getID() == _touch2.touchid) {
+//        
+//    }
 }
 
 /**
@@ -283,17 +332,14 @@ void InputController::touchMovedCB(Touch* t, timestamp_t current) {
 void InputController::touchCancelCB(Touch* t, timestamp_t current) {
     // Update the timestamp
     _timestamp = current;
-}
-
-
-/**
- * Callback for the end of a touch event
- *
- * @param t     The touch information
- * @param event The associated event
- */
-void InputController::calTurning(TouchInstance* t1, TouchInstance* t2) {
-    // calculate the turning
+    _rotateTime = current;
+    _keyLeft  = false;
+    _keyRight = false;
+    _keyReset = false;
+    _keyExit  = false;
+    _keyRotate = false;
     
-    //
+    _touch1.touchid = -1;
+    _touch2.touchid = -1;
+    _turning = 0;
 }

@@ -21,3 +21,4 @@ Updates:
 
 ##### Date: 02/27/16. Author: @TaoAlpha
 1. Set up project: toya.
+2. Set up class structure.

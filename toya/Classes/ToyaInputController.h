@@ -47,8 +47,16 @@ private:
     /** Whether the exit key is down */
     bool  _keyExit;
     
+    /** whether it is rotating or not */
+    bool _keyRotate;
+    /** whether tap or not */
+    bool _keyTap;
+    
     /** The timestamp for the beginning of the current gesture */
     timestamp_t _timestamp;
+    
+    // current number of touch events
+    int _touchCount;
     
     // rotation angles
     float _turning;
@@ -76,11 +84,10 @@ protected:
     /** Information representing a single "touch" (possibly multi-finger) */
     struct TouchInstance {
         /** The current touch position */
-        Vec2 position;
+        Vec2 start;
         /** The touch id for future reference */
         int  touchid;
         /** the start and stop of this position */
-        Vec2 start;
         Vec2 stop;
     };
     
@@ -90,10 +97,11 @@ protected:
     TouchInstance _touch2;
     
     /** The timestamp for the beginning of the current swipe gesture */
-    timestamp_t _swipetime;
+    timestamp_t _rotateTime;
     
     /** check whether it is a rotation or not **/
-    bool checkRotate();
+    bool checkRotate(timestamp_t current);
+    bool checkTap(timestamp_t current);
     
     
 public:
@@ -217,16 +225,6 @@ public:
      * @param event The associated event
      */
     void    touchCancelCB(Touch* t, timestamp_t time);
-    
-    /**
-     * Callback for the calculate the turning caused by two touch events
-     *
-     * Every touchEnd will call this function to try to calculate the _turing which defines the degrees we should rotate the world
-     *
-     * @param t1     The touch information
-     * @param t2     The touch information
-     */
-    void    calTurning(TouchInstance* t1, TouchInstance* t2);
 };
 
 
