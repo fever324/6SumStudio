@@ -130,38 +130,39 @@ AvatarModel* AvatarModel::create(const Vec2& pos, const Vec2& scale) {
 bool AvatarModel::init(const Vec2& pos, const Vec2& scale) {
     float cscale = Director::getInstance()->getContentScaleFactor();
     SceneManager* scene = AssetManager::getInstance()->getCurrent();
-
+    
     Texture2D* image = scene->get<Texture2D>(AVATAR_TEXTURE);
     
+    // Multiply by the scaling factor so we can be resolution independent
+    Size nsize = image->getContentSize()*cscale;
+    
     PolygonNode* pnode = PolygonNode::createWithTexture(image);
-    if(pnode != nullptr) {
+    
+    nsize.width  *= AVATAR_HSHRINK/scale.x;
+    nsize.height *= AVATAR_VSHRINK/scale.y;
+    
+    if (CapsuleObstacle::init(pos,nsize)) {
+        
+        setDensity(AVATAR_DENSITY);
+        setFriction(0.0f);      // HE WILL STICK TO WALLS IF YOU FORGET
+        setFixedRotation(true); // OTHERWISE, HE IS A WEEBLE WOBBLE
         Rect bounds;
         bounds.size = getDimension();
         bounds.size.width  *= _drawScale.x/cscale;
         bounds.size.height *= _drawScale.y/cscale;
         
-        pnode->setTexture(image);
         pnode->setPolygon(bounds);
+        pnode->setTexture(image);
+
+        // Gameplay attributes
+        _movement = AVATAR_INITIAL_SPEED;
+        _faceRight  = true;
+        _isGrounded = false;
+        setSceneNode(pnode);
         
-        // Multiply by the scaling factor so we can be resolution independent
-        Size nsize = image->getContentSize()*cscale;
-        
-        nsize.width  *= AVATAR_HSHRINK/scale.x;
-        nsize.height *= AVATAR_VSHRINK/scale.y;
-        
-        if (CapsuleObstacle::init(pos,nsize)) {
-            setDensity(AVATAR_DENSITY);
-            setFriction(0.0f);      // HE WILL STICK TO WALLS IF YOU FORGET
-            setFixedRotation(true); // OTHERWISE, HE IS A WEEBLE WOBBLE
-            
-            // Gameplay attributes
-            _movement = AVATAR_INITIAL_SPEED;
-            _faceRight  = true;
-            _isGrounded = false;
-            
-            return true;
-        }
+        return true;
     }
+    
     return false;
 }
 

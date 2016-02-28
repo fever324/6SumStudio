@@ -227,7 +227,7 @@ bool GameController::init(RootLayer* root, const Rect& rect, const Vec2& gravity
     populate();
     _active = true;
     _complete = false;
-    setDebug(false);
+    setDebug(true);
     return true;
 }
 
@@ -443,13 +443,9 @@ void GameController::populate() {
     image  = _assets->get<Texture2D>(AVATAR_TEXTURE);
     Size avatarSize(image->getContentSize().width*cscale/_scale.x,image->getContentSize().height*cscale/_scale.y);
     
-    _avatar = AvatarModel::create(avatarPos,avatarSize);
-    _avatar->setDrawScale(_scale.x, _scale.y);
+    _avatar = AvatarModel::create(avatarPos,_scale);
     
-    // Create the polygon node (empty, as the model will initialize)
-    sprite = PolygonNode::create();
-    sprite->setScale(cscale);
-    _avatar->setSceneNode(sprite);
+    _avatar->setDrawScale(_scale.x, _scale.y);
     
     draw = WireNode::create();
     draw->setColor(DEBUG_COLOR);
