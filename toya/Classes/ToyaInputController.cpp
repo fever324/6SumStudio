@@ -245,6 +245,7 @@ void InputController::clear() {
  * @return True if the touch was processed; false otherwise.
  */
 bool InputController::touchBeganCB(Touch* t, timestamp_t current) {
+    CCLOG("Touch begins: %d", t->getID());
     Vec2 pos = t->getLocation();
     if (_touch1.touchid == -1) {
         _touch1.start = pos;
@@ -322,6 +323,7 @@ bool InputController::checkRotate(timestamp_t current) {
  * @param event The associated event
  */
 void InputController::touchMovedCB(Touch* t, timestamp_t current) {
+    CCLOG("Touch is moving");
     if (t->getID() == _touch1.touchid) {
         _touch1.start = _touch1.stop;
         _touch1.stop = t->getLocation();

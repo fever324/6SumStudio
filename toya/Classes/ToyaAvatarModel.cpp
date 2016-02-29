@@ -294,7 +294,6 @@ void AvatarModel::update(float dt) {
     int direction = isFacingRight() ? 1 : -1;
     setMovement(direction*getForce());
     applyForce();
-    cout << getLinearVelocity().x << endl;
 }
 
 

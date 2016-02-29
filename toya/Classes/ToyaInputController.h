@@ -13,6 +13,7 @@
 #include <cornell/CUKeyboardPoller.h>
 #include <cornell/CUAccelerationPoller.h>
 #include <cornell/CUTouchListener.h>
+#include "base/CCEventListenerTouch.h"
 
 using namespace cocos2d;
 using namespace std;
