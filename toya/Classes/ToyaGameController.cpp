@@ -33,16 +33,14 @@ using namespace std;
 /** To automate the loading of crate files */
 #define NUM_CRATES 2
 
-float WALL1[] = { 0.0f, 18.0f, 16.0f, 18.0f, 16.0f, 17.0f,
-    8.0f, 15.0f,  1.0f, 17.0f,  2.0f,  7.0f,
-    3.0f,  5.0f,  3.0f,  1.0f, 16.0f,  1.0f,
-    16.0f,  0.0f,  0.0f,  0.0f};
-float WALL2[] = {32.0f, 18.0f, 32.0f,  0.0f, 16.0f,  0.0f,
-    16.0f,  1.0f, 31.0f,  1.0f, 30.0f, 10.0f,
-    31.0f, 16.0f, 16.0f, 17.0f, 16.0f, 18.0f};
 
-float WALL3[] = { 2.0f, 10.5f,  8.0f, 10.5f,
-    8.0f,  9.5f,  2.0f,  9.5f};
+float WALL1[] = { 0.0f, 18.0f, 32.0f, 18.0f, 32.0f, 17.0f,
+    1.0f, 17.0f, 1.0f, 1.0f,  31.0f, 1.0f, 31.0f, 17.0f,
+    32.0f, 17.0f, 32.0f, 0.0f, 0.0f,0.0f};
+
+
+float WALL3[] = { 1.0f, 15.5f,  8.0f, 15.5f,
+    8.0f,  15.0f,  1.0f,  15.0f};
 /** The positions of the crate pyramid */
 float BOXES[] = { 14.5f, 14.25f,
     13.0f, 12.00f, 16.0f, 12.00f,
@@ -55,11 +53,13 @@ float BOXES[] = { 14.5f, 14.25f,
 /** The initial avatar position */
 float AVATAR_POS[] = {13, 4};
 /** The goal door position */
-float GOAL_POS[] = {6, 12};
+float GOAL_POS[] = {6, 16};
 
 #pragma mark Assset Constants
 /** The key for the earth texture in the asset manager */
 #define EARTH_TEXTURE       "earth"
+/** The key for the removable block texture in the asset manager */
+#define REMOVABLE_TEXTURE   "removable"
 /** The key for the win door texture in the asset manager */
 #define GOAL_TEXTURE        "goal"
 /** The key prefix for the multiple crate assets */
@@ -232,7 +232,7 @@ bool GameController::init(RootLayer* root, const Rect& rect, const Vec2& gravity
     populate();
     _active = true;
     _complete = false;
-    setDebug(true);
+    setDebug(false);
     return true;
 }
 
@@ -317,7 +317,7 @@ void GameController::populate() {
     
     // Add the scene graph nodes to this object
     sprite = PolygonNode::createWithTexture(image);
-    sprite->setScale(cscale);
+    sprite->setScale(cscale/2);
     _goalDoor->setSceneNode(sprite);
     
     draw = WireNode::create();
@@ -334,7 +334,7 @@ void GameController::populate() {
     string wname = "wall";
     
     PolygonObstacle* wallobj;
-    Poly2 wall1(WALL1,22);
+    Poly2 wall1(WALL1,20);
     wall1.triangulate();
     wallobj = PolygonObstacle::create(wall1);
     wallobj->setDrawScale(_scale.x, _scale.y);
@@ -358,30 +358,30 @@ void GameController::populate() {
     addObstacle(wallobj,1);  // All walls share the same texture
     
     
-#pragma mark : Wall polygon 2
-    Poly2 wall2(WALL2,18);
-    wall2.triangulate();
-    wallobj = PolygonObstacle::create(wall2);
-    wallobj->setDrawScale(_scale.x, _scale.y);
-    wallobj->setName(wname);
-    
-    // Set the physics attributes
-    wallobj->setBodyType(b2_staticBody);
-    wallobj->setDensity(BASIC_DENSITY);
-    wallobj->setFriction(BASIC_FRICTION);
-    wallobj->setRestitution(BASIC_RESTITUTION);
-    
-    // Add the scene graph nodes to this object
-    wall2 *= _scale;
-    sprite = PolygonNode::createWithTexture(image,wall2);
-    wallobj->setSceneNode(sprite);
-    
-    draw = WireNode::create();
-    draw = WireNode::create();
-    draw->setColor(DEBUG_COLOR);
-    draw->setOpacity(DEBUG_OPACITY);
-    wallobj->setDebugNode(draw);
-    addObstacle(wallobj,1);
+//#pragma mark : Wall polygon 2
+//    Poly2 wall2(WALL2,18);
+//    wall2.triangulate();
+//    wallobj = PolygonObstacle::create(wall2);
+//    wallobj->setDrawScale(_scale.x, _scale.y);
+//    wallobj->setName(wname);
+//    
+//    // Set the physics attributes
+//    wallobj->setBodyType(b2_staticBody);
+//    wallobj->setDensity(BASIC_DENSITY);
+//    wallobj->setFriction(BASIC_FRICTION);
+//    wallobj->setRestitution(BASIC_RESTITUTION);
+//    
+//    // Add the scene graph nodes to this object
+//    wall2 *= _scale;
+//    sprite = PolygonNode::createWithTexture(image,wall2);
+//    wallobj->setSceneNode(sprite);
+//    
+//    draw = WireNode::create();
+//    draw = WireNode::create();
+//    draw->setColor(DEBUG_COLOR);
+//    draw->setOpacity(DEBUG_OPACITY);
+//    wallobj->setDebugNode(draw);
+//    addObstacle(wallobj,1);
     
     
 #pragma mark : Wall polygon 3
@@ -399,6 +399,7 @@ void GameController::populate() {
     
     // Add the scene graph nodes to this object
     wall3 *= _scale;
+    image  = _assets->get<Texture2D>(REMOVABLE_TEXTURE);
     sprite = PolygonNode::createWithTexture(image,wall3);
     wallobj->setSceneNode(sprite);
     
@@ -612,6 +613,7 @@ void GameController::preload() {
     tloader->loadAsync(EARTH_TEXTURE,       "textures/earthtile.png", params);
     tloader->loadAsync(AVATAR_TEXTURE,   "textures/avatar.png");
     tloader->loadAsync(BLOCK_TEXTURE,   "textures/block.png");
+    tloader->loadAsync(REMOVABLE_TEXTURE,   "textures/removable.png", params);
     tloader->loadAsync(GOAL_TEXTURE,   "textures/goaldoor.png");
     tloader->loadAsync(BEAR_TEXTURE,   "textures/bear.png");
 }
