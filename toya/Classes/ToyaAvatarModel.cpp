@@ -20,7 +20,7 @@ using namespace cocos2d;
 /** Cooldown (in animation frames) for shooting */
 #define SHOOT_COOLDOWN  20
 /** the amout to shrink the body in three dimensions. **/
-#define AVATAR_SHRINK 0.3f
+#define AVATAR_SHRINK 0.2f
 /** The amount to shrink the body fixture (vertically) relative to the image */
 #define AVATAR_VSHRINK  0.1f
 /** The amount to shrink the body fixture (horizontally) relative to the image */

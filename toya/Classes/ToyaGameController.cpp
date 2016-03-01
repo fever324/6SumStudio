@@ -39,8 +39,12 @@ float WALL1[] = { 0.0f, 18.0f, 32.0f, 18.0f, 32.0f, 17.0f,
     32.0f, 17.0f, 32.0f, 0.0f, 0.0f,0.0f};
 
 
-float WALL3[] = { 1.0f, 15.5f,  8.0f, 15.5f,
-    8.0f,  15.0f,  1.0f,  15.0f};
+float WALL3[] = { 1.0f, 15.0f,  8.0f, 15.0f,
+    8.0f,  14.5f,  1.0f,  14.5f};
+
+float WALL4[] = { 10.0f, 12.0f,  14.0f, 12.0f,
+    14.0f,  11.5f,  10.0f,  11.5f};
+
 /** The positions of the crate pyramid */
 float BOXES[] = { 14.5f, 14.25f,
     13.0f, 12.00f, 16.0f, 12.00f,
@@ -51,9 +55,9 @@ float BOXES[] = { 14.5f, 14.25f,
 
 
 /** The initial avatar position */
-float AVATAR_POS[] = {13, 4};
+float AVATAR_POS[] = {1, 17};
 /** The goal door position */
-float GOAL_POS[] = {6, 16};
+float GOAL_POS[] = {1.5, 1.5};
 
 #pragma mark Assset Constants
 /** The key for the earth texture in the asset manager */
@@ -410,9 +414,35 @@ void GameController::populate() {
     wallobj->setDebugNode(draw);
     addObstacle(wallobj,1);
     
+#pragma mark : Wall polygon 4
+    Poly2 wall4(WALL4,8);
+    wall4.triangulate();
+    wallobj = PolygonObstacle::create(wall4);
+    wallobj->setDrawScale(_scale.x, _scale.y);
+    wallobj->setName(wname);
+    
+    // Set the physics attributes
+    wallobj->setBodyType(b2_staticBody);
+    wallobj->setDensity(BASIC_DENSITY);
+    wallobj->setFriction(BASIC_FRICTION);
+    wallobj->setRestitution(BASIC_RESTITUTION);
+    
+    // Add the scene graph nodes to this object
+    wall4 *= _scale;
+    image  = _assets->get<Texture2D>(REMOVABLE_TEXTURE);
+    sprite = PolygonNode::createWithTexture(image,wall4);
+    wallobj->setSceneNode(sprite);
+    
+    draw = WireNode::create();
+    draw = WireNode::create();
+    draw->setColor(DEBUG_COLOR);
+    draw->setOpacity(DEBUG_OPACITY);
+    wallobj->setDebugNode(draw);
+    addObstacle(wallobj,1);
+    
     
 #pragma mark : Crates
-    for (int ii = 0; ii < 2; ii++) {
+    for (int ii = 0; ii < 0; ii++) {
         
         // Create the sprite for this crate
         image  = _assets->get<Texture2D>(BLOCK_TEXTURE);

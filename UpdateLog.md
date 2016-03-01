@@ -19,6 +19,13 @@ Example:
 
 Updates:
 
+
+#### Date: 02/29/16. Author: @tao
+1. Create a new map for game demo
+2. Add new image for block
+3. Change the default force and avatar size
+
+
 #### Date: 02/29/16. Author: @sz428
 1. Add the feature to shirnk the avatar size
 
