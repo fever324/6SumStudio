@@ -19,6 +19,8 @@ using namespace cocos2d;
 #define JUMP_COOLDOWN   5
 /** Cooldown (in animation frames) for shooting */
 #define SHOOT_COOLDOWN  20
+/** the amout to shrink the body in three dimensions. **/
+#define AVATAR_SHRINK 0.3f
 /** The amount to shrink the body fixture (vertically) relative to the image */
 #define AVATAR_VSHRINK  0.1f
 /** The amount to shrink the body fixture (horizontally) relative to the image */
@@ -134,7 +136,7 @@ bool AvatarModel::init(const Vec2& pos, const Vec2& scale) {
     Texture2D* image = scene->get<Texture2D>("bear");
     
     // Multiply by the scaling factor so we can be resolution independent
-    Size avatarSize = Size(image->getContentSize().width*cscale/scale.x,image->getContentSize().height*cscale/scale.y);
+    Size avatarSize = Size(image->getContentSize().width*cscale*AVATAR_SHRINK/scale.x,image->getContentSize().height*cscale*AVATAR_SHRINK/scale.y);
     
     if (CapsuleObstacle::init(pos, avatarSize)) {
         
@@ -150,7 +152,7 @@ bool AvatarModel::init(const Vec2& pos, const Vec2& scale) {
         setLinearVelocity((Vec2){AVATAR_INITIAL_SPEED,0});
         
         PolygonNode* sprite = PolygonNode::createWithTexture(image);
-        sprite->setScale(cscale);
+        sprite->setScale(AVATAR_SHRINK);
         setSceneNode(sprite);
         
         return true;
