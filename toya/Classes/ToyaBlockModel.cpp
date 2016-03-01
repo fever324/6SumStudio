@@ -93,6 +93,7 @@ BlockModel* BlockModel::create(const Vec2& pos, const Size& size, const std::str
  */
 bool BlockModel::init(const Vec2& pos, const Size& size) {
     BoxObstacle::init(pos, size);
+    _texture = "";
     return true;
 }
 
@@ -116,5 +117,5 @@ bool BlockModel::init(const Vec2& pos, const Size& size, const std::string& text
  */
 BlockModel::~BlockModel(void) {
     // We do not own any of these, so we just set to null
-    _texture = nullptr;
+    // _texture = nullptr;
 }
