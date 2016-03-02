@@ -169,7 +169,7 @@ public:
      *
      * @param value whether debug mode is active.
      */
-    void setDebug(bool value) { _debug = value; _debugnode->setVisible(value); }
+    void setDebug(bool value) { CCLOG("asd");_debug = value; _debugnode->setVisible(value); }
     
     /**
      * Returns true if the level is completed.

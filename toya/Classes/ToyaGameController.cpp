@@ -28,7 +28,7 @@ using namespace std;
 /** Height of the game world in Box2d units */
 #define DEFAULT_HEIGHT  18.0f
 /** The default value of gravity (going down) */
-#define DEFAULT_GRAVITY -3.0f
+#define DEFAULT_GRAVITY -8.0f
 
 /** To automate the loading of crate files */
 #define NUM_CRATES 2
@@ -38,12 +38,21 @@ float WALL1[] = { 0.0f, 18.0f, 32.0f, 18.0f, 32.0f, 17.0f,
     1.0f, 17.0f, 1.0f, 1.0f,  31.0f, 1.0f, 31.0f, 17.0f,
     32.0f, 17.0f, 32.0f, 0.0f, 0.0f,0.0f};
 
+//float WALLS[][] = {
+//    {1.0f,15.0f,  9.0f,15.0f,  9.0f, 14.5f,  1.0f, 14.5f },
+//    {10.0f, 12.0f,  16.0f, 12.0f,  16.0f,11.5f,  10.0f, 11.5f},
+//    {14.0f,6.5f,  7.0f,6.5f, 2.0f,11.5f,  1.0f,11.5f, 7.0f,6.0f, 14.0f,6.0f}
+//};
+//
+//float RWALLS[][] = {
+//    {15.0f, 11.0f,  15.0f, 16.0f,  16.0f,16.0f,  16.0f, 11.0f}
+//}
 
-float WALL3[] = { 1.0f, 15.0f,  8.0f, 15.0f,
-    8.0f,  14.5f,  1.0f,  14.5f};
+float WALL2[] = {1.0f,15.0f,   14.0f,15.0f,  14.0f, 14.0f,  1.0f, 14.0f };
+float WALL3[] = {15.0f,12.0f,  26.0f,12.0f, 26.0f,11.0f,  15.0f,11.0f};
+float WALL4[] = {14.0f,6.5f,   7.0f,6.5f,   5.0f,7.5f,   3.0f,7.5f,  6.0f,5.5f,  14.0f,5.5f};
 
-float WALL4[] = { 10.0f, 12.0f,  14.0f, 12.0f,
-    14.0f,  11.5f,  10.0f,  11.5f};
+float WALL5[] = {25.0f, 11.0f,  25.0f, 16.0f,  26.0f,16.0f,  26.0f, 11.0f};
 
 /** The positions of the crate pyramid */
 float BOXES[] = { 14.5f, 14.25f,
@@ -57,7 +66,7 @@ float BOXES[] = { 14.5f, 14.25f,
 /** The initial avatar position */
 float AVATAR_POS[] = {1, 17};
 /** The goal door position */
-float GOAL_POS[] = {1.5, 1.5};
+float GOAL_POS[] = {31.5, 2.5};
 
 #pragma mark Assset Constants
 /** The key for the earth texture in the asset manager */
@@ -309,7 +318,7 @@ void GameController::populate() {
     sprite = PolygonNode::createWithTexture(image);
     Size goalSize(image->getContentSize().width/_scale.x,
                   image->getContentSize().height/_scale.y);
-    _goalDoor = BoxObstacle::create(goalPos,goalSize);
+    _goalDoor = BoxObstacle::create(goalPos,goalSize/6);
     _goalDoor->setDrawScale(_scale.x, _scale.y);
     
     // Set the physics attributes
@@ -321,14 +330,14 @@ void GameController::populate() {
     
     // Add the scene graph nodes to this object
     sprite = PolygonNode::createWithTexture(image);
-    sprite->setScale(cscale/2);
+    sprite->setScale(cscale/4);
     _goalDoor->setSceneNode(sprite);
     
     draw = WireNode::create();
     draw->setColor(DEBUG_COLOR);
     draw->setOpacity(DEBUG_OPACITY);
     _goalDoor->setDebugNode(draw);
-    addObstacle(_goalDoor, 0); // Put this at the very back
+    addObstacle(_goalDoor, 2); // Put this at the very back
     
     
 #pragma mark : Wall polygon 1
@@ -362,33 +371,33 @@ void GameController::populate() {
     addObstacle(wallobj,1);  // All walls share the same texture
     
     
-//#pragma mark : Wall polygon 2
-//    Poly2 wall2(WALL2,18);
-//    wall2.triangulate();
-//    wallobj = PolygonObstacle::create(wall2);
-//    wallobj->setDrawScale(_scale.x, _scale.y);
-//    wallobj->setName(wname);
-//    
-//    // Set the physics attributes
-//    wallobj->setBodyType(b2_staticBody);
-//    wallobj->setDensity(BASIC_DENSITY);
-//    wallobj->setFriction(BASIC_FRICTION);
-//    wallobj->setRestitution(BASIC_RESTITUTION);
-//    
-//    // Add the scene graph nodes to this object
-//    wall2 *= _scale;
-//    sprite = PolygonNode::createWithTexture(image,wall2);
-//    wallobj->setSceneNode(sprite);
-//    
-//    draw = WireNode::create();
-//    draw = WireNode::create();
-//    draw->setColor(DEBUG_COLOR);
-//    draw->setOpacity(DEBUG_OPACITY);
-//    wallobj->setDebugNode(draw);
-//    addObstacle(wallobj,1);
+#pragma mark : Wall polygon 2
+    Poly2 wall2(WALL2,8);
+    wall2.triangulate();
+    wallobj = PolygonObstacle::create(wall2);
+    wallobj->setDrawScale(_scale.x, _scale.y);
+    wallobj->setName(wname);
     
+    // Set the physics attributes
+    wallobj->setBodyType(b2_staticBody);
+    wallobj->setDensity(BASIC_DENSITY);
+    wallobj->setFriction(BASIC_FRICTION);
+    wallobj->setRestitution(BASIC_RESTITUTION);
     
-#pragma mark : Wall polygon 3
+    // Add the scene graph nodes to this object
+    wall2 *= _scale;
+    image  = _assets->get<Texture2D>(REMOVABLE_TEXTURE);
+    sprite = PolygonNode::createWithTexture(image,wall2);
+    wallobj->setSceneNode(sprite);
+    
+    draw = WireNode::create();
+    draw = WireNode::create();
+    draw->setColor(DEBUG_COLOR);
+    draw->setOpacity(DEBUG_OPACITY);
+    wallobj->setDebugNode(draw);
+    addObstacle(wallobj,1);
+    
+#pragma mark : Walls polygon 3
     Poly2 wall3(WALL3,8);
     wall3.triangulate();
     wallobj = PolygonObstacle::create(wall3);
@@ -415,7 +424,7 @@ void GameController::populate() {
     addObstacle(wallobj,1);
     
 #pragma mark : Wall polygon 4
-    Poly2 wall4(WALL4,8);
+    Poly2 wall4(WALL4,12);
     wall4.triangulate();
     wallobj = PolygonObstacle::create(wall4);
     wallobj->setDrawScale(_scale.x, _scale.y);
@@ -431,6 +440,32 @@ void GameController::populate() {
     wall4 *= _scale;
     image  = _assets->get<Texture2D>(REMOVABLE_TEXTURE);
     sprite = PolygonNode::createWithTexture(image,wall4);
+    wallobj->setSceneNode(sprite);
+    
+    draw = WireNode::create();
+    draw = WireNode::create();
+    draw->setColor(DEBUG_COLOR);
+    draw->setOpacity(DEBUG_OPACITY);
+    wallobj->setDebugNode(draw);
+    addObstacle(wallobj,1);
+    
+#pragma mark : Walls polygon 5
+    Poly2 wall5(WALL5,8);
+    wall5.triangulate();
+    wallobj = PolygonObstacle::create(wall5);
+    wallobj->setDrawScale(_scale.x, _scale.y);
+    wallobj->setName(wname);
+    
+    // Set the physics attributes
+    wallobj->setBodyType(b2_staticBody);
+    wallobj->setDensity(BASIC_DENSITY);
+    wallobj->setFriction(BASIC_FRICTION);
+    wallobj->setRestitution(BASIC_RESTITUTION);
+    
+    // Add the scene graph nodes to this object
+    wall5 *= _scale;
+    image  = _assets->get<Texture2D>(EARTH_TEXTURE);
+    sprite = PolygonNode::createWithTexture(image,wall5);
     wallobj->setSceneNode(sprite);
     
     draw = WireNode::create();
@@ -574,6 +609,8 @@ void GameController::beginContact(b2Contact* contact) {
     if((body1->GetUserData() == _avatar && body2->GetUserData() == _goalDoor) ||
        (body1->GetUserData() == _goalDoor && body2->GetUserData() == _avatar)) {
         setComplete(true);
+//        _avatar->setLinearVelocity(Vec2(0.0f, 0.0f));
+        // TODO: pause it
     } else {
         // See if we have hit a wall.
         if ((_avatar->getLeftSensorName() == fd2 && _avatar != bd1) ||
@@ -644,7 +681,7 @@ void GameController::preload() {
     tloader->loadAsync(AVATAR_TEXTURE,   "textures/avatar.png");
     tloader->loadAsync(BLOCK_TEXTURE,   "textures/block.png");
     tloader->loadAsync(REMOVABLE_TEXTURE,   "textures/removable.png", params);
-    tloader->loadAsync(GOAL_TEXTURE,   "textures/goaldoor.png");
+    tloader->loadAsync(GOAL_TEXTURE,   "textures/door.png");
     tloader->loadAsync(BEAR_TEXTURE,   "textures/bear.png");
 }
 

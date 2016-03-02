@@ -19,6 +19,11 @@ Example:
 
 Updates:
 
+#### Date: 03/01/16. Author: @tao
+1. Finish the demo map
+2. Add new door image
+
+===
 
 #### Date: 02/29/16. Author: @tao
 1. Create a new map for game demo
