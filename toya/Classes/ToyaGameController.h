@@ -16,6 +16,7 @@
 #include "ToyaInputController.h"
 #include "ToyaBlockModel.h"
 #include "ToyaAvatarModel.h"
+#include "ToyaOverviewModel.h"
 
 
 using namespace cocos2d;
@@ -59,6 +60,8 @@ protected:
     BoxObstacle* _goalDoor;
     /** Reference to the player avatar */
     AvatarModel* _avatar;
+    
+    OverviewModel* _overview;
     
     /** Whether or note this game is still active */
     bool _active;
