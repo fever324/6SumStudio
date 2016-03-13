@@ -10,29 +10,13 @@
 #ifndef __TOYA_WORLD_MODEL_H__
 #define __TOYA_WORLD_MODEL_H__
 
-#include <cornell/CUBoxObstacle.h>
+#include <cocos2d.h>
+#include <cornell.h>
+#include <Box2D/Dynamics/b2World.h>
 #include <cornell/CUAnimationNode.h>
-#include <cornell/CUCapsuleObstacle.h>
-#include <cornell/CUWireNode.h>
 
 using namespace cocos2d;
 
-
-#pragma mark -
-#pragma mark Drawing Constants
-/** The default texture for the the world background */
-#define WORLD_TEXTURE    "sky"
-/** The default size of the world **/
-#define WORLD_SIZE  [32.0f,18.0f]
-/** The default initial anchor point of the world, center of the camera view **/
-#define ANCHOR_POINT [16.0f,9.0f]
-
-#pragma mark -
-#pragma mark Physics Constants
-/** The default gravity of the world **/
-#define WORLD_GRAVITY 2.0f
-/** The default wind resistance of the world*/
-#define WIND_RESISTANCE 0.0f
 
 #pragma mark -
 #pragma mark World Model
@@ -41,28 +25,33 @@ using namespace cocos2d;
  * The game world.
  */
 
-class World : public Ref{
+class WorldModel : public Ref{
+
 private:
     /** This macro disables the copy constructor (not allowed on scene graphs) */
-    CC_DISALLOW_COPY_AND_ASSIGN(AvatarModel);
+    CC_DISALLOW_COPY_AND_ASSIGN(WorldModel);
     
 protected:
-    /** The current horizontal movement of the character */
-    float _movement;
-    /** Which direction is the character facing */
-    bool _faceRight;
-    /** Whether our feet are on the ground */
-    bool _isGrounded;
-    /** Ground sensor to represent our feet */
-    b2Fixture*  _sensorFixture;
-    /** Reference to the sensor name (since a constant cannot have a pointer) */
-    std::string _leftSensorName;
-    std::string _rightSensorName;
-/** The node for debugging the sensor */
-    WireNode* _sensorNode;
+    /** The world node */
+    Node* _worldnode;
+    /** The Box2D world */
+    WorldController* _world;
+    /** Reference to the debug root of the scene graph */
+    Node* _debugnode;
+    /** Reference to the win message label */
+    Label* _winnode;
     
-    /** The texture filmstrip for the avatar */
-    std::string _avatarTexture;
+    /** the size of the world **/
+    Vec2 _size;
+    
+    /** the anchor point of the world **/
+    Vec2 _anchor;
+    
+    /** texture for the background of the world **/
+    std::string _bgTexture;
+    
+    /** gravity of the world **/
+    Vec2 _gravity;
     
 #pragma mark -
 #pragma mark Scene Graph Management
@@ -74,7 +63,7 @@ protected:
      * This is very useful when the fixtures have a different shape than
      * the texture.
      */
-    virtual void resetDebugNode() override;
+    void resetDebugNode();
     
 public:
     
@@ -82,237 +71,154 @@ public:
 #pragma mark Static Constructors
     
     /**
-     * Creates a new avatar at the origin.
-     *
-     * The avatar is 1 unit by 1 unit in size. The avatar is scaled so that
-     * 1 pixel = 1 Box2d unit
-     *
-     * The scene graph is completely decoupled from the physics system.
-     * The node does not have to be the same size as the physics body. We
-     * only guarantee that the scene graph node is positioned correctly
-     * according to the drawing scale.
+     * Create the world.
      *
      * @return  An autoreleased physics object
      */
-    static AvatarModel* create();
+    static WorldModel* create(const Size& root);
     
     /**
-     * Creates a new avatar with the given position
+     * Creates a world with the given size
      *
-     * The avatar is 1 unit by 1 unit in size. The rocket is scaled so that
-     * 1 pixel = 1 Box2d unit
-     *
-     * The scene graph is completely decoupled from the physics system.
-     * The node does not have to be the same size as the physics body. We
-     * only guarantee that the scene graph node is positioned correctly
-     * according to the drawing scale.
-     *
-     * @param  pos  Initial position in world coordinates
+     * @param  size  Initial size (width x height)
      *
      * @return  An autoreleased physics object
      */
-    static AvatarModel* create(const Vec2& pos);
+    static WorldModel* create(const Size& root,const Vec2& size);
     
     /**
-     * Creates a new avatar with the given position and size.
+     * Creates a world with the given size and anchor point
      *
-     * The avatar size is specified in world coordinates.
-     *
-     * The scene graph is completely decoupled from the physics system.
-     * The node does not have to be the same size as the physics body. We
-     * only guarantee that the scene graph node is positioned correctly
-     * according to the drawing scale.
-     *
-     * @param  pos      Initial position in world coordinates
-     * @param  size     The dimensions of the box.
+     * @param  size       The dimensions of the world.
+     * @param  anchor     The anchor point of the world.
      *
      * @return  An autoreleased physics object
      */
-    static AvatarModel* create(const Vec2& pos, const Vec2& scale);
+    static WorldModel* create(const Size& root,const Vec2& size, const Vec2& anchor);
     
 #pragma mark Attribute Properties
-    /**
-     * Returns left/right movement of this character.
-     *
-     * This is the result of input times dude force.
-     *
-     * @return left/right movement of this character.
-     */
-    float getMovement() const { return _movement; }
     
     /**
-     * Sets left/right movement of this character.
+     * return the world
      *
-     * This is the result of input times dude force.
-     *
-     * @param value left/right movement of this character.
+     * @return the size of the world.
      */
-    void setMovement(float value);
-    
-    /**
-     * Returns true if the avatar is on the ground.
-     *
-     * @return true if the avatar is on the ground.
-     */
-    bool isGrounded() const { return _isGrounded; }
-    
-    /**
-     * Sets whether the avatar is on the ground.
-     *
-     * @param value whether the avatar is on the ground.
-     */
-    void setGrounded(bool value) { _isGrounded = value; }
-    
-    /**
-     * Returns how much force to apply to get the avatar moving
-     *
-     * Multiply this by the input to get the movement value.
-     *
-     * @return how much force to apply to get the dude moving
-     */
-    float getForce() const { return AVATAR_FORCE; }
-    
-    /**
-     * Returns ow hard the brakes are applied to get a dude to stop moving
-     *
-     * @return ow hard the brakes are applied to get a dude to stop moving
-     */
-    float getDamping() const { return AVATAR_DAMPING; }
-    
-    /**
-     * Returns the upper limit on avatar left-right movement.
-     *
-     * This does NOT apply to vertical movement.
-     *
-     * @return the upper limit on avatar left-right movement.
-     */
-    float getMaxSpeed() const { return AVATAR_MAXSPEED; }
-    
-    /**
-     * Returns the name of the ground sensor
-     *
-     * This is used by ContactListener
-     *
-     * @return the name of the ground sensor
-     */
-    std::string* getLeftSensorName() { return &_leftSensorName; }
-    std::string* getRightSensorName() { return &_rightSensorName; }
+    WorldController* getWorld() const { return _world; }
+    Node* getWorldNode() const { return _worldnode; }
+    Label* getWinNode() const { return _winnode; }
+    Node* getDebugNode() const { return _debugnode; }
     
     
     /**
-     * Returns true if this avatar is facing right
+     * return the rotation of the world
      *
-     * @return true if this avatar is facing right
+     * @return the rotation of the world.
      */
-    bool isFacingRight() const { return _faceRight; }
-    void setFacingRight(bool faceRight) {
-        _faceRight = faceRight;
-        
-        // Change facing
-        TexturedNode* image = dynamic_cast<TexturedNode*>(_node);
-        if (image != nullptr) {
-            image->flipHorizontal(!faceRight);
-        }
-        int direction = _faceRight ? 1 : -1;
-        setLinearVelocity((Vec2){direction * getForce(), 0});
-    }
-    
-    
-#pragma mark Physics Methods
+    float getRotation() const { return _worldnode->getRotation(); }
+
     /**
-     * Creates the physics Body(s) for this object, adding them to the world.
+     * return the gravity of the world
      *
-     * This method overrides the base method to keep your ship from spinning.
-     *
-     * @param world Box2D world to store body
-     *
-     * @return true if object allocation succeeded
+     * @return the gravity of the world.
      */
-    void createFixtures() override;
+    Vec2 getGravity() const { return _gravity; }
     
     /**
-     * Release the fixtures for this body, reseting the shape
+     * return the size of the world
      *
-     * This is the primary method to override for custom physics objects.
+     * @return the size of the world.
      */
-    void releaseFixtures() override;
+    Vec2 getSize() const { return _size; }
     
     /**
-     * Updates the object's physics state (NOT GAME LOGIC).
+     * return the anchor point of the world
      *
-     * We use this method to reset cooldowns.
-     *
-     * @param delta Number of seconds since last animation frame
+     * @return the anchor point of the world.
      */
-    void update(float dt) override;
+    Vec2 getAnchor() const { return _anchor; }
+    
     
     /**
-     * Applies the force to the body of this dude
+     * Set the gravity for the game world.
      *
-     * This method should be called after the force attribute is set.
+     * @param the gravity
+     *
      */
-    void applyForce();
+    void setGravity(const Vec2& gravity);
+    
+    /**
+     * Set the rotation for the game world.
+     *
+     * @param the rotation
+     *
+     */
+    void setRotation(int rotation);
+    
+    /**
+     * Set the size for the game world.
+     *
+     * @param the size
+     *
+     */
+    void setSize(const Vec2& size);
+    
+    /**
+     * Set the anchor point for the game world.
+     *
+     * @param the anchor
+     *
+     */
+    void setAnchor(const Vec2& anchor);
+    
+    void update(float dt);
+    
+    void clear();
+    
+    void addObstacle(Obstacle* obj, int zOrder);
+    
+    void setDebug(bool value);
+    
+    void setWin(bool value);
     
     
 CC_CONSTRUCTOR_ACCESS:
 #pragma mark Hidden Constructors
     /**
-     * Creates a degenerate Avatar object.
+     * Creates WorldModel.
      *
      * This constructor does not initialize any of the dude values beyond
      * the defaults.  To use a DudeModel, you must call init().
      */
-    AvatarModel() : CapsuleObstacle(), _leftSensorName(LEFT_SENSOR_NAME), _rightSensorName(RIGHT_SENSOR_NAME) { }
+    WorldModel(){}
+    
+    ~WorldModel(){}
     
     /**
-     * Initializes a new avatar at the origin.
-     *
-     * The avatar is scaled so that 1 pixel = 1 Box2d unit
-     *
-     * The scene graph is completely decoupled from the physics system.
-     * The node does not have to be the same size as the physics body. We
-     * only guarantee that the scene graph node is positioned correctly
-     * according to the drawing scale.
+     * Initializes a world with the default size and default anchor point.
      *
      * @return  true if the obstacle is initialized properly, false otherwise.
      */
-    virtual bool init() override { return init(Vec2::ZERO, Vec2::ONE); }
+    bool init(const Size& root);
     
     /**
-     * Initializes a new avatar at the given position.
+     * Initializes a new avatar at the given size.
      *
-     * The avatar is scaled so that 1 pixel = 1 Box2d unit
-     *
-     * The scene graph is completely decoupled from the physics system.
-     * The node does not have to be the same size as the physics body. We
-     * only guarantee that the scene graph node is positioned correctly
-     * according to the drawing scale.
-     *
-     * @param  pos      Initial position in world coordinates
+     * @param  size        Initial size of the world
      *
      * @return  true if the obstacle is initialized properly, false otherwise.
      */
-    virtual bool init(const Vec2& pos) override { return init(pos, Vec2::ONE); }
-    
-    virtual bool init(const Vec2& pos, const Vec2& scale);
+    bool init(const Size& root,const Vec2& size);
     
     /**
-     * Initializes a new avatar at the given position.
+     * Initializes a new avatar at the given size and anchor.
      *
-     * The avatar is sized according to the given drawing scale.
-     *
-     * The scene graph is completely decoupled from the physics system.
-     * The node does not have to be the same size as the physics body. We
-     * only guarantee that the scene graph node is positioned correctly
-     * according to the drawing scale.
-     *
-     * @param  pos      Initial position in world coordinates
-     * @param  scale    The drawing scale
+     * @param  size        Initial size of the world
+     * @param  anchor      Initial anchor point of the world
      *
      * @return  true if the obstacle is initialized properly, false otherwise.
      */
-    virtual bool init(const Vec2& pos, const Vec2& scale, const std::string& avatarTexture);
-    
+
+    bool init(const Size& root,const Vec2& size, const Vec2& anchor);
     
 #pragma mark -
 #pragma mark Animation
@@ -324,7 +230,7 @@ CC_CONSTRUCTOR_ACCESS:
      *
      * @return the texture (key) for this rocket
      */
-    const std::string& getAvatarTexture() const { return _avatarTexture; }
+    const std::string& getBgTexture() const { return _bgTexture; }
     
     /**
      * Returns the texture (key) for this rocket
@@ -334,7 +240,7 @@ CC_CONSTRUCTOR_ACCESS:
      *
      * @param  strip    the texture (key) for this rocket
      */
-    void setAvatarTexture(std::string strip) { _avatarTexture = strip; }
+    void setBgTexture(std::string strip) { _bgTexture = strip; }
 };
 
-#endif /* defined(__TOYA_AVATAR_MODEL_H__) */
+#endif /* defined(__TOYA_WORLD_MODEL_H__) */

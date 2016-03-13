@@ -14,6 +14,7 @@
 #include <cornell.h>
 #include <Box2D/Dynamics/b2WorldCallbacks.h>
 #include "ToyaInputController.h"
+#include "ToyaWorldModel.h"
 #include "ToyaBlockModel.h"
 #include "ToyaAvatarModel.h"
 #include "ToyaOverviewModel.h"
@@ -41,17 +42,22 @@ protected:
     /** Controller for abstracting out input away from layer */
     InputController _input;
     
+    WorldModel* _theWorld;
+    
     /** Reference to the root node of the scene graph */
     RootLayer* _rootnode;
-    /** Reference to the physics root of the scene graph */
-    Node* _worldnode;
-    /** Reference to the debug root of the scene graph */
-    Node* _debugnode;
-    /** Reference to the win message label */
-    Label* _winnode;
     
-    /** The Box2D world */
-    WorldController* _world;
+    
+//    /** Reference to the physics root of the scene graph */
+//    Node* _worldnode;
+//    /** Reference to the debug root of the scene graph */
+//    Node* _debugnode;
+//    /** Reference to the win message label */
+//    Label* _winnode;
+//    /** The Box2D world */
+//    WorldController* _world;
+    
+    
     /** The world scale (computed from root node) */
     Vec2 _scale;
     
@@ -172,7 +178,7 @@ public:
      *
      * @param value whether debug mode is active.
      */
-    void setDebug(bool value) { CCLOG("asd");_debug = value; _debugnode->setVisible(value); }
+    void setDebug(bool value) { CCLOG("asd");_debug = value; _theWorld->setDebug(value); }
     
     /**
      * Returns true if the level is completed.
@@ -190,7 +196,7 @@ public:
      *
      * @param value whether the level is completed.
      */
-    void setComplete(bool value) { _complete = value; _winnode->setVisible(value); }
+    void setComplete(bool value) { _complete = value; _theWorld->setWin(value); }
     
     
 #pragma mark -

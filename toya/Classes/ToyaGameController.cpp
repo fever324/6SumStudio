@@ -137,9 +137,6 @@ float GOAL_POS[] = {31.5, 2.5};
  */
 GameController::GameController() :
 _rootnode(nullptr),
-_worldnode(nullptr),
-_debugnode(nullptr),
-_world(nullptr),
 _goalDoor(nullptr),
 _avatar(nullptr),
 _active(false),
@@ -211,14 +208,29 @@ bool GameController::init(RootLayer* root, const Rect& rect, const Vec2& gravity
     _input.init();
     _input.start();
     
-    // Create the world and attach the listeners.
-    _world = WorldController::create(rect,gravity);
-    _world->retain();
-    _world->activateCollisionCallbacks(true);
-    _world->onBeginContact = [this](b2Contact* contact) {
+    CCLOG("Scale is %.3f, %.3f",root->getContentSize().width,root->getContentSize().height);
+
+    _theWorld = WorldModel::create(root->getContentSize());
+    
+    // Create the scene graph
+    
+    WorldController* world = _theWorld->getWorld();
+    
+    // set text config ffor winnodw
+    // TODO: move this part to WorldModel too.
+    Label* winnode = _theWorld->getWinNode();
+    winnode->setTTFConfig(_assets->get<TTFont>(PRIMARY_FONT)->getTTF());
+    
+    
+    root->addChild(_theWorld->getWorldNode(),0);
+    root->addChild(_theWorld->getDebugNode(),1);
+    root->addChild(winnode,3);
+
+    
+    world->onBeginContact = [this](b2Contact* contact) {
         beginContact(contact);
     };
-    _world->beforeSolve = [this](b2Contact* contact, const b2Manifold* oldManifold) {
+    world->beforeSolve = [this](b2Contact* contact, const b2Manifold* oldManifold) {
         beforeSolve(contact,oldManifold);
     };
     
@@ -226,29 +238,10 @@ bool GameController::init(RootLayer* root, const Rect& rect, const Vec2& gravity
                root->getContentSize().height/rect.size.height);
     CCLOG("Scale is %.3f, %.3f",root->getContentSize().width,root->getContentSize().height);
     
-    // Create the scene graph
-    _worldnode = Node::create();
-    _debugnode = Node::create();
-    _winnode = Label::create();
-    
-    _winnode->setTTFConfig(_assets->get<TTFont>(PRIMARY_FONT)->getTTF());
-    _winnode->setString("VICTORY!");
-    
-    _winnode->setPosition(root->getContentSize().width/2.0f,root->getContentSize().height/2.0f);
-    _winnode->setColor(DEBUG_COLOR);
-    _winnode->setVisible(false);
-    
-    root->addChild(_worldnode,0);
-    root->addChild(_debugnode,1);
-    root->addChild(_winnode,3);
     _rootnode = root;
     
-    // set anchor points for rotating
-    _worldnode->setContentSize(root->getContentSize());
-    _worldnode->setAnchorPoint(Vec2(0.5,0.5));
-    _worldnode->setPosition(root->getContentSize().width/2.0f,root->getContentSize().height/2.0f);
-    
     populate();
+    
     _active = true;
     _complete = false;
     setDebug(false);
@@ -274,9 +267,9 @@ GameController::~GameController() {
  * Disposes of all (non-static) resources allocated to this mode.
  */
 void GameController::dispose() {
-    if (_world != nullptr) {
-        _world->clear();
-        _world->release();
+    if (_theWorld != nullptr) {
+        _theWorld->clear();
+        _theWorld->release();
     }
 }
 
@@ -290,10 +283,7 @@ void GameController::dispose() {
  * This method disposes of the world and creates a new one.
  */
 void GameController::reset() {
-    _world->clear();
-    _worldnode->removeAllChildren();
-    _debugnode->removeAllChildren();
-    
+    _theWorld->clear();
     setComplete(false);
     populate();
 }
@@ -487,39 +477,6 @@ void GameController::populate() {
     addObstacle(wallobj,1);
     
     
-#pragma mark : Crates
-    for (int ii = 0; ii < 0; ii++) {
-        
-        // Create the sprite for this crate
-        image  = _assets->get<Texture2D>(BLOCK_TEXTURE);
-        sprite = PolygonNode::createWithTexture(image);
-        sprite->setScale(cscale);
-        
-        Vec2 boxPos(BOXES[2*ii], BOXES[2*ii+1]);
-        Size boxSize(image->getContentSize().width*cscale/_scale.x,image->getContentSize().height*cscale/_scale.y);
-        
-        BlockModel* crate = BlockModel::create(boxPos,boxSize);
-        crate->setDrawScale(_scale.x, _scale.y);
-        //        crate->setName(ss.str());
-        crate->setAngleSnap(0);     // Snap to the nearest degree
-        
-        // Set the physics attributes
-        crate->setDensity(CRATE_DENSITY);
-        crate->setFriction(CRATE_FRICTION);
-        crate->setAngularDamping(CRATE_DAMPING);
-        crate->setRestitution(BASIC_RESTITUTION);
-        
-        // Add the scene graph nodes to this object
-        crate->setSceneNode(sprite);
-        
-        // Add debug node
-        draw = WireNode::create();
-        draw->setColor(DEBUG_COLOR);
-        draw->setOpacity(DEBUG_OPACITY);
-        crate->setDebugNode(draw);
-        addObstacle(crate,1);  // PUT SAME TEXTURES IN SAME LAYER!!!
-    }
-    
 #pragma mark : Avatar
     Vec2 avatarPos = ((Vec2)AVATAR_POS);
     _avatar = AvatarModel::create(avatarPos,_scale);
@@ -542,13 +499,7 @@ void GameController::populate() {
  * param zOrder The drawing order
  */
 void GameController::addObstacle(Obstacle* obj, int zOrder) {
-    _world->addObstacle(obj);
-    if (obj->getSceneNode() != nullptr) {
-        _worldnode->addChild(obj->getSceneNode(),zOrder);
-    }
-    if (obj->getDebugNode() != nullptr) {
-        _debugnode->addChild(obj->getDebugNode(),zOrder);
-    }
+    _theWorld->addObstacle(obj, zOrder);
 }
 
 
@@ -576,19 +527,21 @@ void GameController::update(float dt) {
         _rootnode->shutdown();
     }
     if(_input.didRotate()) {
-        float cRotation = _worldnode->getRotation() + _input.getTurning();
+        float cRotation = _theWorld->getRotation() + _input.getTurning();
         cRotation = (int)cRotation % 360;
-        _worldnode->setRotation(cRotation);
+        
+        _theWorld->setRotation(cRotation);
 
         Vec2 gravity = Vec2(DEFAULT_GRAVITY,DEFAULT_GRAVITY);
         Vec2 newGravity = _input.getGravity(gravity,cRotation);
-        _world->setGravity(newGravity);
-        CCLOG("%3.2f, %3.2f",_world->getGravity().x,_world->getGravity().y);
+        
+        _theWorld->setGravity(newGravity);
+        
     }
     // Apply the force to the rocket // Hongfei TODO
     _avatar->update(dt);
     // Turn the physics engine crank.
-    _world->update(dt);
+    _theWorld->update(dt);
 }
 
 
