@@ -17,6 +17,7 @@
 #include <iostream>
 #include <sstream>
 
+
 using namespace cocos2d;
 using namespace std;
 
@@ -37,6 +38,8 @@ using namespace std;
 float WALL1[] = { 0.0f, 18.0f, 32.0f, 18.0f, 32.0f, 17.0f,
     1.0f, 17.0f, 1.0f, 1.0f,  31.0f, 1.0f, 31.0f, 17.0f,
     32.0f, 17.0f, 32.0f, 0.0f, 0.0f,0.0f};
+
+
 
 //float WALLS[][] = {
 //    {1.0f,15.0f,  9.0f,15.0f,  9.0f, 14.5f,  1.0f, 14.5f },
@@ -62,6 +65,8 @@ float BOXES[] = { 14.5f, 14.25f,
     11.5f,  5.25f, 14.5f,  5.25f, 17.5f, 5.25f,
     10.0f,  3.00f, 13.0f,  3.00f, 16.0f, 3.00f, 19.0f, 3.0f};
 
+
+//vector<float> tmp(WALL2,WALL2+8);
 
 /** The initial avatar position */
 float AVATAR_POS[] = {1, 17};
