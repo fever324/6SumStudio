@@ -34,8 +34,6 @@ using namespace std;
  * game root (which has scaled the scene graph to fix the device with the
  * desired aspect ratio).
  */
-
-class OverviewModel;
 class GameController {
 protected:
     /** The scene manager for this game demo */
@@ -68,9 +66,11 @@ protected:
     BlockModel* _goalDoor;
 
     BlockModel* _door;
+
+    BlockModel* _barrier;
     /** Reference to the player avatar */
     AvatarModel* _avatar;
-    /** Reference to the overview panel **/
+    
     OverviewModel* _overview;
     
     /** Whether or note this game is still active */
@@ -182,7 +182,7 @@ public:
      *
      * @param value whether debug mode is active.
      */
-    void setDebug(bool value) { _debug = value; _theWorld->setDebug(value); }
+    void setDebug(bool value) { CCLOG("asd");_debug = value; _theWorld->setDebug(value); }
     
     /**
      * Returns true if the level is completed.
