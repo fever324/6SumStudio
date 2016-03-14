@@ -537,6 +537,7 @@ void GameController::populate() {
     sprite3 = PolygonNode::createWithTexture(image3);
     sprite3->setScale(cscale/4);
     _barrier->setSceneNode(sprite3);
+    addObstacle(_barrier, 3);
 }
 
 /**
