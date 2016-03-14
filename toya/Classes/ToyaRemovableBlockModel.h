@@ -66,7 +66,7 @@ public:
      * @return  An autoreleased physics object
      */
     static RemovableBlockModel* create(const Vec2& pos, const Vec2& scale,
-                                       const String& texture, const int& state);
+                                       const std::string& texture, const int& state);
     
     
     virtual ~RemovableBlockModel(void);

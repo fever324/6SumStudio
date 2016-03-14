@@ -15,24 +15,14 @@ using namespace cocos2d;
 
 #pragma mark -
 #pragma mark Physics Constants
-/** Cooldown (in animation frames) for jumping */
-#define JUMP_COOLDOWN   5
-/** Cooldown (in animation frames) for shooting */
-#define SHOOT_COOLDOWN  20
 /** the amout to shrink the body in three dimensions. **/
 #define AVATAR_SHRINK 0.2f
-/** The amount to shrink the body fixture (vertically) relative to the image */
-#define AVATAR_VSHRINK  0.1f
-/** The amount to shrink the body fixture (horizontally) relative to the image */
-#define AVATAR_HSHRINK  0.1f
 /** The amount to shrink the sensor fixture (horizontally) relative to the image */
-#define AVATAR_SSHRINK  0.6f
+#define AVATAR_SSHRINK  0.1f
 /** Height of the sensor attached to the player's feet */
 #define SENSOR_HEIGHT   0.1f
 /** The density of the character */
 #define AVATAR_DENSITY    1.0f
-/** The impulse for the character jump */
-#define AVATAR_JUMP       5.5f
 /** Debug color for the sensor */
 #define DEBUG_COLOR     Color3B::RED
 
@@ -143,9 +133,9 @@ bool AvatarModel::init(const Vec2& pos, const Vec2& scale) {
         setDensity(AVATAR_DENSITY);
         setFriction(0.0f);      // HE WILL STICK TO WALLS IF YOU FORGET
         setFixedRotation(true); // OTHERWISE, HE IS A WEEBLE WOBBLE
-
+        
         // Gameplay attributes
-//        _movement = AVATAR_INITIAL_SPEED;
+        //        _movement = AVATAR_INITIAL_SPEED;
         _faceRight  = true;
         _isGrounded = false;
         setDrawScale(scale);
@@ -190,55 +180,79 @@ void AvatarModel::setMovement(float value) {
  *
  * This is the primary method to override for custom physics objects
  */
+
+void AvatarModel::createSensor(b2Fixture* sensorFixture, b2Vec2 corners[], std::string* sensorName) {
+    b2FixtureDef sensorDef;
+    sensorDef.density = AVATAR_DENSITY;
+    sensorDef.isSensor = true;
+    
+    b2PolygonShape sensorShape;
+    sensorShape.Set(corners,4);
+    
+    sensorDef.shape = &sensorShape;
+    sensorFixture = _body->CreateFixture(&sensorDef);
+    sensorFixture->SetUserData(sensorName);
+}
+
 void AvatarModel::createFixtures() {
     if (_body == nullptr) {
         return;
     }
     
     CapsuleObstacle::createFixtures();
-    b2FixtureDef leftSensorDef;
-    leftSensorDef.density = AVATAR_DENSITY;
-    leftSensorDef.isSensor = true;
     
-    //Left Sensor dimensions
+    // Left Sensor Definition
     b2Vec2 leftCorners[4];
     leftCorners[0].x = -getWidth()/2.0f;
     leftCorners[0].y = AVATAR_SSHRINK*getHeight()/2.0f;
     leftCorners[1].x = -getWidth()/2.0f;
     leftCorners[1].y = -AVATAR_SSHRINK*getHeight()/2.0f;
-    leftCorners[2].x = -AVATAR_SSHRINK*(getWidth()+SENSOR_HEIGHT)/2.0f;
+    leftCorners[2].x = -getWidth()/2.0f+SENSOR_HEIGHT;
     leftCorners[2].y = -AVATAR_SSHRINK*getHeight()/2.0f;
-    leftCorners[3].x = -AVATAR_SSHRINK*(getWidth()+SENSOR_HEIGHT)/2.0f;
+    leftCorners[3].x = -getWidth()/2.0f+SENSOR_HEIGHT;
     leftCorners[3].y = AVATAR_SSHRINK*getHeight()/2.0f;
     
-    b2PolygonShape leftSensorShape;
-    leftSensorShape.Set(leftCorners,4);
+    createSensor(_leftSensorFixture, leftCorners, getLeftSensorName());
     
-    leftSensorDef.shape = &leftSensorShape;
-    _sensorFixture = _body->CreateFixture(&leftSensorDef);
-    _sensorFixture->SetUserData(getLeftSensorName());
     
-    b2FixtureDef rightSensorDef;
-    rightSensorDef.density = AVATAR_DENSITY;
-    rightSensorDef.isSensor = true;
-    
-    //Right Sensor dimensions
+    // Right Sensor Definition
     b2Vec2 rightCorners[4];
     rightCorners[0].x = getWidth()/2.0f;
     rightCorners[0].y = AVATAR_SSHRINK*getHeight()/2.0f;
     rightCorners[1].x = getWidth()/2.0f;
     rightCorners[1].y = -AVATAR_SSHRINK*getHeight()/2.0f;
-    rightCorners[2].x = AVATAR_SSHRINK*(getWidth()+SENSOR_HEIGHT)/2.0f;
+    rightCorners[2].x = getWidth()/2.0f+SENSOR_HEIGHT;
     rightCorners[2].y = -AVATAR_SSHRINK*getHeight()/2.0f;
-    rightCorners[3].x = AVATAR_SSHRINK*(getWidth()+SENSOR_HEIGHT)/2.0f;
+    rightCorners[3].x = getWidth()/2.0f+SENSOR_HEIGHT;
     rightCorners[3].y = AVATAR_SSHRINK*getHeight()/2.0f;
     
-    b2PolygonShape sensorShape;
-    sensorShape.Set(rightCorners,4);
+    createSensor(_rightSensorFixture, rightCorners, getRightSensorName());
     
-    rightSensorDef.shape = &sensorShape;
-    _sensorFixture = _body->CreateFixture(&rightSensorDef);
-    _sensorFixture->SetUserData(getRightSensorName());
+    // Top Sensor Definition
+    b2Vec2 topCorners[4];
+    topCorners[0].x = -AVATAR_SSHRINK*getWidth()/2.0f;
+    topCorners[0].y = getHeight()/2.0f+SENSOR_HEIGHT;
+    topCorners[1].x = -AVATAR_SSHRINK*getWidth()/2.0f;
+    topCorners[1].y = getHeight()/2.0f;
+    topCorners[2].x = AVATAR_SSHRINK*getWidth()/2.0f;
+    topCorners[2].y = getHeight()/2.0f;
+    topCorners[3].x = AVATAR_SSHRINK*getWidth()/2.0f;
+    topCorners[3].y = getHeight()/2.0f+SENSOR_HEIGHT;
+    
+    createSensor(_topSensorFixture, topCorners, getTopSensorName());
+    
+    // Bottom Sensor Definition
+    b2Vec2 bottomCorners[4];
+    bottomCorners[0].x = -AVATAR_SSHRINK*getWidth()/2.0f;
+    bottomCorners[0].y = -getHeight()/2.0f;
+    bottomCorners[1].x = -AVATAR_SSHRINK*getWidth()/2.0f;
+    bottomCorners[1].y = -getHeight()/2.0f-SENSOR_HEIGHT;
+    bottomCorners[2].x = AVATAR_SSHRINK*getWidth()/2.0f;
+    bottomCorners[2].y = -getHeight()/2.0f-SENSOR_HEIGHT;
+    bottomCorners[3].x = AVATAR_SSHRINK*getWidth()/2.0f;
+    bottomCorners[3].y = -getHeight()/2.0f;
+    
+    createSensor(_bottomSensorFixture, bottomCorners, getBottomSensorName());
 }
 
 /**
@@ -252,9 +266,21 @@ void AvatarModel::releaseFixtures() {
     }
     
     CapsuleObstacle::releaseFixtures();
-    if (_sensorFixture != nullptr) {
-        _body->DestroyFixture(_sensorFixture);
-        _sensorFixture = nullptr;
+    if (_leftSensorFixture != nullptr) {
+        _body->DestroyFixture(_leftSensorFixture);
+        _leftSensorFixture = nullptr;
+    }
+    if (_rightSensorFixture != nullptr) {
+        _body->DestroyFixture(_rightSensorFixture);
+        _rightSensorFixture = nullptr;
+    }
+    if (_topSensorFixture != nullptr) {
+        _body->DestroyFixture(_topSensorFixture);
+        _topSensorFixture = nullptr;
+    }
+    if (_bottomSensorFixture != nullptr) {
+        _body->DestroyFixture(_bottomSensorFixture);
+        _bottomSensorFixture = nullptr;
     }
 }
 
@@ -321,6 +347,3 @@ void AvatarModel::resetDebugNode() {
     _sensorNode->setPosition(Vec2(_debug->getContentSize().width/2.0f, 0.0f));
     _debug->addChild(_sensorNode);
 }
-
-
-

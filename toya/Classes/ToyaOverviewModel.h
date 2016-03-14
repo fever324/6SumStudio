@@ -5,9 +5,13 @@
 #include <cstdio>
 #include <ctime>
 #include "ui/CocosGUI.h"
+#include "ToyaGameController.h"
 #include <Cornell/CUTimestamp.h>
 
+
 using namespace cocos2d;
+
+class GameController;
 
 #pragma mark -
 #pragma mark Overview Model
@@ -28,11 +32,14 @@ private:
     timestamp_t startTime;
     timestamp_t endTime;
     
+    GameController* gameController;
+    
     double getCurrentDuration();
     
     
 protected:
-    
+
+
     
 public:
     
@@ -98,6 +105,7 @@ CC_CONSTRUCTOR_ACCESS:
     double getCurrentPlayTime();
     
     void setEndTime(timestamp_t t){ endTime = t;}
+    void setGameController(GameController* gc) { gameController = gc;}
     
 #pragma mark - 
 #pragma mark Event Listeners

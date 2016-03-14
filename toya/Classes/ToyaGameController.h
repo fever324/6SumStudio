@@ -18,7 +18,7 @@
 #include "ToyaBlockModel.h"
 #include "ToyaAvatarModel.h"
 #include "ToyaOverviewModel.h"
-
+#include "ToyaPanelModel.h"
 
 using namespace cocos2d;
 using namespace std;
@@ -34,6 +34,7 @@ using namespace std;
  * game root (which has scaled the scene graph to fix the device with the
  * desired aspect ratio).
  */
+class OverviewModel;
 class GameController {
 protected:
     /** The scene manager for this game demo */
@@ -63,11 +64,17 @@ protected:
     
     // Physics objects for the game
     /** Reference to the goalDoor (for collision detection) */
-    BoxObstacle* _goalDoor;
+    BlockModel* _goalDoor;
+
+    BlockModel* _door;
+
+    BlockModel* _barrier;
     /** Reference to the player avatar */
     AvatarModel* _avatar;
     
     OverviewModel* _overview;
+    
+    PanelModel* _panel;
     
     /** Whether or note this game is still active */
     bool _active;
