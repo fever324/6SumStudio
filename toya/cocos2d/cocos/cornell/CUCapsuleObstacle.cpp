@@ -181,9 +181,10 @@ bool CapsuleObstacle::init(const Vec2& pos, const Size& size, CapsuleObstacle::O
  */
 bool CapsuleObstacle::resize(const Size& size) {
     _dimension = size;
-    if (size.width < size.height &&
-        (_orient == Orientation::LEFT || _orient == Orientation::RIGHT || _orient == Orientation::HORIZONTAL)) {
-        return false;
+    if (size.width < size.height && isHorizontal(_orient)) {
+        _orient = Orientation::VERTICAL;    // OVERRIDE
+    } else if (size.width > size.height && !isHorizontal(_orient)) {
+        _orient = Orientation::HORIZONTAL;  // OVERRIDE
     }
     
     // Get an AABB for the core
@@ -234,7 +235,16 @@ bool CapsuleObstacle::resize(const Size& size) {
             _center.upperBound.y -= _seamEpsilon;
             break;
     }
-    
+    // Handle degenerate polys
+    if (_center.lowerBound.x == _center.upperBound.x) {
+        _center.lowerBound.x -= _seamEpsilon;
+        _center.upperBound.x += _seamEpsilon;
+    }
+    if (_center.lowerBound.y == _center.upperBound.y) {
+        _center.lowerBound.y -= _seamEpsilon;
+        _center.upperBound.y += _seamEpsilon;
+    }
+
     // Make the box for the core
     b2Vec2 corners[4];
     corners[0].x = _center.lowerBound.x;

@@ -332,8 +332,8 @@ LOCAL_MODULE_FILENAME := libcocos2d
 LOCAL_STATIC_LIBRARIES := cocostudio_static
 LOCAL_STATIC_LIBRARIES += cocosbuilder_static
 LOCAL_STATIC_LIBRARIES += cocos3d_static
-LOCAL_STATIC_LIBRARIES += spine_static
 LOCAL_STATIC_LIBRARIES += cocos_network_static
+LOCAL_STATIC_LIBRARIES += spine_static
 
 include $(BUILD_STATIC_LIBRARY)
 #==============================================================

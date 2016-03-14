@@ -239,6 +239,16 @@ public:
      */
     bool setOrientation(Orientation value);
 
+    /**
+     * Returns true if the orientation is a horizontal full or half capsule.
+     *
+     * @param value the orientation to check
+     *
+     * @return true if the orientation is a horizontal full or half capsule.
+     */
+    static bool isHorizontal(Orientation value) {
+        return (value == Orientation::LEFT || value == Orientation::RIGHT || value == Orientation::HORIZONTAL);
+    }
     
 #pragma mark -
 #pragma mark Physics Methods

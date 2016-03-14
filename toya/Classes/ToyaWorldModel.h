@@ -40,6 +40,7 @@ protected:
     Node* _debugnode;
     /** Reference to the win message label */
     Label* _winnode;
+    Label* _failnode;
     
     /** the size of the world **/
     Vec2 _size;
@@ -175,10 +176,15 @@ public:
     void clear();
     
     void addObstacle(Obstacle* obj, int zOrder);
+    void removeObstacle(Obstacle* obj);
+    
+    void addToWorldNode(PolygonNode* node, int priority);
     
     void setDebug(bool value);
     
     void setWin(bool value);
+
+    void setFail(bool value);
     
     
 CC_CONSTRUCTOR_ACCESS:

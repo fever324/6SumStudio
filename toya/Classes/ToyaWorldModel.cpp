@@ -130,13 +130,21 @@ bool WorldModel::init(const Size& root,const Vec2& size, const Vec2& anchor) {
     _worldnode = Node::create();
     _debugnode = Node::create();
     _winnode = Label::create();
+    _failnode = Label::create();
 
     _winnode->setString("VICTORY!");
+    _failnode->setString("GAME OVER");
     
     _winnode->setColor(DEBUG_COLOR);
+    //TODO: change color
+    _failnode->setColor(DEBUG_COLOR);
     _winnode->setVisible(false);
     
+    _failnode->setVisible(false);
+    
     _winnode->setPosition(root.width/2.0f,root.height/2.0f);
+    
+    _failnode->setPosition(root.width/2.0f,root.height/2.0f);
     
     _worldnode->setContentSize(root);
     _worldnode->setAnchorPoint(anchor);
@@ -186,8 +194,20 @@ void WorldModel::setWin(bool value){
     _winnode->setVisible(value);
 }
 
+void WorldModel::setFail(bool value){
+    _failnode->setVisible(value);
+}
+
 void WorldModel::setAnchor(const Vec2& anchor){
     _worldnode->setAnchorPoint(anchor);
+}
+
+void WorldModel::addToWorldNode(PolygonNode* node, int priority){
+    _worldnode->addChild(node, priority);
+}
+
+void WorldModel::removeObstacle(Obstacle* obj){
+    _world->removeObstacle(obj);
 }
 
 #pragma mark -

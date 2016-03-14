@@ -31,7 +31,7 @@
 #define ACCELEROM_FACTOR  200.0f
 
 /** Adjustment factor for touch input */
-#define KEY_ADJUST_FACTOR          1.0f
+#define KEY_ADJUST_FACTOR  1.0f
 // Key board rotation degree increment
 #define KEYBOARD_ROTATION_INCREMENT 1.0f
 // maxium rotation degree
@@ -312,74 +312,28 @@ bool InputController::checkRotate(timestamp_t current) {
     
     float temp = 0;
     
-//    CCLOG("t1 start pos: %f, %f",_touch1.start.x,_touch1.start.y);
-//    CCLOG("t1 end pos: %f, %f",_touch1.stop.x,_touch1.stop.y);
-    
     if ( _touch1.start.x < _touch2.start.x ){
         // t1 on the left
-//        CCLOG("Left first touch");
         
         // initial angle
-        float angle0 = atanf( (_touch2.start.y - _touch1.start.y) / (_touch2.start.x - _touch1.start.x) ) * 180/3.1415;
-        
-//        CCLOG("initial angle: %f",angle0);
+        float angle0 = atanf( (_touch2.start.y - _touch1.start.y) / (_touch2.start.x - _touch1.start.x) ) * 180/M_PI;
         
         // end angle
-        float angle1 = atanf( (_touch2.stop.y - _touch1.stop.y) / (_touch2.stop.x - _touch1.stop.x) ) * 180/3.1415;
+        float angle1 = atanf( (_touch2.stop.y - _touch1.stop.y) / (_touch2.stop.x - _touch1.stop.x) ) * 180/M_PI;
         
-//        CCLOG("end angle: %f",angle1);
+        // temporary turning
+        temp = angle0 - angle1;
         
-        if ( _touch1.start.y < _touch2.start.y ) {
-//            CCLOG("Left touch point below right touch");
-            // t1 below t2
-            if ( _touch1.start.y < _touch1.stop.y ){
-                // clockwise
-                temp = angle0 - angle1;
-            } else {
-                // anti clockwise
-                temp = angle0 - angle1;
-            }
-        } else {
-            // t1 above t2
-//            CCLOG("Left touch point above right touch");
-            
-            if ( _touch1.start.y < _touch1.stop.y ){
-                // clockwise
-                temp = angle0 - angle1;
-            } else {
-                // anti clockwise
-                temp = angle0 - angle1;
-            }
-        }
     } else {
         // t1 on the right
-        CCLOG("right first touch");
         
         // initial angle
-        float angle0 = atanf( (_touch1.start.y - _touch2.start.y) / (_touch1.start.x - _touch2.start.x) ) * 180/3.1415;
+        float angle0 = atanf( (_touch1.start.y - _touch2.start.y) / (_touch1.start.x - _touch2.start.x) ) * 180/M_PI;
         // end angle
-        float angle1 = atanf( (_touch1.stop.y - _touch2.stop.y) / (_touch1.start.x - _touch2.stop.x) ) * 180/3.1415;
+        float angle1 = atanf( (_touch1.stop.y - _touch2.stop.y) / (_touch1.start.x - _touch2.stop.x) ) * 180/M_PI;
         
-        if ( _touch2.start.y < _touch1.start.y ) {
-            // t2 below t1
-            if ( _touch2.start.y < _touch2.stop.y ){
-                // clockwise
-                temp = angle0 - angle1;
-            } else {
-                // anti clockwise
-                temp = angle0 - angle1;
-            }
-        } else {
-            // t2 above t1
-            
-            if ( _touch2.start.y < _touch2.stop.y ){
-                // clockwise
-                temp = angle0 - angle1;
-            } else {
-                // anti clockwise
-                temp = angle0 - angle1;
-            }
-        }
+        // temporary turning
+        temp = angle0 - angle1;
     }
     
     _touch1.start = _touch1.stop;
@@ -391,7 +345,6 @@ bool InputController::checkRotate(timestamp_t current) {
     }
     _rotateTime = current;
     _turning = 0.0f;
-    CCLOG("No turning this time");
     return false;
 }
 
