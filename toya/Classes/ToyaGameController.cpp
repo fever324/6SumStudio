@@ -25,9 +25,9 @@ using namespace std;
 #pragma mark Level Geography
 
 /** Width of the game world in Box2d units */
-#define DEFAULT_WIDTH   32.0f
+#define DEFAULT_WIDTH   64.0
 /** Height of the game world in Box2d units */
-#define DEFAULT_HEIGHT  18.0f
+#define DEFAULT_HEIGHT  36.0
 /** The default value of gravity (going down) */
 #define DEFAULT_GRAVITY -8.0f
 
@@ -35,25 +35,13 @@ using namespace std;
 #define NUM_CRATES 2
 
 
-float WALL1[] = { 0.0f, 18.0f, 32.0f, 18.0f, 32.0f, 17.0f,
-    1.0f, 17.0f, 1.0f, 1.0f,  31.0f, 1.0f, 31.0f, 17.0f,
-    32.0f, 17.0f, 32.0f, 0.0f, 0.0f,0.0f};
+float WALL1[] = { 0.0f, 36.0f,  64.0f, 36.0f,   64.0f, 31.0f,
+    5.0f, 31.0f, 5.0f, 5.0f,  59.0f, 5.0f,   59.0f, 31.0f,
+    59.0f, 31.0f,   59.0f, 0.0f, 0.0f,0.0f};
 
-
-
-//float WALLS[][] = {
-//    {1.0f,15.0f,  9.0f,15.0f,  9.0f, 14.5f,  1.0f, 14.5f },
-//    {10.0f, 12.0f,  16.0f, 12.0f,  16.0f,11.5f,  10.0f, 11.5f},
-//    {14.0f,6.5f,  7.0f,6.5f, 2.0f,11.5f,  1.0f,11.5f, 7.0f,6.0f, 14.0f,6.0f}
-//};
-//
-//float RWALLS[][] = {
-//    {15.0f, 11.0f,  15.0f, 16.0f,  16.0f,16.0f,  16.0f, 11.0f}
-//}
-
-float WALL2[] = {1.0f,15.0f,   14.0f,15.0f,  14.0f, 14.0f,  1.0f, 14.0f };
-float WALL3[] = {15.0f,12.0f,  26.0f,12.0f, 26.0f,11.0f,  15.0f,11.0f};
-float WALL4[] = {14.0f,6.5f,   7.0f,6.5f,   5.0f,7.5f,   3.0f,7.5f,  6.0f,5.5f,  14.0f,5.5f};
+float WALL2[] = {5.0f,15.0f,   18.0f,15.0f,  18.0f, 14.0f,  5.0f, 14.0f };
+float WALL3[] = {19.0f,12.0f,  30.0f,12.0f, 30.0f,11.0f,  19.0f,11.0f};
+float WALL4[] = {20.0f,6.5f,   13.0f,6.5f,   11.0f,7.5f,   9.0f,7.5f,  12.0f,5.5f,  20.0f,5.5f};
 
 float WALL5[] = {25.0f, 11.0f,  25.0f, 16.0f,  26.0f,16.0f,  26.0f, 11.0f};
 
@@ -69,11 +57,11 @@ float BOXES[] = { 14.5f, 14.25f,
 //vector<float> tmp(WALL2,WALL2+8);
 
 /** The initial avatar position */
-float AVATAR_POS[] = {1, 17};
+float AVATAR_POS[] = {5.0, 28.0};
 /** The goal door position */
-float GOAL_POS[] = {31.5, 2.5};
+float GOAL_POS[] = {31.0, 6.5};
 /** The goal door position2 */
-float DOOR_POS[] = {31.4, 2.4};
+float DOOR_POS[] = {31.0, 6.4};
 /** The barrier position */
 float BARRIER_POS[] = {15.0, 7.0};
 
@@ -221,12 +209,15 @@ bool GameController::init(RootLayer* root, const Rect& rect, const Vec2& gravity
     // set text config ffor winnodw
     // TODO: move this part to WorldModel too.
     Label* winnode = _theWorld->getWinNode();
+    Label* failnode = _theWorld->getFailNode();
     winnode->setTTFConfig(_assets->get<TTFont>(PRIMARY_FONT)->getTTF());
+    failnode->setTTFConfig(_assets->get<TTFont>(PRIMARY_FONT)->getTTF());
     
     
     root->addChild(_theWorld->getWorldNode(),0);
     root->addChild(_theWorld->getDebugNode(),1);
     root->addChild(winnode,3);
+    root->addChild(failnode,3);
 
     
     world->onBeginContact = [this](b2Contact* contact) {
@@ -236,8 +227,8 @@ bool GameController::init(RootLayer* root, const Rect& rect, const Vec2& gravity
         beforeSolve(contact,oldManifold);
     };
     
-    _scale.set(root->getContentSize().width/rect.size.width,
-               root->getContentSize().height/rect.size.height);
+    _scale.set(root->getContentSize().width/32.0f,
+               root->getContentSize().height/18.0f);
     
     _rootnode = root;
     
@@ -578,8 +569,6 @@ void GameController::update(float dt) {
         _rootnode->shutdown();
     }
     if(_input.didRotate()) {
-        CCLOG("Origin Rotation: %f",_theWorld->getRotation());
-        CCLOG("New turning: %f",_input.getTurning());
         
         float cRotation = _theWorld->getRotation() + _input.getTurning();
         
@@ -592,8 +581,12 @@ void GameController::update(float dt) {
         Vec2 newGravity = _input.getGravity(gravity,cRotation);
         
         _theWorld->setGravity(newGravity);
-        
     }
+    
+    //    update world position
+    Vec2 pos = _avatar->getPosition();
+    _theWorld->setWorldPos(pos);
+    
     // Apply the force to the rocket // Hongfei TODO
     _avatar->update(dt);
     // Turn the physics engine crank.
@@ -627,15 +620,14 @@ void GameController::beginContact(b2Contact* contact) {
     // If the avatar hits the barrier, game over
     if((body1->GetUserData() == _avatar && body2->GetUserData() == _barrier) ||
             (body1->GetUserData() == _barrier && body2->GetUserData() == _avatar)) {
-        setComplete(true);
-        printf("You Fail! ");
+        setFail(true);
     }
     
     
     // If we hit the "win" door, we are done
     if((body1->GetUserData() == _avatar && body2->GetUserData() == _goalDoor) ||
        (body1->GetUserData() == _goalDoor && body2->GetUserData() == _avatar)) {
-        addObstacle(_door, 3);
+//        addObstacle(_door, 3);
         setComplete(true);
 //        _avatar->setLinearVelocity(Vec2(0.0f, 0.0f));
         // TODO: pause it

@@ -23,8 +23,8 @@ using namespace cocos2d;
 /** The default texture for the the world background */
 #define WORLD_TEXTURE    "sky"
 /** The default size of the world **/
-#define WORLD_WIDTH 32.0f
-#define WORLD_HEIGHT 18.0f
+#define WORLD_WIDTH 64.0f
+#define WORLD_HEIGHT 36.0f
 /** The default initial anchor point of the world, center of the camera view **/
 #define ANCHOR_POINT 0.5
 /** Debug color for the sensor */
@@ -123,6 +123,9 @@ bool WorldModel::init(const Size& root, const Vec2& size) {
 
 bool WorldModel::init(const Size& root,const Vec2& size, const Vec2& anchor) {
 
+    // define the scale
+    _scale.set(root.width/32.0f,root.height/18.0f);
+    
     _world = WorldController::create(Rect(0, 0, size.x, size.y), Vec2(0, WORLD_GRAVITY));
     _world->retain();
     _world->activateCollisionCallbacks(true);
@@ -148,10 +151,18 @@ bool WorldModel::init(const Size& root,const Vec2& size, const Vec2& anchor) {
     
     _worldnode->setContentSize(root);
     _worldnode->setAnchorPoint(anchor);
-    _worldnode->setPosition(root.width/2.0f,root.height/2.0f);
+    
+    // make sure that anchor point doesn't affect the position.
+    _worldnode->ignoreAnchorPointForPosition(true);
+    
+    _worldnode->setPosition(0.0f*_scale.x,(18.0f-WORLD_HEIGHT)*_scale.y);
+    
     
     _debugnode->setPosition(Vec2(root.width/4.0f,root.height/4.0f));
-    _debugnode->setScale(0.5f);
+    
+    // scale the debugnode to half size of the screen
+    _debugnode->setScale(0.5f / (WORLD_WIDTH / 32.0f));
+
 
     return true;
 }
@@ -173,10 +184,10 @@ void WorldModel::update(float dt){
 }
 
 void WorldModel::clear(){
-    _world->clear();
+//    _world->clear();
     _worldnode->removeAllChildren();
     _debugnode->removeAllChildren();
-    _world->release();
+//    _world->release();
 }
 
 void WorldModel::addObstacle(Obstacle* obj, int zOrder){
@@ -211,6 +222,22 @@ void WorldModel::addToWorldNode(PolygonNode* node, int priority){
 
 void WorldModel::removeObstacle(Obstacle* obj){
     _world->removeObstacle(obj);
+}
+
+void WorldModel::setWorldPos(Obstacle* obj){
+//    _worldnode->setPosition(pos.x,pos.y);
+    Follow* follow = new Follow();
+    follow->initWithTarget(obj->getSceneNode());
+    _worldnode->runAction(follow);
+}
+
+void WorldModel::setWorldPos(Vec2& pos){
+//        CCLOG("%f,%f",pos.x*_scale.x,pos.y*_scale.y);
+//    if ( pos.x*_scale.x > _rootnode->getContentSize().width / 2 && pos.y*_scale.y < _rootnode->getContentSize().height / 2){
+//        pos.x = pos.x*_scale.x > _rootnode->getContentSize().width / 2 ? pos.x*_scale.x : _rootnode->getContentSize().width / 2;
+//        pos.y = pos.y*_scale.y < _rootnode->getContentSize().height / 2 ? pos.y*_scale.y : _rootnode->getContentSize().height / 2;
+//    }
+//    _worldnode->setPosition(pos);
 }
 
 #pragma mark -

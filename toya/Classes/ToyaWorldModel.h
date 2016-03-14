@@ -45,6 +45,9 @@ protected:
     /** the size of the world **/
     Vec2 _size;
     
+//    scale
+    Vec2 _scale;
+    
     /** the anchor point of the world **/
     Vec2 _anchor;
     
@@ -107,6 +110,7 @@ public:
     WorldController* getWorld() const { return _world; }
     Node* getWorldNode() const { return _worldnode; }
     Label* getWinNode() const { return _winnode; }
+    Label* getFailNode() const { return _failnode; }
     Node* getDebugNode() const { return _debugnode; }
     
     
@@ -185,6 +189,9 @@ public:
     void setWin(bool value);
 
     void setFail(bool value);
+    
+    void setWorldPos(Obstacle* obj);
+    void setWorldPos(Vec2& pos);
     
     
 CC_CONSTRUCTOR_ACCESS:

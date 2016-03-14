@@ -23,13 +23,13 @@ using namespace cocos2d;
 #pragma mark -
 #pragma mark Physics Constants
 /** The initial speed of avatar **/
-#define AVATAR_INITIAL_SPEED 2.0f
+#define AVATAR_INITIAL_SPEED 3.0f
 /** The factor to multiply by the input */
 #define AVATAR_FORCE    1.0f
 /** The amount to slow the character down */
 #define AVATAR_DAMPING    5.0f
 /** The maximum character speed */
-#define AVATAR_MAXSPEED    2.0f
+#define AVATAR_MAXSPEED    10.0f
 /** Identifier to allow us to track the sensor in ContactListener */
 #define LEFT_SENSOR_NAME    "avatarLeftSensor"
 #define RIGHT_SENSOR_NAME    "avatarRightSensor"

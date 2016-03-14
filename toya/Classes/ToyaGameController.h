@@ -72,6 +72,8 @@ protected:
     /** Reference to the player avatar */
     AvatarModel* _avatar;
     
+    AvatarModel* _avatarShadow;
+    
     OverviewModel* _overview;
     
     PanelModel* _panel;
@@ -185,7 +187,7 @@ public:
      *
      * @param value whether debug mode is active.
      */
-    void setDebug(bool value) { CCLOG("asd");_debug = value; _theWorld->setDebug(value); }
+    void setDebug(bool value) { _debug = value; _theWorld->setDebug(value); }
     
     /**
      * Returns true if the level is completed.
@@ -204,6 +206,9 @@ public:
      * @param value whether the level is completed.
      */
     void setComplete(bool value) { _complete = value; _theWorld->setWin(value); }
+    
+    void setFail(bool value) { _complete = value; _theWorld->setFail(value); }
+    
     
     
 #pragma mark -
