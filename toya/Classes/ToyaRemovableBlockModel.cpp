@@ -33,7 +33,7 @@ using namespace cocos2d;
  * @return  An autoreleased physics object
  */
 
-static RemovableBlockModel* create(const Vec2& pos, const Vec2& scale, const String& texture, const int& state) {
+static RemovableBlockModel* create(const Vec2& pos, const Vec2& scale, const std::string& texture, const int& state) {
     
 //    RemovableBlockModel* bm = new (std::nothrow) RemovableBlockModel(const Vec2& pos, const Vec2& scale, const String& texture);
 //    

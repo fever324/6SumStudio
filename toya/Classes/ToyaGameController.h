@@ -18,7 +18,7 @@
 #include "ToyaBlockModel.h"
 #include "ToyaAvatarModel.h"
 #include "ToyaOverviewModel.h"
-
+#include "ToyaPanelModel.h"
 
 using namespace cocos2d;
 using namespace std;
@@ -70,6 +70,8 @@ protected:
     AvatarModel* _avatar;
     
     OverviewModel* _overview;
+    
+    PanelModel* _panel;
     
     /** Whether or note this game is still active */
     bool _active;

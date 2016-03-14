@@ -251,6 +251,9 @@ bool GameController::init(RootLayer* root, const Rect& rect, const Vec2& gravity
     // overview panel
     _overview = OverviewModel::create(Vec2(root->getContentSize().width,root->getContentSize().height), inputscale);
     root->addChild(_overview,3);
+    
+    _panel = PanelModel::create(Vec2(0,root->getContentSize().height));
+    root->addChild(_panel, 3);
 
     return true;
 }

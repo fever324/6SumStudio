@@ -17,14 +17,8 @@
 
 using namespace cocos2d;
 
-
-#pragma mark -
-#pragma mark Drawing Constants
 /** The texture for the character avatar */
 #define AVATAR_TEXTURE    "avatar"
-/** Identifier to allow us to track the sensor in ContactListener */
-#define LEFT_SENSOR_NAME    "avatarLeftSensor"
-#define RIGHT_SENSOR_NAME    "avatarRightSensor"
 
 #pragma mark -
 #pragma mark Physics Constants
@@ -36,6 +30,11 @@ using namespace cocos2d;
 #define AVATAR_DAMPING    5.0f
 /** The maximum character speed */
 #define AVATAR_MAXSPEED    2.0f
+/** Identifier to allow us to track the sensor in ContactListener */
+#define LEFT_SENSOR_NAME    "avatarLeftSensor"
+#define RIGHT_SENSOR_NAME    "avatarRightSensor"
+#define TOP_SENSOR_NAME    "avatarTopSensor"
+#define BOTTOM_SENSOR_NAME    "avatarBottomSensor"
 
 #pragma mark -
 #pragma mark Avatar Model
@@ -59,12 +58,17 @@ protected:
     bool _faceRight;
     /** Whether our feet are on the ground */
     bool _isGrounded;
-    /** Ground sensor to represent our feet */
-    b2Fixture*  _sensorFixture;
     /** Reference to the sensor name (since a constant cannot have a pointer) */
     std::string _leftSensorName;
     std::string _rightSensorName;
-/** The node for debugging the sensor */
+    std::string _topSensorName;
+    std::string _bottomSensorName;
+    /** Sensors to detect collision. */
+    b2Fixture*  _leftSensorFixture;
+    b2Fixture*  _rightSensorFixture;
+    b2Fixture*  _topSensorFixture;
+    b2Fixture*  _bottomSensorFixture;
+    /** The node for debugging the sensor */
     WireNode* _sensorNode;
     
     /** The texture filmstrip for the avatar */
@@ -203,7 +207,8 @@ public:
      */
     std::string* getLeftSensorName() { return &_leftSensorName; }
     std::string* getRightSensorName() { return &_rightSensorName; }
-    
+    std::string* getTopSensorName() { return &_topSensorName; }
+    std::string* getBottomSensorName() { return &_bottomSensorName; }
     
     /**
      * Returns true if this avatar is facing right
@@ -341,6 +346,10 @@ CC_CONSTRUCTOR_ACCESS:
      * @param  strip    the texture (key) for this rocket
      */
     void setAvatarTexture(std::string strip) { _avatarTexture = strip; }
+    
+private:
+    void createSensor(b2Fixture* sensorFixture, b2Vec2 corners[], std::string* sensorName);
+    
 };
 
 #endif /* defined(__TOYA_AVATAR_MODEL_H__) */
