@@ -72,6 +72,8 @@ float BOXES[] = { 14.5f, 14.25f,
 float AVATAR_POS[] = {1, 17};
 /** The goal door position */
 float GOAL_POS[] = {31.5, 2.5};
+/** The goal door position2 */
+float DOOR_POS[] = {31.4, 2.4};
 
 #pragma mark Assset Constants
 /** The key for the earth texture in the asset manager */
@@ -319,7 +321,7 @@ void GameController::populate() {
     sprite = PolygonNode::createWithTexture(image);
     Size goalSize(image->getContentSize().width/_scale.x,
                   image->getContentSize().height/_scale.y);
-    _goalDoor = BoxObstacle::create(goalPos,goalSize/6);
+    _goalDoor = BlockModel::create(goalPos,goalSize/6);
     _goalDoor->setDrawScale(_scale.x, _scale.y);
     
     // Set the physics attributes
@@ -339,6 +341,31 @@ void GameController::populate() {
     draw->setOpacity(DEBUG_OPACITY);
     _goalDoor->setDebugNode(draw);
     addObstacle(_goalDoor, 2); // Put this at the very back
+
+    //
+    Texture2D* image2 = _assets->get<Texture2D>(BEAR_TEXTURE);
+    PolygonNode* sprite2;
+
+    Vec2 doorPos = ((Vec2)DOOR_POS);
+    sprite2 = PolygonNode::createWithTexture(image2);
+    Size doorSize(image2->getContentSize().width/_scale.x, image2->getContentSize().height/_scale.y);
+    BlockModel* _door = BlockModel::create(doorPos, doorSize);
+    _door->setDrawScale(_scale.x, _scale.y);
+
+    //
+    _door->setBodyType(b2_staticBody);
+    _door->setDensity(0.0f);
+    _door->setFriction(0.0f);
+    _door->setRestitution(0.0f);
+    _door->setSensor(true);
+
+    sprite2 = PolygonNode::createWithTexture(image2);
+    sprite2->setScale(cscale/2);
+    _door->setSceneNode(sprite2);
+
+    // addObstacle(_door, 3);
+
+
     
     
 #pragma mark : Wall polygon 1
@@ -577,6 +604,7 @@ void GameController::beginContact(b2Contact* contact) {
     // If we hit the "win" door, we are done
     if((body1->GetUserData() == _avatar && body2->GetUserData() == _goalDoor) ||
        (body1->GetUserData() == _goalDoor && body2->GetUserData() == _avatar)) {
+        addObstacle(_door, 3);
         setComplete(true);
 //        _avatar->setLinearVelocity(Vec2(0.0f, 0.0f));
         // TODO: pause it
