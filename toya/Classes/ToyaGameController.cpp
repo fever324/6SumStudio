@@ -208,8 +208,6 @@ bool GameController::init(RootLayer* root, const Rect& rect, const Vec2& gravity
     _input.init();
     _input.start();
     
-    CCLOG("Scale is %.3f, %.3f",root->getContentSize().width,root->getContentSize().height);
-
     _theWorld = WorldModel::create(root->getContentSize());
     
     // Create the scene graph
@@ -236,7 +234,6 @@ bool GameController::init(RootLayer* root, const Rect& rect, const Vec2& gravity
     
     _scale.set(root->getContentSize().width/rect.size.width,
                root->getContentSize().height/rect.size.height);
-    CCLOG("Scale is %.3f, %.3f",root->getContentSize().width,root->getContentSize().height);
     
     _rootnode = root;
     
@@ -248,6 +245,7 @@ bool GameController::init(RootLayer* root, const Rect& rect, const Vec2& gravity
     
     // overview panel
     _overview = OverviewModel::create(Vec2(root->getContentSize().width,root->getContentSize().height), inputscale);
+    _overview->setGameController(this);
     root->addChild(_overview,3);
 
     return true;
@@ -518,9 +516,8 @@ void GameController::addObstacle(Obstacle* obj, int zOrder) {
  */
 void GameController::update(float dt) {
     _input.update(dt);
-    
+
     // Process the toggled key commands
-    if (_input.didDebug()) { setDebug(!isDebug()); }
     if (_input.didReset()) { reset(); }
     if (_input.didExit())  {
         CCLOG("Shutting down");
