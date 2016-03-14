@@ -141,7 +141,8 @@ _goalDoor(nullptr),
 _avatar(nullptr),
 _active(false),
 _complete(false),
-_debug(false)
+_debug(false),
+_overview(nullptr)
 {
 }
 
@@ -244,6 +245,11 @@ bool GameController::init(RootLayer* root, const Rect& rect, const Vec2& gravity
     _active = true;
     _complete = false;
     setDebug(false);
+    
+    // overview panel
+    _overview = OverviewModel::create(Vec2(root->getContentSize().width,root->getContentSize().height), inputscale);
+    root->addChild(_overview,3);
+
     return true;
 }
 

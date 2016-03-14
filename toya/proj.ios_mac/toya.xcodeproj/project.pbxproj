@@ -11,68 +11,6 @@
 		1AC6FB30180E99EB004C840B /* libcocos2d iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AC6FB07180E9839004C840B /* libcocos2d iOS.a */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765A40DF7441C002DB57D /* CoreGraphics.framework */; };
-		2B47DA971C95AFBC003B2491 /* ToyaBarrierModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2B47DA811C95AFBC003B2491 /* ToyaBarrierModel.cpp */; };
-		2B47DA981C95AFBC003B2491 /* ToyaExitDoorModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2B47DA831C95AFBC003B2491 /* ToyaExitDoorModel.cpp */; };
-		2B47DA991C95AFBC003B2491 /* ToyaGameProgressModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2B47DA851C95AFBC003B2491 /* ToyaGameProgressModel.cpp */; };
-		2B47DA9A1C95AFBC003B2491 /* ToyaGameView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2B47DA871C95AFBC003B2491 /* ToyaGameView.cpp */; };
-		2B47DA9B1C95AFBC003B2491 /* ToyaMenuModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2B47DA891C95AFBC003B2491 /* ToyaMenuModel.cpp */; };
-		2B47DA9C1C95AFBC003B2491 /* ToyaMenuView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2B47DA8B1C95AFBC003B2491 /* ToyaMenuView.cpp */; };
-		2B47DA9D1C95AFBC003B2491 /* ToyaOverviewModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2B47DA8D1C95AFBC003B2491 /* ToyaOverviewModel.cpp */; };
-		2B47DA9E1C95AFBC003B2491 /* ToyaPanelModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2B47DA8F1C95AFBC003B2491 /* ToyaPanelModel.cpp */; };
-		2B47DA9F1C95AFBC003B2491 /* ToyaProgressController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2B47DA911C95AFBC003B2491 /* ToyaProgressController.cpp */; };
-		2B47DAA01C95AFBC003B2491 /* ToyaSceneController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2B47DA931C95AFBC003B2491 /* ToyaSceneController.cpp */; };
-		2B47DAA11C95AFBC003B2491 /* ToyaWorldModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2B47DA951C95AFBC003B2491 /* ToyaWorldModel.cpp */; };
-		2B47DAA41C95EDD3003B2491 /* ToyaWorldModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2B47DA951C95AFBC003B2491 /* ToyaWorldModel.cpp */; };
-		2B47DAA51C95EDD3003B2491 /* ToyaWorldModel.h in Sources */ = {isa = PBXBuildFile; fileRef = 2B47DA961C95AFBC003B2491 /* ToyaWorldModel.h */; };
-		2B47DAA61C95EDD3003B2491 /* ToyaAvatarModel.h in Sources */ = {isa = PBXBuildFile; fileRef = FB21ACDE1C82B52200613B39 /* ToyaAvatarModel.h */; };
-		2B47DAA71C95EDD3003B2491 /* ToyaBlockModel.h in Sources */ = {isa = PBXBuildFile; fileRef = FB21ACE01C82B52200613B39 /* ToyaBlockModel.h */; };
-		2B47DAA81C95EDD3003B2491 /* ToyaBarrierModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2B47DA811C95AFBC003B2491 /* ToyaBarrierModel.cpp */; };
-		2B47DAA91C95EDD3003B2491 /* ToyaBarrierModel.h in Sources */ = {isa = PBXBuildFile; fileRef = 2B47DA821C95AFBC003B2491 /* ToyaBarrierModel.h */; };
-		2B47DAAA1C95EDD3003B2491 /* ToyaExitDoorModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2B47DA831C95AFBC003B2491 /* ToyaExitDoorModel.cpp */; };
-		2B47DAAB1C95EDD3003B2491 /* ToyaExitDoorModel.h in Sources */ = {isa = PBXBuildFile; fileRef = 2B47DA841C95AFBC003B2491 /* ToyaExitDoorModel.h */; };
-		2B47DAAC1C95EDD3003B2491 /* ToyaGameProgressModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2B47DA851C95AFBC003B2491 /* ToyaGameProgressModel.cpp */; };
-		2B47DAAD1C95EDD3003B2491 /* ToyaGameProgressModel.h in Sources */ = {isa = PBXBuildFile; fileRef = 2B47DA861C95AFBC003B2491 /* ToyaGameProgressModel.h */; };
-		2B47DAAE1C95EDD3003B2491 /* ToyaPauseButtonModel.h in Sources */ = {isa = PBXBuildFile; fileRef = FB21ACE91C82B52200613B39 /* ToyaPauseButtonModel.h */; };
-		2B47DAAF1C95EDD3003B2491 /* ToyaRemovableBlockModel.h in Sources */ = {isa = PBXBuildFile; fileRef = FB21ACEB1C82B52200613B39 /* ToyaRemovableBlockModel.h */; };
-		2B47DAB01C95EDD3003B2491 /* ToyaSpellModel.h in Sources */ = {isa = PBXBuildFile; fileRef = FB21ACEC1C82B52200613B39 /* ToyaSpellModel.h */; };
-		2B47DAB11C95EDD3003B2491 /* ToyaMenuModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2B47DA891C95AFBC003B2491 /* ToyaMenuModel.cpp */; };
-		2B47DAB21C95EDD3003B2491 /* ToyaMenuModel.h in Sources */ = {isa = PBXBuildFile; fileRef = 2B47DA8A1C95AFBC003B2491 /* ToyaMenuModel.h */; };
-		2B47DAB31C95EDD3003B2491 /* ToyaOverviewModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2B47DA8D1C95AFBC003B2491 /* ToyaOverviewModel.cpp */; };
-		2B47DAB41C95EDD3003B2491 /* ToyaOverviewModel.h in Sources */ = {isa = PBXBuildFile; fileRef = 2B47DA8E1C95AFBC003B2491 /* ToyaOverviewModel.h */; };
-		2B47DAB51C95EDD3003B2491 /* ToyaPanelModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2B47DA8F1C95AFBC003B2491 /* ToyaPanelModel.cpp */; };
-		2B47DAB61C95EDD3003B2491 /* ToyaPanelModel.h in Sources */ = {isa = PBXBuildFile; fileRef = 2B47DA901C95AFBC003B2491 /* ToyaPanelModel.h */; };
-		2B47DAB71C95EDD9003B2491 /* ToyaGameView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2B47DA871C95AFBC003B2491 /* ToyaGameView.cpp */; };
-		2B47DAB81C95EDD9003B2491 /* ToyaGameView.h in Sources */ = {isa = PBXBuildFile; fileRef = 2B47DA881C95AFBC003B2491 /* ToyaGameView.h */; };
-		2B47DAB91C95EDD9003B2491 /* ToyaMenuView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2B47DA8B1C95AFBC003B2491 /* ToyaMenuView.cpp */; };
-		2B47DABA1C95EDD9003B2491 /* ToyaMenuView.h in Sources */ = {isa = PBXBuildFile; fileRef = 2B47DA8C1C95AFBC003B2491 /* ToyaMenuView.h */; };
-		2B47DABB1C95EDDF003B2491 /* ToyaInputController.h in Sources */ = {isa = PBXBuildFile; fileRef = FB21ACE61C82B52200613B39 /* ToyaInputController.h */; };
-		2B47DABC1C95EDDF003B2491 /* ToyaProgressController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2B47DA911C95AFBC003B2491 /* ToyaProgressController.cpp */; };
-		2B47DABD1C95EDDF003B2491 /* ToyaProgressController.h in Sources */ = {isa = PBXBuildFile; fileRef = 2B47DA921C95AFBC003B2491 /* ToyaProgressController.h */; };
-		2B47DABE1C95EDDF003B2491 /* ToyaSceneController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2B47DA931C95AFBC003B2491 /* ToyaSceneController.cpp */; };
-		2B47DABF1C95EDDF003B2491 /* ToyaSceneController.h in Sources */ = {isa = PBXBuildFile; fileRef = 2B47DA941C95AFBC003B2491 /* ToyaSceneController.h */; };
-		2B47DAC01C95EDDF003B2491 /* ToyaGameController.h in Sources */ = {isa = PBXBuildFile; fileRef = FB21ACE21C82B52200613B39 /* ToyaGameController.h */; };
-		2B47DAC11C95EDDF003B2491 /* ToyaGameRoot.h in Sources */ = {isa = PBXBuildFile; fileRef = FB21ACE41C82B52200613B39 /* ToyaGameRoot.h */; };
-		2B47DAC21C95EDDF003B2491 /* AppDelegate.h in Sources */ = {isa = PBXBuildFile; fileRef = 46880B8519C43A87006E1F66 /* AppDelegate.h */; };
-		2B47DAC31C95EDE8003B2491 /* ToyaWorldModel.h in Sources */ = {isa = PBXBuildFile; fileRef = 2B47DA961C95AFBC003B2491 /* ToyaWorldModel.h */; };
-		2B47DAC41C95EDE8003B2491 /* ToyaAvatarModel.h in Sources */ = {isa = PBXBuildFile; fileRef = FB21ACDE1C82B52200613B39 /* ToyaAvatarModel.h */; };
-		2B47DAC51C95EDE8003B2491 /* ToyaBlockModel.h in Sources */ = {isa = PBXBuildFile; fileRef = FB21ACE01C82B52200613B39 /* ToyaBlockModel.h */; };
-		2B47DAC61C95EDE8003B2491 /* ToyaBarrierModel.h in Sources */ = {isa = PBXBuildFile; fileRef = 2B47DA821C95AFBC003B2491 /* ToyaBarrierModel.h */; };
-		2B47DAC71C95EDE8003B2491 /* ToyaExitDoorModel.h in Sources */ = {isa = PBXBuildFile; fileRef = 2B47DA841C95AFBC003B2491 /* ToyaExitDoorModel.h */; };
-		2B47DAC81C95EDE8003B2491 /* ToyaGameProgressModel.h in Sources */ = {isa = PBXBuildFile; fileRef = 2B47DA861C95AFBC003B2491 /* ToyaGameProgressModel.h */; };
-		2B47DAC91C95EDE8003B2491 /* ToyaPauseButtonModel.h in Sources */ = {isa = PBXBuildFile; fileRef = FB21ACE91C82B52200613B39 /* ToyaPauseButtonModel.h */; };
-		2B47DACA1C95EDE8003B2491 /* ToyaRemovableBlockModel.h in Sources */ = {isa = PBXBuildFile; fileRef = FB21ACEB1C82B52200613B39 /* ToyaRemovableBlockModel.h */; };
-		2B47DACB1C95EDE8003B2491 /* ToyaSpellModel.h in Sources */ = {isa = PBXBuildFile; fileRef = FB21ACEC1C82B52200613B39 /* ToyaSpellModel.h */; };
-		2B47DACC1C95EDE8003B2491 /* ToyaMenuModel.h in Sources */ = {isa = PBXBuildFile; fileRef = 2B47DA8A1C95AFBC003B2491 /* ToyaMenuModel.h */; };
-		2B47DACD1C95EDE8003B2491 /* ToyaOverviewModel.h in Sources */ = {isa = PBXBuildFile; fileRef = 2B47DA8E1C95AFBC003B2491 /* ToyaOverviewModel.h */; };
-		2B47DACE1C95EDE8003B2491 /* ToyaPanelModel.h in Sources */ = {isa = PBXBuildFile; fileRef = 2B47DA901C95AFBC003B2491 /* ToyaPanelModel.h */; };
-		2B47DACF1C95EDE8003B2491 /* ToyaGameView.h in Sources */ = {isa = PBXBuildFile; fileRef = 2B47DA881C95AFBC003B2491 /* ToyaGameView.h */; };
-		2B47DAD01C95EDE8003B2491 /* ToyaMenuView.h in Sources */ = {isa = PBXBuildFile; fileRef = 2B47DA8C1C95AFBC003B2491 /* ToyaMenuView.h */; };
-		2B47DAD11C95EDED003B2491 /* ToyaInputController.h in Sources */ = {isa = PBXBuildFile; fileRef = FB21ACE61C82B52200613B39 /* ToyaInputController.h */; };
-		2B47DAD21C95EDEE003B2491 /* ToyaProgressController.h in Sources */ = {isa = PBXBuildFile; fileRef = 2B47DA921C95AFBC003B2491 /* ToyaProgressController.h */; };
-		2B47DAD31C95EDEE003B2491 /* ToyaSceneController.h in Sources */ = {isa = PBXBuildFile; fileRef = 2B47DA941C95AFBC003B2491 /* ToyaSceneController.h */; };
-		2B47DAD41C95EDEE003B2491 /* ToyaGameController.h in Sources */ = {isa = PBXBuildFile; fileRef = FB21ACE21C82B52200613B39 /* ToyaGameController.h */; };
-		2B47DAD51C95EDEE003B2491 /* ToyaGameRoot.h in Sources */ = {isa = PBXBuildFile; fileRef = FB21ACE41C82B52200613B39 /* ToyaGameRoot.h */; };
-		2B47DAD61C95EDEE003B2491 /* AppDelegate.h in Sources */ = {isa = PBXBuildFile; fileRef = 46880B8519C43A87006E1F66 /* AppDelegate.h */; };
 		46880B8819C43A87006E1F66 /* AppDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 46880B8419C43A87006E1F66 /* AppDelegate.cpp */; };
 		46880B8919C43A87006E1F66 /* AppDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 46880B8419C43A87006E1F66 /* AppDelegate.cpp */; };
 		503AE0F817EB97AB00D1A890 /* Icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 503AE0F617EB97AB00D1A890 /* Icon.icns */; };
@@ -136,10 +74,72 @@
 		FB21ACF21C82B52200613B39 /* ToyaGameController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB21ACE11C82B52200613B39 /* ToyaGameController.cpp */; };
 		FB21ACF31C82B52200613B39 /* ToyaGameRoot.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB21ACE31C82B52200613B39 /* ToyaGameRoot.cpp */; };
 		FB21ACF41C82B52200613B39 /* ToyaGameRoot.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB21ACE31C82B52200613B39 /* ToyaGameRoot.cpp */; };
-		FB21ACF51C82B52200613B39 /* ToyaInputController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB21ACE51C82B52200613B39 /* ToyaInputController.cpp */; };
-		FB21ACF61C82B52200613B39 /* ToyaInputController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB21ACE51C82B52200613B39 /* ToyaInputController.cpp */; };
-		FB21ACF71C82B52200613B39 /* ToyaRemovableBlockModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB21ACEA1C82B52200613B39 /* ToyaRemovableBlockModel.cpp */; };
-		FB21ACF81C82B52200613B39 /* ToyaRemovableBlockModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB21ACEA1C82B52200613B39 /* ToyaRemovableBlockModel.cpp */; };
+		FB54E8D21C95C8D6003A51B9 /* ToyaBarrierModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB54E8BC1C95C8D6003A51B9 /* ToyaBarrierModel.cpp */; };
+		FB54E8D31C95C8D6003A51B9 /* ToyaExitDoorModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB54E8BE1C95C8D6003A51B9 /* ToyaExitDoorModel.cpp */; };
+		FB54E8D41C95C8D6003A51B9 /* ToyaGameProgressModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB54E8C01C95C8D6003A51B9 /* ToyaGameProgressModel.cpp */; };
+		FB54E8D51C95C8D6003A51B9 /* ToyaGameView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB54E8C21C95C8D6003A51B9 /* ToyaGameView.cpp */; };
+		FB54E8D61C95C8D6003A51B9 /* ToyaMenuModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB54E8C41C95C8D6003A51B9 /* ToyaMenuModel.cpp */; };
+		FB54E8D71C95C8D6003A51B9 /* ToyaMenuView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB54E8C61C95C8D6003A51B9 /* ToyaMenuView.cpp */; };
+		FB54E8D91C95C8D6003A51B9 /* ToyaPanelModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB54E8CA1C95C8D6003A51B9 /* ToyaPanelModel.cpp */; };
+		FB54E8DA1C95C8D6003A51B9 /* ToyaProgressController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB54E8CC1C95C8D6003A51B9 /* ToyaProgressController.cpp */; };
+		FB54E8DB1C95C8D6003A51B9 /* ToyaSceneController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB54E8CE1C95C8D6003A51B9 /* ToyaSceneController.cpp */; };
+		FB54E8DC1C95C8D6003A51B9 /* ToyaWorldModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB54E8D01C95C8D6003A51B9 /* ToyaWorldModel.cpp */; };
+		FB54E8E01C95F1BE003A51B9 /* ToyaOverviewModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB54E8DE1C95F1BE003A51B9 /* ToyaOverviewModel.cpp */; };
+		FB54E8E11C95F1E4003A51B9 /* ToyaOverviewModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB54E8DE1C95F1BE003A51B9 /* ToyaOverviewModel.cpp */; };
+		FB54E8E21C95F1E4003A51B9 /* ToyaOverviewModel.h in Sources */ = {isa = PBXBuildFile; fileRef = FB54E8DF1C95F1BE003A51B9 /* ToyaOverviewModel.h */; };
+		FB54E8E31C95F1E4003A51B9 /* ToyaBarrierModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB54E8BC1C95C8D6003A51B9 /* ToyaBarrierModel.cpp */; };
+		FB54E8E41C95F1E4003A51B9 /* ToyaBarrierModel.h in Sources */ = {isa = PBXBuildFile; fileRef = FB54E8BD1C95C8D6003A51B9 /* ToyaBarrierModel.h */; };
+		FB54E8E51C95F1E4003A51B9 /* ToyaExitDoorModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB54E8BE1C95C8D6003A51B9 /* ToyaExitDoorModel.cpp */; };
+		FB54E8E61C95F1E4003A51B9 /* ToyaExitDoorModel.h in Sources */ = {isa = PBXBuildFile; fileRef = FB54E8BF1C95C8D6003A51B9 /* ToyaExitDoorModel.h */; };
+		FB54E8E71C95F1E4003A51B9 /* ToyaGameProgressModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB54E8C01C95C8D6003A51B9 /* ToyaGameProgressModel.cpp */; };
+		FB54E8E81C95F1E4003A51B9 /* ToyaGameProgressModel.h in Sources */ = {isa = PBXBuildFile; fileRef = FB54E8C11C95C8D6003A51B9 /* ToyaGameProgressModel.h */; };
+		FB54E8E91C95F1E4003A51B9 /* ToyaGameView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB54E8C21C95C8D6003A51B9 /* ToyaGameView.cpp */; };
+		FB54E8EA1C95F1E4003A51B9 /* ToyaGameView.h in Sources */ = {isa = PBXBuildFile; fileRef = FB54E8C31C95C8D6003A51B9 /* ToyaGameView.h */; };
+		FB54E8EB1C95F1E4003A51B9 /* ToyaMenuModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB54E8C41C95C8D6003A51B9 /* ToyaMenuModel.cpp */; };
+		FB54E8EC1C95F1E4003A51B9 /* ToyaMenuModel.h in Sources */ = {isa = PBXBuildFile; fileRef = FB54E8C51C95C8D6003A51B9 /* ToyaMenuModel.h */; };
+		FB54E8ED1C95F1E4003A51B9 /* ToyaMenuView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB54E8C61C95C8D6003A51B9 /* ToyaMenuView.cpp */; };
+		FB54E8EE1C95F1E4003A51B9 /* ToyaMenuView.h in Sources */ = {isa = PBXBuildFile; fileRef = FB54E8C71C95C8D6003A51B9 /* ToyaMenuView.h */; };
+		FB54E8EF1C95F1E4003A51B9 /* ToyaPanelModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB54E8CA1C95C8D6003A51B9 /* ToyaPanelModel.cpp */; };
+		FB54E8F01C95F1E4003A51B9 /* ToyaPanelModel.h in Sources */ = {isa = PBXBuildFile; fileRef = FB54E8CB1C95C8D6003A51B9 /* ToyaPanelModel.h */; };
+		FB54E8F11C95F1E4003A51B9 /* ToyaProgressController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB54E8CC1C95C8D6003A51B9 /* ToyaProgressController.cpp */; };
+		FB54E8F21C95F1E4003A51B9 /* ToyaProgressController.h in Sources */ = {isa = PBXBuildFile; fileRef = FB54E8CD1C95C8D6003A51B9 /* ToyaProgressController.h */; };
+		FB54E8F31C95F1E4003A51B9 /* ToyaSceneController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB54E8CE1C95C8D6003A51B9 /* ToyaSceneController.cpp */; };
+		FB54E8F41C95F1E4003A51B9 /* ToyaSceneController.h in Sources */ = {isa = PBXBuildFile; fileRef = FB54E8CF1C95C8D6003A51B9 /* ToyaSceneController.h */; };
+		FB54E8F51C95F1E4003A51B9 /* ToyaWorldModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB54E8D01C95C8D6003A51B9 /* ToyaWorldModel.cpp */; };
+		FB54E8F61C95F1E4003A51B9 /* ToyaWorldModel.h in Sources */ = {isa = PBXBuildFile; fileRef = FB54E8D11C95C8D6003A51B9 /* ToyaWorldModel.h */; };
+		FB54E8F71C95F1E4003A51B9 /* ToyaAvatarModel.h in Sources */ = {isa = PBXBuildFile; fileRef = FB21ACDE1C82B52200613B39 /* ToyaAvatarModel.h */; };
+		FB54E8F81C95F1E4003A51B9 /* ToyaBlockModel.h in Sources */ = {isa = PBXBuildFile; fileRef = FB21ACE01C82B52200613B39 /* ToyaBlockModel.h */; };
+		FB54E8F91C95F1E4003A51B9 /* ToyaGameController.h in Sources */ = {isa = PBXBuildFile; fileRef = FB21ACE21C82B52200613B39 /* ToyaGameController.h */; };
+		FB54E8FA1C95F1E4003A51B9 /* ToyaGameRoot.h in Sources */ = {isa = PBXBuildFile; fileRef = FB21ACE41C82B52200613B39 /* ToyaGameRoot.h */; };
+		FB54E9011C95F1E4003A51B9 /* AppDelegate.h in Sources */ = {isa = PBXBuildFile; fileRef = 46880B8519C43A87006E1F66 /* AppDelegate.h */; };
+		FB54E9021C95F46D003A51B9 /* ToyaOverviewModel.h in Sources */ = {isa = PBXBuildFile; fileRef = FB54E8DF1C95F1BE003A51B9 /* ToyaOverviewModel.h */; };
+		FB54E9031C95F46D003A51B9 /* ToyaBarrierModel.h in Sources */ = {isa = PBXBuildFile; fileRef = FB54E8BD1C95C8D6003A51B9 /* ToyaBarrierModel.h */; };
+		FB54E9041C95F46D003A51B9 /* ToyaExitDoorModel.h in Sources */ = {isa = PBXBuildFile; fileRef = FB54E8BF1C95C8D6003A51B9 /* ToyaExitDoorModel.h */; };
+		FB54E9051C95F46D003A51B9 /* ToyaGameProgressModel.h in Sources */ = {isa = PBXBuildFile; fileRef = FB54E8C11C95C8D6003A51B9 /* ToyaGameProgressModel.h */; };
+		FB54E9061C95F46D003A51B9 /* ToyaGameView.h in Sources */ = {isa = PBXBuildFile; fileRef = FB54E8C31C95C8D6003A51B9 /* ToyaGameView.h */; };
+		FB54E9071C95F46D003A51B9 /* ToyaMenuModel.h in Sources */ = {isa = PBXBuildFile; fileRef = FB54E8C51C95C8D6003A51B9 /* ToyaMenuModel.h */; };
+		FB54E9081C95F46D003A51B9 /* ToyaMenuView.h in Sources */ = {isa = PBXBuildFile; fileRef = FB54E8C71C95C8D6003A51B9 /* ToyaMenuView.h */; };
+		FB54E9091C95F46D003A51B9 /* ToyaPanelModel.h in Sources */ = {isa = PBXBuildFile; fileRef = FB54E8CB1C95C8D6003A51B9 /* ToyaPanelModel.h */; };
+		FB54E90A1C95F46D003A51B9 /* ToyaProgressController.h in Sources */ = {isa = PBXBuildFile; fileRef = FB54E8CD1C95C8D6003A51B9 /* ToyaProgressController.h */; };
+		FB54E90B1C95F46D003A51B9 /* ToyaSceneController.h in Sources */ = {isa = PBXBuildFile; fileRef = FB54E8CF1C95C8D6003A51B9 /* ToyaSceneController.h */; };
+		FB54E90C1C95F46D003A51B9 /* ToyaWorldModel.h in Sources */ = {isa = PBXBuildFile; fileRef = FB54E8D11C95C8D6003A51B9 /* ToyaWorldModel.h */; };
+		FB54E90D1C95F46D003A51B9 /* ToyaAvatarModel.h in Sources */ = {isa = PBXBuildFile; fileRef = FB21ACDE1C82B52200613B39 /* ToyaAvatarModel.h */; };
+		FB54E90E1C95F46D003A51B9 /* ToyaBlockModel.h in Sources */ = {isa = PBXBuildFile; fileRef = FB21ACE01C82B52200613B39 /* ToyaBlockModel.h */; };
+		FB54E90F1C95F46D003A51B9 /* ToyaGameController.h in Sources */ = {isa = PBXBuildFile; fileRef = FB21ACE21C82B52200613B39 /* ToyaGameController.h */; };
+		FB54E9101C95F46D003A51B9 /* ToyaGameRoot.h in Sources */ = {isa = PBXBuildFile; fileRef = FB21ACE41C82B52200613B39 /* ToyaGameRoot.h */; };
+		FB54E9171C95F46D003A51B9 /* AppDelegate.h in Sources */ = {isa = PBXBuildFile; fileRef = 46880B8519C43A87006E1F66 /* AppDelegate.h */; };
+		FB99ADFF1C962A5B0074BBE9 /* ToyaInputController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB99ADF91C962A5B0074BBE9 /* ToyaInputController.cpp */; };
+		FB99AE001C962A5B0074BBE9 /* ToyaRemovableBlockModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB99ADFC1C962A5B0074BBE9 /* ToyaRemovableBlockModel.cpp */; };
+		FB99AE011C962A760074BBE9 /* ToyaInputController.h in Sources */ = {isa = PBXBuildFile; fileRef = FB99ADFA1C962A5B0074BBE9 /* ToyaInputController.h */; };
+		FB99AE021C962A760074BBE9 /* ToyaPauseButtonModel.h in Sources */ = {isa = PBXBuildFile; fileRef = FB99ADFB1C962A5B0074BBE9 /* ToyaPauseButtonModel.h */; };
+		FB99AE031C962A760074BBE9 /* ToyaRemovableBlockModel.h in Sources */ = {isa = PBXBuildFile; fileRef = FB99ADFD1C962A5B0074BBE9 /* ToyaRemovableBlockModel.h */; };
+		FB99AE041C962A760074BBE9 /* ToyaSpellModel.h in Sources */ = {isa = PBXBuildFile; fileRef = FB99ADFE1C962A5B0074BBE9 /* ToyaSpellModel.h */; };
+		FB99AE051C962A850074BBE9 /* ToyaInputController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB99ADF91C962A5B0074BBE9 /* ToyaInputController.cpp */; };
+		FB99AE061C962A850074BBE9 /* ToyaInputController.h in Sources */ = {isa = PBXBuildFile; fileRef = FB99ADFA1C962A5B0074BBE9 /* ToyaInputController.h */; };
+		FB99AE071C962A850074BBE9 /* ToyaPauseButtonModel.h in Sources */ = {isa = PBXBuildFile; fileRef = FB99ADFB1C962A5B0074BBE9 /* ToyaPauseButtonModel.h */; };
+		FB99AE081C962A850074BBE9 /* ToyaRemovableBlockModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB99ADFC1C962A5B0074BBE9 /* ToyaRemovableBlockModel.cpp */; };
+		FB99AE091C962A850074BBE9 /* ToyaRemovableBlockModel.h in Sources */ = {isa = PBXBuildFile; fileRef = FB99ADFD1C962A5B0074BBE9 /* ToyaRemovableBlockModel.h */; };
+		FB99AE0A1C962A850074BBE9 /* ToyaSpellModel.h in Sources */ = {isa = PBXBuildFile; fileRef = FB99ADFE1C962A5B0074BBE9 /* ToyaSpellModel.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -178,28 +178,6 @@
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D6058910D05DD3D006BFB54 /* toya-mobile.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "toya-mobile.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		288765A40DF7441C002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		2B47DA811C95AFBC003B2491 /* ToyaBarrierModel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ToyaBarrierModel.cpp; sourceTree = "<group>"; };
-		2B47DA821C95AFBC003B2491 /* ToyaBarrierModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToyaBarrierModel.h; sourceTree = "<group>"; };
-		2B47DA831C95AFBC003B2491 /* ToyaExitDoorModel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ToyaExitDoorModel.cpp; sourceTree = "<group>"; };
-		2B47DA841C95AFBC003B2491 /* ToyaExitDoorModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToyaExitDoorModel.h; sourceTree = "<group>"; };
-		2B47DA851C95AFBC003B2491 /* ToyaGameProgressModel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ToyaGameProgressModel.cpp; sourceTree = "<group>"; };
-		2B47DA861C95AFBC003B2491 /* ToyaGameProgressModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToyaGameProgressModel.h; sourceTree = "<group>"; };
-		2B47DA871C95AFBC003B2491 /* ToyaGameView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ToyaGameView.cpp; sourceTree = "<group>"; };
-		2B47DA881C95AFBC003B2491 /* ToyaGameView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToyaGameView.h; sourceTree = "<group>"; };
-		2B47DA891C95AFBC003B2491 /* ToyaMenuModel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ToyaMenuModel.cpp; sourceTree = "<group>"; };
-		2B47DA8A1C95AFBC003B2491 /* ToyaMenuModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToyaMenuModel.h; sourceTree = "<group>"; };
-		2B47DA8B1C95AFBC003B2491 /* ToyaMenuView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ToyaMenuView.cpp; sourceTree = "<group>"; };
-		2B47DA8C1C95AFBC003B2491 /* ToyaMenuView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToyaMenuView.h; sourceTree = "<group>"; };
-		2B47DA8D1C95AFBC003B2491 /* ToyaOverviewModel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ToyaOverviewModel.cpp; sourceTree = "<group>"; };
-		2B47DA8E1C95AFBC003B2491 /* ToyaOverviewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToyaOverviewModel.h; sourceTree = "<group>"; };
-		2B47DA8F1C95AFBC003B2491 /* ToyaPanelModel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ToyaPanelModel.cpp; sourceTree = "<group>"; };
-		2B47DA901C95AFBC003B2491 /* ToyaPanelModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToyaPanelModel.h; sourceTree = "<group>"; };
-		2B47DA911C95AFBC003B2491 /* ToyaProgressController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ToyaProgressController.cpp; sourceTree = "<group>"; };
-		2B47DA921C95AFBC003B2491 /* ToyaProgressController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToyaProgressController.h; sourceTree = "<group>"; };
-		2B47DA931C95AFBC003B2491 /* ToyaSceneController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ToyaSceneController.cpp; sourceTree = "<group>"; };
-		2B47DA941C95AFBC003B2491 /* ToyaSceneController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToyaSceneController.h; sourceTree = "<group>"; };
-		2B47DA951C95AFBC003B2491 /* ToyaWorldModel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ToyaWorldModel.cpp; sourceTree = "<group>"; };
-		2B47DA961C95AFBC003B2491 /* ToyaWorldModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToyaWorldModel.h; sourceTree = "<group>"; };
 		46880B8419C43A87006E1F66 /* AppDelegate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AppDelegate.cpp; sourceTree = "<group>"; };
 		46880B8519C43A87006E1F66 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		503AE0F617EB97AB00D1A890 /* Icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Icon.icns; sourceTree = "<group>"; };
@@ -263,12 +241,34 @@
 		FB21ACE21C82B52200613B39 /* ToyaGameController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToyaGameController.h; sourceTree = "<group>"; };
 		FB21ACE31C82B52200613B39 /* ToyaGameRoot.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ToyaGameRoot.cpp; sourceTree = "<group>"; };
 		FB21ACE41C82B52200613B39 /* ToyaGameRoot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToyaGameRoot.h; sourceTree = "<group>"; };
-		FB21ACE51C82B52200613B39 /* ToyaInputController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ToyaInputController.cpp; sourceTree = "<group>"; };
-		FB21ACE61C82B52200613B39 /* ToyaInputController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToyaInputController.h; sourceTree = "<group>"; };
-		FB21ACE91C82B52200613B39 /* ToyaPauseButtonModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToyaPauseButtonModel.h; sourceTree = "<group>"; };
-		FB21ACEA1C82B52200613B39 /* ToyaRemovableBlockModel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ToyaRemovableBlockModel.cpp; sourceTree = "<group>"; };
-		FB21ACEB1C82B52200613B39 /* ToyaRemovableBlockModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToyaRemovableBlockModel.h; sourceTree = "<group>"; };
-		FB21ACEC1C82B52200613B39 /* ToyaSpellModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToyaSpellModel.h; sourceTree = "<group>"; };
+		FB54E8BC1C95C8D6003A51B9 /* ToyaBarrierModel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ToyaBarrierModel.cpp; sourceTree = "<group>"; };
+		FB54E8BD1C95C8D6003A51B9 /* ToyaBarrierModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToyaBarrierModel.h; sourceTree = "<group>"; };
+		FB54E8BE1C95C8D6003A51B9 /* ToyaExitDoorModel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ToyaExitDoorModel.cpp; sourceTree = "<group>"; };
+		FB54E8BF1C95C8D6003A51B9 /* ToyaExitDoorModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToyaExitDoorModel.h; sourceTree = "<group>"; };
+		FB54E8C01C95C8D6003A51B9 /* ToyaGameProgressModel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ToyaGameProgressModel.cpp; sourceTree = "<group>"; };
+		FB54E8C11C95C8D6003A51B9 /* ToyaGameProgressModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToyaGameProgressModel.h; sourceTree = "<group>"; };
+		FB54E8C21C95C8D6003A51B9 /* ToyaGameView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ToyaGameView.cpp; sourceTree = "<group>"; };
+		FB54E8C31C95C8D6003A51B9 /* ToyaGameView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToyaGameView.h; sourceTree = "<group>"; };
+		FB54E8C41C95C8D6003A51B9 /* ToyaMenuModel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ToyaMenuModel.cpp; sourceTree = "<group>"; };
+		FB54E8C51C95C8D6003A51B9 /* ToyaMenuModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToyaMenuModel.h; sourceTree = "<group>"; };
+		FB54E8C61C95C8D6003A51B9 /* ToyaMenuView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ToyaMenuView.cpp; sourceTree = "<group>"; };
+		FB54E8C71C95C8D6003A51B9 /* ToyaMenuView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToyaMenuView.h; sourceTree = "<group>"; };
+		FB54E8CA1C95C8D6003A51B9 /* ToyaPanelModel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ToyaPanelModel.cpp; sourceTree = "<group>"; };
+		FB54E8CB1C95C8D6003A51B9 /* ToyaPanelModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToyaPanelModel.h; sourceTree = "<group>"; };
+		FB54E8CC1C95C8D6003A51B9 /* ToyaProgressController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ToyaProgressController.cpp; sourceTree = "<group>"; };
+		FB54E8CD1C95C8D6003A51B9 /* ToyaProgressController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToyaProgressController.h; sourceTree = "<group>"; };
+		FB54E8CE1C95C8D6003A51B9 /* ToyaSceneController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ToyaSceneController.cpp; sourceTree = "<group>"; };
+		FB54E8CF1C95C8D6003A51B9 /* ToyaSceneController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToyaSceneController.h; sourceTree = "<group>"; };
+		FB54E8D01C95C8D6003A51B9 /* ToyaWorldModel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ToyaWorldModel.cpp; sourceTree = "<group>"; };
+		FB54E8D11C95C8D6003A51B9 /* ToyaWorldModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToyaWorldModel.h; sourceTree = "<group>"; };
+		FB54E8DE1C95F1BE003A51B9 /* ToyaOverviewModel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ToyaOverviewModel.cpp; sourceTree = "<group>"; };
+		FB54E8DF1C95F1BE003A51B9 /* ToyaOverviewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToyaOverviewModel.h; sourceTree = "<group>"; };
+		FB99ADF91C962A5B0074BBE9 /* ToyaInputController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ToyaInputController.cpp; sourceTree = "<group>"; };
+		FB99ADFA1C962A5B0074BBE9 /* ToyaInputController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToyaInputController.h; sourceTree = "<group>"; };
+		FB99ADFB1C962A5B0074BBE9 /* ToyaPauseButtonModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToyaPauseButtonModel.h; sourceTree = "<group>"; };
+		FB99ADFC1C962A5B0074BBE9 /* ToyaRemovableBlockModel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ToyaRemovableBlockModel.cpp; sourceTree = "<group>"; };
+		FB99ADFD1C962A5B0074BBE9 /* ToyaRemovableBlockModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToyaRemovableBlockModel.h; sourceTree = "<group>"; };
+		FB99ADFE1C962A5B0074BBE9 /* ToyaSpellModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToyaSpellModel.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -389,50 +389,6 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		2B47DAA21C95B2A3003B2491 /* Models */ = {
-			isa = PBXGroup;
-			children = (
-				2B47DA951C95AFBC003B2491 /* ToyaWorldModel.cpp */,
-				2B47DA961C95AFBC003B2491 /* ToyaWorldModel.h */,
-				FB21ACDD1C82B52200613B39 /* ToyaAvatarModel.cpp */,
-				FB21ACDE1C82B52200613B39 /* ToyaAvatarModel.h */,
-				FB21ACDF1C82B52200613B39 /* ToyaBlockModel.cpp */,
-				FB21ACE01C82B52200613B39 /* ToyaBlockModel.h */,
-				2B47DA811C95AFBC003B2491 /* ToyaBarrierModel.cpp */,
-				2B47DA821C95AFBC003B2491 /* ToyaBarrierModel.h */,
-				2B47DA831C95AFBC003B2491 /* ToyaExitDoorModel.cpp */,
-				2B47DA841C95AFBC003B2491 /* ToyaExitDoorModel.h */,
-				2B47DA851C95AFBC003B2491 /* ToyaGameProgressModel.cpp */,
-				2B47DA861C95AFBC003B2491 /* ToyaGameProgressModel.h */,
-				FB21ACE91C82B52200613B39 /* ToyaPauseButtonModel.h */,
-				FB21ACEA1C82B52200613B39 /* ToyaRemovableBlockModel.cpp */,
-				FB21ACEB1C82B52200613B39 /* ToyaRemovableBlockModel.h */,
-				FB21ACEC1C82B52200613B39 /* ToyaSpellModel.h */,
-				2B47DA891C95AFBC003B2491 /* ToyaMenuModel.cpp */,
-				2B47DA8A1C95AFBC003B2491 /* ToyaMenuModel.h */,
-				2B47DA8D1C95AFBC003B2491 /* ToyaOverviewModel.cpp */,
-				2B47DA8E1C95AFBC003B2491 /* ToyaOverviewModel.h */,
-				2B47DA8F1C95AFBC003B2491 /* ToyaPanelModel.cpp */,
-				2B47DA901C95AFBC003B2491 /* ToyaPanelModel.h */,
-			);
-			name = Models;
-			sourceTree = "<group>";
-		};
-		2B47DAA31C95B2EE003B2491 /* Controllers */ = {
-			isa = PBXGroup;
-			children = (
-				FB21ACE51C82B52200613B39 /* ToyaInputController.cpp */,
-				FB21ACE61C82B52200613B39 /* ToyaInputController.h */,
-				2B47DA911C95AFBC003B2491 /* ToyaProgressController.cpp */,
-				2B47DA921C95AFBC003B2491 /* ToyaProgressController.h */,
-				2B47DA931C95AFBC003B2491 /* ToyaSceneController.cpp */,
-				2B47DA941C95AFBC003B2491 /* ToyaSceneController.h */,
-				FB21ACE11C82B52200613B39 /* ToyaGameController.cpp */,
-				FB21ACE21C82B52200613B39 /* ToyaGameController.h */,
-			);
-			name = Controllers;
-			sourceTree = "<group>";
-		};
 		46880B7519C43A67006E1F66 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -446,12 +402,40 @@
 		46880B8319C43A87006E1F66 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				2B47DAA21C95B2A3003B2491 /* Models */,
-				2B47DA871C95AFBC003B2491 /* ToyaGameView.cpp */,
-				2B47DA881C95AFBC003B2491 /* ToyaGameView.h */,
-				2B47DA8B1C95AFBC003B2491 /* ToyaMenuView.cpp */,
-				2B47DA8C1C95AFBC003B2491 /* ToyaMenuView.h */,
-				2B47DAA31C95B2EE003B2491 /* Controllers */,
+				FB99ADF91C962A5B0074BBE9 /* ToyaInputController.cpp */,
+				FB99ADFA1C962A5B0074BBE9 /* ToyaInputController.h */,
+				FB99ADFB1C962A5B0074BBE9 /* ToyaPauseButtonModel.h */,
+				FB99ADFC1C962A5B0074BBE9 /* ToyaRemovableBlockModel.cpp */,
+				FB99ADFD1C962A5B0074BBE9 /* ToyaRemovableBlockModel.h */,
+				FB99ADFE1C962A5B0074BBE9 /* ToyaSpellModel.h */,
+				FB54E8DE1C95F1BE003A51B9 /* ToyaOverviewModel.cpp */,
+				FB54E8DF1C95F1BE003A51B9 /* ToyaOverviewModel.h */,
+				FB54E8BC1C95C8D6003A51B9 /* ToyaBarrierModel.cpp */,
+				FB54E8BD1C95C8D6003A51B9 /* ToyaBarrierModel.h */,
+				FB54E8BE1C95C8D6003A51B9 /* ToyaExitDoorModel.cpp */,
+				FB54E8BF1C95C8D6003A51B9 /* ToyaExitDoorModel.h */,
+				FB54E8C01C95C8D6003A51B9 /* ToyaGameProgressModel.cpp */,
+				FB54E8C11C95C8D6003A51B9 /* ToyaGameProgressModel.h */,
+				FB54E8C21C95C8D6003A51B9 /* ToyaGameView.cpp */,
+				FB54E8C31C95C8D6003A51B9 /* ToyaGameView.h */,
+				FB54E8C41C95C8D6003A51B9 /* ToyaMenuModel.cpp */,
+				FB54E8C51C95C8D6003A51B9 /* ToyaMenuModel.h */,
+				FB54E8C61C95C8D6003A51B9 /* ToyaMenuView.cpp */,
+				FB54E8C71C95C8D6003A51B9 /* ToyaMenuView.h */,
+				FB54E8CA1C95C8D6003A51B9 /* ToyaPanelModel.cpp */,
+				FB54E8CB1C95C8D6003A51B9 /* ToyaPanelModel.h */,
+				FB54E8CC1C95C8D6003A51B9 /* ToyaProgressController.cpp */,
+				FB54E8CD1C95C8D6003A51B9 /* ToyaProgressController.h */,
+				FB54E8CE1C95C8D6003A51B9 /* ToyaSceneController.cpp */,
+				FB54E8CF1C95C8D6003A51B9 /* ToyaSceneController.h */,
+				FB54E8D01C95C8D6003A51B9 /* ToyaWorldModel.cpp */,
+				FB54E8D11C95C8D6003A51B9 /* ToyaWorldModel.h */,
+				FB21ACDD1C82B52200613B39 /* ToyaAvatarModel.cpp */,
+				FB21ACDE1C82B52200613B39 /* ToyaAvatarModel.h */,
+				FB21ACDF1C82B52200613B39 /* ToyaBlockModel.cpp */,
+				FB21ACE01C82B52200613B39 /* ToyaBlockModel.h */,
+				FB21ACE11C82B52200613B39 /* ToyaGameController.cpp */,
+				FB21ACE21C82B52200613B39 /* ToyaGameController.h */,
 				FB21ACE31C82B52200613B39 /* ToyaGameRoot.cpp */,
 				FB21ACE41C82B52200613B39 /* ToyaGameRoot.h */,
 				46880B8419C43A87006E1F66 /* AppDelegate.cpp */,
@@ -671,46 +655,46 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2B47DAD11C95EDED003B2491 /* ToyaInputController.h in Sources */,
-				2B47DAD21C95EDEE003B2491 /* ToyaProgressController.h in Sources */,
-				2B47DAD31C95EDEE003B2491 /* ToyaSceneController.h in Sources */,
-				2B47DAD41C95EDEE003B2491 /* ToyaGameController.h in Sources */,
-				2B47DAD51C95EDEE003B2491 /* ToyaGameRoot.h in Sources */,
-				2B47DAD61C95EDEE003B2491 /* AppDelegate.h in Sources */,
-				2B47DAC31C95EDE8003B2491 /* ToyaWorldModel.h in Sources */,
-				2B47DAC41C95EDE8003B2491 /* ToyaAvatarModel.h in Sources */,
-				2B47DAC51C95EDE8003B2491 /* ToyaBlockModel.h in Sources */,
-				2B47DAC61C95EDE8003B2491 /* ToyaBarrierModel.h in Sources */,
-				2B47DAC71C95EDE8003B2491 /* ToyaExitDoorModel.h in Sources */,
-				2B47DAC81C95EDE8003B2491 /* ToyaGameProgressModel.h in Sources */,
-				2B47DAC91C95EDE8003B2491 /* ToyaPauseButtonModel.h in Sources */,
-				2B47DACA1C95EDE8003B2491 /* ToyaRemovableBlockModel.h in Sources */,
-				2B47DACB1C95EDE8003B2491 /* ToyaSpellModel.h in Sources */,
-				2B47DACC1C95EDE8003B2491 /* ToyaMenuModel.h in Sources */,
-				2B47DACD1C95EDE8003B2491 /* ToyaOverviewModel.h in Sources */,
-				2B47DACE1C95EDE8003B2491 /* ToyaPanelModel.h in Sources */,
-				2B47DACF1C95EDE8003B2491 /* ToyaGameView.h in Sources */,
-				2B47DAD01C95EDE8003B2491 /* ToyaMenuView.h in Sources */,
+				FB99AE011C962A760074BBE9 /* ToyaInputController.h in Sources */,
+				FB99AE021C962A760074BBE9 /* ToyaPauseButtonModel.h in Sources */,
+				FB99AE031C962A760074BBE9 /* ToyaRemovableBlockModel.h in Sources */,
+				FB99AE041C962A760074BBE9 /* ToyaSpellModel.h in Sources */,
+				FB54E9021C95F46D003A51B9 /* ToyaOverviewModel.h in Sources */,
+				FB54E9031C95F46D003A51B9 /* ToyaBarrierModel.h in Sources */,
+				FB54E9041C95F46D003A51B9 /* ToyaExitDoorModel.h in Sources */,
+				FB54E9051C95F46D003A51B9 /* ToyaGameProgressModel.h in Sources */,
+				FB54E9061C95F46D003A51B9 /* ToyaGameView.h in Sources */,
+				FB99ADFF1C962A5B0074BBE9 /* ToyaInputController.cpp in Sources */,
+				FB54E9071C95F46D003A51B9 /* ToyaMenuModel.h in Sources */,
+				FB54E9081C95F46D003A51B9 /* ToyaMenuView.h in Sources */,
+				FB54E9091C95F46D003A51B9 /* ToyaPanelModel.h in Sources */,
+				FB99AE001C962A5B0074BBE9 /* ToyaRemovableBlockModel.cpp in Sources */,
+				FB54E90A1C95F46D003A51B9 /* ToyaProgressController.h in Sources */,
+				FB54E90B1C95F46D003A51B9 /* ToyaSceneController.h in Sources */,
+				FB54E90C1C95F46D003A51B9 /* ToyaWorldModel.h in Sources */,
+				FB54E90D1C95F46D003A51B9 /* ToyaAvatarModel.h in Sources */,
+				FB54E90E1C95F46D003A51B9 /* ToyaBlockModel.h in Sources */,
+				FB54E90F1C95F46D003A51B9 /* ToyaGameController.h in Sources */,
+				FB54E9101C95F46D003A51B9 /* ToyaGameRoot.h in Sources */,
+				FB54E9171C95F46D003A51B9 /* AppDelegate.h in Sources */,
 				46880B8819C43A87006E1F66 /* AppDelegate.cpp in Sources */,
-				2B47DA9B1C95AFBC003B2491 /* ToyaMenuModel.cpp in Sources */,
+				FB54E8D61C95C8D6003A51B9 /* ToyaMenuModel.cpp in Sources */,
 				503AE10017EB989F00D1A890 /* AppController.mm in Sources */,
-				2B47DAA01C95AFBC003B2491 /* ToyaSceneController.cpp in Sources */,
+				FB54E8DB1C95C8D6003A51B9 /* ToyaSceneController.cpp in Sources */,
 				FB21ACF31C82B52200613B39 /* ToyaGameRoot.cpp in Sources */,
-				2B47DA9D1C95AFBC003B2491 /* ToyaOverviewModel.cpp in Sources */,
-				2B47DA9F1C95AFBC003B2491 /* ToyaProgressController.cpp in Sources */,
-				2B47DA9A1C95AFBC003B2491 /* ToyaGameView.cpp in Sources */,
+				FB54E8DA1C95C8D6003A51B9 /* ToyaProgressController.cpp in Sources */,
+				FB54E8E01C95F1BE003A51B9 /* ToyaOverviewModel.cpp in Sources */,
+				FB54E8D51C95C8D6003A51B9 /* ToyaGameView.cpp in Sources */,
 				FB21ACEF1C82B52200613B39 /* ToyaBlockModel.cpp in Sources */,
-				2B47DAA11C95AFBC003B2491 /* ToyaWorldModel.cpp in Sources */,
-				2B47DA9E1C95AFBC003B2491 /* ToyaPanelModel.cpp in Sources */,
-				FB21ACF71C82B52200613B39 /* ToyaRemovableBlockModel.cpp in Sources */,
-				2B47DA971C95AFBC003B2491 /* ToyaBarrierModel.cpp in Sources */,
-				2B47DA981C95AFBC003B2491 /* ToyaExitDoorModel.cpp in Sources */,
+				FB54E8DC1C95C8D6003A51B9 /* ToyaWorldModel.cpp in Sources */,
+				FB54E8D91C95C8D6003A51B9 /* ToyaPanelModel.cpp in Sources */,
+				FB54E8D21C95C8D6003A51B9 /* ToyaBarrierModel.cpp in Sources */,
+				FB54E8D31C95C8D6003A51B9 /* ToyaExitDoorModel.cpp in Sources */,
 				FB21ACF11C82B52200613B39 /* ToyaGameController.cpp in Sources */,
-				FB21ACF51C82B52200613B39 /* ToyaInputController.cpp in Sources */,
-				2B47DA991C95AFBC003B2491 /* ToyaGameProgressModel.cpp in Sources */,
+				FB54E8D41C95C8D6003A51B9 /* ToyaGameProgressModel.cpp in Sources */,
 				503AE10217EB989F00D1A890 /* RootViewController.mm in Sources */,
 				FB21ACED1C82B52200613B39 /* ToyaAvatarModel.cpp in Sources */,
-				2B47DA9C1C95AFBC003B2491 /* ToyaMenuView.cpp in Sources */,
+				FB54E8D71C95C8D6003A51B9 /* ToyaMenuView.cpp in Sources */,
 				503AE10117EB989F00D1A890 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -719,41 +703,41 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2B47DABB1C95EDDF003B2491 /* ToyaInputController.h in Sources */,
-				2B47DABC1C95EDDF003B2491 /* ToyaProgressController.cpp in Sources */,
-				2B47DABD1C95EDDF003B2491 /* ToyaProgressController.h in Sources */,
-				2B47DABE1C95EDDF003B2491 /* ToyaSceneController.cpp in Sources */,
-				2B47DABF1C95EDDF003B2491 /* ToyaSceneController.h in Sources */,
-				2B47DAC01C95EDDF003B2491 /* ToyaGameController.h in Sources */,
-				2B47DAC11C95EDDF003B2491 /* ToyaGameRoot.h in Sources */,
-				2B47DAC21C95EDDF003B2491 /* AppDelegate.h in Sources */,
-				2B47DAB71C95EDD9003B2491 /* ToyaGameView.cpp in Sources */,
-				2B47DAB81C95EDD9003B2491 /* ToyaGameView.h in Sources */,
-				2B47DAB91C95EDD9003B2491 /* ToyaMenuView.cpp in Sources */,
-				2B47DABA1C95EDD9003B2491 /* ToyaMenuView.h in Sources */,
-				2B47DAA41C95EDD3003B2491 /* ToyaWorldModel.cpp in Sources */,
-				2B47DAA51C95EDD3003B2491 /* ToyaWorldModel.h in Sources */,
-				2B47DAA61C95EDD3003B2491 /* ToyaAvatarModel.h in Sources */,
-				2B47DAA71C95EDD3003B2491 /* ToyaBlockModel.h in Sources */,
-				2B47DAA81C95EDD3003B2491 /* ToyaBarrierModel.cpp in Sources */,
-				2B47DAA91C95EDD3003B2491 /* ToyaBarrierModel.h in Sources */,
-				2B47DAAA1C95EDD3003B2491 /* ToyaExitDoorModel.cpp in Sources */,
-				2B47DAAB1C95EDD3003B2491 /* ToyaExitDoorModel.h in Sources */,
-				2B47DAAC1C95EDD3003B2491 /* ToyaGameProgressModel.cpp in Sources */,
-				2B47DAAD1C95EDD3003B2491 /* ToyaGameProgressModel.h in Sources */,
-				2B47DAAE1C95EDD3003B2491 /* ToyaPauseButtonModel.h in Sources */,
-				2B47DAAF1C95EDD3003B2491 /* ToyaRemovableBlockModel.h in Sources */,
-				2B47DAB01C95EDD3003B2491 /* ToyaSpellModel.h in Sources */,
-				2B47DAB11C95EDD3003B2491 /* ToyaMenuModel.cpp in Sources */,
-				2B47DAB21C95EDD3003B2491 /* ToyaMenuModel.h in Sources */,
-				2B47DAB31C95EDD3003B2491 /* ToyaOverviewModel.cpp in Sources */,
-				2B47DAB41C95EDD3003B2491 /* ToyaOverviewModel.h in Sources */,
-				2B47DAB51C95EDD3003B2491 /* ToyaPanelModel.cpp in Sources */,
-				2B47DAB61C95EDD3003B2491 /* ToyaPanelModel.h in Sources */,
+				FB99AE051C962A850074BBE9 /* ToyaInputController.cpp in Sources */,
+				FB99AE061C962A850074BBE9 /* ToyaInputController.h in Sources */,
+				FB99AE071C962A850074BBE9 /* ToyaPauseButtonModel.h in Sources */,
+				FB99AE081C962A850074BBE9 /* ToyaRemovableBlockModel.cpp in Sources */,
+				FB99AE091C962A850074BBE9 /* ToyaRemovableBlockModel.h in Sources */,
+				FB99AE0A1C962A850074BBE9 /* ToyaSpellModel.h in Sources */,
+				FB54E8E11C95F1E4003A51B9 /* ToyaOverviewModel.cpp in Sources */,
+				FB54E8E21C95F1E4003A51B9 /* ToyaOverviewModel.h in Sources */,
+				FB54E8E31C95F1E4003A51B9 /* ToyaBarrierModel.cpp in Sources */,
+				FB54E8E41C95F1E4003A51B9 /* ToyaBarrierModel.h in Sources */,
+				FB54E8E51C95F1E4003A51B9 /* ToyaExitDoorModel.cpp in Sources */,
+				FB54E8E61C95F1E4003A51B9 /* ToyaExitDoorModel.h in Sources */,
+				FB54E8E71C95F1E4003A51B9 /* ToyaGameProgressModel.cpp in Sources */,
+				FB54E8E81C95F1E4003A51B9 /* ToyaGameProgressModel.h in Sources */,
+				FB54E8E91C95F1E4003A51B9 /* ToyaGameView.cpp in Sources */,
+				FB54E8EA1C95F1E4003A51B9 /* ToyaGameView.h in Sources */,
+				FB54E8EB1C95F1E4003A51B9 /* ToyaMenuModel.cpp in Sources */,
+				FB54E8EC1C95F1E4003A51B9 /* ToyaMenuModel.h in Sources */,
+				FB54E8ED1C95F1E4003A51B9 /* ToyaMenuView.cpp in Sources */,
+				FB54E8EE1C95F1E4003A51B9 /* ToyaMenuView.h in Sources */,
+				FB54E8EF1C95F1E4003A51B9 /* ToyaPanelModel.cpp in Sources */,
+				FB54E8F01C95F1E4003A51B9 /* ToyaPanelModel.h in Sources */,
+				FB54E8F11C95F1E4003A51B9 /* ToyaProgressController.cpp in Sources */,
+				FB54E8F21C95F1E4003A51B9 /* ToyaProgressController.h in Sources */,
+				FB54E8F31C95F1E4003A51B9 /* ToyaSceneController.cpp in Sources */,
+				FB54E8F41C95F1E4003A51B9 /* ToyaSceneController.h in Sources */,
+				FB54E8F51C95F1E4003A51B9 /* ToyaWorldModel.cpp in Sources */,
+				FB54E8F61C95F1E4003A51B9 /* ToyaWorldModel.h in Sources */,
+				FB54E8F71C95F1E4003A51B9 /* ToyaAvatarModel.h in Sources */,
+				FB54E8F81C95F1E4003A51B9 /* ToyaBlockModel.h in Sources */,
+				FB54E8F91C95F1E4003A51B9 /* ToyaGameController.h in Sources */,
+				FB54E8FA1C95F1E4003A51B9 /* ToyaGameRoot.h in Sources */,
+				FB54E9011C95F1E4003A51B9 /* AppDelegate.h in Sources */,
 				FB21ACEE1C82B52200613B39 /* ToyaAvatarModel.cpp in Sources */,
 				FB21ACF21C82B52200613B39 /* ToyaGameController.cpp in Sources */,
-				FB21ACF61C82B52200613B39 /* ToyaInputController.cpp in Sources */,
-				FB21ACF81C82B52200613B39 /* ToyaRemovableBlockModel.cpp in Sources */,
 				FB21ACF01C82B52200613B39 /* ToyaBlockModel.cpp in Sources */,
 				46880B8919C43A87006E1F66 /* AppDelegate.cpp in Sources */,
 				503AE10517EB98FF00D1A890 /* main.cpp in Sources */,
