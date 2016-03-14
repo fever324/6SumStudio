@@ -39,7 +39,7 @@
 // max rotate time
 #define EVENT_ROTATE_TIME 100000
 // minimum rotation
-#define MIN_ROTATION 5.0f
+#define MIN_ROTATION 1.0f
 
 
 #pragma mark -
@@ -245,7 +245,9 @@ void InputController::clear() {
  * @return True if the touch was processed; false otherwise.
  */
 bool InputController::touchBeganCB(Touch* t, timestamp_t current) {
-    CCLOG("Touch begins: %d", t->getID());
+    
+//    CCLOG("Touch begins: %d", t->getID());
+    
     Vec2 pos = t->getLocation();
     if (_touch1.touchid == -1) {
         _touch1.start = pos;
@@ -273,7 +275,9 @@ bool InputController::touchBeganCB(Touch* t, timestamp_t current) {
  * @param event The associated event
  */
 void InputController::touchEndedCB(Touch* t, timestamp_t current) {
-    CCLOG("Touch is up %d", t->getID());
+    
+//    CCLOG("Touch is up %d", t->getID());
+    
     if (_touch1.touchid == t->getID()) {
         resetTouch(&_touch1);
     } else if (_touch2.touchid == t->getID()) {
@@ -305,14 +309,89 @@ bool InputController::checkRotate(timestamp_t current) {
         _turning = 0.0f;
         return false;
     }
-    // TODO: maybe over 90 for start or end
-    float initialDeg = atanf(fabsf(_touch1.start.y - _touch2.start.y) / fabsf(_touch1.start.x - _touch2.start.x));
-    float finishDeg = atanf(fabsf(_touch1.start.y - _touch2.start.y) / fabsf(_touch1.start.x - _touch2.start.x));
-    if(finishDeg - initialDeg > MIN_ROTATION && elapsed_millis(_rotateTime,current) <= EVENT_ROTATE_TIME){
-        _turning = finishDeg - initialDeg;
+    
+    float temp = 0;
+    
+//    CCLOG("t1 start pos: %f, %f",_touch1.start.x,_touch1.start.y);
+//    CCLOG("t1 end pos: %f, %f",_touch1.stop.x,_touch1.stop.y);
+    
+    if ( _touch1.start.x < _touch2.start.x ){
+        // t1 on the left
+//        CCLOG("Left first touch");
+        
+        // initial angle
+        float angle0 = atanf( (_touch2.start.y - _touch1.start.y) / (_touch2.start.x - _touch1.start.x) ) * 180/3.1415;
+        
+//        CCLOG("initial angle: %f",angle0);
+        
+        // end angle
+        float angle1 = atanf( (_touch2.stop.y - _touch1.stop.y) / (_touch2.stop.x - _touch1.stop.x) ) * 180/3.1415;
+        
+//        CCLOG("end angle: %f",angle1);
+        
+        if ( _touch1.start.y < _touch2.start.y ) {
+//            CCLOG("Left touch point below right touch");
+            // t1 below t2
+            if ( _touch1.start.y < _touch1.stop.y ){
+                // clockwise
+                temp = angle0 - angle1;
+            } else {
+                // anti clockwise
+                temp = angle0 - angle1;
+            }
+        } else {
+            // t1 above t2
+//            CCLOG("Left touch point above right touch");
+            
+            if ( _touch1.start.y < _touch1.stop.y ){
+                // clockwise
+                temp = angle0 - angle1;
+            } else {
+                // anti clockwise
+                temp = angle0 - angle1;
+            }
+        }
+    } else {
+        // t1 on the right
+        CCLOG("right first touch");
+        
+        // initial angle
+        float angle0 = atanf( (_touch1.start.y - _touch2.start.y) / (_touch1.start.x - _touch2.start.x) ) * 180/3.1415;
+        // end angle
+        float angle1 = atanf( (_touch1.stop.y - _touch2.stop.y) / (_touch1.start.x - _touch2.stop.x) ) * 180/3.1415;
+        
+        if ( _touch2.start.y < _touch1.start.y ) {
+            // t2 below t1
+            if ( _touch2.start.y < _touch2.stop.y ){
+                // clockwise
+                temp = angle0 - angle1;
+            } else {
+                // anti clockwise
+                temp = angle0 - angle1;
+            }
+        } else {
+            // t2 above t1
+            
+            if ( _touch2.start.y < _touch2.stop.y ){
+                // clockwise
+                temp = angle0 - angle1;
+            } else {
+                // anti clockwise
+                temp = angle0 - angle1;
+            }
+        }
+    }
+    
+    _touch1.start = _touch1.stop;
+    _touch2.start = _touch2.stop;
+    
+    if(elapsed_millis(_rotateTime,current) <= EVENT_ROTATE_TIME){
+        _turning = temp;
         return true;
     }
+    _rotateTime = current;
     _turning = 0.0f;
+    CCLOG("No turning this time");
     return false;
 }
 
@@ -323,17 +402,23 @@ bool InputController::checkRotate(timestamp_t current) {
  * @param event The associated event
  */
 void InputController::touchMovedCB(Touch* t, timestamp_t current) {
-    CCLOG("Touch is moving");
     if (t->getID() == _touch1.touchid) {
-        _touch1.start = _touch1.stop;
         _touch1.stop = t->getLocation();
+        _keyRotate = checkRotate(current);
+//        if ( _count % 10 == 1) {
+//            _count = _count % 10 + 1;
+//            _touch1.start = _touch1.stop;
+//        }
     } else if (t->getID() == _touch2.touchid) {
-        _touch2.start = _touch2.stop;
         _touch2.stop = t->getLocation();
+        _keyRotate = checkRotate(current);
+//        if ( _count % 10 == 1) {
+//            _count = _count % 10 + 1;
+//            _touch2.start = _touch2.stop;
+//        }
     } else {
         return;
     }
-    _keyRotate = checkRotate(current);
 }
 
 /**

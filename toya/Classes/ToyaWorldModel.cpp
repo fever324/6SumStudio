@@ -152,7 +152,7 @@ void WorldModel::setGravity(const Vec2& gravity){
     _world->setGravity(gravity);
 }
 
-void WorldModel::setRotation(int rotation){
+void WorldModel::setRotation(float rotation){
     _worldnode->setRotation(rotation);
 }
 

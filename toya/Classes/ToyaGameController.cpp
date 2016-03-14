@@ -521,9 +521,14 @@ void GameController::update(float dt) {
         _rootnode->shutdown();
     }
     if(_input.didRotate()) {
-        float cRotation = _theWorld->getRotation() + _input.getTurning();
-        cRotation = (int)cRotation % 360;
+        CCLOG("Origin Rotation: %f",_theWorld->getRotation());
+        CCLOG("New turning: %f",_input.getTurning());
         
+        float cRotation = _theWorld->getRotation() + _input.getTurning();
+        
+        if (cRotation > 360) {
+            cRotation -= 360;
+        }        
         _theWorld->setRotation(cRotation);
 
         Vec2 gravity = Vec2(DEFAULT_GRAVITY,DEFAULT_GRAVITY);

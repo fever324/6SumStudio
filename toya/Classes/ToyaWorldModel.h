@@ -152,7 +152,7 @@ public:
      * @param the rotation
      *
      */
-    void setRotation(int rotation);
+    void setRotation(float rotation);
     
     /**
      * Set the size for the game world.

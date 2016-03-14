@@ -37,7 +37,7 @@ class InputController {
 private:
     // KEYBOARD EMULATION
     
-    
+    int _count = 0;
     /** Whether the left arrow key is down */
     float  _keyLeft;
     /** Whether the left arrow key is down */
@@ -193,7 +193,6 @@ public:
             newGravity.y = gravity.y * cos(rotation*3.1415/180);
         }
         
-        CCLOG("%3.2f, %3.2f, %3.2f",newGravity.x,newGravity.y,rotation);
         return newGravity;
     }
     
