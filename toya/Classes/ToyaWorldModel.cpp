@@ -142,6 +142,9 @@ bool WorldModel::init(const Size& root,const Vec2& size, const Vec2& anchor) {
     _worldnode->setAnchorPoint(anchor);
     _worldnode->setPosition(root.width/2.0f,root.height/2.0f);
     
+    _debugnode->setPosition(Vec2(root.width/4.0f,root.height/4.0f));
+    _debugnode->setScale(0.5f);
+
     return true;
 }
 

@@ -34,6 +34,7 @@ using namespace std;
  * game root (which has scaled the scene graph to fix the device with the
  * desired aspect ratio).
  */
+class OverviewModel;
 class GameController {
 protected:
     /** The scene manager for this game demo */
@@ -66,6 +67,8 @@ protected:
     BlockModel* _goalDoor;
 
     BlockModel* _door;
+
+    BlockModel* _barrier;
     /** Reference to the player avatar */
     AvatarModel* _avatar;
     

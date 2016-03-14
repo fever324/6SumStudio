@@ -74,6 +74,8 @@ float AVATAR_POS[] = {1, 17};
 float GOAL_POS[] = {31.5, 2.5};
 /** The goal door position2 */
 float DOOR_POS[] = {31.4, 2.4};
+/** The barrier position */
+float BARRIER_POS[] = {15.0, 7.0};
 
 #pragma mark Assset Constants
 /** The key for the earth texture in the asset manager */
@@ -210,8 +212,6 @@ bool GameController::init(RootLayer* root, const Rect& rect, const Vec2& gravity
     _input.init();
     _input.start();
     
-    CCLOG("Scale is %.3f, %.3f",root->getContentSize().width,root->getContentSize().height);
-
     _theWorld = WorldModel::create(root->getContentSize());
     
     // Create the scene graph
@@ -238,7 +238,6 @@ bool GameController::init(RootLayer* root, const Rect& rect, const Vec2& gravity
     
     _scale.set(root->getContentSize().width/rect.size.width,
                root->getContentSize().height/rect.size.height);
-    CCLOG("Scale is %.3f, %.3f",root->getContentSize().width,root->getContentSize().height);
     
     _rootnode = root;
     
@@ -250,6 +249,7 @@ bool GameController::init(RootLayer* root, const Rect& rect, const Vec2& gravity
     
     // overview panel
     _overview = OverviewModel::create(Vec2(root->getContentSize().width,root->getContentSize().height), inputscale);
+    _overview->setGameController(this);
     root->addChild(_overview,3);
     
     _panel = PanelModel::create(Vec2(0,root->getContentSize().height));
@@ -516,6 +516,27 @@ void GameController::populate() {
     draw->setOpacity(DEBUG_OPACITY);
     _avatar->setDebugNode(draw);
     addObstacle(_avatar,3);
+
+#pragma mark : Barrier
+    Texture2D* image3 = _assets->get<Texture2D>(BEAR_TEXTURE);
+    PolygonNode* sprite3;
+
+    Vec2 barrierPos = ((Vec2)BARRIER_POS);
+    sprite3 = PolygonNode::createWithTexture(image3);
+    Size barrierSize(image3->getContentSize().width/_scale.x, image3->getContentSize().height/_scale.y);
+    _barrier = BlockModel::create(barrierPos, barrierSize/6);
+    _barrier->setDrawScale(_scale.x, _scale.y);
+
+    //
+    _barrier->setBodyType(b2_staticBody);
+    _barrier->setDensity(0.0f);
+    _barrier->setFriction(0.0f);
+    _barrier->setRestitution(0.0f);
+    _barrier->setSensor(true);
+
+    sprite3 = PolygonNode::createWithTexture(image3);
+    sprite3->setScale(cscale/4);
+    _barrier->setSceneNode(sprite3);
 }
 
 /**
@@ -548,9 +569,8 @@ void GameController::addObstacle(Obstacle* obj, int zOrder) {
  */
 void GameController::update(float dt) {
     _input.update(dt);
-    
+
     // Process the toggled key commands
-    if (_input.didDebug()) { setDebug(!isDebug()); }
     if (_input.didReset()) { reset(); }
     if (_input.didExit())  {
         CCLOG("Shutting down");
@@ -602,6 +622,13 @@ void GameController::beginContact(b2Contact* contact) {
     
     Obstacle* bd1 = (Obstacle*)body1->GetUserData();
     Obstacle* bd2 = (Obstacle*)body2->GetUserData();
+
+    // If the avatar hits the barrier, game over
+    if((body1->GetUserData() == _avatar && body2->GetUserData() == _barrier) ||
+            (body1->GetUserData() == _barrier && body2->GetUserData() == _avatar)) {
+        setComplete(true);
+        printf("You Fail! ");
+    }
     
     
     // If we hit the "win" door, we are done
