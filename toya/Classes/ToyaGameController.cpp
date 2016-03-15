@@ -37,13 +37,14 @@ using namespace std;
 
 float WALL1[] = { 0.0f, 36.0f,  64.0f, 36.0f,   64.0f, 31.0f,
     5.0f, 31.0f, 5.0f, 5.0f,  59.0f, 5.0f,   59.0f, 31.0f,
-    59.0f, 31.0f,   59.0f, 0.0f, 0.0f,0.0f};
+    64.0f, 31.0f,   64.0f, 0.0f, 0.0f,0.0f};
 
-float WALL2[] = {5.0f,15.0f,   18.0f,15.0f,  18.0f, 14.0f,  5.0f, 14.0f };
-float WALL3[] = {19.0f,12.0f,  30.0f,12.0f, 30.0f,11.0f,  19.0f,11.0f};
-float WALL4[] = {20.0f,6.5f,   13.0f,6.5f,   11.0f,7.5f,   9.0f,7.5f,  12.0f,5.5f,  20.0f,5.5f};
+float WALL2[] = {5.0f,28.0f,   27.0f,28.0f,  27.0f, 26.0f,  5.0f, 26.0f };
+float WALL3[] = {30.0f,22.0f,  45.0f,22.0f, 45.0f,20.0f,  30.0f,20.0f};
 
-float WALL5[] = {25.0f, 11.0f,  25.0f, 16.0f,  26.0f,16.0f,  26.0f, 11.0f};
+float WALL4[] = {30.0f,12.5f,   23.0f,12.5f,   20.0f,13.5f,   18.0f,13.5f,  21.0f,10.5f,  30.0f,10.5f};
+
+float WALL5[] = {45.0f, 20.0f,  45.0f, 26.0f,  48.0f,26.0f,  48.0f, 20.0f};
 
 /** The positions of the crate pyramid */
 float BOXES[] = { 14.5f, 14.25f,
@@ -57,13 +58,13 @@ float BOXES[] = { 14.5f, 14.25f,
 //vector<float> tmp(WALL2,WALL2+8);
 
 /** The initial avatar position */
-float AVATAR_POS[] = {5.0, 28.0};
+float AVATAR_POS[] = {5.0, 30.0};
 /** The goal door position */
 float GOAL_POS[] = {31.0, 6.5};
 /** The goal door position2 */
 float DOOR_POS[] = {31.0, 6.4};
 /** The barrier position */
-float BARRIER_POS[] = {15.0, 7.0};
+float BARRIER_POS[] = {32.0, 13.0};
 
 #pragma mark Assset Constants
 /** The key for the earth texture in the asset manager */
@@ -280,6 +281,7 @@ void GameController::dispose() {
  */
 void GameController::reset() {
     _theWorld->clear();
+    _input.clear();
     setComplete(false);
     populate();
 }
@@ -507,6 +509,7 @@ void GameController::populate() {
     draw->setOpacity(DEBUG_OPACITY);
     _avatar->setDebugNode(draw);
     addObstacle(_avatar,3);
+    _theWorld->setFollow(_avatar);
 
 #pragma mark : Barrier
     Texture2D* image3 = _assets->get<Texture2D>(BEAR_TEXTURE);
@@ -585,7 +588,8 @@ void GameController::update(float dt) {
     
     //    update world position
     Vec2 pos = _avatar->getPosition();
-    _theWorld->setWorldPos(pos);
+//    _theWorld->setWorldPos(pos);
+    _theWorld->setWorldPos(_avatar,pos);
     
     // Apply the force to the rocket // Hongfei TODO
     _avatar->update(dt);

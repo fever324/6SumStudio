@@ -125,6 +125,7 @@ bool WorldModel::init(const Size& root,const Vec2& size, const Vec2& anchor) {
 
     // define the scale
     _scale.set(root.width/32.0f,root.height/18.0f);
+    _follow = new Follow();
     
     _world = WorldController::create(Rect(0, 0, size.x, size.y), Vec2(0, WORLD_GRAVITY));
     _world->retain();
@@ -150,12 +151,12 @@ bool WorldModel::init(const Size& root,const Vec2& size, const Vec2& anchor) {
     _failnode->setPosition(root.width/2.0f,root.height/2.0f);
     
     _worldnode->setContentSize(root);
-    _worldnode->setAnchorPoint(anchor);
+    _worldnode->setAnchorPoint(Vec2(0.25, 0.25));
     
     // make sure that anchor point doesn't affect the position.
     _worldnode->ignoreAnchorPointForPosition(true);
     
-    _worldnode->setPosition(0.0f*_scale.x,(18.0f-WORLD_HEIGHT)*_scale.y);
+    _worldnode->setPosition(-2.5f*_scale.x,(18.0f-WORLD_HEIGHT+2.5f)*_scale.y);
     
     
     _debugnode->setPosition(Vec2(root.width/4.0f,root.height/4.0f));
@@ -184,10 +185,11 @@ void WorldModel::update(float dt){
 }
 
 void WorldModel::clear(){
-//    _world->clear();
+    _world->clear();
     _worldnode->removeAllChildren();
+    _worldnode->setRotation(0.0f);
     _debugnode->removeAllChildren();
-//    _world->release();
+    _follow = nullptr;
 }
 
 void WorldModel::addObstacle(Obstacle* obj, int zOrder){
@@ -224,20 +226,40 @@ void WorldModel::removeObstacle(Obstacle* obj){
     _world->removeObstacle(obj);
 }
 
-void WorldModel::setWorldPos(Obstacle* obj){
-//    _worldnode->setPosition(pos.x,pos.y);
-    Follow* follow = new Follow();
-    follow->initWithTarget(obj->getSceneNode());
-    _worldnode->runAction(follow);
+void WorldModel::setWorldPos(Obstacle* obj,Vec2& pos){
+    _worldnode->setAnchorPoint(Vec2(pos.x/64.0f, (36.0f-pos.y) / 36.0 ));
+    CCLOG("Anchor Point: %f,%f", _worldnode->getAnchorPointInPoints().x,_worldnode->getAnchorPointInPoints().y);
+}
+void WorldModel::setFollow(Obstacle* obj){
+    if (_follow == nullptr ) {
+        _follow = new Follow();
+    }
+    _follow->initWithTarget(obj->getSceneNode());
+    _worldnode->runAction(_follow);
 }
 
 void WorldModel::setWorldPos(Vec2& pos){
-//        CCLOG("%f,%f",pos.x*_scale.x,pos.y*_scale.y);
-//    if ( pos.x*_scale.x > _rootnode->getContentSize().width / 2 && pos.y*_scale.y < _rootnode->getContentSize().height / 2){
+    
+//    CCLOG("Current Avatar Pos: %f,%f",pos.x,pos.y);
+    
+    _worldnode->setAnchorPoint(Vec2(pos.x/64.0f, (36.0f-pos.y) / 36.0 ));
+    
+    pos.x = -(2.5 + pos.x - 16.0)*_scale.x;
+    pos.y = (9.0f-WORLD_HEIGHT + 18.0*2-pos.y)*_scale.y;
+    _worldnode->setPosition(pos);
+
+//    if ( pos.x / 32.0f > 0.5 || (18.0*2-pos.y) / 18.0f > 0.5){
 //        pos.x = pos.x*_scale.x > _rootnode->getContentSize().width / 2 ? pos.x*_scale.x : _rootnode->getContentSize().width / 2;
 //        pos.y = pos.y*_scale.y < _rootnode->getContentSize().height / 2 ? pos.y*_scale.y : _rootnode->getContentSize().height / 2;
+//        _worldnode->setAnchorPoint(Vec2(pos.x/64.0f, (36.0f-pos.y) / 36.0 ));
+//        
+//        CCLOG("Current Anchor point: %f,%f",_worldnode->getAnchorPoint().x,_worldnode->getAnchorPoint().y);
+//        
+//        pos.x = -(2.5 + pos.x - 16.0)*_scale.x < -2.5f*_scale.x ? -(2.5 + pos.x - 16.0)*_scale.x :  -2.5f*_scale.x;
+//        pos.y = (9.0f-WORLD_HEIGHT + 18.0*2-pos.y)*_scale.y > (18.0f-WORLD_HEIGHT+2.5f)*_scale.y ? (9.0f-WORLD_HEIGHT + 18.0*2-pos.y)*_scale.y : (18.0f-WORLD_HEIGHT+2.5f)*_scale.y;
+//        _worldnode->setPosition(pos);
+
 //    }
-//    _worldnode->setPosition(pos);
 }
 
 #pragma mark -

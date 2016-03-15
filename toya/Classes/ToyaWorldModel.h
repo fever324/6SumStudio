@@ -48,6 +48,8 @@ protected:
 //    scale
     Vec2 _scale;
     
+    Follow* _follow;
+    
     /** the anchor point of the world **/
     Vec2 _anchor;
     
@@ -190,8 +192,9 @@ public:
 
     void setFail(bool value);
     
-    void setWorldPos(Obstacle* obj);
+    void setWorldPos(Obstacle* obj,Vec2& pos);
     void setWorldPos(Vec2& pos);
+    void setFollow(Obstacle* obj);
     
     
 CC_CONSTRUCTOR_ACCESS:
