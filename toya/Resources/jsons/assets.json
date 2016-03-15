@@ -1,0 +1,67 @@
+{
+    "textures": {
+        "earth":  {
+            "file":     "textures/earthtile.png",
+            "wrap":     true
+        },
+        "rocket":  {
+            "file":     "textures/rocket.png",
+            "wrap":     false
+        },
+        "goal":  {
+            "file":     "textures/goaldoor.png",
+            "wrap":     false
+        },
+        "main-flames": {
+            "file":     "textures/flames.png",
+            "wrap":     false
+        },
+        "left-flames": {
+            "file":     "textures/flames-left.png",
+            "wrap":     false
+        },
+        "right-flames": {
+            "file":     "textures/flames-right.png",
+            "wrap":     false
+        },
+        "crate01": {
+            "file":     "textures/crate01.png",
+            "wrap":     false
+        },
+        "crate02": {
+            "file":     "textures/crate02.png",
+            "wrap":     false
+        }
+  	},
+  	"sounds": {
+        "bump": {
+            "file":     "sounds/bump.mp3",
+            "volume":   0.5
+            
+        },
+        "main-burner": {
+            "file":     "sounds/afterburner.mp3",
+            "volume":   0.5
+        },
+        "left-burner": {
+            "file":     "sounds/sideburner-left.mp3",
+            "volume":   0.5
+            
+        },
+        "right-burner": {
+            "file":     "sounds/sideburner-right.mp3",
+            "volume":   0.5
+            
+        }
+  	},
+  	"fonts": {
+        "retro": {
+            "file":    "fonts/RetroGame.ttf",
+            "size":     64.0
+        },
+        "pixel": {
+            "file":    "fonts/LightPixel7.ttf",
+            "size":     64.0
+        }
+  	}
+}

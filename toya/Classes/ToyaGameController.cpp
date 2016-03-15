@@ -46,6 +46,7 @@ float WALL5[] = {50.0f, 20.0f,  50.0f, 26.0f,  48.0f,26.0f,  48.0f, 20.0f};
 float WALL4[] = {30.0f,12.5f,   20.0f,12.5f,   17.0f,13.5f,   15.0f,13.5f,  19.0f,10.5f,  30.0f,10.5f};
 
 /** The positions of the crate pyramid */
+
 float BOXES[] = { 14.5f, 14.25f,
     13.0f, 12.00f, 16.0f, 12.00f,
     11.5f,  9.75f, 14.5f,  9.75f, 17.5f, 9.75f,
@@ -693,5 +694,3 @@ void GameController::preload() {
     tloader->loadAsync(GOAL_TEXTURE,   "textures/door.png");
     tloader->loadAsync(BEAR_TEXTURE,   "textures/bear.png");
 }
-
-

@@ -151,12 +151,12 @@ bool WorldModel::init(const Size& root,const Vec2& size, const Vec2& anchor) {
     _failnode->setPosition(root.width/2.0f,root.height/2.0f);
     
     _worldnode->setContentSize(root);
-    _worldnode->setAnchorPoint(Vec2(0.25, 0.25));
+    _worldnode->setAnchorPoint(Vec2(0, 2));
     
     // make sure that anchor point doesn't affect the position.
     _worldnode->ignoreAnchorPointForPosition(true);
     
-    _worldnode->setPosition(-2.5f*_scale.x,(18.0f-WORLD_HEIGHT+2.5f)*_scale.y);
+//    _worldnode->setPosition(-2.5f*_scale.x,(18.0f-WORLD_HEIGHT+2.5f)*_scale.y);
     
     
     _debugnode->setPosition(Vec2(root.width/4.0f,root.height/4.0f));
@@ -227,8 +227,9 @@ void WorldModel::removeObstacle(Obstacle* obj){
 }
 
 void WorldModel::setWorldPos(Obstacle* obj,Vec2& pos){
-    _worldnode->setAnchorPoint(Vec2(pos.x/64.0f, (36.0f-pos.y) / 36.0 ));
-    CCLOG("Anchor Point: %f,%f", _worldnode->getAnchorPointInPoints().x,_worldnode->getAnchorPointInPoints().y);
+    _worldnode->setAnchorPoint(Vec2( pos.x / 32.0, pos.y / 18.0 ));
+//    _worldnode->setAnchorPoint(Vec2( 0.5,0.5 ));
+    CCLOG("Anchor Point: %f,%f", _worldnode->getAnchorPointInPoints().x / _scale.x,_worldnode->getAnchorPointInPoints().y / _scale.y);
 }
 void WorldModel::setFollow(Obstacle* obj){
     if (_follow == nullptr ) {
