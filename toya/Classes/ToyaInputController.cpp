@@ -246,19 +246,17 @@ void InputController::clear() {
  */
 bool InputController::touchBeganCB(Touch* t, timestamp_t current) {
     
-//    CCLOG("Touch begins: %d", t->getID());
-    
+    _touchCount ++;
+    _touchCount = _touchCount > 2 ? 2 : _touchCount;
     Vec2 pos = t->getLocation();
     if (_touch1.touchid == -1) {
         _touch1.start = pos;
         _touch1.touchid = t->getID();
         _touch1.stop = pos;
-        _touchCount ++;
     } else if (_touch2.touchid == -1) {
         _touch2.start = pos;
         _touch2.touchid = t->getID();
         _touch2.stop = pos;
-        _touchCount ++;
     } else {
         CCLOG("No more than 2 fingers");
     }
@@ -276,8 +274,6 @@ bool InputController::touchBeganCB(Touch* t, timestamp_t current) {
  */
 void InputController::touchEndedCB(Touch* t, timestamp_t current) {
     
-//    CCLOG("Touch is up %d", t->getID());
-    
     if (_touch1.touchid == t->getID()) {
         resetTouch(&_touch1);
     } else if (_touch2.touchid == t->getID()) {
@@ -285,6 +281,7 @@ void InputController::touchEndedCB(Touch* t, timestamp_t current) {
     }
     _keyTap = checkTap(current);
     _touchCount --;
+    _touchCount = _touchCount < 0 ? 0 : _touchCount;
     _keyRotate = false;
 }
 
@@ -305,6 +302,7 @@ bool InputController::checkTap(timestamp_t current) {
 
 bool InputController::checkRotate(timestamp_t current) {
     // calculate the turning
+    CCLOG("touch count: %d", _touchCount);
     if (_touchCount != 2) {
         _turning = 0.0f;
         return false;

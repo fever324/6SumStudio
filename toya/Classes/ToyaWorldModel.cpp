@@ -228,8 +228,6 @@ void WorldModel::removeObstacle(Obstacle* obj){
 
 void WorldModel::setWorldPos(Obstacle* obj,Vec2& pos){
     _worldnode->setAnchorPoint(Vec2( pos.x / 32.0, pos.y / 18.0 ));
-//    _worldnode->setAnchorPoint(Vec2( 0.5,0.5 ));
-    CCLOG("Anchor Point: %f,%f", _worldnode->getAnchorPointInPoints().x / _scale.x,_worldnode->getAnchorPointInPoints().y / _scale.y);
 }
 void WorldModel::setFollow(Obstacle* obj){
     if (_follow == nullptr ) {
