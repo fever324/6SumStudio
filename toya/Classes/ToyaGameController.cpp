@@ -385,7 +385,7 @@ void GameController::populate() {
     wallobj1->setFriction(BASIC_FRICTION);
     wallobj1->setRestitution(BASIC_RESTITUTION);
     
-    // the scenenode is created!
+    // the SceneNode is created!
     wallobj1->setTextureKey(EARTH_TEXTURE); // 2nd line
     wallobj1->resetSceneNode(); //3rd line, just 3lines to replace original initializers
     
@@ -402,112 +402,80 @@ void GameController::populate() {
     
     
 #pragma mark : Wall polygon 2
-    PolygonObstacle* wallobj;
-    string wname = "wall";
     Poly2 wall2(WALL2,8);
     wall2.triangulate();
-    wallobj = PolygonObstacle::create(wall2);
-    wallobj->setDrawScale(_scale.x, _scale.y);
-    // wallobj->setName(wname);
     
-    // Set the physics attributes
-    wallobj->setBodyType(b2_staticBody);
-    wallobj->setDensity(BASIC_DENSITY);
-    wallobj->setFriction(BASIC_FRICTION);
-    wallobj->setRestitution(BASIC_RESTITUTION);
+    wallobj1 = JSBlockModel::createWithTexture(wall2, _scale, REMOVABLE_TEXTURE);
+
+    // Set the physics attributes -- the same
     
     // Add the scene graph nodes to this object
-    wall2 *= _scale;
-    image  = _assets->get<Texture2D>(REMOVABLE_TEXTURE);
-    sprite = PolygonNode::createWithTexture(image,wall2);
-    wallobj->setSceneNode(sprite);
+    wallobj1->setTextureKey(REMOVABLE_TEXTURE);
+    wallobj1->resetSceneNode();
     
-    draw = WireNode::create();
     draw = WireNode::create();
     draw->setColor(DEBUG_COLOR);
     draw->setOpacity(DEBUG_OPACITY);
-    wallobj->setDebugNode(draw);
-    addObstacle(wallobj,1);
+    wallobj1->setDebugNode(draw);
+    
+    addObstacle(wallobj1,1);
     
 #pragma mark : Walls polygon 3
     Poly2 wall3(WALL3,8);
     wall3.triangulate();
-    wallobj = PolygonObstacle::create(wall3);
-    wallobj->setDrawScale(_scale.x, _scale.y);
-    wallobj->setName(wname);
+
+    wallobj1 = JSBlockModel::createWithTexture(wall3, _scale, REMOVABLE_TEXTURE);
     
     // Set the physics attributes
-    wallobj->setBodyType(b2_staticBody);
-    wallobj->setDensity(BASIC_DENSITY);
-    wallobj->setFriction(BASIC_FRICTION);
-    wallobj->setRestitution(BASIC_RESTITUTION);
-    
+
     // Add the scene graph nodes to this object
-    wall3 *= _scale;
-    image  = _assets->get<Texture2D>(REMOVABLE_TEXTURE);
-    sprite = PolygonNode::createWithTexture(image,wall3);
-    wallobj->setSceneNode(sprite);
+    wallobj1->setTextureKey(REMOVABLE_TEXTURE);
+    wallobj1->resetSceneNode();
     
-    draw = WireNode::create();
     draw = WireNode::create();
     draw->setColor(DEBUG_COLOR);
     draw->setOpacity(DEBUG_OPACITY);
-    wallobj->setDebugNode(draw);
-    addObstacle(wallobj,1);
+    wallobj1->setDebugNode(draw);
+    addObstacle(wallobj1,1);
     
 #pragma mark : Wall polygon 4
+
     Poly2 wall4(WALL4,12);
     wall4.triangulate();
-    wallobj = PolygonObstacle::create(wall4);
-    wallobj->setDrawScale(_scale.x, _scale.y);
-    wallobj->setName(wname);
-    
+
+    wallobj1 = JSBlockModel::createWithTexture(wall4, _scale, REMOVABLE_TEXTURE);
+
     // Set the physics attributes
-    wallobj->setBodyType(b2_staticBody);
-    wallobj->setDensity(BASIC_DENSITY);
-    wallobj->setFriction(BASIC_FRICTION);
-    wallobj->setRestitution(BASIC_RESTITUTION);
     
     // Add the scene graph nodes to this object
-    wall4 *= _scale;
-    image  = _assets->get<Texture2D>(REMOVABLE_TEXTURE);
-    sprite = PolygonNode::createWithTexture(image,wall4);
-    wallobj->setSceneNode(sprite);
+    wallobj1->setTextureKey(REMOVABLE_TEXTURE);
+    wallobj1->resetSceneNode();
     
-    draw = WireNode::create();
     draw = WireNode::create();
     draw->setColor(DEBUG_COLOR);
     draw->setOpacity(DEBUG_OPACITY);
-    wallobj->setDebugNode(draw);
-    addObstacle(wallobj,1);
+    wallobj1->setDebugNode(draw);
+    addObstacle(wallobj1,1);
     
 #pragma mark : Walls polygon 5
     Poly2 wall5(WALL5,8);
     wall5.triangulate();
-    wallobj = PolygonObstacle::create(wall5);
-    wallobj->setDrawScale(_scale.x, _scale.y);
-    wallobj->setName(wname);
+    
+    wallobj1 = JSBlockModel::createWithTexture(wall5, _scale, EARTH_TEXTURE);
     
     // Set the physics attributes
-    wallobj->setBodyType(b2_staticBody);
-    wallobj->setDensity(BASIC_DENSITY);
-    wallobj->setFriction(BASIC_FRICTION);
-    wallobj->setRestitution(BASIC_RESTITUTION);
     
     // Add the scene graph nodes to this object
-    wall5 *= _scale;
-    image  = _assets->get<Texture2D>(EARTH_TEXTURE);
-    sprite = PolygonNode::createWithTexture(image,wall5);
-    wallobj->setSceneNode(sprite);
-    
-    draw = WireNode::create();
+    wallobj1->setTextureKey(EARTH_TEXTURE);
+    wallobj1->resetSceneNode();
+
     draw = WireNode::create();
     draw->setColor(DEBUG_COLOR);
     draw->setOpacity(DEBUG_OPACITY);
-    wallobj->setDebugNode(draw);
-    addObstacle(wallobj,1);
-    
-    
+    wallobj1->setDebugNode(draw);
+    addObstacle(wallobj1,1);
+
+
 #pragma mark : Avatar
     Vec2 avatarPos = ((Vec2)AVATAR_POS);
     _avatar = AvatarModel::create(avatarPos,_scale);
