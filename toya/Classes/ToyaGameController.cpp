@@ -5,13 +5,13 @@
 //  Created by 6SumStudio on 2/27/16.
 //
 //
-
 #include "ToyaGameController.h"
 #include "ToyaInputController.h"
 #include <cornell.h>
 #include <Box2D/Dynamics/b2World.h>
 #include <Box2D/Dynamics/Contacts/b2Contact.h>
 #include <Box2D/Collision/b2Collision.h>
+#include "ToyaJSBlockModel.h"
 
 #include <string>
 #include <iostream>
@@ -365,42 +365,50 @@ void GameController::populate() {
     
     
 #pragma mark : Wall polygon 1
+    // use the method of JSBlockModel
+    
     // Create ground pieces
     // All walls share the same texture
-    image  = _assets->get<Texture2D>(EARTH_TEXTURE);
-    string wname = "wall";
     
-    PolygonObstacle* wallobj;
+    JSBlockModel* wallobj1;
+    
+    // Initialize 1st arg
     Poly2 wall1(WALL1,20);
     wall1.triangulate();
-    wallobj = PolygonObstacle::create(wall1);
-    wallobj->setDrawScale(_scale.x, _scale.y);
-    wallobj->setName(wname);
     
-    // Set the physics attributes
-    wallobj->setBodyType(b2_staticBody);
-    wallobj->setDensity(BASIC_DENSITY);
-    wallobj->setFriction(BASIC_FRICTION);
-    wallobj->setRestitution(BASIC_RESTITUTION);
+    // 2nd arg _scale, 3rd arg (string type) texture
+    wallobj1 = JSBlockModel::createWithTexture(wall1, _scale, EARTH_TEXTURE); // 1st line
     
-    // Add the scene graph nodes to this object
-    wall1 *= _scale;
-    sprite = PolygonNode::createWithTexture(image,wall1);
-    wallobj->setSceneNode(sprite);
     
+    // Set the physics attributes (cannot be absorbed in to a method because we may change these macros)
+    wallobj1->setDensity(BASIC_DENSITY);
+    wallobj1->setFriction(BASIC_FRICTION);
+    wallobj1->setRestitution(BASIC_RESTITUTION);
+    
+    // the scenenode is created!
+    wallobj1->setTextureKey(EARTH_TEXTURE); // 2nd line
+    wallobj1->resetSceneNode(); //3rd line, just 3lines to replace original initializers
+    
+    
+    // Debug
     draw = WireNode::create();
     draw->setColor(DEBUG_COLOR);
     draw->setOpacity(DEBUG_OPACITY);
-    wallobj->setDebugNode(draw);
-    addObstacle(wallobj,1);  // All walls share the same texture
+    
+    wallobj1->setDebugNode(draw);
+    
+    //
+    addObstacle(wallobj1,1);  // All walls share the same texture
     
     
 #pragma mark : Wall polygon 2
+    PolygonObstacle* wallobj;
+    string wname = "wall";
     Poly2 wall2(WALL2,8);
     wall2.triangulate();
     wallobj = PolygonObstacle::create(wall2);
     wallobj->setDrawScale(_scale.x, _scale.y);
-    wallobj->setName(wname);
+    // wallobj->setName(wname);
     
     // Set the physics attributes
     wallobj->setBodyType(b2_staticBody);
