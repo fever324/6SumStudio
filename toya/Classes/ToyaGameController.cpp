@@ -40,11 +40,10 @@ float WALL1[] = { 0.0f, 36.0f,  64.0f, 36.0f,   64.0f, 31.0f,
     64.0f, 31.0f,   64.0f, 0.0f, 0.0f,0.0f};
 
 float WALL2[] = {5.0f,28.0f,   27.0f,28.0f,  27.0f, 26.0f,  5.0f, 26.0f };
-float WALL3[] = {30.0f,22.0f,  45.0f,22.0f, 45.0f,20.0f,  30.0f,20.0f};
+float WALL3[] = {30.0f,22.0f,  50.0f,22.0f, 50.0f,20.0f,  30.0f,20.0f};
+float WALL5[] = {50.0f, 20.0f,  50.0f, 26.0f,  48.0f,26.0f,  48.0f, 20.0f};
 
-float WALL4[] = {30.0f,12.5f,   23.0f,12.5f,   20.0f,13.5f,   18.0f,13.5f,  21.0f,10.5f,  30.0f,10.5f};
-
-float WALL5[] = {45.0f, 20.0f,  45.0f, 26.0f,  48.0f,26.0f,  48.0f, 20.0f};
+float WALL4[] = {30.0f,12.5f,   20.0f,12.5f,   17.0f,13.5f,   15.0f,13.5f,  19.0f,10.5f,  30.0f,10.5f};
 
 /** The positions of the crate pyramid */
 float BOXES[] = { 14.5f, 14.25f,
@@ -60,11 +59,11 @@ float BOXES[] = { 14.5f, 14.25f,
 /** The initial avatar position */
 float AVATAR_POS[] = {5.0, 30.0};
 /** The goal door position */
-float GOAL_POS[] = {31.0, 6.5};
+float GOAL_POS[] = {58.0, 6.5};
 /** The goal door position2 */
 float DOOR_POS[] = {31.0, 6.4};
 /** The barrier position */
-float BARRIER_POS[] = {32.0, 13.0};
+float BARRIER_POS[] = {32.5, 13.0};
 
 #pragma mark Assset Constants
 /** The key for the earth texture in the asset manager */
@@ -135,6 +134,7 @@ _avatar(nullptr),
 _active(false),
 _complete(false),
 _debug(false),
+_reset(false),
 _overview(nullptr)
 {
 }
@@ -283,6 +283,8 @@ void GameController::reset() {
     _theWorld->clear();
     _input.clear();
     setComplete(false);
+    setFail(false);
+    _reset = false;
     populate();
 }
 
@@ -563,6 +565,11 @@ void GameController::addObstacle(Obstacle* obj, int zOrder) {
  * @param  delta    Number of seconds since last animation frame
  */
 void GameController::update(float dt) {
+    
+    if (_reset == true) {
+        reset();
+    }
+    
     _input.update(dt);
 
     // Process the toggled key commands
@@ -625,6 +632,7 @@ void GameController::beginContact(b2Contact* contact) {
     if((body1->GetUserData() == _avatar && body2->GetUserData() == _barrier) ||
             (body1->GetUserData() == _barrier && body2->GetUserData() == _avatar)) {
         setFail(true);
+        _reset = true;
     }
     
     
@@ -635,6 +643,7 @@ void GameController::beginContact(b2Contact* contact) {
         setComplete(true);
 //        _avatar->setLinearVelocity(Vec2(0.0f, 0.0f));
         // TODO: pause it
+        _reset = true;
     } else {
         // See if we have hit a wall.
         if ((_avatar->getLeftSensorName() == fd2 && _avatar != bd1) ||

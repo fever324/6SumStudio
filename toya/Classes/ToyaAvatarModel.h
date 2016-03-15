@@ -29,7 +29,7 @@ using namespace cocos2d;
 /** The amount to slow the character down */
 #define AVATAR_DAMPING    5.0f
 /** The maximum character speed */
-#define AVATAR_MAXSPEED    10.0f
+#define AVATAR_MAXSPEED    8.0f
 /** Identifier to allow us to track the sensor in ContactListener */
 #define LEFT_SENSOR_NAME    "avatarLeftSensor"
 #define RIGHT_SENSOR_NAME    "avatarRightSensor"

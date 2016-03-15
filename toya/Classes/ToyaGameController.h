@@ -84,6 +84,8 @@ protected:
     bool _complete;
     /** Whether or not debug mode is active */
     bool _debug;
+    /** Whether or not reset mode is active */
+    bool _reset;
     
     
 #pragma mark Internal Object Management
