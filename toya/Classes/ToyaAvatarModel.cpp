@@ -18,7 +18,7 @@ using namespace cocos2d;
 /** the amout to shrink the body in three dimensions. **/
 #define AVATAR_SHRINK 0.2f
 /** The amount to shrink the sensor fixture (horizontally) relative to the image */
-#define AVATAR_SSHRINK  0.1f
+#define AVATAR_SSHRINK  0.5f
 /** Height of the sensor attached to the player's feet */
 #define SENSOR_HEIGHT   0.1f
 /** The density of the character */
@@ -135,7 +135,6 @@ bool AvatarModel::init(const Vec2& pos, const Vec2& scale) {
         setFixedRotation(true); // OTHERWISE, HE IS A WEEBLE WOBBLE
         
         // Gameplay attributes
-        //        _movement = AVATAR_INITIAL_SPEED;
         _faceRight  = true;
         _isGrounded = false;
         setDrawScale(scale);

@@ -563,7 +563,8 @@ void GameController::update(float dt) {
             cRotation -= 360;
         }        
         _theWorld->setRotation(cRotation);
-
+        _avatar->setAngle(cRotation/ 180.0f * M_PI);
+        
         Vec2 gravity = Vec2(DEFAULT_GRAVITY,DEFAULT_GRAVITY);
         Vec2 newGravity = _input.getGravity(gravity,cRotation);
         
@@ -575,8 +576,6 @@ void GameController::update(float dt) {
 //    _theWorld->setWorldPos(pos);
     _theWorld->setWorldPos(_avatar,pos);
     
-    // Apply the force to the rocket // Hongfei TODO
-    _avatar->update(dt);
     // Turn the physics engine crank.
     _theWorld->update(dt);
 }
@@ -618,7 +617,7 @@ void GameController::beginContact(b2Contact* contact) {
        (body1->GetUserData() == _goalDoor && body2->GetUserData() == _avatar)) {
 //        addObstacle(_door, 3);
         setComplete(true);
-//        _avatar->setLinearVelocity(Vec2(0.0f, 0.0f));
+        _avatar->setLinearVelocity(Vec2(0.0f, 0.0f));
         // TODO: pause it
         _reset = true;
     } else {

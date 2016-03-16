@@ -27,9 +27,9 @@ using namespace cocos2d;
 #pragma mark -
 #pragma mark Physics Constants
 /** The initial speed of avatar **/
-#define AVATAR_INITIAL_SPEED 3.0f
+#define AVATAR_INITIAL_SPEED 5.0f
 /** The factor to multiply by the input */
-#define AVATAR_FORCE    1.0f
+#define AVATAR_FORCE    2.0f
 /** The amount to slow the character down */
 #define AVATAR_DAMPING    5.0f
 /** The maximum character speed */
@@ -227,13 +227,17 @@ public:
      */
     bool isFacingRight() const { return _faceRight; }
     void setFacingRight(bool faceRight) {
+        
+        int direction = faceRight ? 1 : -1;
+        
+        if(_faceRight != faceRight) {
+            setLinearVelocity((Vec2){direction * getForce(), 0});
+        }
         _faceRight = faceRight;
         
         // Change facing
 //        _avatarBody->flipHorizontal(!faceRight);
 
-        int direction = _faceRight ? 1 : -1;
-        setLinearVelocity((Vec2){direction * getForce(), 0});
     }
     
     
