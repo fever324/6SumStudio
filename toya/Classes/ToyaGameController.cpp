@@ -83,7 +83,9 @@ float BARRIER_POS[] = {32.5, 13.0};
 #define AVATAR_TEXTURE      "avatar"
 /** The key for the block texture in the asset manager */
 #define BLOCK_TEXTURE       "block"
-#define BEAR_TEXTURE "bear"
+#define BARRIER_TEXTURE     "obstacle"
+#define BEAR_TEXTURE        "bear"
+#define BACKGROUND_TEXTURE  "background"
 /** Color to outline the physics nodes */
 #define DEBUG_COLOR     Color3B::YELLOW
 /** Opacity of the physics outlines */
@@ -342,7 +344,7 @@ void GameController::populate() {
     addObstacle(_goalDoor, 2); // Put this at the very back
 
     //
-    Texture2D* image2 = _assets->get<Texture2D>(BEAR_TEXTURE);
+    Texture2D* image2 = _assets->get<Texture2D>(GOAL_TEXTURE);
     PolygonNode* sprite2;
 
     Vec2 doorPos = ((Vec2)DOOR_POS);
@@ -491,7 +493,7 @@ void GameController::populate() {
     _theWorld->setFollow(_avatar);
 
 #pragma mark : Barrier
-    Texture2D* image3 = _assets->get<Texture2D>(BEAR_TEXTURE);
+    Texture2D* image3 = _assets->get<Texture2D>(BARRIER_TEXTURE);
     PolygonNode* sprite3;
 
     Vec2 barrierPos = ((Vec2)BARRIER_POS);
@@ -500,7 +502,10 @@ void GameController::populate() {
     _barrier = BlockModel::create(barrierPos, barrierSize/6);
     _barrier->setDrawScale(_scale.x, _scale.y);
 
-    //
+    draw = WireNode::create();
+    draw->setColor(DEBUG_COLOR);
+    draw->setOpacity(DEBUG_OPACITY);
+    _barrier->setDebugNode(draw);
     _barrier->setBodyType(b2_staticBody);
     _barrier->setDensity(0.0f);
     _barrier->setFriction(0.0f);
@@ -687,9 +692,11 @@ void GameController::preload() {
     TextureLoader* tloader = (TextureLoader*)_assets->access<Texture2D>();
     _assets->loadAsync<TTFont>(PRIMARY_FONT, "fonts/arial.ttf");
     tloader->loadAsync(EARTH_TEXTURE,       "textures/earthtile.png", params);
+    tloader->loadAsync(BACKGROUND_TEXTURE,  "textures/background-01.png", params);
     tloader->loadAsync(AVATAR_TEXTURE,   "textures/bears.png");
     tloader->loadAsync(BLOCK_TEXTURE,   "textures/block.png");
     tloader->loadAsync(REMOVABLE_TEXTURE,   "textures/removable.png", params);
     tloader->loadAsync(GOAL_TEXTURE,   "textures/door.png");
+    tloader->loadAsync(BARRIER_TEXTURE,   "textures/obstacle_01.png");
     tloader->loadAsync(BEAR_TEXTURE,   "textures/bear.png");
 }
