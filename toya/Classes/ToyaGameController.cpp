@@ -268,6 +268,10 @@ bool GameController::init(RootLayer* root, const Rect& rect, const Vec2& gravity
     world->onBeginContact = [this](b2Contact* contact) {
         beginContact(contact);
     };
+    
+    world->onEndContact = [this] (b2Contact * contact) {
+        endContact(contact);
+    };
     world->beforeSolve = [this](b2Contact* contact, const b2Manifold* oldManifold) {
         beforeSolve(contact,oldManifold);
     };
@@ -666,6 +670,33 @@ void GameController::update(float dt) {
     _theWorld->update(dt);
 }
 
+/**
+ * Processes the start of a collision
+ *
+ * This method is called when we first get a collision between two objects.  We use
+ * this method to test if it is the "right" kind of collision.  In particular, we
+ * use it to test if we make it to the win door.
+ *
+ * @param  contact  The two bodies that collided
+ */
+void GameController::endContact(b2Contact* contact) {
+    b2Fixture* fix1 = contact->GetFixtureA();
+    b2Fixture* fix2 = contact->GetFixtureB();
+    
+    b2Body* body1 = fix1->GetBody();
+    b2Body* body2 = fix2->GetBody();
+    
+    void* fd1 = fix1->GetUserData();
+    void* fd2 = fix2->GetUserData();
+    
+    Obstacle* bd1 = (Obstacle*)body1->GetUserData();
+    Obstacle* bd2 = (Obstacle*)body2->GetUserData();
+    if ((_avatar->getBottomSensorName() == fd2 && _avatar != bd1)||
+        (_avatar->getBottomSensorName() == fd1 && _avatar != bd2)) {
+        _avatar->setGrounded(false);
+    }
+
+}
 
 
 /**
@@ -719,7 +750,11 @@ void GameController::beginContact(b2Contact* contact) {
         } else if ((_avatar->getRightSensorName() == fd2 && _avatar != bd1) ||
                    (_avatar->getRightSensorName() == fd1 && _avatar != bd2)) {
             _avatar->setFacingRight(false);
+        } else if ((_avatar->getBottomSensorName() == fd2 && _avatar != bd1)||
+                   (_avatar->getBottomSensorName() == fd1 && _avatar != bd2)) {
+            _avatar->setGrounded(true);
         }
+
     }
 }
 

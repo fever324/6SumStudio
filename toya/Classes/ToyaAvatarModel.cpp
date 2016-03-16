@@ -289,7 +289,7 @@ void AvatarModel::releaseFixtures() {
  * This method should be called after the force attribute is set.
  */
 void AvatarModel::applyForce() {
-    if (!isActive()) {
+    if (!isActive() || !isGrounded()) {
         return;
     }
     // Don't want to be moving. Damp out player motion

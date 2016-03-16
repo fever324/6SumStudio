@@ -200,6 +200,7 @@ void WorldModel::setGravity(const Vec2& gravity){
 
 void WorldModel::setRotation(float rotation){
     _worldnode->setRotation(rotation);
+    auto g = _world->getGravity();
     
     // rotate the debug node
 //    _debugnode->setRotation(rotation);
