@@ -688,7 +688,7 @@ void GameController::preload() {
     TextureLoader* tloader = (TextureLoader*)_assets->access<Texture2D>();
     _assets->loadAsync<TTFont>(PRIMARY_FONT, "fonts/arial.ttf");
     tloader->loadAsync(EARTH_TEXTURE,       "textures/earthtile.png", params);
-    tloader->loadAsync(AVATAR_TEXTURE,   "textures/avatar.png");
+    tloader->loadAsync(AVATAR_TEXTURE,   "textures/bears.png");
     tloader->loadAsync(BLOCK_TEXTURE,   "textures/block.png");
     tloader->loadAsync(REMOVABLE_TEXTURE,   "textures/removable.png", params);
     tloader->loadAsync(GOAL_TEXTURE,   "textures/door.png");
