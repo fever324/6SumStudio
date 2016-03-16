@@ -112,7 +112,9 @@ float BARRIER_POS[] = {32.5, 13.0};
 #define AVATAR_TEXTURE      "avatar"
 /** The key for the block texture in the asset manager */
 #define BLOCK_TEXTURE       "block"
-#define BEAR_TEXTURE "bear"
+#define BARRIER_TEXTURE     "obstacle"
+#define BEAR_TEXTURE        "bear"
+#define BACKGROUND_TEXTURE  "background"
 /** Color to outline the physics nodes */
 #define DEBUG_COLOR     Color3B::YELLOW
 #define WORLD_COLOR     Color3B::RED
@@ -555,7 +557,7 @@ void GameController::populate() {
     _theWorld->setFollow(_avatar);
 
 #pragma mark : Barrier
-    Texture2D* image3 = _assets->get<Texture2D>(BEAR_TEXTURE);
+    Texture2D* image3 = _assets->get<Texture2D>(BARRIER_TEXTURE);
     PolygonNode* sprite3;
 
     Vec2 barrierPos = ((Vec2)BARRIER_POS);
@@ -564,7 +566,10 @@ void GameController::populate() {
     _barrier = BlockModel::create(barrierPos, barrierSize/6);
     _barrier->setDrawScale(_scale.x, _scale.y);
 
-    //
+    draw = WireNode::create();
+    draw->setColor(DEBUG_COLOR);
+    draw->setOpacity(DEBUG_OPACITY);
+    _barrier->setDebugNode(draw);
     _barrier->setBodyType(b2_staticBody);
     _barrier->setDensity(0.0f);
     _barrier->setFriction(0.0f);
