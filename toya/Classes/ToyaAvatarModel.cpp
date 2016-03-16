@@ -18,7 +18,7 @@ using namespace cocos2d;
 /** the amout to shrink the body in three dimensions. **/
 #define AVATAR_SHRINK 0.2f
 /** The amount to shrink the sensor fixture (horizontally) relative to the image */
-#define AVATAR_SSHRINK  0.1f
+#define AVATAR_SSHRINK  0.5f
 /** Height of the sensor attached to the player's feet */
 #define SENSOR_HEIGHT   0.1f
 /** The density of the character */
@@ -129,19 +129,18 @@ bool AvatarModel::init(const Vec2& pos, const Vec2& scale) {
     Size avatarSize = Size(image->getContentSize().width*cscale*AVATAR_SHRINK/scale.x,image->getContentSize().height*cscale*AVATAR_SHRINK/scale.y);
     
     if (CapsuleObstacle::init(pos, avatarSize)) {
-        
+        _animationFrameCount = 0;
         setDensity(AVATAR_DENSITY);
         setFriction(0.0f);      // HE WILL STICK TO WALLS IF YOU FORGET
         setFixedRotation(true); // OTHERWISE, HE IS A WEEBLE WOBBLE
         
         // Gameplay attributes
-        //        _movement = AVATAR_INITIAL_SPEED;
         _faceRight  = true;
         _isGrounded = false;
         setDrawScale(scale);
         setLinearVelocity((Vec2){AVATAR_INITIAL_SPEED,0});
         
-        PolygonNode* sprite = PolygonNode::createWithTexture(image);
+        PolygonNode* sprite = PolygonNode::create(Rect(0, 0, avatarSize.width, avatarSize.height));
         sprite->setScale(AVATAR_SHRINK);
         setSceneNode(sprite);
         
@@ -309,6 +308,61 @@ void AvatarModel::applyForce() {
     
 }
 
+#pragma mark -
+#pragma mark Animation
+/**
+ *  Animates the avatar
+ */
+void AvatarModel::animateAvatar() {
+    if(_avatarBody->getFrame() == 0) {
+        _cycle = true;
+    } else if (_avatarBody->getFrame() == AVATAR_ANIMATION_COLS-1) {
+        _cycle = false;
+    }
+    
+    int base = isFacingRight() ? 0 : 3;
+    if(_cycle) {
+        if(++_animationFrameCount % AVATAR_CYCLE_PER_FRAME == 0) {
+            _avatarBody->setFrame(base + (_avatarBody->getFrame()+1)%AVATAR_ANIMATION_COLS);
+            _animationFrameCount = 0;
+        }
+    } else {
+        if(++_animationFrameCount % AVATAR_CYCLE_PER_FRAME == 0) {
+            _avatarBody->setFrame(base + (_avatarBody->getFrame()-1)%AVATAR_ANIMATION_COLS);
+            _animationFrameCount = 0;
+        }
+    }
+}
+
+/**
+ * Performs any necessary additions to the scene graph node.
+ *
+ * This method is necessary for custom physics objects that are composed
+ * of multiple scene graph nodes.  In this case, it is because we
+ * manage our own afterburner animations.
+ */
+void AvatarModel::resetSceneNode() {
+    float cscale = Director::getInstance()->getContentScaleFactor();
+    PolygonNode* pnode = dynamic_cast<PolygonNode*>(_node);
+    
+    if(pnode != nullptr) {
+        SceneManager* assets =  AssetManager::getInstance()->getCurrent();
+        
+        Rect bounds;
+        bounds.size = getDimension();
+        bounds.size.width  *= _drawScale.x/cscale;
+        bounds.size.height *= _drawScale.y/cscale;
+        
+        Texture2D* image = assets->get<Texture2D>(AVATAR_TEXTURE);
+        
+        _avatarBody = AnimationNode::create(image, 2, 3, AVATAR_FRAMES);
+        
+        pnode->addChild(_avatarBody);
+        _avatarBody->setPosition(pnode->getContentSize().width/2.0f,pnode->getContentSize().height/2.0f);
+        
+    }
+}
+
 /**
  * Updates the object's physics state (NOT GAME LOGIC).
  *
@@ -318,7 +372,7 @@ void AvatarModel::applyForce() {
  */
 void AvatarModel::update(float dt) {
     CapsuleObstacle::update(dt);
-    
+    animateAvatar();
     int direction = isFacingRight() ? 1 : -1;
     setMovement(direction*getForce());
     applyForce();
