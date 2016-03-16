@@ -6,16 +6,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "No"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../Classes/ToyaGameController.cpp"
-            timestampString = "479593025.0056"
+            timestampString = "479850840.214726"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "485"
-            endingLineNumber = "485"
-            landmarkName = "GameController::populate()"
+            startingLineNumber = "327"
+            endingLineNumber = "327"
+            landmarkName = "GameController::reset()"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

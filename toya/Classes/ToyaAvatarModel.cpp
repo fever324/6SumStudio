@@ -302,7 +302,9 @@ void AvatarModel::applyForce() {
     if (fabs(getVX()) >= getMaxSpeed()) {
         setVX(SIGNUM(getVX())*getMaxSpeed());
     } else {
-        b2Vec2 force(getMovement(),0);
+        float angle = getAngle();
+        b2Vec2 force(getMovement()* cos(angle),getMovement() * sin(angle));
+
         _body->ApplyForce(force,_body->GetPosition(),true);
     }
     
@@ -332,6 +334,15 @@ void AvatarModel::animateAvatar() {
             _animationFrameCount = 0;
         }
     }
+}
+
+void AvatarModel::reset() {
+//    resetDebugNode();
+//    resetSceneNode();
+    setLinearVelocity((Vec2){AVATAR_INITIAL_SPEED,0});
+    _animationFrameCount = 0;
+    _faceRight = true;
+    
 }
 
 /**

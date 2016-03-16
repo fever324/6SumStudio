@@ -125,7 +125,7 @@ float BARRIER_POS[] = {32.5, 13.0};
 #define DEBUG_OPACITY   192
 
 
-#define COOL_DOWN   30
+#define COOL_DOWN   120
 
 /** The key for collisions sounds */
 #define COLLISION_SOUND     "bump"
@@ -328,6 +328,7 @@ void GameController::reset() {
     _input.clear();
     setComplete(false);
     _overview->reset();
+
     setFail(false);
     _reset = false;
     _cooldown = COOL_DOWN;
