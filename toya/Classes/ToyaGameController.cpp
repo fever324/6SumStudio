@@ -112,12 +112,13 @@ float BARRIER_POS[] = {32.5, 13.0};
 #define AVATAR_TEXTURE      "avatar"
 /** The key for the block texture in the asset manager */
 #define BLOCK_TEXTURE       "block"
-#define BARRIER_TEXTURE     "obstacle"
+#define BARRIER_TEXTURE     "barrier"
 #define BEAR_TEXTURE        "bear"
+//#define AVATAR_TEXTURE        "bears"
 #define BACKGROUND_TEXTURE  "background"
 /** Color to outline the physics nodes */
 #define DEBUG_COLOR     Color3B::YELLOW
-#define WORLD_COLOR     Color3B::RED
+#define WORLD_COLOR     Color3B::BLUE
 /** Opacity of the physics outlines */
 #define DEBUG_OPACITY   192
 
@@ -231,7 +232,7 @@ bool GameController::init(RootLayer* root, const Rect& rect) {
  * @return  true if the controller is initialized properly, false otherwise.
  */
 bool GameController::init(RootLayer* root, const Rect& rect, const Vec2& gravity) {
-    root->setColor(WORLD_COLOR);
+//    root->setColor(WORLD_COLOR);
     Vec2 inputscale = Vec2(root->getScaleX(),root->getScaleY());
     _input.init();
     _input.start();

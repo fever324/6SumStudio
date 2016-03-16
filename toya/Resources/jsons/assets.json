@@ -15,6 +15,14 @@
         "removable": {
             "file":     "textures/removable.png",
             "wrap":     true
+        },
+        "avatar": {
+            "file":     "textures/bears.png",
+            "wrap":     false
+        },
+        "barrier":    {
+            "file":     "textures/obstacle_01.png",
+            "wrap":     false
         }
   	},
   	"sounds": {

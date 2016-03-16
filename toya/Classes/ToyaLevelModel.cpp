@@ -262,10 +262,10 @@ bool LevelModel::load() {
     /** Create the physics world */
     _world = WorldModel::create(Size(w, h),_gravity);
     // Parse the bear
-    if (!loadAvatar(reader)) {
-        CCASSERT(false, "Failed to load rocket");
-        return false;
-    }
+//    if (!loadAvatar(reader)) {
+//        CCASSERT(false, "Failed to load rocket");
+//        return false;
+//    }
 
 //    if (!loadGoalDoor(reader)) {
 //        CCASSERT(false, "Failed to load goal door");
