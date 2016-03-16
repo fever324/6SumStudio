@@ -40,7 +40,7 @@ using namespace cocos2d;
 #pragma mark -
 #pragma mark Physics Constants
 /** The default gravity of the world **/
-#define WORLD_GRAVITY  -8.0f
+#define WORLD_GRAVITY  -5.0f
 /** The default wind resistance of the world*/
 #define WIND_RESISTANCE 0.0f
 

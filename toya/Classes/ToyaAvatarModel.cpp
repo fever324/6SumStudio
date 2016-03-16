@@ -292,6 +292,9 @@ void AvatarModel::applyForce() {
     if (!isActive()) {
         return;
     }
+    if (!isGrounded()){
+        return;
+    }
     // Don't want to be moving. Damp out player motion
     if (getMovement() == 0.0f) {
         b2Vec2 force(-getDamping()*getVX(),0);

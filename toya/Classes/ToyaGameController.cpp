@@ -57,7 +57,7 @@ using namespace std;
 /** Height of the game world in Box2d units */
 #define DEFAULT_HEIGHT  36.0
 /** The default value of gravity (going down) */
-#define DEFAULT_GRAVITY -8.0f
+#define DEFAULT_GRAVITY -5.0f
 
 /** To automate the loading of crate files */
 #define NUM_CRATES 2
@@ -264,7 +264,6 @@ bool GameController::init(RootLayer* root, const Rect& rect, const Vec2& gravity
     root->addChild(failnode,3);
     root->addChild(timenode,3);
 
-    
     world->onBeginContact = [this](b2Contact* contact) {
         beginContact(contact);
     };
@@ -655,6 +654,7 @@ void GameController::update(float dt) {
         Vec2 newGravity = _input.getGravity(gravity,cRotation);
         
         _theWorld->setGravity(newGravity);
+        CCLOG("%f,%f",newGravity.x,newGravity.y);
     }
     
     //    update world position
