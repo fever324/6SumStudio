@@ -142,6 +142,10 @@ bool WorldModel::init(const Vec2& size, const Vec2& gravity) {
     _debugnode = Node::create();
     _winnode = Label::create();
     _failnode = Label::create();
+    
+    _timenode = Label::create();
+    _timenode->setVisible(false);
+    _timenode->setPosition(DESIGN_RES_W/2.0f,DESIGN_RES_H/2.0f-100);
 
     _winnode->setString("VICTORY!");
     _failnode->setString("GAME OVER");
@@ -204,22 +208,6 @@ void WorldModel::setRotation(float rotation){
 void WorldModel::update(float dt){
     _world->update(dt);
 //    _worldnode->update(dt);
-}
-
-void WorldModel::clear(){
-    _world->clear();
-    _worldnode->removeAllChildren();
-    _worldnode->setRotation(0.0f);
-    _debugnode->removeAllChildren();
-    
-    
-    // Reset the debug background
-    LayerColor* bg = LayerColor::create(Color4B(53, 53, 53, 255));
-    // change the scale to parameter
-    bg->setContentSize(Size(DESIGN_RES_W*2,DESIGN_RES_H*2));
-    _debugnode->addChild(bg);
-
-    _follow = nullptr;
 }
 
 void WorldModel::addObstacle(Obstacle* obj, int zOrder){
@@ -286,6 +274,31 @@ void WorldModel::setWorldPos(Vec2& pos){
 //        _worldnode->setPosition(pos);
 
 //    }
+}
+
+void WorldModel::showTime(double time){
+    std::ostringstream s;
+    s << "Time Cost  " << time;
+    _timenode->setString(s.str());
+    _timenode->setVisible(true);
+}
+
+
+void WorldModel::clear(){
+    _world->clear();
+    _worldnode->removeAllChildren();
+    _worldnode->setRotation(0.0f);
+    _debugnode->removeAllChildren();
+    
+    
+    // Reset the debug background
+    LayerColor* bg = LayerColor::create(Color4B(53, 53, 53, 255));
+    // change the scale to parameter
+    bg->setContentSize(Size(DESIGN_RES_W*2,DESIGN_RES_H*2));
+    _debugnode->addChild(bg);
+    _timenode->setVisible(false);
+    
+    _follow = nullptr;
 }
 
 #pragma mark -

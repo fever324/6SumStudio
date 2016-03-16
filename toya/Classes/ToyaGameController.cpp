@@ -253,14 +253,16 @@ bool GameController::init(RootLayer* root, const Rect& rect, const Vec2& gravity
     // TODO: move this part to WorldModel too.
     Label* winnode = _theWorld->getWinNode();
     Label* failnode = _theWorld->getFailNode();
+    Label* timenode = _theWorld->getTimeNode();
     winnode->setTTFConfig(_assets->get<TTFont>(PRIMARY_FONT)->getTTF());
     failnode->setTTFConfig(_assets->get<TTFont>(PRIMARY_FONT)->getTTF());
-    
+    timenode->setTTFConfig(_assets->get<TTFont>(PRIMARY_FONT)->getTTF());
     
     root->addChild(_theWorld->getWorldNode(),0);
     root->addChild(_theWorld->getDebugNode(),1);
     root->addChild(winnode,3);
     root->addChild(failnode,3);
+    root->addChild(timenode,3);
 
     
     world->onBeginContact = [this](b2Contact* contact) {
@@ -325,6 +327,7 @@ void GameController::reset() {
     _theWorld->clear();
     _input.clear();
     setComplete(false);
+    _overview->reset();
     setFail(false);
     _reset = false;
     _cooldown = COOL_DOWN;
@@ -690,6 +693,9 @@ void GameController::beginContact(b2Contact* contact) {
     if((body1->GetUserData() == _avatar && body2->GetUserData() == _barrier) ||
             (body1->GetUserData() == _barrier && body2->GetUserData() == _avatar)) {
         setFail(true);
+        // show time using
+//        double time = _overview->getCurrentPlayTime();
+//        _theWorld->showTime(time);
         _reset = true;
     }
     
@@ -701,6 +707,8 @@ void GameController::beginContact(b2Contact* contact) {
         setComplete(true);
         _avatar->setLinearVelocity(Vec2(0.0f, 0.0f));
         // TODO: pause it
+        double time = _overview->getCurrentPlayTime();
+        _theWorld->showTime(time);
         _reset = true;
     } else {
         // See if we have hit a wall.

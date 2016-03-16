@@ -99,3 +99,8 @@ void OverviewModel::resumeFromPause() {
 }
 
 
+void OverviewModel::reset() {
+    currentPlayTime = 0;
+    startTime = current_time();
+}
+
