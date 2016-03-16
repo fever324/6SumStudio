@@ -20,11 +20,18 @@ using namespace cocos2d;
 
 #pragma mark -
 #pragma mark Drawing Constants
+
+#define DESIGN_RES_W    1024
+#define DESIGN_RES_H    576
+
 /** The default texture for the the world background */
 #define WORLD_TEXTURE    "sky"
+
 /** The default size of the world **/
 #define WORLD_WIDTH 64.0f
+#define WORLD_SCALE_X 32.0f
 #define WORLD_HEIGHT 36.0f
+#define WORLD_SCALE_Y 18.0f
 /** The default initial anchor point of the world, center of the camera view **/
 #define ANCHOR_POINT 0.5
 /** Debug color for the sensor */
@@ -47,9 +54,9 @@ using namespace cocos2d;
  *
  * @return  An autoreleased physics object
  */
-WorldModel* WorldModel::create(const Size& root) {
+WorldModel* WorldModel::create() {
     WorldModel* world = new (std::nothrow) WorldModel();
-    if (world && world->init(root)) {
+    if (world && world->init()) {
 //        world->autorelease();
         return world;
     }
@@ -65,9 +72,9 @@ WorldModel* WorldModel::create(const Size& root) {
  * @return  An autoreleased physics object
  */
 
-WorldModel* WorldModel::create(const Size& root,const Vec2& size) {
+WorldModel* WorldModel::create(const Vec2& size) {
     WorldModel* world = new (std::nothrow) WorldModel();
-    if (world && world->init(root,size)) {
+    if (world && world->init(size)) {
 //        world->autorelease();
         return world;
     }
@@ -84,9 +91,9 @@ WorldModel* WorldModel::create(const Size& root,const Vec2& size) {
  * @return  An autoreleased physics object
  */
 
-WorldModel* WorldModel::create(const Size& root,const Vec2& size, const Vec2& anchor) {
+WorldModel* WorldModel::create(const Vec2& size, const Vec2& anchor) {
     WorldModel* world = new (std::nothrow) WorldModel();
-    if (world && world->init(root,size,anchor)) {
+    if (world && world->init(size,anchor)) {
 //        world->autorelease();
         return world;
     }
@@ -103,12 +110,12 @@ WorldModel* WorldModel::create(const Size& root,const Vec2& size, const Vec2& an
  *
  * @return  true if the obstacle is initialized properly, false otherwise.
  */
-bool WorldModel::init(const Size& root) {
-    return init(root,Vec2(WORLD_WIDTH,WORLD_HEIGHT),Vec2(ANCHOR_POINT,ANCHOR_POINT));
+bool WorldModel::init() {
+    return init(Vec2(WORLD_WIDTH,WORLD_HEIGHT),Vec2(0,WORLD_GRAVITY));
 }
 
-bool WorldModel::init(const Size& root, const Vec2& size) {
-    return init(root,size,Vec2(ANCHOR_POINT,ANCHOR_POINT));
+bool WorldModel::init(const Vec2& size) {
+    return init(size,Vec2(0,WORLD_GRAVITY));
 }
 
 /**
@@ -121,13 +128,13 @@ bool WorldModel::init(const Size& root, const Vec2& size) {
  */
 
 
-bool WorldModel::init(const Size& root,const Vec2& size, const Vec2& anchor) {
+bool WorldModel::init(const Vec2& size, const Vec2& gravity) {
 
     // define the scale
-    _scale.set(root.width/32.0f,root.height/18.0f);
+    _scale.set(DESIGN_RES_W/WORLD_SCALE_X,DESIGN_RES_H/WORLD_SCALE_Y);
     _follow = new Follow();
     
-    _world = WorldController::create(Rect(0, 0, size.x, size.y), Vec2(0, WORLD_GRAVITY));
+    _world = WorldController::create(Rect(0, 0, size.x, size.y), gravity);
     _world->retain();
     _world->activateCollisionCallbacks(true);
     // Create the scene graph
@@ -146,12 +153,11 @@ bool WorldModel::init(const Size& root,const Vec2& size, const Vec2& anchor) {
     
     _failnode->setVisible(false);
     
-    _winnode->setPosition(root.width/2.0f,root.height/2.0f);
+    _winnode->setPosition(DESIGN_RES_W/2.0f,DESIGN_RES_H/2.0f);
     
-    _failnode->setPosition(root.width/2.0f,root.height/2.0f);
+    _failnode->setPosition(DESIGN_RES_W/2.0f,DESIGN_RES_H/2.0f);
     
-    _worldnode->setContentSize(root);
-    _worldnode->setAnchorPoint(Vec2(0, 2));
+    _worldnode->setContentSize(Size(DESIGN_RES_W,DESIGN_RES_H));
     
     // make sure that anchor point doesn't affect the position.
     _worldnode->ignoreAnchorPointForPosition(true);
@@ -159,11 +165,10 @@ bool WorldModel::init(const Size& root,const Vec2& size, const Vec2& anchor) {
 //    _worldnode->setPosition(-2.5f*_scale.x,(18.0f-WORLD_HEIGHT+2.5f)*_scale.y);
     
     
-    _debugnode->setPosition(Vec2(root.width/4.0f,root.height/4.0f));
+    _debugnode->setPosition(Vec2(DESIGN_RES_W/4.0f,DESIGN_RES_H/4.0f));
     
     // scale the debugnode to half size of the screen
-    _debugnode->setScale(0.5f / (WORLD_WIDTH / 32.0f));
-
+    _debugnode->setScale(0.5f / (WORLD_WIDTH / WORLD_SCALE_X));
 
     return true;
 }
@@ -227,7 +232,7 @@ void WorldModel::removeObstacle(Obstacle* obj){
 }
 
 void WorldModel::setWorldPos(Obstacle* obj,Vec2& pos){
-    _worldnode->setAnchorPoint(Vec2( pos.x / 32.0, pos.y / 18.0 ));
+    _worldnode->setAnchorPoint(Vec2( pos.x / WORLD_SCALE_X, pos.y / WORLD_SCALE_Y ));
 }
 void WorldModel::setFollow(Obstacle* obj){
     if (_follow == nullptr ) {
@@ -238,11 +243,8 @@ void WorldModel::setFollow(Obstacle* obj){
 }
 
 void WorldModel::setWorldPos(Vec2& pos){
-    
-//    CCLOG("Current Avatar Pos: %f,%f",pos.x,pos.y);
-    
-    _worldnode->setAnchorPoint(Vec2(pos.x/64.0f, (36.0f-pos.y) / 36.0 ));
-    
+    // calulate the position based on the avatar position
+    // maybe useless after we choose to use follow
     pos.x = -(2.5 + pos.x - 16.0)*_scale.x;
     pos.y = (9.0f-WORLD_HEIGHT + 18.0*2-pos.y)*_scale.y;
     _worldnode->setPosition(pos);

@@ -12,14 +12,42 @@
 #include <Box2D/Dynamics/Contacts/b2Contact.h>
 #include <Box2D/Collision/b2Collision.h>
 #include "ToyaJSBlockModel.h"
+#include "ToyaLevelModel.h"
 
 #include <string>
 #include <iostream>
 #include <sstream>
 
+// This is not part of cornell.h and SHOULD come last
+#include <cornell/CUGenericLoader.h>
+
 
 using namespace cocos2d;
 using namespace std;
+
+#pragma mark -
+#pragma mark Asset Constants
+/** The JSON file that is the asset directory */
+#define ASSET_DIRECTORY     "jsons/assets.json"
+/** The key the source file */
+#define FILE_KEY           "file"
+/** The key indentifying textures to load */
+#define TEXTURE_KEY         "textures"
+/** The key indicating if a texture is wrapped */
+#define TEXTURE_WRAP        "wrap"
+/** The key indentifying sounds to load */
+#define SOUNDS_KEY          "sounds"
+/** The key indicating the sound volume to use */
+#define SOUND_VOLUME        "volume"
+/** The key indentifying fonts to load */
+#define FONTS_KEY           "fonts"
+/** The key indentifying the fonts size to use */
+#define FONT_SIZE           "size"
+
+/** The source for our level file */
+#define LEVEL_ONE_FILE      "jsons/level.json"
+/** The key for our loaded level */
+#define LEVEL_ONE_KEY       "level1"
 
 #pragma mark -
 #pragma mark Level Geography
@@ -61,6 +89,7 @@ float BOXES[] = { 14.5f, 14.25f,
 float AVATAR_POS[] = {5.0, 30.0};
 /** The goal door position */
 float GOAL_POS[] = {58.0, 6.5};
+//float GOAL_POS[] = {12.0, 28.5};
 /** The goal door position2 */
 float DOOR_POS[] = {31.0, 6.4};
 /** The barrier position */
@@ -86,6 +115,7 @@ float BARRIER_POS[] = {32.5, 13.0};
 #define BEAR_TEXTURE "bear"
 /** Color to outline the physics nodes */
 #define DEBUG_COLOR     Color3B::YELLOW
+#define WORLD_COLOR     Color3B::RED
 /** Opacity of the physics outlines */
 #define DEBUG_OPACITY   192
 
@@ -133,6 +163,7 @@ _rootnode(nullptr),
 _goalDoor(nullptr),
 _avatar(nullptr),
 _active(false),
+_level(nullptr),
 _complete(false),
 _debug(false),
 _reset(false),
@@ -198,11 +229,12 @@ bool GameController::init(RootLayer* root, const Rect& rect) {
  * @return  true if the controller is initialized properly, false otherwise.
  */
 bool GameController::init(RootLayer* root, const Rect& rect, const Vec2& gravity) {
+    root->setColor(WORLD_COLOR);
     Vec2 inputscale = Vec2(root->getScaleX(),root->getScaleY());
     _input.init();
     _input.start();
     
-    _theWorld = WorldModel::create(root->getContentSize());
+    _theWorld = WorldModel::create();
     
     // Create the scene graph
     
@@ -317,9 +349,41 @@ void GameController::populate() {
     
     // Create obstacle
     Vec2 goalPos = ((Vec2)GOAL_POS);
+    
     sprite = PolygonNode::createWithTexture(image);
-    Size goalSize(image->getContentSize().width/_scale.x,
-                  image->getContentSize().height/_scale.y);
+    
+    Size goalSize(image->getContentSize().width/_scale.x, image->getContentSize().height/_scale.y);
+////    Size goalSize(10,5);
+//    
+//    PolygonObstacle* door;
+//    
+//    float goal[] = {10.0f,20.0f,  10.0f, 20.0f + goalSize.height, 10.0f + goalSize.width, 20.0f + goalSize.height,  10.0f + goalSize.width, 20.0f};
+//    
+//    Poly2 goald(goal,8);
+//    goald.triangulate();
+//    
+//    door = PolygonObstacle::create(goald);
+//    door->setAnchor(0, 0);
+//    door->setDrawScale(_scale.x, _scale.y);
+//    
+//    door->setBodyType(b2_staticBody);
+//    door->setDensity(BASIC_DENSITY);
+//    door->setFriction(BASIC_FRICTION);
+//    door->setRestitution(BASIC_RESTITUTION);
+//    
+//    goald *= _scale;
+//    
+//    sprite = PolygonNode::createWithTexture(image,goald);
+//    door->setSceneNode(sprite);
+//    
+//    draw = WireNode::create();
+//    draw->setColor(DEBUG_COLOR);
+//    draw->setOpacity(DEBUG_OPACITY);
+//    door->setDebugNode(draw);
+//
+//    addObstacle(door,5);  // All walls share the same texture
+
+    
     _goalDoor = BlockModel::create(goalPos,goalSize/6);
     _goalDoor->setDrawScale(_scale.x, _scale.y);
     
@@ -342,25 +406,25 @@ void GameController::populate() {
     addObstacle(_goalDoor, 2); // Put this at the very back
 
     //
-    Texture2D* image2 = _assets->get<Texture2D>(BEAR_TEXTURE);
-    PolygonNode* sprite2;
-
-    Vec2 doorPos = ((Vec2)DOOR_POS);
-    sprite2 = PolygonNode::createWithTexture(image2);
-    Size doorSize(image2->getContentSize().width/_scale.x, image2->getContentSize().height/_scale.y);
-    BlockModel* _door = BlockModel::create(doorPos, doorSize);
-    _door->setDrawScale(_scale.x, _scale.y);
-
-    //
-    _door->setBodyType(b2_staticBody);
-    _door->setDensity(0.0f);
-    _door->setFriction(0.0f);
-    _door->setRestitution(0.0f);
-    _door->setSensor(true);
-
-    sprite2 = PolygonNode::createWithTexture(image2);
-    sprite2->setScale(cscale/2);
-    _door->setSceneNode(sprite2);
+//    Texture2D* image2 = _assets->get<Texture2D>(BEAR_TEXTURE);
+//    PolygonNode* sprite2;
+//
+//    Vec2 doorPos = ((Vec2)DOOR_POS);
+//    sprite2 = PolygonNode::createWithTexture(image2);
+//    Size doorSize(image2->getContentSize().width/_scale.x, image2->getContentSize().height/_scale.y);
+//    BlockModel* _door = BlockModel::create(doorPos, doorSize);
+//    _door->setDrawScale(_scale.x, _scale.y);
+//
+//    //
+//    _door->setBodyType(b2_staticBody);
+//    _door->setDensity(0.0f);
+//    _door->setFriction(0.0f);
+//    _door->setRestitution(0.0f);
+//    _door->setSensor(true);
+//
+//    sprite2 = PolygonNode::createWithTexture(image2);
+//    sprite2->setScale(cscale/2);
+//    _door->setSceneNode(sprite2);
 
     // addObstacle(_door, 3);
 
@@ -678,19 +742,113 @@ void GameController::beforeSolve(b2Contact* contact, const b2Manifold* oldManifo
  */
 void GameController::preload() {
     // Load the textures (Autorelease objects)
-    Texture2D::TexParams params;
-    params.wrapS = GL_REPEAT;
-    params.wrapT = GL_REPEAT;
-    params.magFilter = GL_LINEAR;
-    params.minFilter = GL_NEAREST;
+//    Texture2D::TexParams params;
+//    params.wrapS = GL_REPEAT;
+//    params.wrapT = GL_REPEAT;
+//    params.magFilter = GL_LINEAR;
+//    params.minFilter = GL_NEAREST;
+//    
+//    _assets = AssetManager::getInstance()->getCurrent();
+//    TextureLoader* tloader = (TextureLoader*)_assets->access<Texture2D>();
+//    _assets->loadAsync<TTFont>(PRIMARY_FONT, "fonts/arial.ttf");
+//    tloader->loadAsync(EARTH_TEXTURE,       "textures/earthtile.png", params);
+//    tloader->loadAsync(AVATAR_TEXTURE,   "textures/avatar.png");
+//    tloader->loadAsync(BLOCK_TEXTURE,   "textures/block.png");
+//    tloader->loadAsync(REMOVABLE_TEXTURE,   "textures/removable.png", params);
+//    tloader->loadAsync(GOAL_TEXTURE,   "textures/door.png");
+//    tloader->loadAsync(BEAR_TEXTURE,   "textures/bear.png");
+   
     
     _assets = AssetManager::getInstance()->getCurrent();
-    TextureLoader* tloader = (TextureLoader*)_assets->access<Texture2D>();
-    _assets->loadAsync<TTFont>(PRIMARY_FONT, "fonts/arial.ttf");
-    tloader->loadAsync(EARTH_TEXTURE,       "textures/earthtile.png", params);
-    tloader->loadAsync(AVATAR_TEXTURE,   "textures/avatar.png");
-    tloader->loadAsync(BLOCK_TEXTURE,   "textures/block.png");
-    tloader->loadAsync(REMOVABLE_TEXTURE,   "textures/removable.png", params);
-    tloader->loadAsync(GOAL_TEXTURE,   "textures/door.png");
-    tloader->loadAsync(BEAR_TEXTURE,   "textures/bear.png");
+    
+    JSONReader reader;
+    reader.initWithFile(ASSET_DIRECTORY);
+    if (!reader.startJSON()) {
+        CCASSERT(false, "Failed to load asset directory");
+        return;
+    }
+    
+    // Process textures
+    if (reader.startObject(TEXTURE_KEY) > 0) {
+        TextureLoader* tloader = (TextureLoader*)_assets->access<Texture2D>();
+        
+        // Wrap settings for identified textures
+        Texture2D::TexParams params;
+        params.wrapS = GL_REPEAT;
+        params.wrapT = GL_REPEAT;
+        params.magFilter = GL_LINEAR;
+        params.minFilter = GL_NEAREST;
+        
+        // Convert the object to an array so we can see keys and values
+        int tsize = reader.startArray();
+        for(int ii = 0; ii < tsize; ii++) {
+            string key = reader.getKey();
+            
+            // Unwrap the object
+            if (reader.startObject()) {
+                string value = reader.getString(FILE_KEY);
+                bool wrap = reader.getBool(TEXTURE_WRAP);
+                // Set wrap settings if appropriate
+                if (wrap) {
+                    tloader->loadAsync(key,value,params);
+                } else {
+                    tloader->loadAsync(key,value);
+                }
+            }
+            
+            reader.endObject();
+            reader.advance();
+        }
+        reader.endArray();
+    }
+    reader.endObject();
+    
+//    // Process sounds
+//    if (reader.startObject(SOUNDS_KEY) > 0) {
+//        // Convert the object to an array so we can see keys and values
+//        int ssize = reader.startArray();
+//        for(int ii = 0; ii < ssize; ii++) {
+//            string key   = reader.getKey();
+//            
+//            // Unwrap the object
+//            if (reader.startObject()) {
+//                string value = reader.getString(FILE_KEY);
+//                float vol = reader.getNumber(SOUND_VOLUME);
+//                _volume.emplace(key,vol); // We have to store volume in a different place
+//                _assets->loadAsync<Sound>(key, value);
+//            }
+//            
+//            reader.endObject();
+//            reader.advance();
+//        }
+//        reader.endArray();
+//    }
+//    reader.endObject();
+    
+    // Process fonts
+    if (reader.startObject(FONTS_KEY) > 0) {
+        FontLoader* floader = (FontLoader*)_assets->access<TTFont>();
+        
+        // Convert the object to an array so we can see keys and values
+        int ssize = reader.startArray();
+        for(int ii = 0; ii < ssize; ii++) {
+            string key   = reader.getKey();
+            
+            // Unwrap the object
+            if (reader.startObject()) {
+                string value = reader.getString(FILE_KEY);
+                float size = reader.getNumber(FONT_SIZE);
+                floader->loadAsync(key, value, size);
+            }
+            
+            reader.endObject();
+            reader.advance();
+        }
+        reader.endArray();
+    }
+    reader.endObject();
+    reader.endJSON();
+    
+    // Finally, load the level
+    _assets->loadAsync<LevelModel>(LEVEL_ONE_KEY,LEVEL_ONE_FILE);
 }

@@ -81,7 +81,7 @@ public:
      *
      * @return  An autoreleased physics object
      */
-    static WorldModel* create(const Size& root);
+    static WorldModel* create();
     
     /**
      * Creates a world with the given size
@@ -90,7 +90,7 @@ public:
      *
      * @return  An autoreleased physics object
      */
-    static WorldModel* create(const Size& root,const Vec2& size);
+    static WorldModel* create(const Vec2& size);
     
     /**
      * Creates a world with the given size and anchor point
@@ -100,7 +100,7 @@ public:
      *
      * @return  An autoreleased physics object
      */
-    static WorldModel* create(const Size& root,const Vec2& size, const Vec2& anchor);
+    static WorldModel* create(const Vec2& size, const Vec2& anchor);
     
 #pragma mark Attribute Properties
     
@@ -214,7 +214,7 @@ CC_CONSTRUCTOR_ACCESS:
      *
      * @return  true if the obstacle is initialized properly, false otherwise.
      */
-    bool init(const Size& root);
+    bool init();
     
     /**
      * Initializes a new avatar at the given size.
@@ -223,7 +223,7 @@ CC_CONSTRUCTOR_ACCESS:
      *
      * @return  true if the obstacle is initialized properly, false otherwise.
      */
-    bool init(const Size& root,const Vec2& size);
+    bool init(const Vec2& size);
     
     /**
      * Initializes a new avatar at the given size and anchor.
@@ -234,7 +234,7 @@ CC_CONSTRUCTOR_ACCESS:
      * @return  true if the obstacle is initialized properly, false otherwise.
      */
 
-    bool init(const Size& root,const Vec2& size, const Vec2& anchor);
+    bool init(const Vec2& size, const Vec2& anchor);
     
 #pragma mark -
 #pragma mark Animation

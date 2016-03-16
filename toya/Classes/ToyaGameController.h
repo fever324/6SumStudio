@@ -20,6 +20,8 @@
 #include "ToyaOverviewModel.h"
 #include "ToyaPanelModel.h"
 
+class LevelModel;
+
 using namespace cocos2d;
 using namespace std;
 
@@ -48,15 +50,8 @@ protected:
     /** Reference to the root node of the scene graph */
     RootLayer* _rootnode;
     
-    
-//    /** Reference to the physics root of the scene graph */
-//    Node* _worldnode;
-//    /** Reference to the debug root of the scene graph */
-//    Node* _debugnode;
-//    /** Reference to the win message label */
-//    Label* _winnode;
-//    /** The Box2D world */
-//    WorldController* _world;
+    /** reference to the level model */
+    LevelModel* _level;
     
     
     /** The world scale (computed from root node) */
