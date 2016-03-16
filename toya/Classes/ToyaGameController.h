@@ -81,6 +81,7 @@ protected:
     bool _debug;
     /** Whether or not reset mode is active */
     bool _reset;
+    int _cooldown;
     
     
 #pragma mark Internal Object Management

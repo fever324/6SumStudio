@@ -158,17 +158,31 @@ bool WorldModel::init(const Vec2& size, const Vec2& gravity) {
     _failnode->setPosition(DESIGN_RES_W/2.0f,DESIGN_RES_H/2.0f);
     
     _worldnode->setContentSize(Size(DESIGN_RES_W,DESIGN_RES_H));
+    _debugnode->setContentSize(Size(DESIGN_RES_W,DESIGN_RES_H));
     
     // make sure that anchor point doesn't affect the position.
     _worldnode->ignoreAnchorPointForPosition(true);
+    _debugnode->ignoreAnchorPointForPosition(true);
     
 //    _worldnode->setPosition(-2.5f*_scale.x,(18.0f-WORLD_HEIGHT+2.5f)*_scale.y);
     
-    
     _debugnode->setPosition(Vec2(DESIGN_RES_W/4.0f,DESIGN_RES_H/4.0f));
+    
+    // set the bg color
+    LayerColor* bg = LayerColor::create(Color4B(53, 53, 53, 255));
+
+    // change the scale to parameter
+    bg->setContentSize(Size(DESIGN_RES_W*2,DESIGN_RES_H*2));
+    //    Layer* bg;
+    //    bg = Layer::create();
+    //    bg->setContentSize(Size(DESIGN_RES_W,DESIGN_RES_H));
+    //    bg->setColor(DEBUG_COLOR);
+    _debugnode->addChild(bg);
     
     // scale the debugnode to half size of the screen
     _debugnode->setScale(0.5f / (WORLD_WIDTH / WORLD_SCALE_X));
+    
+    _debugnode->setAnchorPoint(Vec2(0, 0));
 
     return true;
 }
@@ -182,6 +196,9 @@ void WorldModel::setGravity(const Vec2& gravity){
 
 void WorldModel::setRotation(float rotation){
     _worldnode->setRotation(rotation);
+    
+    // rotate the debug node
+//    _debugnode->setRotation(rotation);
 }
 
 void WorldModel::update(float dt){
@@ -194,6 +211,14 @@ void WorldModel::clear(){
     _worldnode->removeAllChildren();
     _worldnode->setRotation(0.0f);
     _debugnode->removeAllChildren();
+    
+    
+    // Reset the debug background
+    LayerColor* bg = LayerColor::create(Color4B(53, 53, 53, 255));
+    // change the scale to parameter
+    bg->setContentSize(Size(DESIGN_RES_W*2,DESIGN_RES_H*2));
+    _debugnode->addChild(bg);
+
     _follow = nullptr;
 }
 

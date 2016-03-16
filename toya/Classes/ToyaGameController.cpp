@@ -117,10 +117,15 @@ float BARRIER_POS[] = {32.5, 13.0};
 //#define AVATAR_TEXTURE        "bears"
 #define BACKGROUND_TEXTURE  "background"
 /** Color to outline the physics nodes */
-#define DEBUG_COLOR     Color3B::YELLOW
+#define DEBUG_COLOR     Color3B::GREEN
+#define DEBUG_GOAL_COLOR     Color3B::RED
+#define DEBUG_AVATAR_COLOR  Color3B::WHITE
 #define WORLD_COLOR     Color3B::BLUE
 /** Opacity of the physics outlines */
 #define DEBUG_OPACITY   192
+
+
+#define COOL_DOWN   30
 
 /** The key for collisions sounds */
 #define COLLISION_SOUND     "bump"
@@ -169,6 +174,7 @@ _active(false),
 _level(nullptr),
 _complete(false),
 _debug(false),
+_cooldown(COOL_DOWN),
 _reset(false),
 _overview(nullptr)
 {
@@ -321,6 +327,7 @@ void GameController::reset() {
     setComplete(false);
     setFail(false);
     _reset = false;
+    _cooldown = COOL_DOWN;
     populate();
 }
 
@@ -403,7 +410,7 @@ void GameController::populate() {
     _goalDoor->setSceneNode(sprite);
     
     draw = WireNode::create();
-    draw->setColor(DEBUG_COLOR);
+    draw->setColor(DEBUG_GOAL_COLOR);
     draw->setOpacity(DEBUG_OPACITY);
     _goalDoor->setDebugNode(draw);
     addObstacle(_goalDoor, 2); // Put this at the very back
@@ -551,7 +558,7 @@ void GameController::populate() {
     _avatar = AvatarModel::create(avatarPos,_scale);
     
     draw = WireNode::create();
-    draw->setColor(DEBUG_COLOR);
+    draw->setColor(DEBUG_AVATAR_COLOR);
     draw->setOpacity(DEBUG_OPACITY);
     _avatar->setDebugNode(draw);
     addObstacle(_avatar,3);
@@ -613,7 +620,12 @@ void GameController::addObstacle(Obstacle* obj, int zOrder) {
  */
 void GameController::update(float dt) {
     
-    if (_reset == true) {
+    if (_reset == true && _cooldown != 0) {
+        _cooldown --;
+        return;
+    }
+    
+    if (_reset == true && _cooldown == 0) {
         reset();
     }
     
