@@ -32,6 +32,7 @@ public:
     int getTotalMana() { return _totalMana; }
     bool deduceTotalMana(int cost);
     int getSpell();
+    void setSpell(int i);
     
     bool init();
     bool init(const Vec2& pos);

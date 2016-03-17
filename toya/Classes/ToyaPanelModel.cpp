@@ -106,6 +106,13 @@ void PanelModel::destructionTouchEvent(Ref *sender, ui::Widget::TouchEventType t
 int PanelModel::getSpell() {
     return _selection;
 }
+void PanelModel::setSpell(int i){
+    if(i == 0) {
+        _constructionSpellCB->setSelected(false);
+        _destructionSpellCB->setSelected(false);
+    }
+    _selection = i;
+}
 
 bool PanelModel::deduceTotalMana(int cost) {
     if(cost > _totalMana) return false;

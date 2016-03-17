@@ -1,8 +1,8 @@
 #include "ToyaOverviewModel.h"
 
 
-#define BUTTON_NORMAL "textures/1.png"
-#define BUTTON_PRESSED "textures/block.png"
+#define BUTTON_NORMAL "textures/overviewButton.png"
+#define BUTTON_PRESSED "textures/overviewResumeButton.png"
 using namespace cocos2d;
 
 
@@ -16,8 +16,9 @@ bool OverviewModel::init(const Vec2& pos) {
  *  Actual position defines where the center of the pause button should be
  */
 bool OverviewModel::init(const Vec2& pos, const Vec2& scale){
-    
-    pauseButton = ui::Button::create(BUTTON_NORMAL, BUTTON_PRESSED);
+
+    pauseButton = ui::CheckBox::create(BUTTON_NORMAL, BUTTON_PRESSED, BUTTON_PRESSED, BUTTON_PRESSED, BUTTON_NORMAL);
+
     
     pauseButton->setScale(scale.x, scale.y);
     

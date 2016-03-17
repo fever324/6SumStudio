@@ -438,6 +438,7 @@ void GameController::populate() {
     draw->setColor(DEBUG_GOAL_COLOR);
     draw->setOpacity(DEBUG_OPACITY);
     _goalDoor->setDebugNode(draw);
+    _goalDoor->setRemovable(false);
     addObstacle(_goalDoor, 2); // Put this at the very back
 
     
@@ -475,6 +476,7 @@ void GameController::populate() {
 //    wallobj1->setDebugNode(draw);
     
     //
+    wallobj1->setRemovable(false);
     addObstacle(wallobj1,1);  // All walls share the same texture
     
     
@@ -482,75 +484,85 @@ void GameController::populate() {
     Poly2 wall2(WALL2,8);
     wall2.triangulate();
     
-    wallobj1 = JSBlockModel::createWithTexture(wall2, _scale, REMOVABLE_TEXTURE);
+    JSBlockModel* wallobj2;
+    
+    wallobj2 = JSBlockModel::createWithTexture(wall2, _scale, REMOVABLE_TEXTURE);
 
     // Set the physics attributes -- the same
     
     // Add the scene graph nodes to this object
-    wallobj1->setTextureKey(REMOVABLE_TEXTURE);
-    wallobj1->resetSceneNode();
+    wallobj2->setTextureKey(REMOVABLE_TEXTURE);
+    wallobj2->resetSceneNode();
     
     draw = WireNode::create();
     draw->setColor(DEBUG_COLOR);
     draw->setOpacity(DEBUG_OPACITY);
-    wallobj1->setDebugNode(draw);
-    
-    addObstacle(wallobj1,1);
+    wallobj2->setDebugNode(draw);
+    wallobj2->setRemovable(false);
+    addObstacle(wallobj2,1);
     
 #pragma mark : Walls polygon 3
     Poly2 wall3(WALL3,8);
     wall3.triangulate();
+    
+    JSBlockModel* wallobj3;
 
-    wallobj1 = JSBlockModel::createWithTexture(wall3, _scale, REMOVABLE_TEXTURE);
+    wallobj3 = JSBlockModel::createWithTexture(wall3, _scale, REMOVABLE_TEXTURE);
     
     // Set the physics attributes
 
     // Add the scene graph nodes to this object
-    wallobj1->setTextureKey(REMOVABLE_TEXTURE);
-    wallobj1->resetSceneNode();
+    wallobj3->setTextureKey(REMOVABLE_TEXTURE);
+    wallobj3->resetSceneNode();
     
     draw = WireNode::create();
     draw->setColor(DEBUG_COLOR);
     draw->setOpacity(DEBUG_OPACITY);
-    wallobj1->setDebugNode(draw);
-    addObstacle(wallobj1,1);
+    wallobj3->setDebugNode(draw);
+    wallobj3->setRemovable(false);
+    addObstacle(wallobj3,1);
     
 #pragma mark : Wall polygon 4
 
     Poly2 wall4(WALL4,12);
     wall4.triangulate();
+    JSBlockModel* wallobj4;
 
-    wallobj1 = JSBlockModel::createWithTexture(wall4, _scale, REMOVABLE_TEXTURE);
+    wallobj4 = JSBlockModel::createWithTexture(wall4, _scale, REMOVABLE_TEXTURE);
 
     // Set the physics attributes
     
     // Add the scene graph nodes to this object
-    wallobj1->setTextureKey(REMOVABLE_TEXTURE);
-    wallobj1->resetSceneNode();
+    wallobj4->setTextureKey(REMOVABLE_TEXTURE);
+    wallobj4->resetSceneNode();
     
     draw = WireNode::create();
     draw->setColor(DEBUG_COLOR);
     draw->setOpacity(DEBUG_OPACITY);
-    wallobj1->setDebugNode(draw);
-    addObstacle(wallobj1,1);
+    wallobj4->setDebugNode(draw);
+    wallobj4->setRemovable(false);
+    addObstacle(wallobj4,1);
     
 #pragma mark : Walls polygon 5
     Poly2 wall5(WALL5,8);
     wall5.triangulate();
     
-    wallobj1 = JSBlockModel::createWithTexture(wall5, _scale, EARTH_TEXTURE);
+    JSBlockModel* wallobj5;
+    
+    wallobj5 = JSBlockModel::createWithTexture(wall5, _scale, EARTH_TEXTURE);
     
     // Set the physics attributes
     
     // Add the scene graph nodes to this object
-    wallobj1->setTextureKey(EARTH_TEXTURE);
-    wallobj1->resetSceneNode();
+    wallobj5->setTextureKey(EARTH_TEXTURE);
+    wallobj5->resetSceneNode();
 
     draw = WireNode::create();
     draw->setColor(DEBUG_COLOR);
     draw->setOpacity(DEBUG_OPACITY);
-    wallobj1->setDebugNode(draw);
-    addObstacle(wallobj1,1);
+    wallobj5->setDebugNode(draw);
+    wallobj5->setRemovable(false);
+    addObstacle(wallobj5,1);
 
 
 #pragma mark : Avatar
@@ -592,6 +604,7 @@ void GameController::populate() {
     sprite3 = PolygonNode::createWithTexture(image3);
     sprite3->setScale(cscale/4);
     _barrier->setSceneNode(sprite3);
+    _barrier->setRemovable(true);
     addObstacle(_barrier, 1);
     
     
@@ -623,7 +636,8 @@ void GameController::populate() {
     sprite4 = PolygonNode::createWithTexture(image4);
     sprite4->setScale(cscale/4);
     _barrier1->setSceneNode(sprite4);
-    addObstacle(_barrier1, 1);
+    _barrier1->setRemovable(true);
+    addObstacle(_barrier1, 2);
 
 }
 
@@ -720,21 +734,25 @@ void GameController::update(float dt) {
         Vec2 newGravity = _input.getGravity(gravity,cRotation);
         
         _theWorld->setGravity(newGravity);
-        CCLOG("%f,%f",newGravity.x,newGravity.y);
     }
     
     if (_input.didSelect() && _selector->isSelected()) {
-//        if(_panel->getSpell() == DESTRUCTION_SPELL_SELECTED) {
-//            BlockModel* obstacle = (BlockModel*)_selector->getObstacle();
-//            _theWorld->removeObstacle(&obstacle);
-//            _barrier1 = nullptr;
-//        }
+        if(_panel->getSpell() == DESTRUCTION_SPELL_SELECTED) {
+            _panel->setSpell(0);
+            BlockModel* obstacle = (BlockModel*)_selector->getObstacle();
+            if (obstacle->isRemovable()) {
+                _selector->deselect();
+                _theWorld->removeObstacle(&obstacle);
+                _barrier1 = nullptr;
+                _barrier = nullptr;
+            }
+        }
     } else if (_input.didSelect()) {
         Vec2 centerPosition = _avatar->getPosition();
         Vec2 relativePosition = *getRelativePosition(_input.getSelection(), centerPosition, 0.0f);
         _selector->select(relativePosition);
     } else if (_selector->isSelected()) {
-//        _selector->deselect();
+        _selector->deselect();
     }
     
     //    update world position

@@ -26,7 +26,7 @@ private:
     CC_DISALLOW_COPY_AND_ASSIGN(OverviewModel);
     
     
-    ui::Button* pauseButton; //pause button
+    ui::CheckBox* pauseButton; //pause button
     bool paused;
     double currentPlayTime;
     timestamp_t startTime;

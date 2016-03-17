@@ -94,6 +94,7 @@ BlockModel* BlockModel::create(const Vec2& pos, const Size& size, const std::str
 bool BlockModel::init(const Vec2& pos, const Size& size) {
     BoxObstacle::init(pos, size);
     _texture = "";
+    _isRemovable = false;
     return true;
 }
 
