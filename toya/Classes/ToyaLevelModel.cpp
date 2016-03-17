@@ -12,6 +12,7 @@
 #include "ToyaLevelConstants.h"
 
 #include "ToyaWorldModel.h"
+#include "ToyaBlockModel.h"
 #include "ToyaAvatarModel.h"
 #include "ToyaExitDoorModel.h"
 #include "ToyaRemovableBlockModel.h"
@@ -246,54 +247,60 @@ bool LevelModel::load() {
     // Initial geometry
     float w = reader.getNumber(WIDTH_FIELD);
     float h = reader.getNumber(HEIGHT_FIELD);
+    // scaled width and height
+    float sw = reader.getNumber(S_WIDTH_FIELD);
+    float sh = reader.getNumber(S_HEIGHT_FIELD);
+    
     float g = reader.getNumber(GRAVITY_FIELD);
+    
+    
     _bounds.size.setSize(w, h);
     _gravity.set(0,g);
     
+    _scale.set(1024/sw,576/sh);
+    
     /** Create the physics world */
-    _world = WorldModel::create(Size(w, h));
-    _world->retain();
-    
-    // Parse the rocket
-    if (!loadAvatar(reader)) {
-        CCASSERT(false, "Failed to load rocket");
-        return false;
-    }
-    
-    if (!loadGoalDoor(reader)) {
-        CCASSERT(false, "Failed to load goal door");
-        return false;
-    }
-    
-    if (reader.startObject(WALLS_FIELD)) {
-        // Convert the object to an array so we can see keys and values
-        int wsize = reader.startArray();
-        for(int ii = 0; ii < wsize; ii++) {
-            loadWall(reader);
-            reader.advance();
-        }
-        reader.endArray();
-        reader.endObject();
-    } else {
-        reader.endObject();
-        CCASSERT(false, "Failed to load walls");
-        return false;
-    }
-    
-    if (reader.startObject(CRATES_FIELD)) {
-        // Convert the object to an array so we can see keys and values
-        int csize = reader.startArray();
-        for(int ii = 0; ii < csize; ii++) {
-            loadCrate(reader);
-            reader.advance();
-        }
-        reader.endArray();
-        reader.endObject();
-    } else {
-        reader.endObject();
-        CCASSERT(false, "Failed to load crates");
-        return false;
-    }
+    _world = WorldModel::create(Size(w, h),_gravity);
+    // Parse the bear
+//    if (!loadAvatar(reader)) {
+//        CCASSERT(false, "Failed to load rocket");
+//        return false;
+//    }
+
+//    if (!loadGoalDoor(reader)) {
+//        CCASSERT(false, "Failed to load goal door");
+//        return false;
+//    }
+//
+//    if (reader.startObject(WALLS_FIELD)) {
+//        // Convert the object to an array so we can see keys and values
+//        int wsize = reader.startArray();
+//        for(int ii = 0; ii < wsize; ii++) {
+//            loadWall(reader);
+//            reader.advance();
+//        }
+//        reader.endArray();
+//        reader.endObject();
+//    } else {
+//        reader.endObject();
+//        CCASSERT(false, "Failed to load walls");
+//        return false;
+//    }
+//
+//    if (reader.startObject(CRATES_FIELD)) {
+//        // Convert the object to an array so we can see keys and values
+//        int csize = reader.startArray();
+//        for(int ii = 0; ii < csize; ii++) {
+//            loadCrate(reader);
+//            reader.advance();
+//        }
+//        reader.endArray();
+//        reader.endObject();
+//    } else {
+//        reader.endObject();
+//        CCASSERT(false, "Failed to load crates");
+//        return false;
+//    }
     
     return true;
 }
@@ -306,39 +313,39 @@ bool LevelModel::load() {
  * references to other assets, then these should be disconnected earlier.
  */
 void LevelModel::unload() {
-    if (_avatar != nullptr) {
-        if (_world != nullptr) {
-            _world->removeObstacle(_avatar);
-        }
-        _avatar->release();
-        _avatar = nullptr;
-    }
-    if (_goalDoor != nullptr) {
-        if (_world != nullptr) {
-            _world->removeObstacle(_goalDoor);
-        }
-        _goalDoor->release();
-        _goalDoor = nullptr;
-    }
-    for(auto it = _crates.begin(); it != _crates.end(); ++it) {
-        if (_world != nullptr) {
-            _world->removeObstacle(*it);
-        }
-        (*it)->release();
-    }
-    _crates.clear();
-    for(auto it = _walls.begin(); it != _walls.end(); ++it) {
-        if (_world != nullptr) {
-            _world->removeObstacle(*it);
-        }
-        (*it)->release();
-    }
-    _walls.clear();
-    if (_world != nullptr) {
-        _world->clear();
-        _world->release();
-        _world = nullptr;
-    }
+//    if (_avatar != nullptr) {
+//        if (_world != nullptr) {
+//            _world->removeObstacle(_avatar);
+//        }
+//        _avatar->release();
+//        _avatar = nullptr;
+//    }
+//    if (_goalDoor != nullptr) {
+//        if (_world != nullptr) {
+//            _world->removeObstacle(_goalDoor);
+//        }
+//        _goalDoor->release();
+//        _goalDoor = nullptr;
+//    }
+//    for(auto it = _crates.begin(); it != _crates.end(); ++it) {
+//        if (_world != nullptr) {
+//            _world->removeObstacle(*it);
+//        }
+//        (*it)->release();
+//    }
+//    _crates.clear();
+//    for(auto it = _walls.begin(); it != _walls.end(); ++it) {
+//        if (_world != nullptr) {
+//            _world->removeObstacle(*it);
+//        }
+//        (*it)->release();
+//    }
+//    _walls.clear();
+//    if (_world != nullptr) {
+//        _world->clear();
+//        _world->release();
+//        _world = nullptr;
+//    }
 }
 
 
@@ -350,59 +357,30 @@ bool LevelModel::loadAvatar(JSONReader& reader) {
     if (reader.startObject(AVATAR_FIELD)) {
         success = true;
         success = success && reader.isVec2(POSITION_FIELD);
-        Vec2 rockPos  = reader.getVec2(POSITION_FIELD);
-        
-        success = success && reader.isVec2(SIZE_FIELD);
-        Vec2 rockSize = reader.getVec2(SIZE_FIELD);
+        Vec2 avatarPos  = reader.getVec2(POSITION_FIELD);
         
         // Get the object, which is automatically retained
-        _avatar = AvatarModel::create(rockPos,(Size)rockSize);
-        _avatar->setName(reader.getKey());
+        _avatar = AvatarModel::create(avatarPos,_scale);
         
-//        _avatar->setDensity(reader.getNumber(DENSITY_FIELD));
-//        _avatar->setFriction(reader.getNumber(FRICTION_FIELD));
-//        _avatar->setRestitution(reader.getNumber(RESTITUTION_FIELD));
-//        _avatar->setThrust(reader.getNumber(THRUST_FIELD));
-        _avatar->setFixedRotation(reader.getBool(ROTATION_FIELD));
+        _avatar->setDensity(reader.getNumber(DENSITY_FIELD));
+        _avatar->setFriction(reader.getNumber(FRICTION_FIELD));
+        _avatar->setRestitution(reader.getNumber(RESTITUTION_FIELD));
+        
+        WireNode* draw;
+        draw = WireNode::create();
+        draw->setColor(parseColor(reader.getString(DEBUG_COLOR_FIELD)));
+        draw->setOpacity((GLubyte)reader.getNumber(DEBUG_OPACITY_FIELD));
+        _avatar->setDebugNode(draw);
+        _avatar->setName(reader.getKey());
         
         std::string btype = reader.getString(BODYTYPE_FIELD);
         if (btype == STATIC_VALUE) {
             _avatar->setBodyType(b2_staticBody);
         }
         
-        // Set the animation nodes
-//        success = success && reader.isString(TEXTURE_FIELD);
-//        _avatar->setTextureKey(reader.getString(TEXTURE_FIELD));
-//        
-//        success = success && reader.isString(MAIN_FLAMES_FIELD);
-//        _avatar->setBurnerStrip(RocketModel::Burner::MAIN,
-//                                reader.getString(MAIN_FLAMES_FIELD));
-//        
-//        success = success && reader.isString(LEFT_FLAMES_FIELD);
-//        _avatar->setBurnerStrip(RocketModel::Burner::LEFT,
-//                                reader.getString(LEFT_FLAMES_FIELD));
-//        
-//        success = success && reader.isString(RIGHT_FLAMES_FIELD);
-//        _avatar->setBurnerStrip(RocketModel::Burner::RIGHT,
-//                                reader.getString(RIGHT_FLAMES_FIELD));
-//        
-//        success = success && reader.isString(MAIN_SOUND_FIELD);
-//        _avatar->setBurnerSound(RocketModel::Burner::MAIN,
-//                                reader.getString(MAIN_SOUND_FIELD));
-//        
-//        success = success && reader.isString(LEFT_SOUND_FIELD);
-//        _avatar->setBurnerSound(RocketModel::Burner::LEFT,
-//                                reader.getString(LEFT_SOUND_FIELD));
-//        
-//        success = success && reader.isString(RIGHT_SOUND_FIELD);
-//        _avatar->setBurnerSound(RocketModel::Burner::RIGHT,
-//                                reader.getString(RIGHT_SOUND_FIELD));
-//        
-//        _avatar->setDebugColor(parseColor(reader.getString(DEBUG_COLOR_FIELD)));
-//        _avatar->setDebugOpacity((GLubyte)reader.getNumber(DEBUG_OPACITY_FIELD));
-        
         if (success) {
             _world->addObstacle(_avatar,AVATAR_PRIORITY);
+            _world->setFollow(_avatar);
         } else {
             _avatar->release();
         }
@@ -428,6 +406,41 @@ bool LevelModel::loadGoalDoor(JSONReader& reader) {
         success = true;
         success = success && reader.isVec2(POSITION_FIELD);
         Vec2 goalPos  = reader.getVec2(POSITION_FIELD);
+        
+        
+//        PolygonNode* sprite;
+//        WireNode* draw;
+//
+//        // Create obstacle
+//        Vec2 goalPos = ((Vec2)GOAL_POS);
+//        
+//        sprite = PolygonNode::createWithTexture(image);
+//        
+//        Size goalSize(image->getContentSize().width/_scale.x, image->getContentSize().height/_scale.y);
+//        
+//        
+//        _goalDoor = BlockModel::create(goalPos,goalSize/6);
+//        _goalDoor->setDrawScale(_scale.x, _scale.y);
+//        
+//        // Set the physics attributes
+//        _goalDoor->setBodyType(b2_staticBody);
+//        _goalDoor->setDensity(0.0f);
+//        _goalDoor->setFriction(0.0f);
+//        _goalDoor->setRestitution(0.0f);
+//        _goalDoor->setSensor(true);
+//        
+//        // Add the scene graph nodes to this object
+//        sprite = PolygonNode::createWithTexture(image);
+//        sprite->setScale(cscale/4);
+//        _goalDoor->setSceneNode(sprite);
+//        
+//        draw = WireNode::create();
+//        draw->setColor(DEBUG_COLOR);
+//        draw->setOpacity(DEBUG_OPACITY);
+//        _goalDoor->setDebugNode(draw);
+//        addObstacle(_goalDoor, 2); // Put this at the very back
+        
+        
         
         success = success && reader.isVec2(SIZE_FIELD);
         Vec2 goalSize = reader.getVec2(SIZE_FIELD);

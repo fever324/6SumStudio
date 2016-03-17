@@ -115,6 +115,8 @@ CC_CONSTRUCTOR_ACCESS:
 #pragma mark Helper Functions
     void pauseButtonPressed();
     void resumeFromPause();
+    
+    void reset();
 };
 
 #endif /* defined(__TOYA_OVERVIEW_MODEL_H__) */

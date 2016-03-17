@@ -21,6 +21,8 @@
 #define WORLD_FIELD         "world"
 #define WIDTH_FIELD         "width"
 #define HEIGHT_FIELD        "height"
+#define S_WIDTH_FIELD       "scaledwidth"
+#define S_HEIGHT_FIELD      "scaledheight"
 #define GRAVITY_FIELD       "gravity"
 
 #define AVATAR_FIELD        "avatar"

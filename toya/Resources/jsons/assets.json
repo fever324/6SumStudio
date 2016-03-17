@@ -4,32 +4,28 @@
             "file":     "textures/earthtile.png",
             "wrap":     true
         },
-        "rocket":  {
-            "file":     "textures/rocket.png",
+        "bear":  {
+            "file":     "textures/bear.png",
             "wrap":     false
         },
         "goal":  {
-            "file":     "textures/goaldoor.png",
+            "file":     "textures/door.png",
             "wrap":     false
         },
-        "main-flames": {
-            "file":     "textures/flames.png",
+        "removable": {
+            "file":     "textures/removable.png",
+            "wrap":     true
+        },
+        "avatar": {
+            "file":     "textures/bears.png",
             "wrap":     false
         },
-        "left-flames": {
-            "file":     "textures/flames-left.png",
-            "wrap":     false
+        "background": {
+            "file":     "textures/background.png",
+            "wrap":     true
         },
-        "right-flames": {
-            "file":     "textures/flames-right.png",
-            "wrap":     false
-        },
-        "crate01": {
-            "file":     "textures/crate01.png",
-            "wrap":     false
-        },
-        "crate02": {
-            "file":     "textures/crate02.png",
+        "barrier":    {
+            "file":     "textures/obstacle_01.png",
             "wrap":     false
         }
   	},
@@ -51,16 +47,11 @@
         "right-burner": {
             "file":     "sounds/sideburner-right.mp3",
             "volume":   0.5
-            
         }
   	},
   	"fonts": {
         "retro": {
-            "file":    "fonts/RetroGame.ttf",
-            "size":     64.0
-        },
-        "pixel": {
-            "file":    "fonts/LightPixel7.ttf",
+            "file":    "fonts/arial.ttf",
             "size":     64.0
         }
   	}

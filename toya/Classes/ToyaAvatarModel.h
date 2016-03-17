@@ -19,17 +19,21 @@ using namespace cocos2d;
 
 /** The texture for the character avatar */
 #define AVATAR_TEXTURE    "avatar"
+#define AVATAR_ANIMATION_ROWS 2
+#define AVATAR_ANIMATION_COLS 3
+#define AVATAR_FRAMES 6
+#define AVATAR_CYCLE_PER_FRAME 30
 
 #pragma mark -
 #pragma mark Physics Constants
 /** The initial speed of avatar **/
 #define AVATAR_INITIAL_SPEED 3.0f
 /** The factor to multiply by the input */
-#define AVATAR_FORCE    1.0f
+#define AVATAR_FORCE    2.0f
 /** The amount to slow the character down */
 #define AVATAR_DAMPING    5.0f
 /** The maximum character speed */
-#define AVATAR_MAXSPEED    8.0f
+#define AVATAR_MAXSPEED    5.0f
 /** Identifier to allow us to track the sensor in ContactListener */
 #define LEFT_SENSOR_NAME    "avatarLeftSensor"
 #define RIGHT_SENSOR_NAME    "avatarRightSensor"
@@ -52,6 +56,12 @@ private:
     CC_DISALLOW_COPY_AND_ASSIGN(AvatarModel);
     
 protected:
+    /** Avatar body animation node */
+    AnimationNode* _avatarBody;
+    /** Animation phase cycle */
+    bool _cycle;
+    /** Update cycle per animation */
+    int _animationFrameCount;
     /** The current horizontal movement of the character */
     float _movement;
     /** Which direction is the character facing */
@@ -76,7 +86,14 @@ protected:
     
 #pragma mark -
 #pragma mark Scene Graph Management
-    
+    /**
+     * Performs any necessary additions to the scene graph node.
+     *
+     * This method is necessary for custom physics objects that are composed
+     * of multiple scene graph nodes.  In this case, it is because we
+     * manage our own afterburner animations.
+     */
+    virtual void resetSceneNode() override;
     /**
      * Redraws the outline of the physics fixtures to the debug node
      *
@@ -217,15 +234,17 @@ public:
      */
     bool isFacingRight() const { return _faceRight; }
     void setFacingRight(bool faceRight) {
+        
+        int direction = faceRight ? 1 : -1;
+        
+        if(_faceRight != faceRight) {
+            setLinearVelocity((Vec2){direction*AVATAR_INITIAL_SPEED, getVY()});
+        }
         _faceRight = faceRight;
         
         // Change facing
-        TexturedNode* image = dynamic_cast<TexturedNode*>(_node);
-        if (image != nullptr) {
-            image->flipHorizontal(!faceRight);
-        }
-        int direction = _faceRight ? 1 : -1;
-        setLinearVelocity((Vec2){direction * getForce(), 0});
+//        _avatarBody->flipHorizontal(!faceRight);
+
     }
     
     
@@ -263,6 +282,9 @@ public:
      * This method should be called after the force attribute is set.
      */
     void applyForce();
+    
+    void reset();
+
     
     
 CC_CONSTRUCTOR_ACCESS:
@@ -327,6 +349,13 @@ CC_CONSTRUCTOR_ACCESS:
     
 #pragma mark -
 #pragma mark Animation
+    
+    /**
+     *  Animates the avatar
+     */
+    void animateAvatar();
+
+    
     /**
      * Returns the texture (key) for this rocket
      *
@@ -346,7 +375,7 @@ CC_CONSTRUCTOR_ACCESS:
      * @param  strip    the texture (key) for this rocket
      */
     void setAvatarTexture(std::string strip) { _avatarTexture = strip; }
-    
+
     void reset();
     
 private:

@@ -41,6 +41,7 @@ protected:
     /** Reference to the win message label */
     Label* _winnode;
     Label* _failnode;
+    Label* _timenode;
     
     /** the size of the world **/
     Vec2 _size;
@@ -81,7 +82,7 @@ public:
      *
      * @return  An autoreleased physics object
      */
-    static WorldModel* create(const Size& root);
+    static WorldModel* create();
     
     /**
      * Creates a world with the given size
@@ -90,7 +91,7 @@ public:
      *
      * @return  An autoreleased physics object
      */
-    static WorldModel* create(const Size& root,const Vec2& size);
+    static WorldModel* create(const Vec2& size);
     
     /**
      * Creates a world with the given size and anchor point
@@ -100,7 +101,7 @@ public:
      *
      * @return  An autoreleased physics object
      */
-    static WorldModel* create(const Size& root,const Vec2& size, const Vec2& anchor);
+    static WorldModel* create(const Vec2& size, const Vec2& anchor);
     
 #pragma mark Attribute Properties
     
@@ -113,6 +114,7 @@ public:
     Node* getWorldNode() const { return _worldnode; }
     Label* getWinNode() const { return _winnode; }
     Label* getFailNode() const { return _failnode; }
+    Label* getTimeNode() const { return _timenode; }
     Node* getDebugNode() const { return _debugnode; }
     
     
@@ -196,6 +198,8 @@ public:
     void setWorldPos(Vec2& pos);
     void setFollow(Obstacle* obj);
     
+    void showTime(double time);
+    
     
 CC_CONSTRUCTOR_ACCESS:
 #pragma mark Hidden Constructors
@@ -214,7 +218,7 @@ CC_CONSTRUCTOR_ACCESS:
      *
      * @return  true if the obstacle is initialized properly, false otherwise.
      */
-    bool init(const Size& root);
+    bool init();
     
     /**
      * Initializes a new avatar at the given size.
@@ -223,7 +227,7 @@ CC_CONSTRUCTOR_ACCESS:
      *
      * @return  true if the obstacle is initialized properly, false otherwise.
      */
-    bool init(const Size& root,const Vec2& size);
+    bool init(const Vec2& size);
     
     /**
      * Initializes a new avatar at the given size and anchor.
@@ -234,7 +238,7 @@ CC_CONSTRUCTOR_ACCESS:
      * @return  true if the obstacle is initialized properly, false otherwise.
      */
 
-    bool init(const Size& root,const Vec2& size, const Vec2& anchor);
+    bool init(const Vec2& size, const Vec2& anchor);
     
 #pragma mark -
 #pragma mark Animation

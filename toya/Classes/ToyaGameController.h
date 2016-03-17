@@ -20,6 +20,8 @@
 #include "ToyaOverviewModel.h"
 #include "ToyaPanelModel.h"
 
+class LevelModel;
+
 using namespace cocos2d;
 using namespace std;
 
@@ -48,15 +50,8 @@ protected:
     /** Reference to the root node of the scene graph */
     RootLayer* _rootnode;
     
-    
-//    /** Reference to the physics root of the scene graph */
-//    Node* _worldnode;
-//    /** Reference to the debug root of the scene graph */
-//    Node* _debugnode;
-//    /** Reference to the win message label */
-//    Label* _winnode;
-//    /** The Box2D world */
-//    WorldController* _world;
+    /** reference to the level model */
+    LevelModel* _level;
     
     
     /** The world scale (computed from root node) */
@@ -69,6 +64,7 @@ protected:
     BlockModel* _door;
 
     BlockModel* _barrier;
+    BlockModel* _barrier1;
     /** Reference to the player avatar */
     AvatarModel* _avatar;
     
@@ -88,6 +84,7 @@ protected:
     bool _debug;
     /** Whether or not reset mode is active */
     bool _reset;
+    int _cooldown;
     
     
 #pragma mark Internal Object Management
@@ -270,6 +267,16 @@ public:
     
 #pragma mark -
 #pragma mark Collision Handling
+    /**
+     * Processes the start of a collision
+     *
+     * This method is called when we first get a collision between two objects.  We use
+     * this method to test if it is the "right" kind of collision.  In particular, we
+     * use it to test if we make it to the win door.
+     *
+     * @param  contact  The two bodies that collided
+     */
+    void endContact(b2Contact* contact);
     /**
      * Processes the start of a collision
      *
