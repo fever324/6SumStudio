@@ -283,10 +283,6 @@ public:
      */
     void applyForce();
     
-    void reset();
-
-    
-    
 CC_CONSTRUCTOR_ACCESS:
 #pragma mark Hidden Constructors
     /**

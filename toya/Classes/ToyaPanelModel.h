@@ -14,6 +14,10 @@ using namespace cocos2d;
 #pragma mark -
 #pragma mark Panel Model
 
+#define NO_SPELL_SELECTED 0
+#define CONSTRUCTION_SPELL_SELECTED 1
+#define DESTRUCTION_SPELL_SELECTED 2
+
 class PanelModel : public Node {
 private:
     int _totalMana;
@@ -27,7 +31,7 @@ private:
 public:
     int getTotalMana() { return _totalMana; }
     bool deduceTotalMana(int cost);
-    SpellModel* getSpell();
+    int getSpell();
     
     bool init();
     bool init(const Vec2& pos);

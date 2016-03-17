@@ -13,6 +13,7 @@
 #include <Box2D/Collision/b2Collision.h>
 #include "ToyaJSBlockModel.h"
 #include "ToyaLevelModel.h"
+#include "ToyaPanelModel.h"
 
 #include <string>
 #include <iostream>
@@ -599,7 +600,7 @@ void GameController::populate() {
     Texture2D* image4 = _assets->get<Texture2D>(BARRIER_TEXTURE);
     PolygonNode* sprite4;
     
-    Vec2 barrierPos2 = Vec2(36, 25);
+    Vec2 barrierPos2 = Vec2(36, 22);
     
     sprite4 = PolygonNode::createWithTexture(image4);
     Size barrierSize2(image4->getContentSize().width/_scale.x, image4->getContentSize().height/_scale.y);
@@ -693,8 +694,10 @@ void GameController::update(float dt) {
     }
     
     _input.update(dt);
-    if (_barrier != nullptr && _barrier1 != nullptr) {
+    if (_barrier != nullptr) {
         _barrier->setAngle(_barrier->getAngle() + 1);
+    }
+    if (_barrier1 != nullptr) {
         _barrier1->setAngle(_barrier1->getAngle() + 1);
     }
     // Process the toggled key commands
@@ -721,13 +724,17 @@ void GameController::update(float dt) {
     }
     
     if (_input.didSelect() && _selector->isSelected()) {
-        _selector->getObstacle();
+//        if(_panel->getSpell() == DESTRUCTION_SPELL_SELECTED) {
+//            BlockModel* obstacle = (BlockModel*)_selector->getObstacle();
+//            _theWorld->removeObstacle(&obstacle);
+//            _barrier1 = nullptr;
+//        }
     } else if (_input.didSelect()) {
         Vec2 centerPosition = _avatar->getPosition();
         Vec2 relativePosition = *getRelativePosition(_input.getSelection(), centerPosition, 0.0f);
         _selector->select(relativePosition);
     } else if (_selector->isSelected()) {
-        _selector->deselect();
+//        _selector->deselect();
     }
     
     //    update world position
