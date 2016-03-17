@@ -59,7 +59,7 @@ protected:
     
     // Physics objects for the game
     /** Reference to the goalDoor (for collision detection) */
-    BlockModel* _goalDoor;
+    BoxObstacle* _goalDoor;
 
     BlockModel* _door;
 

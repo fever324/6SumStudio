@@ -14,6 +14,7 @@
 #include "ToyaJSBlockModel.h"
 #include "ToyaLevelModel.h"
 #include "ToyaPanelModel.h"
+#include "ToyaNBlockModel.h"
 
 #include <string>
 #include <iostream>
@@ -68,7 +69,10 @@ float WALL1[] = { -20.0f, 56.0f,  84.0f, 56.0f,   84.0f, 31.0f,
     5.0f, 31.0f, 5.0f, 5.0f,  59.0f, 5.0f,   59.0f, 31.0f,
     84.0f, 31.0f,   84.0f, -20.0f, -20.0f,-20.0f};
 
-float WALL2[] = {5.0f,28.0f,   27.0f,28.0f,  27.0f, 26.0f,  5.0f, 26.0f };
+float WALL2[] = {5.0f,28.0f,   12.0f,28.0f,  12.0f, 26.0f,  5.0f, 26.0f };
+
+float WALL22[] = {14.0f,28.0f,   27.0f,28.0f,  27.0f, 26.0f,  14.0f, 26.0f};
+
 float WALL3[] = {30.0f,22.0f,  50.0f,22.0f, 50.0f,20.0f,  30.0f,20.0f};
 float WALL5[] = {50.0f, 20.0f,  50.0f, 26.0f,  48.0f,26.0f,  48.0f, 20.0f};
 
@@ -90,7 +94,9 @@ float BOXES[] = { 14.5f, 14.25f,
 float AVATAR_POS[] = {5.0, 30.0};
 /** The goal door position */
 float GOAL_POS[] = {58.0, 6.5};
-//float GOAL_POS[] = {12.0, 28.5};
+//float GOAL_POS[] = {10.0, 26.0};
+
+float REMOVE_POS[] = {13.0, 27.0};
 /** The goal door position2 */
 float DOOR_POS[] = {31.0, 6.4};
 /** The barrier position */
@@ -376,68 +382,54 @@ void GameController::populate() {
     // If you are using a device with a 3:2 aspect ratio, you will need to
     // completely redo the level layout.  We can help if this is an issue.
     
+// Remove
+    
+    Vec2 removePos = ((Vec2) REMOVE_POS);
+    Size removeSize = Size(2, 2);
+    WireNode* draw;
+    
+    BoxObstacle* removed = NBlockModel::createWithTexture(removePos, removeSize, REMOVABLE_TEXTURE);
+    removed->setDrawScale(_scale.x, _scale.y);
+    removed->setDensity(0.0f);
+    removed->setFriction(0.1f);
+    removed->setRestitution(1.0f);
+    
+    draw = WireNode::create();
+    draw->setColor(DEBUG_GOAL_COLOR);
+    draw->setOpacity(DEBUG_OPACITY);
+    removed->setDebugNode(draw);
+    
+    addObstacle(removed, 2);
+    
+    
     
 #pragma mark : Goal door
     Texture2D* image = _assets->get<Texture2D>(GOAL_TEXTURE);
-    PolygonNode* sprite;
-    WireNode* draw;
+    // PolygonNode* sprite;
     
     // Create obstacle
     Vec2 goalPos = ((Vec2)GOAL_POS);
     
-    sprite = PolygonNode::createWithTexture(image);
+    // sprite = PolygonNode::createWithTexture(image);
     
     Size goalSize(image->getContentSize().width/_scale.x, image->getContentSize().height/_scale.y);
-////    Size goalSize(10,5);
-//    
-//    PolygonObstacle* door;
-//    
-//    float goal[] = {10.0f,20.0f,  10.0f, 20.0f + goalSize.height, 10.0f + goalSize.width, 20.0f + goalSize.height,  10.0f + goalSize.width, 20.0f};
-//    
-//    Poly2 goald(goal,8);
-//    goald.triangulate();
-//    
-//    door = PolygonObstacle::create(goald);
-//    door->setAnchor(0, 0);
-//    door->setDrawScale(_scale.x, _scale.y);
-//    
-//    door->setBodyType(b2_staticBody);
-//    door->setDensity(BASIC_DENSITY);
-//    door->setFriction(BASIC_FRICTION);
-//    door->setRestitution(BASIC_RESTITUTION);
-//    
-//    goald *= _scale;
-//    
-//    sprite = PolygonNode::createWithTexture(image,goald);
-//    door->setSceneNode(sprite);
-//    
-//    draw = WireNode::create();
-//    draw->setColor(DEBUG_COLOR);
-//    draw->setOpacity(DEBUG_OPACITY);
-//    door->setDebugNode(draw);
-//
-//    addObstacle(door,5);  // All walls share the same texture
-
     
-    _goalDoor = BlockModel::create(goalPos,goalSize/6);
+    _goalDoor = NBlockModel::createWithTexture(goalPos,goalSize/12, GOAL_TEXTURE);
+
+    // debug
     _goalDoor->setDrawScale(_scale.x, _scale.y);
     
     // Set the physics attributes
-    _goalDoor->setBodyType(b2_staticBody);
     _goalDoor->setDensity(0.0f);
     _goalDoor->setFriction(0.1f);
     _goalDoor->setRestitution(1.0f);
     _goalDoor->setSensor(true);
     
-    // Add the scene graph nodes to this object
-    sprite = PolygonNode::createWithTexture(image);
-    sprite->setScale(cscale/4);
-    _goalDoor->setSceneNode(sprite);
-    
     draw = WireNode::create();
     draw->setColor(DEBUG_GOAL_COLOR);
     draw->setOpacity(DEBUG_OPACITY);
     _goalDoor->setDebugNode(draw);
+    
     addObstacle(_goalDoor, 2); // Put this at the very back
 
     
@@ -447,57 +439,47 @@ void GameController::populate() {
     // Create ground pieces
     // All walls share the same texture
     
-    JSBlockModel* wallobj1;
+    PolygonObstacle* wallobj;
     
     // Initialize 1st arg
     Poly2 wall1(WALL1,20);
     wall1.triangulate();
     
-    // 2nd arg _scale, 3rd arg (string type) texture
-    wallobj1 = JSBlockModel::createWithTexture(wall1, _scale, EARTH_TEXTURE); // 1st line
+    // 1st arg _scale, 2nd arg (string type) texture
+    wallobj = NBlockModel::createWithTexture(wall1, _scale, EARTH_TEXTURE); // 1st line
     
-    
-    // Set the physics attributes (cannot be absorbed in to a method because we may change these macros)
-    wallobj1->setDensity(BASIC_DENSITY);
-    wallobj1->setFriction(BASIC_FRICTION);
-    wallobj1->setRestitution(BASIC_RESTITUTION);
-    
-    // the SceneNode is created!
-    wallobj1->setTextureKey(EARTH_TEXTURE); // 2nd line
-    wallobj1->resetSceneNode(); //3rd line, just 3lines to replace original initializers
-    
-    
-    // Debug
-    draw = WireNode::create();
-    draw->setColor(DEBUG_COLOR);
-    draw->setOpacity(DEBUG_OPACITY);
-    
-//    wallobj1->setDebugNode(draw);
-    
-    //
-    addObstacle(wallobj1,1);  // All walls share the same texture
+    addObstacle(wallobj,1);  // All walls share the same texture
     
     
 #pragma mark : Wall polygon 2
+    
     Poly2 wall2(WALL2,8);
     wall2.triangulate();
     
-    wallobj1 = JSBlockModel::createWithTexture(wall2, _scale, REMOVABLE_TEXTURE);
+    Poly2 wall22(WALL22, 8);
+    wall22.triangulate();
+    
+    wallobj = NBlockModel::createWithTexture(wall2, _scale, EARTH_TEXTURE);
 
     // Set the physics attributes -- the same
     
     // Add the scene graph nodes to this object
-    wallobj1->setTextureKey(REMOVABLE_TEXTURE);
-    wallobj1->resetSceneNode();
+    // wallobj1->setTextureKey(REMOVABLE_TEXTURE);
+    // wallobj1->resetSceneNode();
     
     draw = WireNode::create();
     draw->setColor(DEBUG_COLOR);
     draw->setOpacity(DEBUG_OPACITY);
-    wallobj1->setDebugNode(draw);
+    wallobj->setDebugNode(draw);
     
-    addObstacle(wallobj1,1);
+    addObstacle(wallobj,1);
+    
+    wallobj = NBlockModel::createWithTexture(wall22, _scale, EARTH_TEXTURE);
+    
+    addObstacle(wallobj,1);
     
 #pragma mark : Walls polygon 3
+    JSBlockModel* wallobj1;
     Poly2 wall3(WALL3,8);
     wall3.triangulate();
 
