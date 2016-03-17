@@ -63,9 +63,9 @@ using namespace std;
 #define NUM_CRATES 2
 
 
-float WALL1[] = { 0.0f, 36.0f,  64.0f, 36.0f,   64.0f, 31.0f,
+float WALL1[] = { -20.0f, 56.0f,  84.0f, 56.0f,   84.0f, 31.0f,
     5.0f, 31.0f, 5.0f, 5.0f,  59.0f, 5.0f,   59.0f, 31.0f,
-    64.0f, 31.0f,   64.0f, 0.0f, 0.0f,0.0f};
+    84.0f, 31.0f,   84.0f, -20.0f, -20.0f,-20.0f};
 
 float WALL2[] = {5.0f,28.0f,   27.0f,28.0f,  27.0f, 26.0f,  5.0f, 26.0f };
 float WALL3[] = {30.0f,22.0f,  50.0f,22.0f, 50.0f,20.0f,  30.0f,20.0f};
@@ -238,6 +238,13 @@ bool GameController::init(RootLayer* root, const Rect& rect) {
  */
 bool GameController::init(RootLayer* root, const Rect& rect, const Vec2& gravity) {
 //    root->setColor(WORLD_COLOR);
+   
+    // set background image
+    Texture2D* image = _assets->get<Texture2D>(BACKGROUND_TEXTURE);
+    Sprite* bg = Sprite::createWithTexture(image,Rect(0,0,1024,576));
+    bg->setAnchorPoint(Vec2(0,0));
+    root->addChild(bg);
+    
     Vec2 inputscale = Vec2(root->getScaleX(),root->getScaleY());
     _input.init();
     _input.start();
@@ -257,8 +264,8 @@ bool GameController::init(RootLayer* root, const Rect& rect, const Vec2& gravity
     failnode->setTTFConfig(_assets->get<TTFont>(PRIMARY_FONT)->getTTF());
     timenode->setTTFConfig(_assets->get<TTFont>(PRIMARY_FONT)->getTTF());
     
-    root->addChild(_theWorld->getWorldNode(),0);
-    root->addChild(_theWorld->getDebugNode(),1);
+    root->addChild(_theWorld->getWorldNode(),1);
+    root->addChild(_theWorld->getDebugNode(),2);
     root->addChild(winnode,3);
     root->addChild(failnode,3);
     root->addChild(timenode,3);
@@ -453,7 +460,7 @@ void GameController::populate() {
     draw->setColor(DEBUG_COLOR);
     draw->setOpacity(DEBUG_OPACITY);
     
-    wallobj1->setDebugNode(draw);
+//    wallobj1->setDebugNode(draw);
     
     //
     addObstacle(wallobj1,1);  // All walls share the same texture
