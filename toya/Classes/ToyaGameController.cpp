@@ -13,6 +13,7 @@
 #include <Box2D/Collision/b2Collision.h>
 #include "ToyaJSBlockModel.h"
 #include "ToyaLevelModel.h"
+#include "ToyaPanelModel.h"
 
 #include <string>
 #include <iostream>
@@ -63,9 +64,9 @@ using namespace std;
 #define NUM_CRATES 2
 
 
-float WALL1[] = { 0.0f, 36.0f,  64.0f, 36.0f,   64.0f, 31.0f,
+float WALL1[] = { -20.0f, 56.0f,  84.0f, 56.0f,   84.0f, 31.0f,
     5.0f, 31.0f, 5.0f, 5.0f,  59.0f, 5.0f,   59.0f, 31.0f,
-    64.0f, 31.0f,   64.0f, 0.0f, 0.0f,0.0f};
+    84.0f, 31.0f,   84.0f, -20.0f, -20.0f,-20.0f};
 
 float WALL2[] = {5.0f,28.0f,   27.0f,28.0f,  27.0f, 26.0f,  5.0f, 26.0f };
 float WALL3[] = {30.0f,22.0f,  50.0f,22.0f, 50.0f,20.0f,  30.0f,20.0f};
@@ -174,6 +175,7 @@ _avatar(nullptr),
 _active(false),
 _level(nullptr),
 _complete(false),
+_selector(nullptr),
 _debug(false),
 _cooldown(COOL_DOWN),
 _reset(false),
@@ -240,6 +242,13 @@ bool GameController::init(RootLayer* root, const Rect& rect) {
  */
 bool GameController::init(RootLayer* root, const Rect& rect, const Vec2& gravity) {
 //    root->setColor(WORLD_COLOR);
+   
+    // set background image
+    Texture2D* image = _assets->get<Texture2D>(BACKGROUND_TEXTURE);
+    Sprite* bg = Sprite::createWithTexture(image,Rect(0,0,1024,576));
+    bg->setAnchorPoint(Vec2(0,0));
+    root->addChild(bg);
+    
     Vec2 inputscale = Vec2(root->getScaleX(),root->getScaleY());
     _input.init();
     _input.start();
@@ -250,6 +259,7 @@ bool GameController::init(RootLayer* root, const Rect& rect, const Vec2& gravity
     
     WorldController* world = _theWorld->getWorld();
     
+    
     // set text config ffor winnodw
     // TODO: move this part to WorldModel too.
     Label* winnode = _theWorld->getWinNode();
@@ -259,8 +269,8 @@ bool GameController::init(RootLayer* root, const Rect& rect, const Vec2& gravity
     failnode->setTTFConfig(_assets->get<TTFont>(PRIMARY_FONT)->getTTF());
     timenode->setTTFConfig(_assets->get<TTFont>(PRIMARY_FONT)->getTTF());
     
-    root->addChild(_theWorld->getWorldNode(),0);
-    root->addChild(_theWorld->getDebugNode(),1);
+    root->addChild(_theWorld->getWorldNode(),1);
+    root->addChild(_theWorld->getDebugNode(),2);
     root->addChild(winnode,3);
     root->addChild(failnode,3);
     root->addChild(timenode,3);
@@ -287,6 +297,10 @@ bool GameController::init(RootLayer* root, const Rect& rect, const Vec2& gravity
     _complete = false;
     setDebug(false);
     
+    _selector = ObstacleSelector::create(world);
+    _selector->retain();
+    
+    
     // overview panel
     _overview = OverviewModel::create(Vec2(root->getContentSize().width,root->getContentSize().height), inputscale);
     _overview->setGameController(this);
@@ -312,6 +326,9 @@ GameController::~GameController() {
  * Disposes of all (non-static) resources allocated to this mode.
  */
 void GameController::dispose() {
+    if(_selector != nullptr) {
+        _selector->release();
+    }
     if (_theWorld != nullptr) {
         _theWorld->clear();
         _theWorld->release();
@@ -328,6 +345,8 @@ void GameController::dispose() {
  * This method disposes of the world and creates a new one.
  */
 void GameController::reset() {
+    _avatar->reset();
+    _selector->deselect();
     _theWorld->clear();
     _input.clear();
     setComplete(false);
@@ -409,7 +428,7 @@ void GameController::populate() {
     draw->setColor(DEBUG_COLOR);
     draw->setOpacity(DEBUG_OPACITY);
     
-    wallobj1->setDebugNode(draw);
+//    wallobj1->setDebugNode(draw);
     
     //
     addObstacle(wallobj1,1);  // All walls share the same texture
@@ -537,7 +556,7 @@ void GameController::populate() {
     Texture2D* image4 = _assets->get<Texture2D>(BARRIER_TEXTURE);
     PolygonNode* sprite4;
     
-    Vec2 barrierPos2 = Vec2(36, 25);
+    Vec2 barrierPos2 = Vec2(36, 22);
     
     sprite4 = PolygonNode::createWithTexture(image4);
     Size barrierSize2(image4->getContentSize().width/_scale.x, image4->getContentSize().height/_scale.y);
@@ -582,6 +601,33 @@ void GameController::addObstacle(Obstacle* obj, int zOrder) {
 #pragma mark -
 #pragma mark Physics Handling
 
+Vec2* GameController::getRelativePosition(const Vec2& physicalPosition, Vec2& centerPosition, float turningAngel) {
+
+    Vec2 centerPosition_p = (Vec2){512.0f, 288.0f};
+    float dist = physicalPosition.getDistance(centerPosition_p);
+    
+    // Alpha is the current angle between the physical position and center
+    float alpha = acos((physicalPosition.x-centerPosition_p.x) / dist) * 180.0f / M_PI;
+    if(physicalPosition.y < centerPosition_p.y) alpha = -alpha;
+    
+    // Beta is the rotation angle
+    float beta = _theWorld->getRotation();
+    
+    // Theta is the angle between physical position and center before any rotation happened
+    float theta = alpha + beta;
+    
+    float originalX = centerPosition_p.x + cos(theta * M_PI / 180.0f) * dist;
+    float originalY = centerPosition_p.y + sin(theta * M_PI / 180.0f) * dist;
+    
+//    float relativeX = centerPosition.x - 16.0f + physicalPosition.x / 1024.0f * 32.0f;
+//    float relativeY = centerPosition.y - 9.0f + physicalPosition.y / 576.0f * 18.0f;
+    float relativeX = centerPosition.x - 16.0f + originalX / 1024.0f * 32.0f;
+    float relativeY = centerPosition.y - 9.0f + originalY / 576.0f * 18.0f;
+    Vec2* relativePosition = new Vec2(relativeX, relativeY);
+    
+    return relativePosition;
+}
+
 /**
  * Executes the core gameplay loop of this world.
  *
@@ -604,8 +650,10 @@ void GameController::update(float dt) {
     }
     
     _input.update(dt);
-    if (_barrier != nullptr && _barrier1 != nullptr) {
+    if (_barrier != nullptr) {
         _barrier->setAngle(_barrier->getAngle() + 1);
+    }
+    if (_barrier1 != nullptr) {
         _barrier1->setAngle(_barrier1->getAngle() + 1);
     }
     // Process the toggled key commands
@@ -618,8 +666,8 @@ void GameController::update(float dt) {
         
         float cRotation = _theWorld->getRotation() + _input.getTurning();
         
-        if (cRotation > 360) {
-            cRotation -= 360;
+        if (cRotation > 360.0f) {
+            cRotation -= 360.0f;
         }        
         _theWorld->setRotation(cRotation);
         _avatar->setAngle(cRotation/ 180.0f * M_PI);
@@ -629,6 +677,20 @@ void GameController::update(float dt) {
         
         _theWorld->setGravity(newGravity);
         CCLOG("%f,%f",newGravity.x,newGravity.y);
+    }
+    
+    if (_input.didSelect() && _selector->isSelected()) {
+//        if(_panel->getSpell() == DESTRUCTION_SPELL_SELECTED) {
+//            BlockModel* obstacle = (BlockModel*)_selector->getObstacle();
+//            _theWorld->removeObstacle(&obstacle);
+//            _barrier1 = nullptr;
+//        }
+    } else if (_input.didSelect()) {
+        Vec2 centerPosition = _avatar->getPosition();
+        Vec2 relativePosition = *getRelativePosition(_input.getSelection(), centerPosition, 0.0f);
+        _selector->select(relativePosition);
+    } else if (_selector->isSelected()) {
+//        _selector->deselect();
     }
     
     //    update world position

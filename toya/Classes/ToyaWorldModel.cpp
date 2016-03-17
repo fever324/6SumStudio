@@ -221,6 +221,20 @@ void WorldModel::addObstacle(Obstacle* obj, int zOrder){
     }
 }
 
+void WorldModel::removeObstacle(BlockModel** objPtr){
+    Obstacle* obj = *objPtr;
+    if (obj->getSceneNode() != nullptr) {
+        _worldnode->removeChild(obj->getSceneNode());
+    }
+    if (obj->getDebugNode() != nullptr) {
+         _debugnode->removeChild(obj->getSceneNode());
+    }
+    _world->removeObstacle(obj);
+//    obj->reset();
+//    delete obj;
+    *objPtr = nullptr;
+}
+
 void WorldModel::setDebug(bool value){
     _debugnode->setVisible(value);
 }
@@ -239,10 +253,6 @@ void WorldModel::setAnchor(const Vec2& anchor){
 
 void WorldModel::addToWorldNode(PolygonNode* node, int priority){
     _worldnode->addChild(node, priority);
-}
-
-void WorldModel::removeObstacle(Obstacle* obj){
-    _world->removeObstacle(obj);
 }
 
 void WorldModel::setWorldPos(Obstacle* obj,Vec2& pos){

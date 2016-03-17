@@ -310,7 +310,6 @@ void AvatarModel::applyForce() {
 
         _body->ApplyForce(force,_body->GetPosition(),true);
     }
-    
 }
 
 #pragma mark -
@@ -389,9 +388,9 @@ void AvatarModel::update(float dt) {
     animateAvatar();
     int direction = isFacingRight() ? 1 : -1;
     setMovement(direction*getForce());
+//    CCLOG("Direction: %d, Movement: %f", direction, getMovement());
     applyForce();
 }
-
 
 #pragma mark -
 #pragma mark Scene Graph Methods

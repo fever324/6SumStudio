@@ -80,6 +80,9 @@ protected:
     bool _debugPressed;
     /** Whether the exit action was chosen. */
     bool _exitPressed;
+    
+    bool _select;
+    Vec2 _ctouch;
 
 #pragma mark Internal Touch Management
     
@@ -209,6 +212,9 @@ public:
      * @return true if the exit button was pressed.
      */
     bool didExit() const { return _exitPressed; }
+    
+    bool didSelect() const { return _select; }
+    const Vec2& getSelection() const { return _ctouch; }
     
     
 #pragma mark -

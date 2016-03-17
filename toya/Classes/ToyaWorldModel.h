@@ -14,6 +14,7 @@
 #include <cornell.h>
 #include <Box2D/Dynamics/b2World.h>
 #include <cornell/CUAnimationNode.h>
+#include "ToyaBlockModel.h"
 
 using namespace cocos2d;
 
@@ -184,7 +185,7 @@ public:
     void clear();
     
     void addObstacle(Obstacle* obj, int zOrder);
-    void removeObstacle(Obstacle* obj);
+    void removeObstacle(BlockModel** objPtr);
     
     void addToWorldNode(PolygonNode* node, int priority);
     

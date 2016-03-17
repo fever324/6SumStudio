@@ -64,6 +64,8 @@ _touchListener(nullptr)
     _keyExit  = false;
     _keyRotate = false;
     
+    _select = false;
+    
     _touch1.touchid = -1;
     _touch2.touchid = -1;
 }
@@ -236,6 +238,7 @@ void InputController::clear() {
 
 #pragma mark -
 #pragma mark Touch Callbacks
+
 /**
  * Callback for the beginning of a touch event
  *
@@ -247,6 +250,12 @@ void InputController::clear() {
 bool InputController::touchBeganCB(Touch* t, timestamp_t current) {
     
     _touchCount ++;
+    _select = (_touchCount == 1);
+    
+    if(_select) {
+        _ctouch.set(t->getLocation());
+    }
+    
     _touchCount = _touchCount > 2 ? 2 : _touchCount;
     Vec2 pos = t->getLocation();
     if (_touch1.touchid == -1) {
@@ -283,6 +292,8 @@ void InputController::touchEndedCB(Touch* t, timestamp_t current) {
     _touchCount --;
     _touchCount = _touchCount < 0 ? 0 : _touchCount;
     _keyRotate = false;
+    
+    _select = false;
 }
 
 bool InputController::checkTap(timestamp_t current) {
@@ -391,6 +402,8 @@ void InputController::touchCancelCB(Touch* t, timestamp_t current) {
     _keyReset = false;
     _keyExit  = false;
     _keyRotate = false;
+    
+    _select = false;
     
     _touch1.touchid = -1;
     _touch2.touchid = -1;

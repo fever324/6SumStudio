@@ -283,10 +283,6 @@ public:
      */
     void applyForce();
     
-    void reset();
-
-    
-    
 CC_CONSTRUCTOR_ACCESS:
 #pragma mark Hidden Constructors
     /**
@@ -375,8 +371,8 @@ CC_CONSTRUCTOR_ACCESS:
      * @param  strip    the texture (key) for this rocket
      */
     void setAvatarTexture(std::string strip) { _avatarTexture = strip; }
-    
-    
+
+    void reset();
     
 private:
     void createSensor(b2Fixture* sensorFixture, b2Vec2 corners[], std::string* sensorName);

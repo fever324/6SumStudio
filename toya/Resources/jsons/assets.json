@@ -20,6 +20,10 @@
             "file":     "textures/bears.png",
             "wrap":     false
         },
+        "background": {
+            "file":     "textures/background.png",
+            "wrap":     true
+        },
         "barrier":    {
             "file":     "textures/obstacle_01.png",
             "wrap":     false

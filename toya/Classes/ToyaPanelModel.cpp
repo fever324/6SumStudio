@@ -1,10 +1,6 @@
 #include "ToyaPanelModel.h"
 #include "ToyaWorldModel.h"
 
-#define NO_SPELL_SELECTED 0
-#define CONSTRUCTION_SPELL_SELECTED 1
-#define DESTRUCTION_SPELL_SELECTED 2
-
 #define CREATE_MAGIC_UNSELECTED_IMAGE "textures/create_magic.png"
 #define CREATE_MAGIC_SELECTED_IMAGE "textures/create_magic_disabled.png"
 
@@ -107,10 +103,8 @@ void PanelModel::destructionTouchEvent(Ref *sender, ui::Widget::TouchEventType t
     }
 }
 
-SpellModel* PanelModel::getSpell() {
-    if(_selection == NO_SPELL_SELECTED) return nullptr;
-    if(_selection == CONSTRUCTION_SPELL_SELECTED) return _constructionSpell;
-    return _destructionSpell;
+int PanelModel::getSpell() {
+    return _selection;
 }
 
 bool PanelModel::deduceTotalMana(int cost) {
