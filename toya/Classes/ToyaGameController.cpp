@@ -134,6 +134,7 @@ _goalDoor(nullptr),
 _avatar(nullptr),
 _active(false),
 _complete(false),
+_selector(nullptr),
 _debug(false),
 _reset(false),
 _overview(nullptr)
@@ -208,6 +209,7 @@ bool GameController::init(RootLayer* root, const Rect& rect, const Vec2& gravity
     
     WorldController* world = _theWorld->getWorld();
     
+    
     // set text config ffor winnodw
     // TODO: move this part to WorldModel too.
     Label* winnode = _theWorld->getWinNode();
@@ -240,6 +242,10 @@ bool GameController::init(RootLayer* root, const Rect& rect, const Vec2& gravity
     _complete = false;
     setDebug(false);
     
+    _selector = ObstacleSelector::create(world);
+    _selector->retain();
+    
+    
     // overview panel
     _overview = OverviewModel::create(Vec2(root->getContentSize().width,root->getContentSize().height), inputscale);
     _overview->setGameController(this);
@@ -265,6 +271,9 @@ GameController::~GameController() {
  * Disposes of all (non-static) resources allocated to this mode.
  */
 void GameController::dispose() {
+    if(_selector != nullptr) {
+        _selector->release();
+    }
     if (_theWorld != nullptr) {
         _theWorld->clear();
         _theWorld->release();
@@ -281,6 +290,8 @@ void GameController::dispose() {
  * This method disposes of the world and creates a new one.
  */
 void GameController::reset() {
+    _avatar->reset();
+    _selector->deselect();
     _theWorld->clear();
     _input.clear();
     setComplete(false);
@@ -531,6 +542,33 @@ void GameController::addObstacle(Obstacle* obj, int zOrder) {
 #pragma mark -
 #pragma mark Physics Handling
 
+Vec2* GameController::getRelativePosition(const Vec2& physicalPosition, Vec2& centerPosition, float turningAngel) {
+
+    Vec2 centerPosition_p = (Vec2){512.0f, 288.0f};
+    float dist = physicalPosition.getDistance(centerPosition_p);
+    
+    // Alpha is the current angle between the physical position and center
+    float alpha = acos((physicalPosition.x-centerPosition_p.x) / dist) * 180.0f / M_PI;
+    if(physicalPosition.y < centerPosition_p.y) alpha = -alpha;
+    
+    // Beta is the rotation angle
+    float beta = _theWorld->getRotation();
+    
+    // Theta is the angle between physical position and center before any rotation happened
+    float theta = alpha + beta;
+    
+    float originalX = centerPosition_p.x + cos(theta * M_PI / 180.0f) * dist;
+    float originalY = centerPosition_p.y + sin(theta * M_PI / 180.0f) * dist;
+    
+//    float relativeX = centerPosition.x - 16.0f + physicalPosition.x / 1024.0f * 32.0f;
+//    float relativeY = centerPosition.y - 9.0f + physicalPosition.y / 576.0f * 18.0f;
+    float relativeX = centerPosition.x - 16.0f + originalX / 1024.0f * 32.0f;
+    float relativeY = centerPosition.y - 9.0f + originalY / 576.0f * 18.0f;
+    Vec2* relativePosition = new Vec2(relativeX, relativeY);
+    
+    return relativePosition;
+}
+
 /**
  * Executes the core gameplay loop of this world.
  *
@@ -559,8 +597,8 @@ void GameController::update(float dt) {
         
         float cRotation = _theWorld->getRotation() + _input.getTurning();
         
-        if (cRotation > 360) {
-            cRotation -= 360;
+        if (cRotation > 360.0f) {
+            cRotation -= 360.0f;
         }        
         _theWorld->setRotation(cRotation);
 
@@ -568,6 +606,16 @@ void GameController::update(float dt) {
         Vec2 newGravity = _input.getGravity(gravity,cRotation);
         
         _theWorld->setGravity(newGravity);
+    }
+    
+    if (_input.didSelect() && _selector->isSelected()) {
+        _selector->getObstacle();
+    } else if (_input.didSelect()) {
+        Vec2 centerPosition = _avatar->getPosition();
+        Vec2 relativePosition = *getRelativePosition(_input.getSelection(), centerPosition, 0.0f);
+        _selector->select(relativePosition);
+    } else if (_selector->isSelected()) {
+        _selector->deselect();
     }
     
     //    update world position

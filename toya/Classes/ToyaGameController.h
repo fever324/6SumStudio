@@ -78,6 +78,8 @@ protected:
     
     PanelModel* _panel;
     
+    ObstacleSelector* _selector;
+    
     /** Whether or note this game is still active */
     bool _active;
     /** Whether we have completed this "game" */
@@ -262,6 +264,8 @@ public:
      * @param  delta    Number of seconds since last animation frame
      */
     void update(float dt);
+    
+    Vec2* getRelativePosition(const Vec2& physicalPosition, Vec2& centerPosition, float turningAngel);
     
     
 #pragma mark -

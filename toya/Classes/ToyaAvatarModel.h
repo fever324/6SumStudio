@@ -347,6 +347,8 @@ CC_CONSTRUCTOR_ACCESS:
      */
     void setAvatarTexture(std::string strip) { _avatarTexture = strip; }
     
+    void reset();
+    
 private:
     void createSensor(b2Fixture* sensorFixture, b2Vec2 corners[], std::string* sensorName);
     

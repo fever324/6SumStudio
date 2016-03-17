@@ -129,7 +129,6 @@ bool AvatarModel::init(const Vec2& pos, const Vec2& scale) {
     Size avatarSize = Size(image->getContentSize().width*cscale*AVATAR_SHRINK/scale.x,image->getContentSize().height*cscale*AVATAR_SHRINK/scale.y);
     
     if (CapsuleObstacle::init(pos, avatarSize)) {
-        
         setDensity(AVATAR_DENSITY);
         setFriction(0.0f);      // HE WILL STICK TO WALLS IF YOU FORGET
         setFixedRotation(true); // OTHERWISE, HE IS A WEEBLE WOBBLE
@@ -306,7 +305,6 @@ void AvatarModel::applyForce() {
         b2Vec2 force(getMovement(),0);
         _body->ApplyForce(force,_body->GetPosition(),true);
     }
-    
 }
 
 /**
@@ -319,9 +317,26 @@ void AvatarModel::applyForce() {
 void AvatarModel::update(float dt) {
     CapsuleObstacle::update(dt);
     
+//    CCLOG("VX:%f", getVX());
+    
+    
     int direction = isFacingRight() ? 1 : -1;
     setMovement(direction*getForce());
+//    CCLOG("Direction: %d, Movement: %f", direction, getMovement());
     applyForce();
+}
+
+/**
+ * Reset the avatar attributes.
+ */
+void AvatarModel::reset() {
+    _faceRight  = true;
+    _isGrounded = false;
+//    _body->ApplyForce((b2Vec2){0,0}, _body->GetPosition(), true);
+    setLinearVelocity((Vec2){0,0});
+    setVX(0.0f);
+    setVY(0.0f);
+    resetSceneNode();
 }
 
 
