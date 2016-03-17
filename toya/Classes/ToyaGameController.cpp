@@ -431,7 +431,6 @@ void GameController::populate() {
     
 //    wallobj1->setDebugNode(draw);
     
-    //
     wallobj1->setRemovable(false);
     addObstacle(wallobj1,1);  // All walls share the same texture
     
@@ -664,12 +663,12 @@ void GameController::update(float dt) {
     }
     
     _input.update(dt);
-    if (_barrier != nullptr) {
-        _barrier->setAngle(_barrier->getAngle() + 1);
-    }
-    if (_barrier1 != nullptr) {
-        _barrier1->setAngle(_barrier1->getAngle() + 1);
-    }
+//    if (_barrier != nullptr) {
+//        _barrier->setAngle(_barrier->getAngle() + 1);
+//    }
+//    if (_barrier1 != nullptr) {
+//        _barrier1->setAngle(_barrier1->getAngle() + 1);
+//    }
     // Process the toggled key commands
     if (_input.didReset()) { reset(); }
     if (_input.didExit())  {
@@ -678,7 +677,7 @@ void GameController::update(float dt) {
     }
     if(_input.didRotate()) {
         
-        float cRotation = _theWorld->getRotation() + _input.getTurning();
+        float cRotation = _theWorld->getRotation() + _input.getTurning()*2;
         
         if (cRotation > 360.0f) {
             cRotation -= 360.0f;
@@ -699,8 +698,8 @@ void GameController::update(float dt) {
             if (obstacle->isRemovable()) {
                 _selector->deselect();
                 _theWorld->removeObstacle(&obstacle);
-                _barrier1 = nullptr;
-                _barrier = nullptr;
+//                _barrier1 = nullptr;
+//                _barrier = nullptr;
             }
         }
     } else if (_input.didSelect()) {
