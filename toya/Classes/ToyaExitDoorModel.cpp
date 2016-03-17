@@ -9,6 +9,9 @@
 #include <cornell/CUAssetManager.h>
 #include <cornell/CUSceneManager.h>
 
+#define DOOR_OPEN   0
+#define DOOR_CLOSED 1
+
 using namespace cocos2d;
 
 //
@@ -44,78 +47,50 @@ ExitDoorModel* ExitDoorModel::create(const Vec2 &pos, const Size &size) {
     return nullptr;
 }
 
-//
-ExitDoorModel* ExitDoorModel::create(const Vec2 &pos, const Size &size, const std::string &texture) {
-    ExitDoorModel* exit = new (std::nothrow) ExitDoorModel();
-    if (exit && exit->init(pos, size, texture)) {
-        exit->autorelease();
-        return exit;
-    }
-    CC_SAFE_DELETE(exit);
-    return nullptr;
-}
 
-/**
- * Creates a new exit with the given position, size, texture and state
- *
- * @param  pos      Initial position in world coordinates
- * @param  size     The dimensions of the box.
- * @param  texture  The material of the box.
- * @param  state    The state of the box
- *
- * @return  An autoreleased physics object
- */
-ExitDoorModel* ExitDoorModel::create(const Vec2 &pos, const Size &size, const std::string &texture, const int &state) {
-    ExitDoorModel* exit = new (std::nothrow) ExitDoorModel();
-    if (exit && exit->init(pos, size, texture, state)) {
-        exit->autorelease();
-        return exit;
-    }
-    CC_SAFE_DELETE(exit);
-    return nullptr;
-}
 
-//
-void ExitDoorModel::setExitState(const int& value, const std::string& texture) {
-    _state = value;
-    _texture = texture;
-}
+
 
 //
 bool ExitDoorModel::init(const Vec2 &pos, const Size &size) {
-    BlockModel::init(pos, size);
-    _state = 0;
+    BoxObstacle::init(pos, size);
+    
+    // Set the physics attributes
+    setBodyType(b2_staticBody);
+    setSensor(true);
+    
+    // Set door state
+    _state = DOOR_CLOSED;
+    
+    // Apply image
+    SceneManager* am = AssetManager::getInstance()->getCurrent();
+    Texture2D* image = am->get<Texture2D>(GOAL_TEXTURE);
+    
+    float cscale = Director::getInstance()->getContentScaleFactor();
+    Sprite* sprite = Sprite::createWithTexture(image);
+    sprite->setScale(cscale/4);
+    setSceneNode(sprite);
+    
     return true;
 }
 
-//
-bool ExitDoorModel::init(const Vec2 &pos, const Size &size, const std::string &texture) {
-    BlockModel::init(pos, size, texture);
-    _state = 0;
-    return true;
-}
 
-/**
- * Initializes a new exit with the given position, size, texture and state.
- *
- * @param  pos      Initial position in coordinates.
- * @param  size   	The dimensions of the box.
- * @param  texture  The material of the box.
- * @param  state    The state of the box
- *
- * @return  true if the object is initialized properly, false otherwise.
- */
-bool ExitDoorModel::init(const Vec2 &pos, const Size &size, const std::string &texture, const int &state) {
-    BlockModel::init(pos, size, texture);
-    _state = state;
-    return true;
-}
 
 /**
  * Destructor of this exit releasing all resources.
  */
 ExitDoorModel::~ExitDoorModel(void) {
     // We do not own any of these, so we just set to null
+}
+
+void ExitDoorModel::open() {
+    if(_state == DOOR_OPEN) {
+        return;
+    }
+    _state = DOOR_OPEN;
+    Texture2D* image = AssetManager::getInstance()->getCurrent()->get<Texture2D>(GOAL_REACHED_TEXTURE);
+    Sprite* sprite =  (Sprite*) getSceneNode();
+    sprite->setTexture(image);
 }
 
 
