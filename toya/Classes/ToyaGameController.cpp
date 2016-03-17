@@ -102,6 +102,8 @@ float BARRIER_POS[] = {32.5, 13.0};
 #define REMOVABLE_TEXTURE   "removable"
 /** The key for the win door texture in the asset manager */
 #define GOAL_TEXTURE        "goal"
+#define GOAL_REACHED_TEXTURE "goal-reached"
+
 /** The key prefix for the multiple crate assets */
 #define CRATE_PREFIX        "crate"
 /** The key for the fire textures in the asset manager */
@@ -359,61 +361,15 @@ void GameController::populate() {
     
     
 #pragma mark : Goal door
-    Texture2D* image = _assets->get<Texture2D>(GOAL_TEXTURE);
-    PolygonNode* sprite;
     WireNode* draw;
     
     // Create obstacle
     Vec2 goalPos = ((Vec2)GOAL_POS);
-    
-    sprite = PolygonNode::createWithTexture(image);
-    
-    Size goalSize(image->getContentSize().width/_scale.x, image->getContentSize().height/_scale.y);
-////    Size goalSize(10,5);
-//    
-//    PolygonObstacle* door;
-//    
-//    float goal[] = {10.0f,20.0f,  10.0f, 20.0f + goalSize.height, 10.0f + goalSize.width, 20.0f + goalSize.height,  10.0f + goalSize.width, 20.0f};
-//    
-//    Poly2 goald(goal,8);
-//    goald.triangulate();
-//    
-//    door = PolygonObstacle::create(goald);
-//    door->setAnchor(0, 0);
-//    door->setDrawScale(_scale.x, _scale.y);
-//    
-//    door->setBodyType(b2_staticBody);
-//    door->setDensity(BASIC_DENSITY);
-//    door->setFriction(BASIC_FRICTION);
-//    door->setRestitution(BASIC_RESTITUTION);
-//    
-//    goald *= _scale;
-//    
-//    sprite = PolygonNode::createWithTexture(image,goald);
-//    door->setSceneNode(sprite);
-//    
-//    draw = WireNode::create();
-//    draw->setColor(DEBUG_COLOR);
-//    draw->setOpacity(DEBUG_OPACITY);
-//    door->setDebugNode(draw);
-//
-//    addObstacle(door,5);  // All walls share the same texture
-
-    
-    _goalDoor = BlockModel::create(goalPos,goalSize/6);
+    Texture2D* image = _assets->get<Texture2D>(GOAL_TEXTURE);
+    Size goalSize = Size(image->getContentSize().width/_scale.x, image->getContentSize().height/_scale.y);
+    _goalDoor = ExitDoorModel::create(goalPos, goalSize/8);
     _goalDoor->setDrawScale(_scale.x, _scale.y);
-    
-    // Set the physics attributes
-    _goalDoor->setBodyType(b2_staticBody);
-    _goalDoor->setDensity(0.0f);
-    _goalDoor->setFriction(0.1f);
-    _goalDoor->setRestitution(1.0f);
-    _goalDoor->setSensor(true);
-    
-    // Add the scene graph nodes to this object
-    sprite = PolygonNode::createWithTexture(image);
-    sprite->setScale(cscale/4);
-    _goalDoor->setSceneNode(sprite);
+
     
     draw = WireNode::create();
     draw->setColor(DEBUG_GOAL_COLOR);
@@ -759,7 +715,8 @@ void GameController::beginContact(b2Contact* contact) {
     // If we hit the "win" door, we are done
     if((body1->GetUserData() == _avatar && body2->GetUserData() == _goalDoor) ||
        (body1->GetUserData() == _goalDoor && body2->GetUserData() == _avatar)) {
-//        addObstacle(_door, 3);
+        _goalDoor->open();
+
         setComplete(true);
         _avatar->setLinearVelocity(Vec2(0.0f, 0.0f));
         // TODO: pause it

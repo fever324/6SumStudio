@@ -23,6 +23,10 @@
         "barrier":    {
             "file":     "textures/obstacle_01.png",
             "wrap":     false
+        },
+        "goal-reached": {
+            "file":     "textures/door_open.png",
+            "wrap":     false
         }
   	},
   	"sounds": {

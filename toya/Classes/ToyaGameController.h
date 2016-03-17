@@ -19,6 +19,7 @@
 #include "ToyaAvatarModel.h"
 #include "ToyaOverviewModel.h"
 #include "ToyaPanelModel.h"
+#include "ToyaExitDoorModel.h"
 
 class LevelModel;
 
@@ -59,7 +60,7 @@ protected:
     
     // Physics objects for the game
     /** Reference to the goalDoor (for collision detection) */
-    BlockModel* _goalDoor;
+    ExitDoorModel* _goalDoor;
 
     BlockModel* _door;
 
