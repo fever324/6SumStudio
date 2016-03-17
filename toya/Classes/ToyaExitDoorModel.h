@@ -31,6 +31,7 @@ public:
      *
      * @return  An auto-released physics object
      */
+    bool _isRemovable;
     static ExitDoorModel* create();
 
     /**
@@ -95,7 +96,13 @@ CC_CONSTRUCTOR_ACCESS:
      */
     virtual bool init(const Vec2& pos, const Size& size) override;
 
-
+    bool isRemovable(){
+        return _isRemovable;
+    }
+    
+    void setRemovable(bool value){
+        _isRemovable = value;
+    }
 
 #pragma mark -
 #pragma mark Instance methods
