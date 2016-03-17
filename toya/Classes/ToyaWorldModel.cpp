@@ -291,7 +291,7 @@ void WorldModel::clear(){
     _worldnode->setRotation(0.0f);
     _debugnode->removeAllChildren();
     
-    
+    _world->setGravity(Vec2(0, WORLD_GRAVITY));
     // Reset the debug background
     LayerColor* bg = LayerColor::create(Color4B(53, 53, 53, 255));
     // change the scale to parameter

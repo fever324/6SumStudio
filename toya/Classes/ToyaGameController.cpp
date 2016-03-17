@@ -124,7 +124,6 @@ float BARRIER_POS[] = {32.5, 13.0};
 /** Opacity of the physics outlines */
 #define DEBUG_OPACITY   192
 
-
 #define COOL_DOWN   120
 
 /** The key for collisions sounds */
@@ -407,8 +406,8 @@ void GameController::populate() {
     // Set the physics attributes
     _goalDoor->setBodyType(b2_staticBody);
     _goalDoor->setDensity(0.0f);
-    _goalDoor->setFriction(0.0f);
-    _goalDoor->setRestitution(0.0f);
+    _goalDoor->setFriction(0.1f);
+    _goalDoor->setRestitution(1.0f);
     _goalDoor->setSensor(true);
     
     // Add the scene graph nodes to this object
@@ -422,31 +421,6 @@ void GameController::populate() {
     _goalDoor->setDebugNode(draw);
     addObstacle(_goalDoor, 2); // Put this at the very back
 
-    //
-//    Texture2D* image2 = _assets->get<Texture2D>(BEAR_TEXTURE);
-//    PolygonNode* sprite2;
-//
-//    Vec2 doorPos = ((Vec2)DOOR_POS);
-//    sprite2 = PolygonNode::createWithTexture(image2);
-//    Size doorSize(image2->getContentSize().width/_scale.x, image2->getContentSize().height/_scale.y);
-//    BlockModel* _door = BlockModel::create(doorPos, doorSize);
-//    _door->setDrawScale(_scale.x, _scale.y);
-//
-//    //
-//    _door->setBodyType(b2_staticBody);
-//    _door->setDensity(0.0f);
-//    _door->setFriction(0.0f);
-//    _door->setRestitution(0.0f);
-//    _door->setSensor(true);
-//
-//    sprite2 = PolygonNode::createWithTexture(image2);
-//    sprite2->setScale(cscale/2);
-//    _door->setSceneNode(sprite2);
-
-    // addObstacle(_door, 3);
-
-
-    
     
 #pragma mark : Wall polygon 1
     // use the method of JSBlockModel
@@ -572,14 +546,19 @@ void GameController::populate() {
     _theWorld->setFollow(_avatar);
 
 #pragma mark : Barrier
+    
     Texture2D* image3 = _assets->get<Texture2D>(BARRIER_TEXTURE);
     PolygonNode* sprite3;
 
     Vec2 barrierPos = ((Vec2)BARRIER_POS);
+    
     sprite3 = PolygonNode::createWithTexture(image3);
     Size barrierSize(image3->getContentSize().width/_scale.x, image3->getContentSize().height/_scale.y);
+    
     _barrier = BlockModel::create(barrierPos, barrierSize/6);
+    
     _barrier->setDrawScale(_scale.x, _scale.y);
+
 
     draw = WireNode::create();
     draw->setColor(DEBUG_COLOR);
@@ -590,11 +569,43 @@ void GameController::populate() {
     _barrier->setFriction(0.0f);
     _barrier->setRestitution(0.0f);
     _barrier->setSensor(true);
-
+    
     sprite3 = PolygonNode::createWithTexture(image3);
     sprite3->setScale(cscale/4);
     _barrier->setSceneNode(sprite3);
-    addObstacle(_barrier, 3);
+    addObstacle(_barrier, 1);
+    
+    
+    
+    
+    Texture2D* image4 = _assets->get<Texture2D>(BARRIER_TEXTURE);
+    PolygonNode* sprite4;
+    
+    Vec2 barrierPos2 = Vec2(36, 25);
+    
+    sprite4 = PolygonNode::createWithTexture(image4);
+    Size barrierSize2(image4->getContentSize().width/_scale.x, image4->getContentSize().height/_scale.y);
+    
+    _barrier1 = BlockModel::create(barrierPos2, barrierSize2/6);
+    
+    _barrier1->setDrawScale(_scale.x, _scale.y);
+    
+    
+    draw = WireNode::create();
+    draw->setColor(DEBUG_COLOR);
+    draw->setOpacity(DEBUG_OPACITY);
+
+    _barrier1->setDebugNode(draw);
+    _barrier1->setBodyType(b2_staticBody);
+    _barrier1->setDensity(0.0f);
+    _barrier1->setFriction(0.0f);
+    _barrier1->setRestitution(0.0f);
+    _barrier1->setSensor(true);
+    sprite4 = PolygonNode::createWithTexture(image4);
+    sprite4->setScale(cscale/4);
+    _barrier1->setSceneNode(sprite4);
+    addObstacle(_barrier1, 1);
+
 }
 
 /**
@@ -637,7 +648,10 @@ void GameController::update(float dt) {
     }
     
     _input.update(dt);
-
+    if (_barrier != nullptr && _barrier1 != nullptr) {
+        _barrier->setAngle(_barrier->getAngle() + 1);
+        _barrier1->setAngle(_barrier1->getAngle() + 1);
+    }
     // Process the toggled key commands
     if (_input.didReset()) { reset(); }
     if (_input.didExit())  {
@@ -731,6 +745,16 @@ void GameController::beginContact(b2Contact* contact) {
         _reset = true;
     }
     
+    // If the avatar hits the barrier, game over
+    if((body1->GetUserData() == _avatar && body2->GetUserData() == _barrier1) ||
+       (body1->GetUserData() == _barrier1 && body2->GetUserData() == _avatar)) {
+        setFail(true);
+        // show time using
+        //        double time = _overview->getCurrentPlayTime();
+        //        _theWorld->showTime(time);
+        _reset = true;
+    }
+    
     
     // If we hit the "win" door, we are done
     if((body1->GetUserData() == _avatar && body2->GetUserData() == _goalDoor) ||
@@ -802,23 +826,6 @@ void GameController::beforeSolve(b2Contact* contact, const b2Manifold* oldManifo
  * Preloads the assets needed for the game.
  */
 void GameController::preload() {
-    // Load the textures (Autorelease objects)
-//    Texture2D::TexParams params;
-//    params.wrapS = GL_REPEAT;
-//    params.wrapT = GL_REPEAT;
-//    params.magFilter = GL_LINEAR;
-//    params.minFilter = GL_NEAREST;
-//    
-//    _assets = AssetManager::getInstance()->getCurrent();
-//    TextureLoader* tloader = (TextureLoader*)_assets->access<Texture2D>();
-//    _assets->loadAsync<TTFont>(PRIMARY_FONT, "fonts/arial.ttf");
-//    tloader->loadAsync(EARTH_TEXTURE,       "textures/earthtile.png", params);
-//    tloader->loadAsync(AVATAR_TEXTURE,   "textures/avatar.png");
-//    tloader->loadAsync(BLOCK_TEXTURE,   "textures/block.png");
-//    tloader->loadAsync(REMOVABLE_TEXTURE,   "textures/removable.png", params);
-//    tloader->loadAsync(GOAL_TEXTURE,   "textures/door.png");
-//    tloader->loadAsync(BEAR_TEXTURE,   "textures/bear.png");
-   
     
     _assets = AssetManager::getInstance()->getCurrent();
     
