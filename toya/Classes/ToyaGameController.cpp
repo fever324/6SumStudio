@@ -588,7 +588,7 @@ void GameController::populate() {
     Texture2D* image4 = _assets->get<Texture2D>(BARRIER_TEXTURE);
     PolygonNode* sprite4;
     
-    Vec2 barrierPos2 = Vec2(36, 25);
+    Vec2 barrierPos2 = Vec2(36, 22);
     
     sprite4 = PolygonNode::createWithTexture(image4);
     Size barrierSize2(image4->getContentSize().width/_scale.x, image4->getContentSize().height/_scale.y);
