@@ -98,6 +98,8 @@ void OverviewModel::resetButtonTouchEvent(cocos2d::Ref *sender, ui::Widget::Touc
             reseted = true;
             if(paused) {
                 resumeFromPause();
+                pauseButton->setSelected(false);
+
             }
             break;
         default:
@@ -118,6 +120,8 @@ double OverviewModel::getCurrentDuration() {
 void OverviewModel::pauseButtonPressed() {
     currentPlayTime += getCurrentDuration();
     Director::getInstance()->pause();     // Stop the world
+//    pauseButton->setSelected(true);
+
     paused = true;
     gameController->setDebug(true);
 
@@ -127,7 +131,6 @@ void OverviewModel::resumeFromPause() {
     startTime = current_time();
     Director::getInstance()->resume();
     paused = false;
-    pauseButton->setSelected(false);
     gameController->setDebug(false);
 }
 
