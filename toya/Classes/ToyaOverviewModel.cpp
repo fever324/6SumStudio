@@ -127,6 +127,7 @@ void OverviewModel::resumeFromPause() {
     startTime = current_time();
     Director::getInstance()->resume();
     paused = false;
+    pauseButton->setSelected(false);
     gameController->setDebug(false);
 }
 
