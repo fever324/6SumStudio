@@ -139,6 +139,7 @@ bool AvatarModel::init(const Vec2& pos, const Vec2& scale) {
         _isGrounded = false;
         setDrawScale(scale);
         setLinearVelocity((Vec2){AVATAR_INITIAL_SPEED,0});
+        setRemovable(false);
         
         PolygonNode* sprite = PolygonNode::create(Rect(0, 0, avatarSize.width, avatarSize.height));
         sprite->setScale(AVATAR_SHRINK);

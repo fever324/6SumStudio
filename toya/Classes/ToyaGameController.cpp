@@ -560,6 +560,7 @@ void GameController::populate() {
     sprite3->setScale(cscale/4);
     _barrier->setSceneNode(sprite3);
     _barrier->setRemovable(true);
+    _barrier->setName("barrier");
     addObstacle(_barrier, 1);
     
     
@@ -592,6 +593,7 @@ void GameController::populate() {
     sprite4->setScale(cscale/4);
     _barrier1->setSceneNode(sprite4);
     _barrier1->setRemovable(true);
+    _barrier1->setName("barrier");
     addObstacle(_barrier1, 2);
 
 }
@@ -697,7 +699,8 @@ void GameController::update(float dt) {
         if(_panel->getSpell() == DESTRUCTION_SPELL_SELECTED) {
             _panel->setSpell(0);
             BlockModel* obstacle = (BlockModel*)_selector->getObstacle();
-            if (obstacle->isRemovable()) {
+//            if (obstacle->isRemovable()) {
+            if (obstacle->getName() == "barrier"){
                 _selector->deselect();
                 _theWorld->removeObstacle(&obstacle);
 //                _barrier1 = nullptr;
@@ -708,6 +711,8 @@ void GameController::update(float dt) {
         Vec2 centerPosition = _avatar->getPosition();
         Vec2 relativePosition = *getRelativePosition(_input.getSelection(), centerPosition, 0.0f);
         _selector->select(relativePosition);
+        if(_avatar == _selector->getObstacle())
+            _selector->deselect();
     } else if (_selector->isSelected()) {
         _selector->deselect();
     }
