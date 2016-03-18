@@ -36,6 +36,10 @@
 /** Collision restitution for all objects */
 #define BASIC_RESTITUTION   0.1f
 
+#define DEBUG_COLOR     Color3B::GREEN
+
+#define DEBUG_OPACITY   192
+
 
 
 using namespace cocos2d;
@@ -50,6 +54,11 @@ public:
     }
     
     static BoxObstacle* createWithTexture(const Vec2& pos, const Size& size, const std::string& texture) {
+        return createWithTexture(pos, size, texture, true);
+    }
+    
+    static BoxObstacle* createWithTexture(const Vec2& pos, const Size& size,
+                                          const std::string& texture, bool debug) {
         BoxObstacle* obj;
         obj = BoxObstacle::create(pos,size);
         obj->setBodyType(b2_staticBody);
@@ -59,12 +68,26 @@ public:
         Texture2D* image = assets->get<Texture2D>(texture);
         Sprite* sprite;
         sprite = Sprite::createWithTexture(image);
+        sprite->setScale(cscale);
         obj->setSceneNode(sprite);
+        if (debug == true) {
+            WireNode* draw;
+            draw = WireNode::create();
+            draw->setColor(DEBUG_COLOR);
+            draw->setOpacity(DEBUG_OPACITY);
+            obj->setDebugNode(draw);
+        }
         return obj;
     }
     
-    static PolygonObstacle* createWithTexture(const Poly2& poly, const Vec2& scale, const std::string& texture) {
-
+    
+    static PolygonObstacle* createWithTexture(const Poly2& poly, const Vec2& scale,
+                                              const std::string& texture) {
+        return createWithTexture(poly, scale, texture, true);
+    }
+    
+    static PolygonObstacle* createWithTexture(const Poly2& poly, const Vec2& scale,
+                                              const std::string& texture, bool debug) {
         float cscale = Director::getInstance()->getContentScaleFactor();
 
         PolygonObstacle* obstacle = new (std::nothrow) PolygonObstacle();
@@ -87,8 +110,13 @@ public:
             obstacle->setFriction(BASIC_FRICTION);
             obstacle->setRestitution(BASIC_RESTITUTION);
             
-            
-            
+            if (debug == true) {
+                WireNode* draw;
+                draw = WireNode::create();
+                draw->setColor(DEBUG_COLOR);
+                draw->setOpacity(DEBUG_OPACITY);
+                obstacle->setDebugNode(draw);
+            }
             return obstacle;
         }
         CC_SAFE_DELETE(obstacle);

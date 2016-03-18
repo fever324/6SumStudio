@@ -393,52 +393,76 @@ void GameController::populate() {
     removed->setDensity(0.0f);
     removed->setFriction(0.1f);
     removed->setRestitution(1.0f);
-    
-    draw = WireNode::create();
-    draw->setColor(DEBUG_GOAL_COLOR);
-    draw->setOpacity(DEBUG_OPACITY);
-    removed->setDebugNode(draw);
-    
     addObstacle(removed, 2);
     
     
     
 #pragma mark : Goal door
+    // Create goalDoor
+#pragma mark : Goal door
     Texture2D* image = _assets->get<Texture2D>(GOAL_TEXTURE);
-    // PolygonNode* sprite;
+    PolygonNode* sprite;
     
     // Create obstacle
     Vec2 goalPos = ((Vec2)GOAL_POS);
     
-    // sprite = PolygonNode::createWithTexture(image);
+    sprite = PolygonNode::createWithTexture(image);
     
     Size goalSize(image->getContentSize().width/_scale.x, image->getContentSize().height/_scale.y);
+    ////    Size goalSize(10,5);
+    //
+    //    PolygonObstacle* door;
+    //
+    //    float goal[] = {10.0f,20.0f,  10.0f, 20.0f + goalSize.height, 10.0f + goalSize.width, 20.0f + goalSize.height,  10.0f + goalSize.width, 20.0f};
+    //
+    //    Poly2 goald(goal,8);
+    //    goald.triangulate();
+    //
+    //    door = PolygonObstacle::create(goald);
+    //    door->setAnchor(0, 0);
+    //    door->setDrawScale(_scale.x, _scale.y);
+    //
+    //    door->setBodyType(b2_staticBody);
+    //    door->setDensity(BASIC_DENSITY);
+    //    door->setFriction(BASIC_FRICTION);
+    //    door->setRestitution(BASIC_RESTITUTION);
+    //
+    //    goald *= _scale;
+    //
+    //    sprite = PolygonNode::createWithTexture(image,goald);
+    //    door->setSceneNode(sprite);
+    //
+    //    draw = WireNode::create();
+    //    draw->setColor(DEBUG_COLOR);
+    //    draw->setOpacity(DEBUG_OPACITY);
+    //    door->setDebugNode(draw);
+    //
+    //    addObstacle(door,5);  // All walls share the same texture
     
-    _goalDoor = NBlockModel::createWithTexture(goalPos,goalSize/12, GOAL_TEXTURE);
-
-    // debug
+    
+    _goalDoor = BlockModel::create(goalPos,goalSize/6);
     _goalDoor->setDrawScale(_scale.x, _scale.y);
     
     // Set the physics attributes
+    _goalDoor->setBodyType(b2_staticBody);
     _goalDoor->setDensity(0.0f);
     _goalDoor->setFriction(0.1f);
     _goalDoor->setRestitution(1.0f);
     _goalDoor->setSensor(true);
     
+    // Add the scene graph nodes to this object
+    sprite = PolygonNode::createWithTexture(image);
+    sprite->setScale(cscale/4);
+    _goalDoor->setSceneNode(sprite);
+    
     draw = WireNode::create();
     draw->setColor(DEBUG_GOAL_COLOR);
     draw->setOpacity(DEBUG_OPACITY);
     _goalDoor->setDebugNode(draw);
-    
     addObstacle(_goalDoor, 2); // Put this at the very back
 
     
 #pragma mark : Wall polygon 1
-    // use the method of JSBlockModel
-    
-    // Create ground pieces
-    // All walls share the same texture
-    
     PolygonObstacle* wallobj;
     
     // Initialize 1st arg
@@ -446,7 +470,7 @@ void GameController::populate() {
     wall1.triangulate();
     
     // 1st arg _scale, 2nd arg (string type) texture
-    wallobj = NBlockModel::createWithTexture(wall1, _scale, EARTH_TEXTURE); // 1st line
+    wallobj = NBlockModel::createWithTexture(wall1, _scale, EARTH_TEXTURE, false); // 1st line
     
     addObstacle(wallobj,1);  // All walls share the same texture
     
@@ -460,17 +484,6 @@ void GameController::populate() {
     wall22.triangulate();
     
     wallobj = NBlockModel::createWithTexture(wall2, _scale, EARTH_TEXTURE);
-
-    // Set the physics attributes -- the same
-    
-    // Add the scene graph nodes to this object
-    // wallobj1->setTextureKey(REMOVABLE_TEXTURE);
-    // wallobj1->resetSceneNode();
-    
-    draw = WireNode::create();
-    draw->setColor(DEBUG_COLOR);
-    draw->setOpacity(DEBUG_OPACITY);
-    wallobj->setDebugNode(draw);
     
     addObstacle(wallobj,1);
     
@@ -479,22 +492,12 @@ void GameController::populate() {
     addObstacle(wallobj,1);
     
 #pragma mark : Walls polygon 3
-    JSBlockModel* wallobj1;
+    PolygonObstacle* wallobj1;
     Poly2 wall3(WALL3,8);
     wall3.triangulate();
 
-    wallobj1 = JSBlockModel::createWithTexture(wall3, _scale, REMOVABLE_TEXTURE);
+    wallobj1 = NBlockModel::createWithTexture(wall3, _scale, REMOVABLE_TEXTURE);
     
-    // Set the physics attributes
-
-    // Add the scene graph nodes to this object
-    wallobj1->setTextureKey(REMOVABLE_TEXTURE);
-    wallobj1->resetSceneNode();
-    
-    draw = WireNode::create();
-    draw->setColor(DEBUG_COLOR);
-    draw->setOpacity(DEBUG_OPACITY);
-    wallobj1->setDebugNode(draw);
     addObstacle(wallobj1,1);
     
 #pragma mark : Wall polygon 4
@@ -502,36 +505,16 @@ void GameController::populate() {
     Poly2 wall4(WALL4,12);
     wall4.triangulate();
 
-    wallobj1 = JSBlockModel::createWithTexture(wall4, _scale, REMOVABLE_TEXTURE);
+    wallobj1 = NBlockModel::createWithTexture(wall4, _scale, REMOVABLE_TEXTURE);
 
-    // Set the physics attributes
-    
-    // Add the scene graph nodes to this object
-    wallobj1->setTextureKey(REMOVABLE_TEXTURE);
-    wallobj1->resetSceneNode();
-    
-    draw = WireNode::create();
-    draw->setColor(DEBUG_COLOR);
-    draw->setOpacity(DEBUG_OPACITY);
-    wallobj1->setDebugNode(draw);
     addObstacle(wallobj1,1);
     
 #pragma mark : Walls polygon 5
     Poly2 wall5(WALL5,8);
     wall5.triangulate();
     
-    wallobj1 = JSBlockModel::createWithTexture(wall5, _scale, EARTH_TEXTURE);
+    wallobj1 = NBlockModel::createWithTexture(wall5, _scale, EARTH_TEXTURE);
     
-    // Set the physics attributes
-    
-    // Add the scene graph nodes to this object
-    wallobj1->setTextureKey(EARTH_TEXTURE);
-    wallobj1->resetSceneNode();
-
-    draw = WireNode::create();
-    draw->setColor(DEBUG_COLOR);
-    draw->setOpacity(DEBUG_OPACITY);
-    wallobj1->setDebugNode(draw);
     addObstacle(wallobj1,1);
 
 
@@ -548,63 +531,27 @@ void GameController::populate() {
 
 #pragma mark : Barrier
     
-    Texture2D* image3 = _assets->get<Texture2D>(BARRIER_TEXTURE);
-    PolygonNode* sprite3;
-
+    // Texture2D* image3 = _assets->get<Texture2D>(BARRIER_TEXTURE);
     Vec2 barrierPos = ((Vec2)BARRIER_POS);
     
-    sprite3 = PolygonNode::createWithTexture(image3);
-    Size barrierSize(image3->getContentSize().width/_scale.x, image3->getContentSize().height/_scale.y);
+    Size barrierSize = Size(2, 2);
     
-    _barrier = BlockModel::create(barrierPos, barrierSize/6);
+    _barrier = NBlockModel::createWithTexture(barrierPos, barrierSize, BARRIER_TEXTURE);
     
     _barrier->setDrawScale(_scale.x, _scale.y);
 
-
-    draw = WireNode::create();
-    draw->setColor(DEBUG_COLOR);
-    draw->setOpacity(DEBUG_OPACITY);
-    _barrier->setDebugNode(draw);
-    _barrier->setBodyType(b2_staticBody);
-    _barrier->setDensity(0.0f);
-    _barrier->setFriction(0.0f);
-    _barrier->setRestitution(0.0f);
     _barrier->setSensor(true);
     
-    sprite3 = PolygonNode::createWithTexture(image3);
-    sprite3->setScale(cscale/4);
-    _barrier->setSceneNode(sprite3);
     addObstacle(_barrier, 1);
     
     
-    
-    
-    Texture2D* image4 = _assets->get<Texture2D>(BARRIER_TEXTURE);
-    PolygonNode* sprite4;
-    
     Vec2 barrierPos2 = Vec2(36, 22);
+    Size barrierSize2(2, 2);
     
-    sprite4 = PolygonNode::createWithTexture(image4);
-    Size barrierSize2(image4->getContentSize().width/_scale.x, image4->getContentSize().height/_scale.y);
-    
-    _barrier1 = BlockModel::create(barrierPos2, barrierSize2/6);
-    
+    _barrier1 = NBlockModel::createWithTexture(barrierPos2, barrierSize2, BARRIER_TEXTURE);
     _barrier1->setDrawScale(_scale.x, _scale.y);
-    
-    
-    draw = WireNode::create();
-    draw->setColor(DEBUG_COLOR);
-    draw->setOpacity(DEBUG_OPACITY);
-
-    _barrier1->setDebugNode(draw);
-    _barrier1->setBodyType(b2_staticBody);
-    _barrier1->setDensity(0.0f);
-    _barrier1->setFriction(0.0f);
-    _barrier1->setRestitution(0.0f);
     _barrier1->setSensor(true);
-    sprite4 = PolygonNode::createWithTexture(image4);
-    sprite4->setScale(cscale/4);
-    _barrier1->setSceneNode(sprite4);
+    
     addObstacle(_barrier1, 1);
 
 }
