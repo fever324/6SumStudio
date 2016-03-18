@@ -1,8 +1,11 @@
 #include "ToyaOverviewModel.h"
 
 
-#define BUTTON_NORMAL "textures/overviewButton.png"
-#define BUTTON_PRESSED "textures/overviewResumeButton.png"
+#define OVERVIEW_BUTTON_NORMAL "textures/overviewButton.png"
+#define OVERVIEW_BUTTON_PRESSED "textures/overviewResumeButton.png"
+
+#define RESET_BUTTON_IMAGE "textures/resetButton.png"
+
 using namespace cocos2d;
 
 
@@ -17,18 +20,32 @@ bool OverviewModel::init(const Vec2& pos) {
  */
 bool OverviewModel::init(const Vec2& pos, const Vec2& scale){
 
-    pauseButton = ui::CheckBox::create(BUTTON_NORMAL, BUTTON_PRESSED, BUTTON_PRESSED, BUTTON_PRESSED, BUTTON_NORMAL);
+    pauseButton = ui::CheckBox::create(OVERVIEW_BUTTON_NORMAL, OVERVIEW_BUTTON_PRESSED, OVERVIEW_BUTTON_PRESSED, OVERVIEW_BUTTON_PRESSED, OVERVIEW_BUTTON_NORMAL);
+    
+    resetButton = ui::Button::create(RESET_BUTTON_IMAGE);
+    
+    
 
     
     pauseButton->setScale(scale.x, scale.y);
+    resetButton->setScale(scale.x, scale.y);
     
     
-    Vec2 actualPosition = Vec2(pos);
-    actualPosition.x -= pauseButton->getContentSize().width / 2.0f;
-    actualPosition.y -= pauseButton->getContentSize().height / 2.0f;
+    Vec2 pauseButtonPosition = Vec2(pos);
+    pauseButtonPosition.x -= pauseButton->getContentSize().width / 2.0f;
+    pauseButtonPosition.y -= pauseButton->getContentSize().height / 2.0f;
     
-    pauseButton->setPosition(actualPosition);
-    pauseButton->addTouchEventListener(CC_CALLBACK_2(OverviewModel::touchEvent, this));
+    Vec2 resetButtonPosition = Vec2(pauseButtonPosition);
+    resetButtonPosition.x -= pauseButton->getContentSize().width / 2.0f+ resetButton->getContentSize().width / 2.0f;
+    
+    pauseButton->setPosition(pauseButtonPosition);
+    resetButton->setPosition(resetButtonPosition);
+    
+    pauseButton->addTouchEventListener(CC_CALLBACK_2(OverviewModel::pauseButtonTouchEvent, this));
+    resetButton->addTouchEventListener(CC_CALLBACK_2(OverviewModel::resetButtonTouchEvent, this));
+    
+    
+    this->addChild(resetButton);
     this->addChild(pauseButton);
     
     paused = false;
@@ -60,12 +77,26 @@ OverviewModel* OverviewModel::create(const Vec2& pos, const Vec2& scale) {
     return nullptr;
 }
 
-void OverviewModel::touchEvent(cocos2d::Ref *sender, ui::Widget::TouchEventType type) {
+void OverviewModel::pauseButtonTouchEvent(cocos2d::Ref *sender, ui::Widget::TouchEventType type) {
     switch (type) {
         case ui::Widget::TouchEventType::BEGAN:
             if(!paused) {
                 pauseButtonPressed();
             } else {
+                resumeFromPause();
+            }
+            break;
+        default:
+            break;
+    }
+}
+
+
+void OverviewModel::resetButtonTouchEvent(cocos2d::Ref *sender, ui::Widget::TouchEventType type) {
+    switch (type) {
+        case ui::Widget::TouchEventType::BEGAN:
+            reseted = true;
+            if(paused) {
                 resumeFromPause();
             }
             break;
@@ -103,5 +134,7 @@ void OverviewModel::resumeFromPause() {
 void OverviewModel::reset() {
     currentPlayTime = 0;
     startTime = current_time();
+    reseted = false;
+    paused = false;
 }
 
