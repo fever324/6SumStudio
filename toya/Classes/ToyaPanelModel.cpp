@@ -2,10 +2,13 @@
 #include "ToyaWorldModel.h"
 
 #define CREATE_MAGIC_UNSELECTED_IMAGE "textures/create_magic.png"
-#define CREATE_MAGIC_SELECTED_IMAGE "textures/create_magic_disabled.png"
+#define CREATE_MAGIC_SELECTED_IMAGE "textures/create_magic_selected.png"
+#define CREATE_MAGIC_DISABLED_IMAGE "textures/create_magic_disabled.png"
 
 #define DESTROY_MAGIC_UNSELECTED_IMAGE "textures/destroy_magic.png"
-#define DESTROY_MAGIC_SELECTED_IMAGE "textures/destroy_magic_disabled.png"
+#define DESTROY_MAGIC_SELECTED_IMAGE "textures/destroy_magic_selected.png"
+#define DESTROY_MAGIC_DISABLED_IMAGE "textures/destroy_magic_disabled.png"
+
 using namespace cocos2d;
 
 PanelModel* PanelModel::create() {
@@ -35,14 +38,14 @@ bool PanelModel::init() {
 
     
     _constructionSpell = new ConstructionSpellModel();
-    _constructionSpellCB = ui::CheckBox::create(CREATE_MAGIC_UNSELECTED_IMAGE,CREATE_MAGIC_SELECTED_IMAGE,CREATE_MAGIC_SELECTED_IMAGE,CREATE_MAGIC_SELECTED_IMAGE,CREATE_MAGIC_UNSELECTED_IMAGE);
+    _constructionSpellCB = ui::CheckBox::create(CREATE_MAGIC_UNSELECTED_IMAGE, CREATE_MAGIC_SELECTED_IMAGE, CREATE_MAGIC_SELECTED_IMAGE, CREATE_MAGIC_DISABLED_IMAGE, CREATE_MAGIC_DISABLED_IMAGE);
     
 
     this->addChild(_constructionSpellCB);
     _constructionSpellCB->addTouchEventListener(CC_CALLBACK_2(PanelModel::constructionTouchEvent, this));
     
     _destructionSpell = new DestructionSpellModel();
-    _destructionSpellCB = ui::CheckBox::create(DESTROY_MAGIC_UNSELECTED_IMAGE,DESTROY_MAGIC_SELECTED_IMAGE,DESTROY_MAGIC_SELECTED_IMAGE,DESTROY_MAGIC_SELECTED_IMAGE,DESTROY_MAGIC_UNSELECTED_IMAGE);
+    _destructionSpellCB = ui::CheckBox::create(DESTROY_MAGIC_UNSELECTED_IMAGE,DESTROY_MAGIC_SELECTED_IMAGE,DESTROY_MAGIC_SELECTED_IMAGE,DESTROY_MAGIC_DISABLED_IMAGE,DESTROY_MAGIC_DISABLED_IMAGE);
 
     this->addChild(_destructionSpellCB);
     _destructionSpellCB->addTouchEventListener(CC_CALLBACK_2(PanelModel::destructionTouchEvent, this));

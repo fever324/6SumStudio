@@ -652,13 +652,15 @@ Vec2* GameController::getRelativePosition(const Vec2& physicalPosition, Vec2& ce
  * @param  delta    Number of seconds since last animation frame
  */
 void GameController::update(float dt) {
-    
+    if( _overview->hasReseted()) {
+        reset();
+    }
     if (_reset == true && _cooldown != 0) {
         _cooldown --;
         return;
     }
     
-    if (_reset == true && _cooldown == 0) {
+    if ((_reset == true || _overview->hasReseted()) && _cooldown == 0 ) {
         reset();
     }
     
