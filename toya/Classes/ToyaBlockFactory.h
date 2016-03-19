@@ -1,10 +1,10 @@
 /**
- * ToyaNBlockModel.h
+ * ToyaBlockFactory.h
  *
  * Created by 6SumStudio on 3/14/16.
  */
-#ifndef __TOYA_N_BLOCK_MODEL_H__
-#define __TOYA_N_BLOCK_MODEL_H__
+#ifndef __TOYA_BLOCK_FACTORY_H__
+#define __TOYA_BLOCK_FACTORY_H__
 
 
 #include <cornell/CUPolygonObstacle.h>
@@ -17,7 +17,6 @@
 #include <Box2D/Dynamics/b2World.h>
 #include <Box2D/Dynamics/Contacts/b2Contact.h>
 #include <Box2D/Collision/b2Collision.h>
-#include "ToyaJSBlockModel.h"
 #include "ToyaLevelModel.h"
 #include "ToyaPanelModel.h"
 
@@ -125,4 +124,4 @@ public:
 
 
 
-#endif /* defined(__TOYA_N_BLOCK_MODEL_H__) */
+#endif /* defined(__TOYA_BLOCK_FACTORY_H__) */

@@ -1,5 +1,6 @@
 //
 //  RemovableBlockModel.h
+//  Can be cleared if we determine to use block factory
 //
 //
 //  Created by 6Sum Studio on 2/27/16.

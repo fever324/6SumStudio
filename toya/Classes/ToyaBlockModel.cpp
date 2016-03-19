@@ -1,5 +1,6 @@
 /**
  * ToyaBlockModel.cpp
+* Can be cleared if we determine to use block factory
  *
  * Created by sb2345 on 2/27/16.
  */
