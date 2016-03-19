@@ -14,7 +14,7 @@
 #include "ToyaJSBlockModel.h"
 #include "ToyaLevelModel.h"
 #include "ToyaPanelModel.h"
-#include "ToyaNBlockModel.h"
+#include "ToyaBlockFactory.h"
 
 #include <string>
 #include <iostream>
@@ -61,9 +61,6 @@ using namespace std;
 /** The default value of gravity (going down) */
 #define DEFAULT_GRAVITY -5.0f
 
-/** To automate the loading of crate files */
-#define NUM_CRATES 2
-
 
 float WALL1[] = { -20.0f, 56.0f,  84.0f, 56.0f,   84.0f, 31.0f,
     5.0f, 31.0f, 5.0f, 5.0f,  59.0f, 5.0f,   59.0f, 31.0f,
@@ -78,14 +75,6 @@ float WALL5[] = {50.0f, 20.0f,  50.0f, 26.0f,  48.0f,26.0f,  48.0f, 20.0f};
 
 float WALL4[] = {30.0f,12.5f,   20.0f,12.5f,   17.0f,13.5f,   15.0f,13.5f,  19.0f,10.5f,  30.0f,10.5f};
 
-/** The positions of the crate pyramid */
-
-float BOXES[] = { 14.5f, 14.25f,
-    13.0f, 12.00f, 16.0f, 12.00f,
-    11.5f,  9.75f, 14.5f,  9.75f, 17.5f, 9.75f,
-    13.0f,  7.50f, 16.0f,  7.50f,
-    11.5f,  5.25f, 14.5f,  5.25f, 17.5f, 5.25f,
-    10.0f,  3.00f, 13.0f,  3.00f, 16.0f, 3.00f, 19.0f, 3.0f};
 
 
 //vector<float> tmp(WALL2,WALL2+8);
@@ -111,19 +100,13 @@ float BARRIER_POS[] = {32.5, 13.0};
 #define GOAL_TEXTURE        "goal"
 #define GOAL_REACHED_TEXTURE "goal-reached"
 
-/** The key prefix for the multiple crate assets */
-#define CRATE_PREFIX        "crate"
-/** The key for the fire textures in the asset manager */
-#define MAIN_FIRE_TEXTURE   "flames"
-#define RGHT_FIRE_TEXTURE   "flames-right"
-#define LEFT_FIRE_TEXTURE   "flames-left"
 /** The key for the avatar texture in the asset manager */
 #define AVATAR_TEXTURE      "avatar"
 /** The key for the block texture in the asset manager */
 #define BLOCK_TEXTURE       "block"
 #define BARRIER_TEXTURE     "barrier"
 #define BEAR_TEXTURE        "bear"
-//#define AVATAR_TEXTURE        "bears"
+
 #define BACKGROUND_TEXTURE  "background"
 /** Color to outline the physics nodes */
 #define DEBUG_COLOR     Color3B::GREEN
@@ -134,6 +117,11 @@ float BARRIER_POS[] = {32.5, 13.0};
 #define DEBUG_OPACITY   192
 
 #define COOL_DOWN   120
+
+#define REMOVABLE_DRAW_LAYER     1
+#define NONREMOVABLE_DRAW_LAYER  2
+#define GOAL_DRAW_LAYER          3
+#define AVATAR_DRAW_LAYER        4
 
 /** The key for collisions sounds */
 #define COLLISION_SOUND     "bump"
@@ -294,7 +282,6 @@ bool GameController::init(RootLayer* root, const Rect& rect, const Vec2& gravity
     
     _scale.set(root->getContentSize().width/32.0f,
                root->getContentSize().height/18.0f);
-    
     _rootnode = root;
     
     populate();
@@ -377,7 +364,7 @@ void GameController::populate() {
     // If the device is higher resolution than 1024x576, Cocos2d will scale it
     // This was set as the design resolution in AppDelegate
     // To convert from design resolution to real, divide positions by cscale
-    float cscale = Director::getInstance()->getContentScaleFactor();
+//    float cscale = Director::getInstance()->getContentScaleFactor();
     // Note that this is different from _scale, which is the physics scale
     
     // THIS DOES NOT FIX ASPECT RATIO PROBLEMS
@@ -387,35 +374,19 @@ void GameController::populate() {
 // Remove
     
     Vec2 removePos = ((Vec2) REMOVE_POS);
-    Size removeSize = Size(2, 2);
-    WireNode* draw;
     
-    BoxObstacle* removed = NBlockModel::createWithTexture(removePos, removeSize, REMOVABLE_TEXTURE);
-    removed->setDrawScale(_scale.x, _scale.y);
-    removed->setDensity(0.0f);
-    removed->setFriction(0.1f);
-    removed->setRestitution(1.0f);
+    BoxObstacle* removed = BlockFactory::getRemovableBlock(removePos, _scale, REMOVABLE_TEXTURE);
     addObstacle(removed, 2);
     
 #pragma mark : Goal door
-    Texture2D* image = _assets->get<Texture2D>(GOAL_TEXTURE);
-    PolygonNode* sprite;
     
     // Create obstacle
     Vec2 goalPos = ((Vec2)GOAL_POS);
-    
-    sprite = PolygonNode::createWithTexture(image);
-    
-    Size goalSize(image->getContentSize().width/_scale.x, image->getContentSize().height/_scale.y);
-    _goalDoor = BlockModel::create(goalPos,goalSize/6);
+    Texture2D* image = _assets->get<Texture2D>(GOAL_TEXTURE);
+    Size goalSize = Size(image->getContentSize().width/_scale.x, image->getContentSize().height/_scale.y);
+    _goalDoor = ExitDoorModel::create(goalPos, goalSize/8);
     _goalDoor->setDrawScale(_scale.x, _scale.y);
 
-    
-    draw = WireNode::create();
-    draw->setColor(DEBUG_GOAL_COLOR);
-    draw->setOpacity(DEBUG_OPACITY);
-    _goalDoor->setDebugNode(draw);
-    _goalDoor->setRemovable(false);
     addObstacle(_goalDoor, 2); // Put this at the very back
 
     
@@ -424,70 +395,65 @@ PolygonObstacle* wallobj;
 #pragma mark : Wall polygon 1
     Poly2 wall1(WALL1,20);
     wall1.triangulate();
-    wallobj = NBlockModel::createWithTexture(wall1, _scale, EARTH_TEXTURE, false); // 1st line
+    wallobj = BlockFactory::getNonRemovableBlock(wall1, _scale, EARTH_TEXTURE, false); // 1st line
+    wallobj->setName("wall1");
     addObstacle(wallobj,1);  // All walls share the same texture
-    
     
 #pragma mark : Wall polygon 2
     
     Poly2 wall2(WALL2,8);
     wall2.triangulate();
-    wallobj = NBlockModel::createWithTexture(wall2, _scale, EARTH_TEXTURE);
+    wallobj = BlockFactory::getNonRemovableBlock(wall2, _scale, EARTH_TEXTURE);
+    wallobj->setName("wall2");
     addObstacle(wallobj,1);
     
     Poly2 wall22(WALL22, 8);
     wall22.triangulate();
-    wallobj = NBlockModel::createWithTexture(wall22, _scale, EARTH_TEXTURE);
+    wallobj = BlockFactory::getNonRemovableBlock(wall22, _scale, EARTH_TEXTURE);
+    wallobj->setName("wall22");
     addObstacle(wallobj,1);
+    
     
 #pragma mark : Walls polygon 3
     Poly2 wall3(WALL3,8);
     wall3.triangulate();
-    wallobj = NBlockModel::createWithTexture(wall3, _scale, REMOVABLE_TEXTURE);
+    wallobj = BlockFactory::getNonRemovableBlock(wall3, _scale, REMOVABLE_TEXTURE);
+    wallobj->setName("wall3");
     addObstacle(wallobj,1);
+    
     
 #pragma mark : Wall polygon 4
     Poly2 wall4(WALL4,12);
     wall4.triangulate();
-    wallobj = NBlockModel::createWithTexture(wall4, _scale, REMOVABLE_TEXTURE);
+    wallobj = BlockFactory::getNonRemovableBlock(wall4, _scale, REMOVABLE_TEXTURE);
+    wallobj->setName("wall4");
     addObstacle(wallobj,1);
+    
     
 #pragma mark : Walls polygon 5
     Poly2 wall5(WALL5,8);
     wall5.triangulate();
-    wallobj = NBlockModel::createWithTexture(wall5, _scale, EARTH_TEXTURE);
+    wallobj = BlockFactory::getNonRemovableBlock(wall5, _scale, EARTH_TEXTURE);
+    wallobj->setName("wall5");
     addObstacle(wallobj,1);
-
+    
 
 #pragma mark : Avatar
     Vec2 avatarPos = ((Vec2)AVATAR_POS);
     _avatar = AvatarModel::create(avatarPos,_scale);
-    
-    draw = WireNode::create();
-    draw->setColor(DEBUG_AVATAR_COLOR);
-    draw->setOpacity(DEBUG_OPACITY);
-    _avatar->setDebugNode(draw);
     addObstacle(_avatar,3);
     _theWorld->setFollow(_avatar);
+    _avatar->setName("avatar");
 
 #pragma mark : Barrier
     Vec2 barrierPos = ((Vec2)BARRIER_POS);
-    Size barrierSize = Size(2, 2);
-    _barrier = NBlockModel::createWithTexture(barrierPos, barrierSize, BARRIER_TEXTURE);
-    _barrier->setDrawScale(_scale.x, _scale.y);
-    _barrier->setSensor(true);
-    
+    _barrier = BlockFactory::getRemovableBlock(barrierPos, _scale, BARRIER_TEXTURE);
     addObstacle(_barrier, 1);
     
     
     Vec2 barrierPos2 = Vec2(36, 22);
-    Size barrierSize2(2, 2);
-    _barrier1 = NBlockModel::createWithTexture(barrierPos2, barrierSize2, BARRIER_TEXTURE);
-    _barrier1->setDrawScale(_scale.x, _scale.y);
-    _barrier1->setSensor(true);
-    
+    _barrier1 = BlockFactory::getRemovableBlock(barrierPos2, _scale, BARRIER_TEXTURE);
     addObstacle(_barrier1, 1);
-
 }
 
 /**
@@ -591,12 +557,9 @@ void GameController::update(float dt) {
         if(_panel->getSpell() == DESTRUCTION_SPELL_SELECTED) {
             _panel->setSpell(0);
             BlockModel* obstacle = (BlockModel*)_selector->getObstacle();
-//            if (obstacle->isRemovable()) {
-            if (obstacle->getName() == "barrier"){
+            if (obstacle->getName() == "removable"){
                 _selector->deselect();
                 _theWorld->removeObstacle(&obstacle);
-//                _barrier1 = nullptr;
-//                _barrier = nullptr;
             }
         }
     } else if (_input.didSelect()) {
