@@ -395,10 +395,6 @@ void GameController::populate() {
     removed->setRestitution(1.0f);
     addObstacle(removed, 2);
     
-    
-    
-#pragma mark : Goal door
-    // Create goalDoor
 #pragma mark : Goal door
     Texture2D* image = _assets->get<Texture2D>(GOAL_TEXTURE);
     PolygonNode* sprite;
@@ -409,37 +405,6 @@ void GameController::populate() {
     sprite = PolygonNode::createWithTexture(image);
     
     Size goalSize(image->getContentSize().width/_scale.x, image->getContentSize().height/_scale.y);
-    ////    Size goalSize(10,5);
-    //
-    //    PolygonObstacle* door;
-    //
-    //    float goal[] = {10.0f,20.0f,  10.0f, 20.0f + goalSize.height, 10.0f + goalSize.width, 20.0f + goalSize.height,  10.0f + goalSize.width, 20.0f};
-    //
-    //    Poly2 goald(goal,8);
-    //    goald.triangulate();
-    //
-    //    door = PolygonObstacle::create(goald);
-    //    door->setAnchor(0, 0);
-    //    door->setDrawScale(_scale.x, _scale.y);
-    //
-    //    door->setBodyType(b2_staticBody);
-    //    door->setDensity(BASIC_DENSITY);
-    //    door->setFriction(BASIC_FRICTION);
-    //    door->setRestitution(BASIC_RESTITUTION);
-    //
-    //    goald *= _scale;
-    //
-    //    sprite = PolygonNode::createWithTexture(image,goald);
-    //    door->setSceneNode(sprite);
-    //
-    //    draw = WireNode::create();
-    //    draw->setColor(DEBUG_COLOR);
-    //    draw->setOpacity(DEBUG_OPACITY);
-    //    door->setDebugNode(draw);
-    //
-    //    addObstacle(door,5);  // All walls share the same texture
-    
-    
     _goalDoor = BlockModel::create(goalPos,goalSize/6);
     _goalDoor->setDrawScale(_scale.x, _scale.y);
     
@@ -462,16 +427,12 @@ void GameController::populate() {
     addObstacle(_goalDoor, 2); // Put this at the very back
 
     
-#pragma mark : Wall polygon 1
-    PolygonObstacle* wallobj;
+PolygonObstacle* wallobj;
     
-    // Initialize 1st arg
+#pragma mark : Wall polygon 1
     Poly2 wall1(WALL1,20);
     wall1.triangulate();
-    
-    // 1st arg _scale, 2nd arg (string type) texture
     wallobj = NBlockModel::createWithTexture(wall1, _scale, EARTH_TEXTURE, false); // 1st line
-    
     addObstacle(wallobj,1);  // All walls share the same texture
     
     
@@ -479,43 +440,31 @@ void GameController::populate() {
     
     Poly2 wall2(WALL2,8);
     wall2.triangulate();
+    wallobj = NBlockModel::createWithTexture(wall2, _scale, EARTH_TEXTURE);
+    addObstacle(wallobj,1);
     
     Poly2 wall22(WALL22, 8);
     wall22.triangulate();
-    
-    wallobj = NBlockModel::createWithTexture(wall2, _scale, EARTH_TEXTURE);
-    
-    addObstacle(wallobj,1);
-    
     wallobj = NBlockModel::createWithTexture(wall22, _scale, EARTH_TEXTURE);
-    
     addObstacle(wallobj,1);
     
 #pragma mark : Walls polygon 3
-    PolygonObstacle* wallobj1;
     Poly2 wall3(WALL3,8);
     wall3.triangulate();
-
-    wallobj1 = NBlockModel::createWithTexture(wall3, _scale, REMOVABLE_TEXTURE);
-    
-    addObstacle(wallobj1,1);
+    wallobj = NBlockModel::createWithTexture(wall3, _scale, REMOVABLE_TEXTURE);
+    addObstacle(wallobj,1);
     
 #pragma mark : Wall polygon 4
-
     Poly2 wall4(WALL4,12);
     wall4.triangulate();
-
-    wallobj1 = NBlockModel::createWithTexture(wall4, _scale, REMOVABLE_TEXTURE);
-
-    addObstacle(wallobj1,1);
+    wallobj = NBlockModel::createWithTexture(wall4, _scale, REMOVABLE_TEXTURE);
+    addObstacle(wallobj,1);
     
 #pragma mark : Walls polygon 5
     Poly2 wall5(WALL5,8);
     wall5.triangulate();
-    
-    wallobj1 = NBlockModel::createWithTexture(wall5, _scale, EARTH_TEXTURE);
-    
-    addObstacle(wallobj1,1);
+    wallobj = NBlockModel::createWithTexture(wall5, _scale, EARTH_TEXTURE);
+    addObstacle(wallobj,1);
 
 
 #pragma mark : Avatar
@@ -530,16 +479,10 @@ void GameController::populate() {
     _theWorld->setFollow(_avatar);
 
 #pragma mark : Barrier
-    
-    // Texture2D* image3 = _assets->get<Texture2D>(BARRIER_TEXTURE);
     Vec2 barrierPos = ((Vec2)BARRIER_POS);
-    
     Size barrierSize = Size(2, 2);
-    
     _barrier = NBlockModel::createWithTexture(barrierPos, barrierSize, BARRIER_TEXTURE);
-    
     _barrier->setDrawScale(_scale.x, _scale.y);
-
     _barrier->setSensor(true);
     
     addObstacle(_barrier, 1);
@@ -547,7 +490,6 @@ void GameController::populate() {
     
     Vec2 barrierPos2 = Vec2(36, 22);
     Size barrierSize2(2, 2);
-    
     _barrier1 = NBlockModel::createWithTexture(barrierPos2, barrierSize2, BARRIER_TEXTURE);
     _barrier1->setDrawScale(_scale.x, _scale.y);
     _barrier1->setSensor(true);
