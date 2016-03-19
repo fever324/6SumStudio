@@ -74,8 +74,11 @@ public:
         obj->setBodyType(b2_staticBody);
         obj->setSceneNode(sprite);
         obj->setDrawScale(scale);
+        obj->setDensity(BASIC_DENSITY);
+        obj->setFriction(BASIC_FRICTION);
+        obj->setRestitution(BASIC_RESTITUTION);
         
-        obj->setSensor(true);
+//        obj->setSensor(true);
         obj->setName("removable");
         
         if (debug == true) {

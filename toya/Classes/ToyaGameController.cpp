@@ -448,6 +448,9 @@ PolygonObstacle* wallobj;
 #pragma mark : Barrier
     Vec2 barrierPos = ((Vec2)BARRIER_POS);
     _barrier = BlockFactory::getRemovableBlock(barrierPos, _scale, BARRIER_TEXTURE);
+//    _barrier->setSensor(true);
+    // seems useless for barrier
+    
     addObstacle(_barrier, BARRIER_DRAW_LAYER);
     
     

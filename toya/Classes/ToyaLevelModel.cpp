@@ -16,7 +16,6 @@
 #include "ToyaAvatarModel.h"
 #include "ToyaExitDoorModel.h"
 #include "ToyaRemovableBlockModel.h"
-#include "ToyaBarrierModel.h"
 
 #pragma mark -
 #pragma mark Static Constructors
