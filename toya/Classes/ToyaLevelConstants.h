@@ -26,6 +26,8 @@
 #define GRAVITY_FIELD       "gravity"
 
 #define AVATAR_FIELD        "avatar"
+#define OVERVIEW_BUTTON_FIELD        "overview"
+#define OVERVIEW_RESUME_FIELD        "overviewresume"
 #define GOALDOOR_FIELD      "exit"
 #define BARRIERS_FIELD      "barriers"
 #define WALLS_FIELD         "walls"

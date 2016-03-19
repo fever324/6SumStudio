@@ -109,6 +109,8 @@ float BARRIER_POS[] = {32.5, 13.0};
 #define REMOVABLE_TEXTURE   "removable"
 /** The key for the win door texture in the asset manager */
 #define GOAL_TEXTURE        "goal"
+#define GOAL_REACHED_TEXTURE "goal-reached"
+
 /** The key prefix for the multiple crate assets */
 #define CRATE_PREFIX        "crate"
 /** The key for the fire textures in the asset manager */
@@ -407,23 +409,13 @@ void GameController::populate() {
     Size goalSize(image->getContentSize().width/_scale.x, image->getContentSize().height/_scale.y);
     _goalDoor = BlockModel::create(goalPos,goalSize/6);
     _goalDoor->setDrawScale(_scale.x, _scale.y);
-    
-    // Set the physics attributes
-    _goalDoor->setBodyType(b2_staticBody);
-    _goalDoor->setDensity(0.0f);
-    _goalDoor->setFriction(0.1f);
-    _goalDoor->setRestitution(1.0f);
-    _goalDoor->setSensor(true);
-    
-    // Add the scene graph nodes to this object
-    sprite = PolygonNode::createWithTexture(image);
-    sprite->setScale(cscale/4);
-    _goalDoor->setSceneNode(sprite);
+
     
     draw = WireNode::create();
     draw->setColor(DEBUG_GOAL_COLOR);
     draw->setOpacity(DEBUG_OPACITY);
     _goalDoor->setDebugNode(draw);
+    _goalDoor->setRemovable(false);
     addObstacle(_goalDoor, 2); // Put this at the very back
 
     
@@ -554,23 +546,25 @@ Vec2* GameController::getRelativePosition(const Vec2& physicalPosition, Vec2& ce
  * @param  delta    Number of seconds since last animation frame
  */
 void GameController::update(float dt) {
-    
+    if( _overview->hasReseted()) {
+        reset();
+    }
     if (_reset == true && _cooldown != 0) {
         _cooldown --;
         return;
     }
     
-    if (_reset == true && _cooldown == 0) {
+    if ((_reset == true || _overview->hasReseted()) && _cooldown == 0 ) {
         reset();
     }
     
     _input.update(dt);
-    if (_barrier != nullptr) {
-        _barrier->setAngle(_barrier->getAngle() + 1);
-    }
-    if (_barrier1 != nullptr) {
-        _barrier1->setAngle(_barrier1->getAngle() + 1);
-    }
+//    if (_barrier != nullptr) {
+//        _barrier->setAngle(_barrier->getAngle() + 1);
+//    }
+//    if (_barrier1 != nullptr) {
+//        _barrier1->setAngle(_barrier1->getAngle() + 1);
+//    }
     // Process the toggled key commands
     if (_input.didReset()) { reset(); }
     if (_input.didExit())  {
@@ -579,7 +573,7 @@ void GameController::update(float dt) {
     }
     if(_input.didRotate()) {
         
-        float cRotation = _theWorld->getRotation() + _input.getTurning();
+        float cRotation = _theWorld->getRotation() + _input.getTurning()*2;
         
         if (cRotation > 360.0f) {
             cRotation -= 360.0f;
@@ -591,21 +585,28 @@ void GameController::update(float dt) {
         Vec2 newGravity = _input.getGravity(gravity,cRotation);
         
         _theWorld->setGravity(newGravity);
-        CCLOG("%f,%f",newGravity.x,newGravity.y);
     }
     
     if (_input.didSelect() && _selector->isSelected()) {
-//        if(_panel->getSpell() == DESTRUCTION_SPELL_SELECTED) {
-//            BlockModel* obstacle = (BlockModel*)_selector->getObstacle();
-//            _theWorld->removeObstacle(&obstacle);
-//            _barrier1 = nullptr;
-//        }
+        if(_panel->getSpell() == DESTRUCTION_SPELL_SELECTED) {
+            _panel->setSpell(0);
+            BlockModel* obstacle = (BlockModel*)_selector->getObstacle();
+//            if (obstacle->isRemovable()) {
+            if (obstacle->getName() == "barrier"){
+                _selector->deselect();
+                _theWorld->removeObstacle(&obstacle);
+//                _barrier1 = nullptr;
+//                _barrier = nullptr;
+            }
+        }
     } else if (_input.didSelect()) {
         Vec2 centerPosition = _avatar->getPosition();
         Vec2 relativePosition = *getRelativePosition(_input.getSelection(), centerPosition, 0.0f);
         _selector->select(relativePosition);
+        if(_avatar == _selector->getObstacle())
+            _selector->deselect();
     } else if (_selector->isSelected()) {
-//        _selector->deselect();
+        _selector->deselect();
     }
     
     //    update world position
@@ -692,7 +693,8 @@ void GameController::beginContact(b2Contact* contact) {
     // If we hit the "win" door, we are done
     if((body1->GetUserData() == _avatar && body2->GetUserData() == _goalDoor) ||
        (body1->GetUserData() == _goalDoor && body2->GetUserData() == _avatar)) {
-//        addObstacle(_door, 3);
+        _goalDoor->open();
+
         setComplete(true);
         _avatar->setLinearVelocity(Vec2(0.0f, 0.0f));
         // TODO: pause it

@@ -10,12 +10,17 @@
 
 #include "cornell/CUAnimationNode.h"
 #include "ToyaBlockModel.h"
+#include <cornell/CUAnimationNode.h>
+
+
+#define GOAL_TEXTURE "goal"
+#define GOAL_REACHED_TEXTURE "goal-reached"
 
 using namespace cocos2d;
 
-class ExitDoorModel : public BlockModel {
+class ExitDoorModel : public BoxObstacle {
 protected:
-    /** The state of exit door: open or close **/
+    /** The state of exit door: open(0) or close(1) **/
     int _state;
 
 #pragma mark -
@@ -26,6 +31,7 @@ public:
      *
      * @return  An auto-released physics object
      */
+    bool _isRemovable;
     static ExitDoorModel* create();
 
     /**
@@ -47,29 +53,6 @@ public:
      */
     static ExitDoorModel* create(const Vec2& pos, const Size& size);
 
-    /**
-     * Creates a new exit with the given position, size and texture.
-     *
-     * @param  pos      Initial position
-	 * @param  size   	The dimensions of the exit.
-     * @param  texture  The texture of the exit
-     *
-     * @return  An auto-released physics object
-     */
-    static ExitDoorModel* create(const Vec2& pos, const Size& size, const std::string& texture);
-
-    /**
-     * Creates a new exit with the given position, size, texture and state.
-     *
-     * @param  pos      Initial position
-	 * @param  size   	The dimensions of the exit.
-     * @param  texture  The texture of the exit
-     * @param  state    The state of the exit
-     *
-     * @return  An auto-released physics object
-     */
-    static ExitDoorModel* create(const Vec2& pos, const Size& size, const std::string& texture, const int& state);
-
 #pragma mark -
 #pragma mark Accessors
     /**
@@ -79,12 +62,7 @@ public:
      */
     const int& getExitState() const { return _state; }
 
-    /**
-     * Sets the state applied to this exit.
-     *
-     * @param value  the state applied to this exit.
-     */
-    virtual void setExitState(const int& value, const std::string& texture);
+
 
 #pragma mark -
 #pragma mark Initializers
@@ -92,7 +70,7 @@ CC_CONSTRUCTOR_ACCESS:
     /*
      * Creates a new exit at the origin.
      */
-    ExitDoorModel(void) : BlockModel() { }
+    ExitDoorModel(void) : BoxObstacle() { }
 
     /**
      * Destroys this exit, releasing all resources.
@@ -118,15 +96,17 @@ CC_CONSTRUCTOR_ACCESS:
      */
     virtual bool init(const Vec2& pos, const Size& size) override;
 
-    /**
-     * ?
-     */
-    virtual bool init(const Vec2& pos, const Size& size, const std::string& texture) override;
+    bool isRemovable(){
+        return _isRemovable;
+    }
+    
+    void setRemovable(bool value){
+        _isRemovable = value;
+    }
 
-    /**
-     * ?
-     */
-    virtual bool init(const Vec2& pos, const Size& size, const std::string& texture, const int& state);
+#pragma mark -
+#pragma mark Instance methods
+    void open();
 
 };
 

@@ -19,6 +19,7 @@
 #include "ToyaAvatarModel.h"
 #include "ToyaOverviewModel.h"
 #include "ToyaPanelModel.h"
+#include "ToyaExitDoorModel.h"
 
 class LevelModel;
 

@@ -84,6 +84,8 @@ protected:
     /** The texture filmstrip for the avatar */
     std::string _avatarTexture;
     
+    bool _isRemovable;
+    
 #pragma mark -
 #pragma mark Scene Graph Management
     /**
@@ -376,6 +378,14 @@ CC_CONSTRUCTOR_ACCESS:
     
 private:
     void createSensor(b2Fixture* sensorFixture, b2Vec2 corners[], std::string* sensorName);
+    
+    bool isRemovable(){
+        return _isRemovable;
+    }
+    
+    void setRemovable(bool value){
+        _isRemovable = value;
+    }
     
 };
 

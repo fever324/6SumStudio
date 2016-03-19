@@ -25,6 +25,7 @@ private:
 protected:
     /** The texture filmstrip for the rocket ship */
     std::string _wallTexture;
+
     
 #pragma mark -
 #pragma mark Static Constructors
@@ -36,6 +37,7 @@ public:
      * of multiple scene graph nodes.  In this case, it is because we
      * manage our own afterburner animations.
      */
+    bool _isRemovable;
     virtual void resetSceneNode() override;
     
     // virtual void setSceneNode();
@@ -108,6 +110,14 @@ public:
      * @param  strip    the texture (key) for this wall
      */
     void setTextureKey(std::string strip) { _wallTexture = strip; }
+    
+    bool isRemovable(){
+        return _isRemovable;
+    }
+    
+    void setRemovable(bool value){
+        _isRemovable = value;
+    }
     
 #pragma mark -
 #pragma mark Initializers

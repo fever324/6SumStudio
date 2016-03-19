@@ -30,6 +30,8 @@ public:
      *
      * @return  An autoreleased physics object
      */
+    bool _isRemovable;
+    
     static BlockModel* create();
     
     /**
@@ -184,6 +186,14 @@ CC_CONSTRUCTOR_ACCESS:
      * @param  texture    the texture (key) for this block
      */
     virtual void setTexture(std::string texture) { _texture = texture; }
+    
+    bool isRemovable(){
+        return _isRemovable;
+    }
+    
+    void setRemovable(bool value){
+        _isRemovable = value;
+    }
 
 };
 

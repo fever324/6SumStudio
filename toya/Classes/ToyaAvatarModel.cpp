@@ -16,7 +16,7 @@ using namespace cocos2d;
 #pragma mark -
 #pragma mark Physics Constants
 /** the amout to shrink the body in three dimensions. **/
-#define AVATAR_SHRINK 0.2f
+#define AVATAR_SHRINK 0.3f
 /** The amount to shrink the sensor fixture (horizontally) relative to the image */
 #define AVATAR_SSHRINK  0.5f
 /** Height of the sensor attached to the player's feet */
@@ -139,6 +139,7 @@ bool AvatarModel::init(const Vec2& pos, const Vec2& scale) {
         _isGrounded = false;
         setDrawScale(scale);
         setLinearVelocity((Vec2){AVATAR_INITIAL_SPEED,0});
+        setRemovable(false);
         
         PolygonNode* sprite = PolygonNode::create(Rect(0, 0, avatarSize.width, avatarSize.height));
         sprite->setScale(AVATAR_SHRINK);

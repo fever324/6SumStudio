@@ -26,8 +26,11 @@ private:
     CC_DISALLOW_COPY_AND_ASSIGN(OverviewModel);
     
     
-    ui::Button* pauseButton; //pause button
+    ui::CheckBox* pauseButton; //pause button
+    ui::Button* resetButton;
     bool paused;
+    bool reseted;
+
     double currentPlayTime;
     timestamp_t startTime;
     timestamp_t endTime;
@@ -109,13 +112,15 @@ CC_CONSTRUCTOR_ACCESS:
     
 #pragma mark - 
 #pragma mark Event Listeners
-    void touchEvent(Ref *sender, ui::Widget::TouchEventType type);
+    void pauseButtonTouchEvent(Ref *sender, ui::Widget::TouchEventType type);
+    void resetButtonTouchEvent(Ref *sender, ui::Widget::TouchEventType type);
     
 #pragma mark -
 #pragma mark Helper Functions
     void pauseButtonPressed();
     void resumeFromPause();
     
+    bool hasReseted() {return this->reseted;}
     void reset();
 };
 
