@@ -122,6 +122,7 @@ float BARRIER_POS[] = {32.5, 13.0};
 #define NONREMOVABLE_DRAW_LAYER  2
 #define GOAL_DRAW_LAYER          3
 #define AVATAR_DRAW_LAYER        4
+#define BARRIER_DRAW_LAYER        4
 
 /** The key for collisions sounds */
 #define COLLISION_SOUND     "bump"
@@ -376,7 +377,7 @@ void GameController::populate() {
     Vec2 removePos = ((Vec2) REMOVE_POS);
     
     BoxObstacle* removed = BlockFactory::getRemovableBlock(removePos, _scale, REMOVABLE_TEXTURE);
-    addObstacle(removed, 2);
+    addObstacle(removed, REMOVABLE_DRAW_LAYER);
     
 #pragma mark : Goal door
     
@@ -387,7 +388,7 @@ void GameController::populate() {
     _goalDoor = ExitDoorModel::create(goalPos, goalSize/8);
     _goalDoor->setDrawScale(_scale.x, _scale.y);
 
-    addObstacle(_goalDoor, 2); // Put this at the very back
+    addObstacle(_goalDoor, GOAL_DRAW_LAYER); // Put this at the very back
 
     
 PolygonObstacle* wallobj;
@@ -397,7 +398,7 @@ PolygonObstacle* wallobj;
     wall1.triangulate();
     wallobj = BlockFactory::getNonRemovableBlock(wall1, _scale, EARTH_TEXTURE, false); // 1st line
     wallobj->setName("wall1");
-    addObstacle(wallobj,1);  // All walls share the same texture
+    addObstacle(wallobj, NONREMOVABLE_DRAW_LAYER);  // All walls share the same texture
     
 #pragma mark : Wall polygon 2
     
@@ -405,13 +406,13 @@ PolygonObstacle* wallobj;
     wall2.triangulate();
     wallobj = BlockFactory::getNonRemovableBlock(wall2, _scale, EARTH_TEXTURE);
     wallobj->setName("wall2");
-    addObstacle(wallobj,1);
+    addObstacle(wallobj, NONREMOVABLE_DRAW_LAYER);
     
     Poly2 wall22(WALL22, 8);
     wall22.triangulate();
     wallobj = BlockFactory::getNonRemovableBlock(wall22, _scale, EARTH_TEXTURE);
     wallobj->setName("wall22");
-    addObstacle(wallobj,1);
+    addObstacle(wallobj, NONREMOVABLE_DRAW_LAYER);
     
     
 #pragma mark : Walls polygon 3
@@ -419,7 +420,7 @@ PolygonObstacle* wallobj;
     wall3.triangulate();
     wallobj = BlockFactory::getNonRemovableBlock(wall3, _scale, REMOVABLE_TEXTURE);
     wallobj->setName("wall3");
-    addObstacle(wallobj,1);
+    addObstacle(wallobj, NONREMOVABLE_DRAW_LAYER);
     
     
 #pragma mark : Wall polygon 4
@@ -427,7 +428,7 @@ PolygonObstacle* wallobj;
     wall4.triangulate();
     wallobj = BlockFactory::getNonRemovableBlock(wall4, _scale, REMOVABLE_TEXTURE);
     wallobj->setName("wall4");
-    addObstacle(wallobj,1);
+    addObstacle(wallobj, NONREMOVABLE_DRAW_LAYER);
     
     
 #pragma mark : Walls polygon 5
@@ -435,25 +436,25 @@ PolygonObstacle* wallobj;
     wall5.triangulate();
     wallobj = BlockFactory::getNonRemovableBlock(wall5, _scale, EARTH_TEXTURE);
     wallobj->setName("wall5");
-    addObstacle(wallobj,1);
+    addObstacle(wallobj, NONREMOVABLE_DRAW_LAYER);
     
 
 #pragma mark : Avatar
     Vec2 avatarPos = ((Vec2)AVATAR_POS);
     _avatar = AvatarModel::create(avatarPos,_scale);
-    addObstacle(_avatar,3);
+    addObstacle(_avatar, AVATAR_DRAW_LAYER);
     _theWorld->setFollow(_avatar);
     _avatar->setName("avatar");
 
 #pragma mark : Barrier
     Vec2 barrierPos = ((Vec2)BARRIER_POS);
     _barrier = BlockFactory::getRemovableBlock(barrierPos, _scale, BARRIER_TEXTURE);
-    addObstacle(_barrier, 1);
+    addObstacle(_barrier, BARRIER_DRAW_LAYER);
     
     
     Vec2 barrierPos2 = Vec2(36, 22);
     _barrier1 = BlockFactory::getRemovableBlock(barrierPos2, _scale, BARRIER_TEXTURE);
-    addObstacle(_barrier1, 1);
+    addObstacle(_barrier1, BARRIER_DRAW_LAYER);
 }
 
 /**
