@@ -14,6 +14,7 @@
 #include "ToyaJSBlockModel.h"
 #include "ToyaLevelModel.h"
 #include "ToyaPanelModel.h"
+#include "ToyaBlockFactory.h"
 
 #include <string>
 #include <iostream>
@@ -60,28 +61,20 @@ using namespace std;
 /** The default value of gravity (going down) */
 #define DEFAULT_GRAVITY -5.0f
 
-/** To automate the loading of crate files */
-#define NUM_CRATES 2
-
 
 float WALL1[] = { -20.0f, 56.0f,  84.0f, 56.0f,   84.0f, 31.0f,
     5.0f, 31.0f, 5.0f, 5.0f,  59.0f, 5.0f,   59.0f, 31.0f,
     84.0f, 31.0f,   84.0f, -20.0f, -20.0f,-20.0f};
 
-float WALL2[] = {5.0f,28.0f,   27.0f,28.0f,  27.0f, 26.0f,  5.0f, 26.0f };
+float WALL2[] = {5.0f,28.0f,   12.0f,28.0f,  12.0f, 26.0f,  5.0f, 26.0f };
+
+float WALL22[] = {14.0f,28.0f,   27.0f,28.0f,  27.0f, 26.0f,  14.0f, 26.0f};
+
 float WALL3[] = {30.0f,22.0f,  50.0f,22.0f, 50.0f,20.0f,  30.0f,20.0f};
 float WALL5[] = {50.0f, 20.0f,  50.0f, 26.0f,  48.0f,26.0f,  48.0f, 20.0f};
 
 float WALL4[] = {30.0f,12.5f,   20.0f,12.5f,   17.0f,13.5f,   15.0f,13.5f,  19.0f,10.5f,  30.0f,10.5f};
 
-/** The positions of the crate pyramid */
-
-float BOXES[] = { 14.5f, 14.25f,
-    13.0f, 12.00f, 16.0f, 12.00f,
-    11.5f,  9.75f, 14.5f,  9.75f, 17.5f, 9.75f,
-    13.0f,  7.50f, 16.0f,  7.50f,
-    11.5f,  5.25f, 14.5f,  5.25f, 17.5f, 5.25f,
-    10.0f,  3.00f, 13.0f,  3.00f, 16.0f, 3.00f, 19.0f, 3.0f};
 
 
 //vector<float> tmp(WALL2,WALL2+8);
@@ -90,7 +83,9 @@ float BOXES[] = { 14.5f, 14.25f,
 float AVATAR_POS[] = {5.0, 30.0};
 /** The goal door position */
 float GOAL_POS[] = {58.0, 6.5};
-//float GOAL_POS[] = {12.0, 28.5};
+//float GOAL_POS[] = {10.0, 26.0};
+
+float REMOVE_POS[] = {13.0, 27.0};
 /** The goal door position2 */
 float DOOR_POS[] = {31.0, 6.4};
 /** The barrier position */
@@ -105,19 +100,13 @@ float BARRIER_POS[] = {32.5, 13.0};
 #define GOAL_TEXTURE        "goal"
 #define GOAL_REACHED_TEXTURE "goal-reached"
 
-/** The key prefix for the multiple crate assets */
-#define CRATE_PREFIX        "crate"
-/** The key for the fire textures in the asset manager */
-#define MAIN_FIRE_TEXTURE   "flames"
-#define RGHT_FIRE_TEXTURE   "flames-right"
-#define LEFT_FIRE_TEXTURE   "flames-left"
 /** The key for the avatar texture in the asset manager */
 #define AVATAR_TEXTURE      "avatar"
 /** The key for the block texture in the asset manager */
 #define BLOCK_TEXTURE       "block"
 #define BARRIER_TEXTURE     "barrier"
 #define BEAR_TEXTURE        "bear"
-//#define AVATAR_TEXTURE        "bears"
+
 #define BACKGROUND_TEXTURE  "background"
 /** Color to outline the physics nodes */
 #define DEBUG_COLOR     Color3B::GREEN
@@ -128,6 +117,12 @@ float BARRIER_POS[] = {32.5, 13.0};
 #define DEBUG_OPACITY   192
 
 #define COOL_DOWN   120
+
+#define REMOVABLE_DRAW_LAYER     1
+#define NONREMOVABLE_DRAW_LAYER  2
+#define GOAL_DRAW_LAYER          3
+#define AVATAR_DRAW_LAYER        4
+#define BARRIER_DRAW_LAYER        4
 
 /** The key for collisions sounds */
 #define COLLISION_SOUND     "bump"
@@ -288,7 +283,6 @@ bool GameController::init(RootLayer* root, const Rect& rect, const Vec2& gravity
     
     _scale.set(root->getContentSize().width/32.0f,
                root->getContentSize().height/18.0f);
-    
     _rootnode = root;
     
     populate();
@@ -371,16 +365,21 @@ void GameController::populate() {
     // If the device is higher resolution than 1024x576, Cocos2d will scale it
     // This was set as the design resolution in AppDelegate
     // To convert from design resolution to real, divide positions by cscale
-    float cscale = Director::getInstance()->getContentScaleFactor();
+//    float cscale = Director::getInstance()->getContentScaleFactor();
     // Note that this is different from _scale, which is the physics scale
     
     // THIS DOES NOT FIX ASPECT RATIO PROBLEMS
     // If you are using a device with a 3:2 aspect ratio, you will need to
     // completely redo the level layout.  We can help if this is an issue.
     
+// Remove
+    
+    Vec2 removePos = ((Vec2) REMOVE_POS);
+    
+    BoxObstacle* removed = BlockFactory::getRemovableBlock(removePos, _scale, REMOVABLE_TEXTURE);
+    addObstacle(removed, REMOVABLE_DRAW_LAYER);
     
 #pragma mark : Goal door
-    WireNode* draw;
     
     // Create obstacle
     Vec2 goalPos = ((Vec2)GOAL_POS);
@@ -389,213 +388,73 @@ void GameController::populate() {
     _goalDoor = ExitDoorModel::create(goalPos, goalSize/8);
     _goalDoor->setDrawScale(_scale.x, _scale.y);
 
-    
-    draw = WireNode::create();
-    draw->setColor(DEBUG_GOAL_COLOR);
-    draw->setOpacity(DEBUG_OPACITY);
-    _goalDoor->setDebugNode(draw);
-    _goalDoor->setRemovable(false);
-    addObstacle(_goalDoor, 2); // Put this at the very back
+    addObstacle(_goalDoor, GOAL_DRAW_LAYER); // Put this at the very back
 
+    
+PolygonObstacle* wallobj;
     
 #pragma mark : Wall polygon 1
-    // use the method of JSBlockModel
-    
-    // Create ground pieces
-    // All walls share the same texture
-    
-    JSBlockModel* wallobj1;
-    
-    // Initialize 1st arg
     Poly2 wall1(WALL1,20);
     wall1.triangulate();
-    
-    // 2nd arg _scale, 3rd arg (string type) texture
-    wallobj1 = JSBlockModel::createWithTexture(wall1, _scale, EARTH_TEXTURE); // 1st line
-    
-    
-    // Set the physics attributes (cannot be absorbed in to a method because we may change these macros)
-    wallobj1->setDensity(BASIC_DENSITY);
-    wallobj1->setFriction(BASIC_FRICTION);
-    wallobj1->setRestitution(BASIC_RESTITUTION);
-    
-    // the SceneNode is created!
-    wallobj1->setTextureKey(EARTH_TEXTURE); // 2nd line
-    wallobj1->resetSceneNode(); //3rd line, just 3lines to replace original initializers
-    
-    
-    // Debug
-    draw = WireNode::create();
-    draw->setColor(DEBUG_COLOR);
-    draw->setOpacity(DEBUG_OPACITY);
-    
-//    wallobj1->setDebugNode(draw);
-    
-    wallobj1->setRemovable(false);
-    addObstacle(wallobj1,1);  // All walls share the same texture
-    
+    wallobj = BlockFactory::getNonRemovableBlock(wall1, _scale, EARTH_TEXTURE, false); // 1st line
+    wallobj->setName("wall1");
+    addObstacle(wallobj, NONREMOVABLE_DRAW_LAYER);  // All walls share the same texture
     
 #pragma mark : Wall polygon 2
+    
     Poly2 wall2(WALL2,8);
     wall2.triangulate();
+    wallobj = BlockFactory::getNonRemovableBlock(wall2, _scale, EARTH_TEXTURE);
+    wallobj->setName("wall2");
+    addObstacle(wallobj, NONREMOVABLE_DRAW_LAYER);
     
-    JSBlockModel* wallobj2;
+    Poly2 wall22(WALL22, 8);
+    wall22.triangulate();
+    wallobj = BlockFactory::getNonRemovableBlock(wall22, _scale, EARTH_TEXTURE);
+    wallobj->setName("wall22");
+    addObstacle(wallobj, NONREMOVABLE_DRAW_LAYER);
     
-    wallobj2 = JSBlockModel::createWithTexture(wall2, _scale, REMOVABLE_TEXTURE);
-
-    // Set the physics attributes -- the same
-    
-    // Add the scene graph nodes to this object
-    wallobj2->setTextureKey(REMOVABLE_TEXTURE);
-    wallobj2->resetSceneNode();
-    
-    draw = WireNode::create();
-    draw->setColor(DEBUG_COLOR);
-    draw->setOpacity(DEBUG_OPACITY);
-    wallobj2->setDebugNode(draw);
-    wallobj2->setRemovable(false);
-    addObstacle(wallobj2,1);
     
 #pragma mark : Walls polygon 3
     Poly2 wall3(WALL3,8);
     wall3.triangulate();
+    wallobj = BlockFactory::getNonRemovableBlock(wall3, _scale, REMOVABLE_TEXTURE);
+    wallobj->setName("wall3");
+    addObstacle(wallobj, NONREMOVABLE_DRAW_LAYER);
     
-    JSBlockModel* wallobj3;
-
-    wallobj3 = JSBlockModel::createWithTexture(wall3, _scale, REMOVABLE_TEXTURE);
-    
-    // Set the physics attributes
-
-    // Add the scene graph nodes to this object
-    wallobj3->setTextureKey(REMOVABLE_TEXTURE);
-    wallobj3->resetSceneNode();
-    
-    draw = WireNode::create();
-    draw->setColor(DEBUG_COLOR);
-    draw->setOpacity(DEBUG_OPACITY);
-    wallobj3->setDebugNode(draw);
-    wallobj3->setRemovable(false);
-    addObstacle(wallobj3,1);
     
 #pragma mark : Wall polygon 4
-
     Poly2 wall4(WALL4,12);
     wall4.triangulate();
-    JSBlockModel* wallobj4;
-
-    wallobj4 = JSBlockModel::createWithTexture(wall4, _scale, REMOVABLE_TEXTURE);
-
-    // Set the physics attributes
+    wallobj = BlockFactory::getNonRemovableBlock(wall4, _scale, REMOVABLE_TEXTURE);
+    wallobj->setName("wall4");
+    addObstacle(wallobj, NONREMOVABLE_DRAW_LAYER);
     
-    // Add the scene graph nodes to this object
-    wallobj4->setTextureKey(REMOVABLE_TEXTURE);
-    wallobj4->resetSceneNode();
-    
-    draw = WireNode::create();
-    draw->setColor(DEBUG_COLOR);
-    draw->setOpacity(DEBUG_OPACITY);
-    wallobj4->setDebugNode(draw);
-    wallobj4->setRemovable(false);
-    addObstacle(wallobj4,1);
     
 #pragma mark : Walls polygon 5
     Poly2 wall5(WALL5,8);
     wall5.triangulate();
+    wallobj = BlockFactory::getNonRemovableBlock(wall5, _scale, EARTH_TEXTURE);
+    wallobj->setName("wall5");
+    addObstacle(wallobj, NONREMOVABLE_DRAW_LAYER);
     
-    JSBlockModel* wallobj5;
-    
-    wallobj5 = JSBlockModel::createWithTexture(wall5, _scale, EARTH_TEXTURE);
-    
-    // Set the physics attributes
-    
-    // Add the scene graph nodes to this object
-    wallobj5->setTextureKey(EARTH_TEXTURE);
-    wallobj5->resetSceneNode();
-
-    draw = WireNode::create();
-    draw->setColor(DEBUG_COLOR);
-    draw->setOpacity(DEBUG_OPACITY);
-    wallobj5->setDebugNode(draw);
-    wallobj5->setRemovable(false);
-    addObstacle(wallobj5,1);
-
 
 #pragma mark : Avatar
     Vec2 avatarPos = ((Vec2)AVATAR_POS);
     _avatar = AvatarModel::create(avatarPos,_scale);
-    
-    draw = WireNode::create();
-    draw->setColor(DEBUG_AVATAR_COLOR);
-    draw->setOpacity(DEBUG_OPACITY);
-    _avatar->setDebugNode(draw);
-    addObstacle(_avatar,3);
+    addObstacle(_avatar, AVATAR_DRAW_LAYER);
     _theWorld->setFollow(_avatar);
+    _avatar->setName("avatar");
 
 #pragma mark : Barrier
-    
-    Texture2D* image3 = _assets->get<Texture2D>(BARRIER_TEXTURE);
-    PolygonNode* sprite3;
-
     Vec2 barrierPos = ((Vec2)BARRIER_POS);
+    _barrier = BlockFactory::getRemovableBlock(barrierPos, _scale, BARRIER_TEXTURE);
+    addObstacle(_barrier, BARRIER_DRAW_LAYER);
     
-    sprite3 = PolygonNode::createWithTexture(image3);
-    Size barrierSize(image3->getContentSize().width/_scale.x, image3->getContentSize().height/_scale.y);
-    
-    _barrier = BlockModel::create(barrierPos, barrierSize/6);
-    
-    _barrier->setDrawScale(_scale.x, _scale.y);
-
-
-    draw = WireNode::create();
-    draw->setColor(DEBUG_COLOR);
-    draw->setOpacity(DEBUG_OPACITY);
-    _barrier->setDebugNode(draw);
-    _barrier->setBodyType(b2_staticBody);
-    _barrier->setDensity(0.0f);
-    _barrier->setFriction(0.0f);
-    _barrier->setRestitution(0.0f);
-    _barrier->setSensor(true);
-    
-    sprite3 = PolygonNode::createWithTexture(image3);
-    sprite3->setScale(cscale/4);
-    _barrier->setSceneNode(sprite3);
-    _barrier->setRemovable(true);
-    _barrier->setName("barrier");
-    addObstacle(_barrier, 1);
-    
-    
-    
-    
-    Texture2D* image4 = _assets->get<Texture2D>(BARRIER_TEXTURE);
-    PolygonNode* sprite4;
     
     Vec2 barrierPos2 = Vec2(36, 22);
-    
-    sprite4 = PolygonNode::createWithTexture(image4);
-    Size barrierSize2(image4->getContentSize().width/_scale.x, image4->getContentSize().height/_scale.y);
-    
-    _barrier1 = BlockModel::create(barrierPos2, barrierSize2/6);
-    
-    _barrier1->setDrawScale(_scale.x, _scale.y);
-    
-    
-    draw = WireNode::create();
-    draw->setColor(DEBUG_COLOR);
-    draw->setOpacity(DEBUG_OPACITY);
-
-    _barrier1->setDebugNode(draw);
-    _barrier1->setBodyType(b2_staticBody);
-    _barrier1->setDensity(0.0f);
-    _barrier1->setFriction(0.0f);
-    _barrier1->setRestitution(0.0f);
-    _barrier1->setSensor(true);
-    sprite4 = PolygonNode::createWithTexture(image4);
-    sprite4->setScale(cscale/4);
-    _barrier1->setSceneNode(sprite4);
-    _barrier1->setRemovable(true);
-    _barrier1->setName("barrier");
-    addObstacle(_barrier1, 2);
-
+    _barrier1 = BlockFactory::getRemovableBlock(barrierPos2, _scale, BARRIER_TEXTURE);
+    addObstacle(_barrier1, BARRIER_DRAW_LAYER);
 }
 
 /**
@@ -699,12 +558,9 @@ void GameController::update(float dt) {
         if(_panel->getSpell() == DESTRUCTION_SPELL_SELECTED) {
             _panel->setSpell(0);
             BlockModel* obstacle = (BlockModel*)_selector->getObstacle();
-//            if (obstacle->isRemovable()) {
-            if (obstacle->getName() == "barrier"){
+            if (obstacle->getName() == "removable"){
                 _selector->deselect();
                 _theWorld->removeObstacle(&obstacle);
-//                _barrier1 = nullptr;
-//                _barrier = nullptr;
             }
         }
     } else if (_input.didSelect()) {

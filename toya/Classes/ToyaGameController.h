@@ -64,8 +64,8 @@ protected:
 
     BlockModel* _door;
 
-    BlockModel* _barrier;
-    BlockModel* _barrier1;
+    BoxObstacle* _barrier;
+    BoxObstacle* _barrier1;
     /** Reference to the player avatar */
     AvatarModel* _avatar;
     
