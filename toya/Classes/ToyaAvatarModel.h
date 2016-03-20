@@ -240,7 +240,7 @@ public:
         int direction = faceRight ? 1 : -1;
         
         if(_faceRight != faceRight) {
-            setLinearVelocity((Vec2){direction*AVATAR_INITIAL_SPEED, getVY()});
+            setLinearVelocity(Vec2{direction*AVATAR_INITIAL_SPEED, getVY()});
         }
         _faceRight = faceRight;
         

@@ -138,7 +138,7 @@ bool AvatarModel::init(const Vec2& pos, const Vec2& scale) {
         _faceRight  = true;
         _isGrounded = false;
         setDrawScale(scale);
-        setLinearVelocity((Vec2){AVATAR_INITIAL_SPEED,0});
+        setLinearVelocity(Vec2{AVATAR_INITIAL_SPEED,0});
         setRemovable(false);
         
         PolygonNode* sprite = PolygonNode::create(Rect(0, 0, avatarSize.width, avatarSize.height));
@@ -342,7 +342,7 @@ void AvatarModel::animateAvatar() {
 void AvatarModel::reset() {
 //    resetDebugNode();
 //    resetSceneNode();
-    setLinearVelocity((Vec2){AVATAR_INITIAL_SPEED,0});
+    setLinearVelocity(Vec2{AVATAR_INITIAL_SPEED,0});
     _animationFrameCount = 0;
     _faceRight = true;
     

@@ -479,7 +479,7 @@ void GameController::addObstacle(Obstacle* obj, int zOrder) {
 
 Vec2* GameController::getRelativePosition(const Vec2& physicalPosition, Vec2& centerPosition, float turningAngel) {
 
-    Vec2 centerPosition_p = (Vec2){512.0f, 288.0f};
+    Vec2 centerPosition_p = Vec2{512.0f, 288.0f};
     float dist = physicalPosition.getDistance(centerPosition_p);
     
     // Alpha is the current angle between the physical position and center
