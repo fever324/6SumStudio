@@ -5,6 +5,16 @@
 ## Build generated
 build/
 DerivedData/
+Debug/
+Debug.*/
+Release/
+Release.*/
+AppPackages/
+bin/
+obj/
+
+## Android Project
+local.properties
 
 ## Various settings
 *.pbxuser
@@ -16,6 +26,8 @@ DerivedData/
 *.perspectivev3
 !default.perspectivev3
 xcuserdata/
+*.sdf
+*.opendb
 
 ## Other
 *.moved-aside

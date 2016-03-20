@@ -145,12 +145,45 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\Classes\AppDelegate.cpp" />
-    <ClCompile Include="..\Classes\HelloWorld.cpp" />
+    <ClCompile Include="..\Classes\ToyaAvatarModel.cpp" />
+    <ClCompile Include="..\Classes\ToyaBlockModel.cpp" />
+    <ClCompile Include="..\Classes\ToyaExitDoorModel.cpp" />
+    <ClCompile Include="..\Classes\ToyaGameController.cpp" />
+    <ClCompile Include="..\Classes\ToyaGameRoot.cpp" />
+    <ClCompile Include="..\Classes\ToyaGameView.cpp" />
+    <ClCompile Include="..\Classes\ToyaInputController.cpp" />
+    <ClCompile Include="..\Classes\ToyaLevelModel.cpp" />
+    <ClCompile Include="..\Classes\ToyaMenuModel.cpp" />
+    <ClCompile Include="..\Classes\ToyaMenuView.cpp" />
+    <ClCompile Include="..\Classes\ToyaOverviewModel.cpp" />
+    <ClCompile Include="..\Classes\ToyaPanelModel.cpp" />
+    <ClCompile Include="..\Classes\ToyaProgressController.cpp" />
+    <ClCompile Include="..\Classes\ToyaRemovableBlockModel.cpp" />
+    <ClCompile Include="..\Classes\ToyaWorldModel.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Classes\AppDelegate.h" />
-    <ClInclude Include="..\Classes\HelloWorld.h" />
+    <ClInclude Include="..\Classes\ToyaAvatarModel.h" />
+    <ClInclude Include="..\Classes\ToyaBlockFactory.h" />
+    <ClInclude Include="..\Classes\ToyaBlockModel.h" />
+    <ClInclude Include="..\Classes\ToyaConstructionSpellModel.h" />
+    <ClInclude Include="..\Classes\ToyaDestructionSpellModel.h" />
+    <ClInclude Include="..\Classes\ToyaExitDoorModel.h" />
+    <ClInclude Include="..\Classes\ToyaGameController.h" />
+    <ClInclude Include="..\Classes\ToyaGameRoot.h" />
+    <ClInclude Include="..\Classes\ToyaGameView.h" />
+    <ClInclude Include="..\Classes\ToyaInputController.h" />
+    <ClInclude Include="..\Classes\ToyaLevelConstants.h" />
+    <ClInclude Include="..\Classes\ToyaLevelModel.h" />
+    <ClInclude Include="..\Classes\ToyaMenuModel.h" />
+    <ClInclude Include="..\Classes\ToyaMenuView.h" />
+    <ClInclude Include="..\Classes\ToyaOverviewModel.h" />
+    <ClInclude Include="..\Classes\ToyaPanelModel.h" />
+    <ClInclude Include="..\Classes\ToyaProgressController.h" />
+    <ClInclude Include="..\Classes\ToyaRemovableBlockModel.h" />
+    <ClInclude Include="..\Classes\ToyaSpellModel.h" />
+    <ClInclude Include="..\Classes\ToyaWorldModel.h" />
     <ClInclude Include="main.h" />
   </ItemGroup>
   <ItemGroup>
