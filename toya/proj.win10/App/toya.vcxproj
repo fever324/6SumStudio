@@ -124,8 +124,11 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
-    <PackageCertificateKeyFile>toya_TemporaryKey.pfx</PackageCertificateKeyFile>
-    <PackageCertificateThumbprint>69E61EED9D75298C20C00383913E70404878E922</PackageCertificateThumbprint>
+    <PackageCertificateKeyFile>toya_StoreKey.pfx</PackageCertificateKeyFile>
+    <PackageCertificateThumbprint>EBE91B1D47B994497463232778E88F1B8DEDDA10</PackageCertificateThumbprint>
+    <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
+    <AppxBundle>Always</AppxBundle>
+    <AppxBundlePlatforms>x86</AppxBundlePlatforms>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -216,7 +219,26 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Classes\AppDelegate.h" />
-    <ClInclude Include="..\..\Classes\HelloWorld.h" />
+    <ClInclude Include="..\..\Classes\ToyaAvatarModel.h" />
+    <ClInclude Include="..\..\Classes\ToyaBlockFactory.h" />
+    <ClInclude Include="..\..\Classes\ToyaBlockModel.h" />
+    <ClInclude Include="..\..\Classes\ToyaConstructionSpellModel.h" />
+    <ClInclude Include="..\..\Classes\ToyaDestructionSpellModel.h" />
+    <ClInclude Include="..\..\Classes\ToyaExitDoorModel.h" />
+    <ClInclude Include="..\..\Classes\ToyaGameController.h" />
+    <ClInclude Include="..\..\Classes\ToyaGameRoot.h" />
+    <ClInclude Include="..\..\Classes\ToyaGameView.h" />
+    <ClInclude Include="..\..\Classes\ToyaInputController.h" />
+    <ClInclude Include="..\..\Classes\ToyaLevelConstants.h" />
+    <ClInclude Include="..\..\Classes\ToyaLevelModel.h" />
+    <ClInclude Include="..\..\Classes\ToyaMenuModel.h" />
+    <ClInclude Include="..\..\Classes\ToyaMenuView.h" />
+    <ClInclude Include="..\..\Classes\ToyaOverviewModel.h" />
+    <ClInclude Include="..\..\Classes\ToyaPanelModel.h" />
+    <ClInclude Include="..\..\Classes\ToyaProgressController.h" />
+    <ClInclude Include="..\..\Classes\ToyaRemovableBlockModel.h" />
+    <ClInclude Include="..\..\Classes\ToyaSpellModel.h" />
+    <ClInclude Include="..\..\Classes\ToyaWorldModel.h" />
     <ClInclude Include="App.xaml.h">
       <DependentUpon>App.xaml</DependentUpon>
     </ClInclude>
@@ -236,11 +258,26 @@
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
+    <None Include="toya_StoreKey.pfx" />
     <None Include="toya_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Classes\AppDelegate.cpp" />
-    <ClCompile Include="..\..\Classes\HelloWorld.cpp" />
+    <ClCompile Include="..\..\Classes\ToyaAvatarModel.cpp" />
+    <ClCompile Include="..\..\Classes\ToyaBlockModel.cpp" />
+    <ClCompile Include="..\..\Classes\ToyaExitDoorModel.cpp" />
+    <ClCompile Include="..\..\Classes\ToyaGameController.cpp" />
+    <ClCompile Include="..\..\Classes\ToyaGameRoot.cpp" />
+    <ClCompile Include="..\..\Classes\ToyaGameView.cpp" />
+    <ClCompile Include="..\..\Classes\ToyaInputController.cpp" />
+    <ClCompile Include="..\..\Classes\ToyaLevelModel.cpp" />
+    <ClCompile Include="..\..\Classes\ToyaMenuModel.cpp" />
+    <ClCompile Include="..\..\Classes\ToyaMenuView.cpp" />
+    <ClCompile Include="..\..\Classes\ToyaOverviewModel.cpp" />
+    <ClCompile Include="..\..\Classes\ToyaPanelModel.cpp" />
+    <ClCompile Include="..\..\Classes\ToyaProgressController.cpp" />
+    <ClCompile Include="..\..\Classes\ToyaRemovableBlockModel.cpp" />
+    <ClCompile Include="..\..\Classes\ToyaWorldModel.cpp" />
     <ClCompile Include="App.xaml.cpp">
       <DependentUpon>App.xaml</DependentUpon>
     </ClCompile>
@@ -289,6 +326,9 @@
     <Image Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
     <Image Include="Assets\StoreLogo.png" />
     <Image Include="Assets\Wide310x150Logo.scale-200.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Package.StoreAssociation.xml" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
