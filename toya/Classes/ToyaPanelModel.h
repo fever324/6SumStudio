@@ -7,7 +7,7 @@
 #include "ui/CocosGUI.h"
 #include "ToyaConstructionSpellModel.h"
 #include "ToyaDestructionSpellModel.h"
-#include <UICheckBox.h>
+#include <ui/UICheckBox.h>
 
 using namespace cocos2d;
 
