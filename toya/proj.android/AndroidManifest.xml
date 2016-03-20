@@ -15,7 +15,7 @@
         <meta-data android:name="android.app.lib_name"
 	              android:value="cocos2dcpp" />
 
-        <activity android:name="com.6sumstudio.toya.AppActivity"
+        <activity android:name="com.sixsumstudio.toya.AppActivity"
                   android:label="@string/app_name"
                   android:screenOrientation="landscape"
                   android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
