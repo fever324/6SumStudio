@@ -25,14 +25,15 @@ class RemovableBlockModel : public AnimationBoxModel {  // Block demo game contr
 private:
     Node* _parent;
     Node* _parentDebugNode;
+    WorldController* _world;
 public:
-    static RemovableBlockModel* create(int stateCount, int rowCount, int columnCount, std::string textureKey, const Vec2& pos, const Size& size);
+    static RemovableBlockModel* create(int stateCount, int rowCount, int columnCount, std::string textureKey, const Vec2& pos, const Size& size, Vec2 scale);
     
-    bool init(int stateCount, int rowCount, int columnCount, std::string textureKey, const Vec2& pos, const Size& size) override;
+    bool init(int stateCount, int rowCount, int columnCount, std::string textureKey, const Vec2& pos, const Size& size, Vec2 scale) override;
 
     void update(float dt) override;
     
-    void destroy(Node* parent, Node* parentDebugNode);
+    void destroy(Node* parent, Node* parentDebugNode, WorldController* world);
     
     ~RemovableBlockModel();
 };

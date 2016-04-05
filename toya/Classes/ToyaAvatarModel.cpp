@@ -145,6 +145,11 @@ bool AvatarModel::init(const Vec2& pos, const Vec2& scale) {
         sprite->setScale(AVATAR_SHRINK);
         setSceneNode(sprite);
         
+
+        WireNode* draw = WireNode::create();
+        draw->setColor(Color3B::YELLOW);
+        draw->setOpacity(193);
+        setDebugNode(draw);
         return true;
     }
     
@@ -340,12 +345,9 @@ void AvatarModel::animateAvatar() {
 }
 
 void AvatarModel::reset() {
-//    resetDebugNode();
-//    resetSceneNode();
     setLinearVelocity(Vec2{AVATAR_INITIAL_SPEED,0});
     _animationFrameCount = 0;
     _faceRight = true;
-    
 }
 
 /**
@@ -389,7 +391,6 @@ void AvatarModel::update(float dt) {
     animateAvatar();
     int direction = isFacingRight() ? 1 : -1;
     setMovement(direction*getForce());
-//    CCLOG("Direction: %d, Movement: %f", direction, getMovement());
     applyForce();
 }
 

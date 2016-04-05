@@ -72,9 +72,9 @@ public:
 //        Size realSize = Size(image->getContentSize().width/scale.x, image->getContentSize().height/scale.y);
 //        
 //        obj = BoxObstacle::create(pos,realSize);
-//        obj->setBodyType(b2_staticBody);
 //        obj->setSceneNode(sprite);
 //        obj->setDrawScale(scale);
+//        obj->setBodyType(b2_staticBody);
 //        obj->setDensity(BASIC_DENSITY);
 //        obj->setFriction(BASIC_FRICTION);
 //        obj->setRestitution(BASIC_RESTITUTION);
@@ -92,7 +92,7 @@ public:
 //        return obj;
 //    }
     
-    static RemovableBlockModel* getRemovableBlock(const Vec2& pos, const Size& size);
+    static RemovableBlockModel* getRemovableBlock(const Vec2& pos, const Size& size, Vec2 scale);
     
     static PolygonObstacle* getNonRemovableBlock(const Poly2& poly, const Vec2& scale,
                                               const std::string& texture) {

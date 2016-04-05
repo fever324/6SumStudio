@@ -65,6 +65,8 @@ protected:
 
     BoxObstacle* _barrier;
     BoxObstacle* _barrier1;
+    BoxObstacle* _barrier2;
+
     /** Reference to the player avatar */
     AvatarModel* _avatar;
     

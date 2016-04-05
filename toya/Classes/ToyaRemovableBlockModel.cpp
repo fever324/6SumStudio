@@ -32,9 +32,9 @@ using namespace cocos2d;
  * @return  An autoreleased physics object
  */
 
-RemovableBlockModel* RemovableBlockModel::create(int stateCount, int rowCount, int columnCount, std::string textureKey, const Vec2& pos, const Size& size) {
+RemovableBlockModel* RemovableBlockModel::create(int stateCount, int rowCount, int columnCount, std::string textureKey, const Vec2& pos, const Size& size, Vec2 scale) {
     RemovableBlockModel* removableBlock = new (std::nothrow) RemovableBlockModel();
-    if (removableBlock && removableBlock->init(stateCount, rowCount, columnCount, textureKey, pos, size)) {
+    if (removableBlock && removableBlock->init(stateCount, rowCount, columnCount, textureKey, pos, size, scale)) {
         removableBlock->autorelease();
         return removableBlock;
     }
@@ -42,16 +42,23 @@ RemovableBlockModel* RemovableBlockModel::create(int stateCount, int rowCount, i
     return nullptr;
 }
 
-bool RemovableBlockModel::init(int stateCount, int rowCount, int columnCount, std::string textureKey, const Vec2& pos, const Size& size) {
-    AnimationBoxModel::init(stateCount, rowCount, columnCount, textureKey, pos, size);
+bool RemovableBlockModel::init(int stateCount, int rowCount, int columnCount, std::string textureKey, const Vec2& pos, const Size& size, Vec2 scale) {
+    AnimationBoxModel::init(stateCount, rowCount, columnCount, textureKey, pos, size, scale);
     this->setName(REMOVABLE_OBJECT_NAME);
+    this->setBodyType(b2_staticBody);
+    //        obj->setBodyType(b2_staticBody);
+    //        obj->setDensity(BASIC_DENSITY);
+    //        obj->setFriction(BASIC_FRICTION);
+    //        obj->setRestitution(BASIC_RESTITUTION);
     return true;
 }
 
-void RemovableBlockModel::destroy(Node* parent, Node* parentDebugNode) {
+void RemovableBlockModel::destroy(Node* parent, Node* parentDebugNode, WorldController* world) {
     _currState = DESTROY_STATE;
     _parent = parent;
     _parentDebugNode = parentDebugNode;
+    _frameCount = 0;
+    _world = world;
 }
 
 void RemovableBlockModel::update(float dt) {
@@ -59,11 +66,16 @@ void RemovableBlockModel::update(float dt) {
     if(_frameCount == _columnCount * FRAME_PER_STEP && _currState == DESTROY_STATE) {
         _parent->removeChild(this->getSceneNode());
         _parentDebugNode->removeChild(this->getDebugNode());
-        delete[] this;
+        
+        _world->removeObstacle(this);
+        
+        _parent = nullptr;
+        _parentDebugNode = nullptr;
+        _world = nullptr;
     }
 }
 
 RemovableBlockModel::~RemovableBlockModel() {
-    delete[] _parent;
-    delete[] _parentDebugNode;
+//    delete[] _parent;
+//    delete[] _parentDebugNode;
 }

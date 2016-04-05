@@ -1,8 +1,8 @@
 #include "ToyaAnimationBoxModel.h"
 
-AnimationBoxModel* AnimationBoxModel::create(int stateCount, int rowCount, int columnCount, std::string textureKey, const Vec2& pos, const Size& size) {
+AnimationBoxModel* AnimationBoxModel::create(int stateCount, int rowCount, int columnCount, std::string textureKey, const Vec2& pos, const Size& size, Vec2 scale) {
     AnimationBoxModel* animationBox = new (std::nothrow) AnimationBoxModel();
-    if (animationBox && animationBox->init(stateCount, rowCount, columnCount, textureKey, pos, size)) {
+    if (animationBox && animationBox->init(stateCount, rowCount, columnCount, textureKey, pos, size, scale)) {
         animationBox->autorelease();
         return animationBox;
     }
@@ -10,9 +10,14 @@ AnimationBoxModel* AnimationBoxModel::create(int stateCount, int rowCount, int c
     return nullptr;
 }
 
-bool AnimationBoxModel::init(int stateCount, int rowCount, int columnCount, std::string textureKey, const Vec2& pos, const Size& size) {
-    
-    if(BoxObstacle::init(pos, size)) {
+bool AnimationBoxModel::init(int stateCount, int rowCount, int columnCount, std::string textureKey, const Vec2& pos, const Size& size, Vec2 scale) {
+    float cscale = Director::getInstance()->getContentScaleFactor();
+
+    int w = 64*cscale/scale.x; //Image size is 64*64
+    int h = 64*cscale/scale.y;
+    Size onScreenSize = Size(w,h);
+
+    if(BoxObstacle::init(pos, onScreenSize)) {
         
         _stateCount = stateCount;
         _currState = 0;
@@ -21,9 +26,19 @@ bool AnimationBoxModel::init(int stateCount, int rowCount, int columnCount, std:
         _columnCount = columnCount;
         _textureKey = textureKey;
         
-        PolygonNode* pnode = PolygonNode::create(Rect(0, 0, size.width, size.height));
-        _debug->setpoly
+        
+        PolygonNode* pnode = PolygonNode::create(Rect(0, 0, 64, 64));
+        
+        
         setSceneNode(pnode);
+        
+        setDrawScale(scale);
+        
+        WireNode* draw = WireNode::create();
+        draw->setColor(Color3B::YELLOW);
+        draw->setOpacity(193);
+        setDebugNode(draw);
+        
         
         return true;
     }
@@ -40,10 +55,10 @@ void AnimationBoxModel::animate() {
     
     int base = _columnCount * _currState;
     
-    if(++_frameCount % FRAME_PER_STEP == 0) {
-        _animationNode->setFrame(base + (_animationNode->getFrame()+1) % _columnCount);
+    if(_frameCount++ % FRAME_PER_STEP == 0) {
+        _animationNode->setFrame(base + (_animationNode->getFrame()+_cycle) % _columnCount);
         
-        if(_frameCount == FRAME_PER_STEP * _columnCount) {
+        if(_frameCount == FRAME_PER_STEP * _columnCount + 1) {
             _frameCount = 0;
         }
     }
@@ -55,6 +70,7 @@ void AnimationBoxModel::update(float dt) {
 }
 
 void AnimationBoxModel::resetSceneNode() {
+    BoxObstacle::resetSceneNode();
     float cscale = Director::getInstance()->getContentScaleFactor();
     PolygonNode* pnode = dynamic_cast<PolygonNode*>(_node);
     
@@ -73,11 +89,14 @@ void AnimationBoxModel::resetSceneNode() {
         pnode->addChild(_animationNode);
         _animationNode->setPosition(pnode->getContentSize().width/2.0f,pnode->getContentSize().height/2.0f);
         
-        BoxObstacle::resetDebugNode();
     }
 }
 
+void AnimationBoxModel::resetDebugNode() {
+    BoxObstacle::resetDebugNode();
+}
+
 AnimationBoxModel::~AnimationBoxModel(void) {
-    delete[] _animationNode;
+//    delete[] _animationNode; //TODO this is creating issue
     _animationNode = nullptr;
 }

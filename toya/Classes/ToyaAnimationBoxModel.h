@@ -31,12 +31,14 @@ protected:
     
     
 public:
-    static AnimationBoxModel* create(int stateCount, int rowCount, int columnCount, std::string textureKey, const Vec2& pos, const Size& size);
-    virtual bool init(int stateCount, int rowCount, int columnCount, std::string textureKey, const Vec2& pos, const Size& size);
+    static AnimationBoxModel* create(int stateCount, int rowCount, int columnCount, std::string textureKey, const Vec2& pos, const Size& size, Vec2 scale);
+    virtual bool init(int stateCount, int rowCount, int columnCount, std::string textureKey, const Vec2& pos, const Size& size, Vec2 scale);
     
     virtual void update(float dt) override;
     
     virtual void resetSceneNode() override;
+    
+    virtual void resetDebugNode() override;
     
     virtual ~AnimationBoxModel(void);
 };

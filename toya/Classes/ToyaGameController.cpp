@@ -375,8 +375,8 @@ void GameController::populate() {
     
     Vec2 removePos = ((Vec2) REMOVE_POS);
     
-    const Size size = *new Size((Vec2){1, 1});
-    RemovableBlockModel* removed = BlockFactory::getRemovableBlock(removePos, size);
+    const Size size = *new Size((Vec2){10, 10});
+    RemovableBlockModel* removed = BlockFactory::getRemovableBlock(removePos, size, _scale);
     addObstacle(removed, REMOVABLE_DRAW_LAYER);
     
 #pragma mark : Goal door
@@ -418,7 +418,7 @@ PolygonObstacle* wallobj;
 #pragma mark : Walls polygon 3
     Poly2 wall3(WALL3,8);
     wall3.triangulate();
-    wallobj = BlockFactory::getNonRemovableBlock(wall3, _scale, REMOVABLE_TEXTURE);
+    wallobj = BlockFactory::getNonRemovableBlock(wall3, _scale, EARTH_TEXTURE);
     wallobj->setName("wall3");
     addObstacle(wallobj, NONREMOVABLE_DRAW_LAYER);
     
@@ -426,7 +426,7 @@ PolygonObstacle* wallobj;
 #pragma mark : Wall polygon 4
     Poly2 wall4(WALL4,12);
     wall4.triangulate();
-    wallobj = BlockFactory::getNonRemovableBlock(wall4, _scale, REMOVABLE_TEXTURE);
+    wallobj = BlockFactory::getNonRemovableBlock(wall4, _scale, EARTH_TEXTURE);
     wallobj->setName("wall4");
     addObstacle(wallobj, NONREMOVABLE_DRAW_LAYER);
     
@@ -448,16 +448,16 @@ PolygonObstacle* wallobj;
 
 #pragma mark : Barrier
     Vec2 barrierPos = ((Vec2)BARRIER_POS);
-//    _barrier = BlockFactory::getRemovableBlock(barrierPos, size, BARRIER_TEXTURE);
-//    _barrier->setSensor(true);
-    // seems useless for barrier
-    _barrier = BlockFactory::getRemovableBlock(barrierPos, size);
+    _barrier = BlockFactory::getRemovableBlock(barrierPos, size, _scale);
     addObstacle(_barrier, BARRIER_DRAW_LAYER);
     
-    
-    Vec2 barrierPos2 = Vec2(36, 22);
-    _barrier1 = BlockFactory::getRemovableBlock(barrierPos2, size);
+    Vec2 barrierPos2 = Vec2(36, 10);
+    _barrier1 = BlockFactory::getRemovableBlock(barrierPos2, size, _scale);
     addObstacle(_barrier1, BARRIER_DRAW_LAYER);
+    
+    Vec2 barrierPos3 = Vec2(36, 7);
+    _barrier2 = BlockFactory::getRemovableBlock(barrierPos3, size, _scale);
+    addObstacle(_barrier2, BARRIER_DRAW_LAYER);
 }
 
 /**
@@ -562,11 +562,11 @@ void GameController::update(float dt) {
             _panel->setSpell(0);
 //            BoxObstacle* obstacle = (BoxObstacle*)_selector->getObstacle();
             if (_selector->getObstacle()->getName() == "removable"){
-                _selector->deselect();
                 //_theWorld->removeObstacle(&obstacle);
                 RemovableBlockModel* rmb = (RemovableBlockModel*) _selector->getObstacle();
-                rmb->destroy(_theWorld->getWorldNode(), _theWorld->getDebugNode());
-                
+                rmb->destroy(_theWorld->getWorldNode(), _theWorld->getDebugNode(), _theWorld->getWorld());
+                _selector->deselect();
+
             }
         }
     } else if (_input.didSelect()) {
@@ -639,26 +639,26 @@ void GameController::beginContact(b2Contact* contact) {
     Obstacle* bd1 = (Obstacle*)body1->GetUserData();
     Obstacle* bd2 = (Obstacle*)body2->GetUserData();
 
-    // If the avatar hits the barrier, game over
-    if((body1->GetUserData() == _avatar && body2->GetUserData() == _barrier) ||
-            (body1->GetUserData() == _barrier && body2->GetUserData() == _avatar)) {
-        setFail(true);
-        // show time using
-//        double time = _overview->getCurrentPlayTime();
-//        _theWorld->showTime(time);
-        _reset = true;
-    }
-    
-    // If the avatar hits the barrier, game over
-    if((body1->GetUserData() == _avatar && body2->GetUserData() == _barrier1) ||
-       (body1->GetUserData() == _barrier1 && body2->GetUserData() == _avatar)) {
-        setFail(true);
-        // show time using
-        //        double time = _overview->getCurrentPlayTime();
-        //        _theWorld->showTime(time);
-        _reset = true;
-    }
-    
+//    // If the avatar hits the barrier, game over
+//    if((body1->GetUserData() == _avatar && body2->GetUserData() == _barrier) ||
+//            (body1->GetUserData() == _barrier && body2->GetUserData() == _avatar)) {
+//        setFail(true);
+//        // show time using
+////        double time = _overview->getCurrentPlayTime();
+////        _theWorld->showTime(time);
+//        _reset = true;
+//    }
+//    
+//    // If the avatar hits the barrier, game over
+//    if((body1->GetUserData() == _avatar && body2->GetUserData() == _barrier1) ||
+//       (body1->GetUserData() == _barrier1 && body2->GetUserData() == _avatar)) {
+//        setFail(true);
+//        // show time using
+//        //        double time = _overview->getCurrentPlayTime();
+//        //        _theWorld->showTime(time);
+//        _reset = true;
+//    }
+//    
     
     // If we hit the "win" door, we are done
     if((body1->GetUserData() == _avatar && body2->GetUserData() == _goalDoor) ||
