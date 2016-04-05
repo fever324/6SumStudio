@@ -4,7 +4,6 @@
  * Created by sb2345 on 3/13/2016.
  */
 
-#include "ToyaBlockModel.h"
 #include "ToyaExitDoorModel.h"
 #include <cornell/CUAssetManager.h>
 #include <cornell/CUSceneManager.h>

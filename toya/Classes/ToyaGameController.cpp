@@ -167,7 +167,7 @@ _rootnode(nullptr),
 _goalDoor(nullptr),
 _avatar(nullptr),
 _active(false),
-_level(nullptr),
+//_level(nullptr),
 _complete(false),
 _selector(nullptr),
 _debug(false),
@@ -375,7 +375,8 @@ void GameController::populate() {
     
     Vec2 removePos = ((Vec2) REMOVE_POS);
     
-    BoxObstacle* removed = BlockFactory::getRemovableBlock(removePos, _scale, REMOVABLE_TEXTURE);
+    const Size size = *new Size((Vec2){1, 1});
+    RemovableBlockModel* removed = BlockFactory::getRemovableBlock(removePos, size);
     addObstacle(removed, REMOVABLE_DRAW_LAYER);
     
 #pragma mark : Goal door
@@ -447,15 +448,15 @@ PolygonObstacle* wallobj;
 
 #pragma mark : Barrier
     Vec2 barrierPos = ((Vec2)BARRIER_POS);
-    _barrier = BlockFactory::getRemovableBlock(barrierPos, _scale, BARRIER_TEXTURE);
+//    _barrier = BlockFactory::getRemovableBlock(barrierPos, size, BARRIER_TEXTURE);
 //    _barrier->setSensor(true);
     // seems useless for barrier
-    
+    _barrier = BlockFactory::getRemovableBlock(barrierPos, size);
     addObstacle(_barrier, BARRIER_DRAW_LAYER);
     
     
     Vec2 barrierPos2 = Vec2(36, 22);
-    _barrier1 = BlockFactory::getRemovableBlock(barrierPos2, _scale, BARRIER_TEXTURE);
+    _barrier1 = BlockFactory::getRemovableBlock(barrierPos2, size);
     addObstacle(_barrier1, BARRIER_DRAW_LAYER);
 }
 
@@ -559,10 +560,13 @@ void GameController::update(float dt) {
     if (_input.didSelect() && _selector->isSelected()) {
         if(_panel->getSpell() == DESTRUCTION_SPELL_SELECTED) {
             _panel->setSpell(0);
-            BlockModel* obstacle = (BlockModel*)_selector->getObstacle();
-            if (obstacle->getName() == "removable"){
+//            BoxObstacle* obstacle = (BoxObstacle*)_selector->getObstacle();
+            if (_selector->getObstacle()->getName() == "removable"){
                 _selector->deselect();
-                _theWorld->removeObstacle(&obstacle);
+                //_theWorld->removeObstacle(&obstacle);
+                RemovableBlockModel* rmb = (RemovableBlockModel*) _selector->getObstacle();
+                rmb->destroy(_theWorld->getWorldNode(), _theWorld->getDebugNode());
+                
             }
         }
     } else if (_input.didSelect()) {
@@ -819,5 +823,5 @@ void GameController::preload() {
     reader.endJSON();
     
     // Finally, load the level
-    _assets->loadAsync<LevelModel>(LEVEL_ONE_KEY,LEVEL_ONE_FILE);
+//    _assets->loadAsync<LevelModel>(LEVEL_ONE_KEY,LEVEL_ONE_FILE);
 }

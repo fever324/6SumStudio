@@ -15,13 +15,12 @@
 #include <Box2D/Dynamics/b2WorldCallbacks.h>
 #include "ToyaInputController.h"
 #include "ToyaWorldModel.h"
-#include "ToyaBlockModel.h"
 #include "ToyaAvatarModel.h"
 #include "ToyaOverviewModel.h"
 #include "ToyaPanelModel.h"
 #include "ToyaExitDoorModel.h"
 
-class LevelModel;
+//class LevelModel;
 
 using namespace cocos2d;
 using namespace std;
@@ -52,7 +51,7 @@ protected:
     RootLayer* _rootnode;
     
     /** reference to the level model */
-    LevelModel* _level;
+//    LevelModel* _level;
     
     
     /** The world scale (computed from root node) */
@@ -62,7 +61,7 @@ protected:
     /** Reference to the goalDoor (for collision detection) */
     ExitDoorModel* _goalDoor;
 
-    BlockModel* _door;
+//    BlockModel* _door;
 
     BoxObstacle* _barrier;
     BoxObstacle* _barrier1;

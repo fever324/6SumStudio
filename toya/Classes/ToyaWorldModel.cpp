@@ -220,20 +220,20 @@ void WorldModel::addObstacle(Obstacle* obj, int zOrder){
         _debugnode->addChild(obj->getDebugNode(),zOrder);
     }
 }
-
-void WorldModel::removeObstacle(BlockModel** objPtr){
-    Obstacle* obj = *objPtr;
-    if (obj->getSceneNode() != nullptr) {
-        _worldnode->removeChild(obj->getSceneNode());
-    }
-    if (obj->getDebugNode() != nullptr) {
-         _debugnode->removeChild(obj->getSceneNode());
-    }
-    _world->removeObstacle(obj);
-//    obj->reset();
-//    delete obj;
-    *objPtr = nullptr;
-}
+//
+//void WorldModel::removeObstacle(BlockModel** objPtr){
+//    Obstacle* obj = *objPtr;
+//    if (obj->getSceneNode() != nullptr) {
+//        _worldnode->removeChild(obj->getSceneNode());
+//    }
+//    if (obj->getDebugNode() != nullptr) {
+//         _debugnode->removeChild(obj->getDebugNode());
+//    }
+//    _world->removeObstacle(obj);
+////    obj->reset();
+////    delete obj;
+//    *objPtr = nullptr;
+//}
 
 void WorldModel::setDebug(bool value){
     _debugnode->setVisible(value);

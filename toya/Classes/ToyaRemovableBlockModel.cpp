@@ -1,6 +1,4 @@
-//
 //  ToyaRemovableBlockModel.cpp
-//  Can be cleared if we determine to use block factory
 //  Toya
 //  Created by 6Sum Studio on 2/27/16.
 //
@@ -9,7 +7,7 @@
 #include <cornell/CUAssetManager.h>
 #include <cornell/CUSceneManager.h>
 
-#define CONSTRUCT_FRAMES 5
+#define DESTROY_STATE 1
 
 using namespace cocos2d;
 
@@ -34,110 +32,38 @@ using namespace cocos2d;
  * @return  An autoreleased physics object
  */
 
-static RemovableBlockModel* create(const Vec2& pos, const Vec2& scale, const std::string& texture, const int& state) {
-    
-//    RemovableBlockModel* bm = new (std::nothrow) RemovableBlockModel(const Vec2& pos, const Vec2& scale, const String& texture);
-//    
-//    if (bm && bm->init()) {
-//        bm->autorelease();
-//        
-//        bm._state = state;
-//        bm._frameCount = 0;
-//        
-//        return bm;
-//    }
-//    CC_SAFE_DELETE(rocket);
+RemovableBlockModel* RemovableBlockModel::create(int stateCount, int rowCount, int columnCount, std::string textureKey, const Vec2& pos, const Size& size) {
+    RemovableBlockModel* removableBlock = new (std::nothrow) RemovableBlockModel();
+    if (removableBlock && removableBlock->init(stateCount, rowCount, columnCount, textureKey, pos, size)) {
+        removableBlock->autorelease();
+        return removableBlock;
+    }
+    CC_SAFE_DELETE(removableBlock);
     return nullptr;
 }
 
-/**
- * Destroys this block, releasing all resources.
- */
-RemovableBlockModel::~RemovableBlockModel(void) {
-    // We do not own any of these, so we can just set to null
-    _animationNode = nullptr;
+bool RemovableBlockModel::init(int stateCount, int rowCount, int columnCount, std::string textureKey, const Vec2& pos, const Size& size) {
+    AnimationBoxModel::init(stateCount, rowCount, columnCount, textureKey, pos, size);
+    this->setName(REMOVABLE_OBJECT_NAME);
+    return true;
 }
 
-#pragma mark -
-#pragma mark Static Constructor
+void RemovableBlockModel::destroy(Node* parent, Node* parentDebugNode) {
+    _currState = DESTROY_STATE;
+    _parent = parent;
+    _parentDebugNode = parentDebugNode;
+}
 
-
-#pragma mark -
-#pragma mark Animation
-/**
- * Performs any necessary additions to the scene graph node.
- *
- * This method is necessary for custom physics objects that are composed
- * of multiple scene graph nodes.  In this case, it is because we
- * manage our own afterburner animations.
- */
-void RemovableBlockModel::resetSceneNode() {
-    // We need to know the content scale for resolution independence
-    // If the device is higher resolution than 1024x576, Cocos2d will scale it
-    // This was set as the design resolution in AppDelegate
-    // To convert from design resolution to real, divide positions by cscale
-    float cscale = Director::getInstance()->getContentScaleFactor();
-    
-    PolygonNode* pnode = dynamic_cast<PolygonNode*>(_node);
-    if (pnode != nullptr) {
-        SceneManager* assets =  AssetManager::getInstance()->getCurrent();
-        
-        Rect bounds;
-        bounds.size = getDimension();
-        bounds.size.width  *= _drawScale.x/cscale;
-        bounds.size.height *= _drawScale.y/cscale;
-        
-        Texture2D* image = assets->get<Texture2D>(_texture);
-        
-        pnode->setTexture(image); //Main object does not contain a image
-        pnode->setPolygon(bounds);
-        //
-        //
-        //        image  = assets->get<Texture2D>(_texture);
-        //        _animationNode = AnimationNode::create(image, 1, CONSTRUCT_FRAMES, CONSTRUCT_FRAMES);
-        //        _animationNode->setScale(cscale);
-        //
-        //        pnode->addChild(_mainBurner);   // TRANSFER OWNERSHIP
-        //        _animationNode->setPosition(_animationNode);
+void RemovableBlockModel::update(float dt) {
+    AnimationBoxModel::update(dt);
+    if(_frameCount == _columnCount * FRAME_PER_STEP && _currState == DESTROY_STATE) {
+        _parent->removeChild(this->getSceneNode());
+        _parentDebugNode->removeChild(this->getDebugNode());
+        delete[] this;
     }
 }
 
-
-
-/**
- *   Function to destroy this block
- *   Will update the status code to STATE_DESTROYING and change frameCount = 0
- */
-void destroy() {
-    //_state = STATE_DESTROYING;
-    //_frameCount = 0;
-}
-/**
- *   Update block for controller access
- *   If state = STATE_DESTROYING and frameCount == MAX_FRAME_COUNT, ready for garabage collection
- */
-void update() {
-    //animateBlock();
-}
-/**
- *   Function that updates the block's animation node frame based on block state and frame count
- */
-void animateBlock() {
-    //    if(_state == STATE_STABLE) {
-    //        return;
-    //    }
-    //
-    //    if(_state == STATE_GROWING) {
-    //        _node.image = "";
-    //        frameCount++;
-    //    }
-    //
-    //    if(_state == STATE_DESTROYING) {
-    //        frameCount--;
-    //    }
-    //
-    //    AnimationNode* node = _animationNode;
-    //    node->setFrame(frameCount);
-    //
-    //
+RemovableBlockModel::~RemovableBlockModel() {
+    delete[] _parent;
+    delete[] _parentDebugNode;
 }

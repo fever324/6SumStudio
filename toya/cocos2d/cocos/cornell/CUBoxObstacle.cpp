@@ -1,3 +1,4 @@
+
 //
 //  CUBoxObstacle.cpp
 //  Cornell Extensions to Cocos2D

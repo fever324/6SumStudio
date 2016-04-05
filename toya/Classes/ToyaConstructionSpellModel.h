@@ -9,7 +9,7 @@ private:
     int _cost = 3;
 public:
     ConstructionSpellModel() : SpellModel() {}
-    void cast(BlockModel* block) override {}
+    void cast(AnimationBoxModel* block) override {}
     int getCost() override { return _cost; }
 };
 
