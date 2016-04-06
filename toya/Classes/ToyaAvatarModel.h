@@ -59,7 +59,7 @@ protected:
     /** Avatar body animation node */
     AnimationNode* _avatarBody;
     /** Animation phase cycle */
-    bool _cycle;
+    int _cycle;
     /** Update cycle per animation */
     int _animationFrameCount;
     /** The current horizontal movement of the character */

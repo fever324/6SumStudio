@@ -46,10 +46,7 @@ bool RemovableBlockModel::init(int stateCount, int rowCount, int columnCount, st
     AnimationBoxModel::init(stateCount, rowCount, columnCount, textureKey, pos, size, scale);
     this->setName(REMOVABLE_OBJECT_NAME);
     this->setBodyType(b2_staticBody);
-    //        obj->setBodyType(b2_staticBody);
-    //        obj->setDensity(BASIC_DENSITY);
-    //        obj->setFriction(BASIC_FRICTION);
-    //        obj->setRestitution(BASIC_RESTITUTION);
+    
     return true;
 }
 
@@ -59,6 +56,8 @@ void RemovableBlockModel::destroy(Node* parent, Node* parentDebugNode, WorldCont
     _parentDebugNode = parentDebugNode;
     _frameCount = 0;
     _world = world;
+    
+    this->getBody()->SetActive(false);
 }
 
 void RemovableBlockModel::update(float dt) {

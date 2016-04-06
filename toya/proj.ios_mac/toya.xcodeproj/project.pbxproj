@@ -140,6 +140,8 @@
 		FB99AE081C962A850074BBE9 /* ToyaRemovableBlockModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB99ADFC1C962A5B0074BBE9 /* ToyaRemovableBlockModel.cpp */; };
 		FB99AE091C962A850074BBE9 /* ToyaRemovableBlockModel.h in Sources */ = {isa = PBXBuildFile; fileRef = FB99ADFD1C962A5B0074BBE9 /* ToyaRemovableBlockModel.h */; };
 		FB99AE0A1C962A850074BBE9 /* ToyaSpellModel.h in Sources */ = {isa = PBXBuildFile; fileRef = FB99ADFE1C962A5B0074BBE9 /* ToyaSpellModel.h */; };
+		FBFF504D1CB48D5400D3B4CC /* maps in Resources */ = {isa = PBXBuildFile; fileRef = FBFF504C1CB48D5400D3B4CC /* maps */; };
+		FBFF504E1CB48D5400D3B4CC /* maps in Resources */ = {isa = PBXBuildFile; fileRef = FBFF504C1CB48D5400D3B4CC /* maps */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -271,6 +273,7 @@
 		FB99ADFC1C962A5B0074BBE9 /* ToyaRemovableBlockModel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ToyaRemovableBlockModel.cpp; sourceTree = "<group>"; };
 		FB99ADFD1C962A5B0074BBE9 /* ToyaRemovableBlockModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToyaRemovableBlockModel.h; sourceTree = "<group>"; };
 		FB99ADFE1C962A5B0074BBE9 /* ToyaSpellModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToyaSpellModel.h; sourceTree = "<group>"; };
+		FBFF504C1CB48D5400D3B4CC /* maps */ = {isa = PBXFileReference; lastKnownFileType = folder; path = maps; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -394,6 +397,7 @@
 		46880B7519C43A67006E1F66 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				FBFF504C1CB48D5400D3B4CC /* maps */,
 				2B47DAD91C964191003B2491 /* jsons */,
 				EB24EB8F1C5B0EAB0069DBBE /* textures */,
 				521A8EA819F11F5000D177D7 /* fonts */,
@@ -407,8 +411,12 @@
 			children = (
 				46880B8419C43A87006E1F66 /* AppDelegate.cpp */,
 				46880B8519C43A87006E1F66 /* AppDelegate.h */,
+				EBCF3C3E1CB355E4003DCF67 /* Constants.h */,
+				EBCF3C381CB3347B003DCF67 /* ToyaAnimationBoxModel.cpp */,
+				EBCF3C371CB3327C003DCF67 /* ToyaAnimationBoxModel.h */,
 				FB21ACDD1C82B52200613B39 /* ToyaAvatarModel.cpp */,
 				FB21ACDE1C82B52200613B39 /* ToyaAvatarModel.h */,
+				EBCF3C3F1CB35F27003DCF67 /* ToyaBlockFactory.cpp */,
 				2BBB8B901C9E020100E935DB /* ToyaBlockFactory.h */,
 				D6692C021C987CB900DD9B2F /* ToyaConstructionSpellModel.h */,
 				D6692C031C987CB900DD9B2F /* ToyaDestructionSpellModel.h */,
@@ -440,10 +448,6 @@
 				FB99ADFE1C962A5B0074BBE9 /* ToyaSpellModel.h */,
 				FB54E8D01C95C8D6003A51B9 /* ToyaWorldModel.cpp */,
 				FB54E8D11C95C8D6003A51B9 /* ToyaWorldModel.h */,
-				EBCF3C371CB3327C003DCF67 /* ToyaAnimationBoxModel.h */,
-				EBCF3C381CB3347B003DCF67 /* ToyaAnimationBoxModel.cpp */,
-				EBCF3C3E1CB355E4003DCF67 /* Constants.h */,
-				EBCF3C3F1CB35F27003DCF67 /* ToyaBlockFactory.cpp */,
 			);
 			name = Classes;
 			path = ../Classes;
@@ -636,6 +640,7 @@
 				5087E78217EB970100C73F5D /* Icon-144.png in Resources */,
 				50EF629817ECD46A001EB2F8 /* Icon-80.png in Resources */,
 				5087E78417EB970100C73F5D /* Icon-57.png in Resources */,
+				FBFF504D1CB48D5400D3B4CC /* maps in Resources */,
 				5087E77E17EB970100C73F5D /* Default.png in Resources */,
 				EB24EB901C5B0EAB0069DBBE /* textures in Resources */,
 				521A8E6419F0C34300D177D7 /* Default-667h@2x.png in Resources */,
@@ -650,6 +655,7 @@
 				2B8310371C99236700CDC935 /* jsons in Resources */,
 				EB24EB911C5B10C60069DBBE /* textures in Resources */,
 				503AE0F817EB97AB00D1A890 /* Icon.icns in Resources */,
+				FBFF504E1CB48D5400D3B4CC /* maps in Resources */,
 				521A8EAA19F11F5000D177D7 /* fonts in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

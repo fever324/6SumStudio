@@ -325,20 +325,16 @@ void AvatarModel::applyForce() {
  */
 void AvatarModel::animateAvatar() {
     if(_avatarBody->getFrame() == 0) {
-        _cycle = true;
+        _cycle = 1;
     } else if (_avatarBody->getFrame() == AVATAR_ANIMATION_COLS-1) {
-        _cycle = false;
+        _cycle = -1;
     }
     
     int base = isFacingRight() ? 0 : 3;
-    if(_cycle) {
-        if(++_animationFrameCount % AVATAR_CYCLE_PER_FRAME == 0) {
-            _avatarBody->setFrame(base + (_avatarBody->getFrame()+1)%AVATAR_ANIMATION_COLS);
-            _animationFrameCount = 0;
-        }
-    } else {
-        if(++_animationFrameCount % AVATAR_CYCLE_PER_FRAME == 0) {
-            _avatarBody->setFrame(base + (_avatarBody->getFrame()-1)%AVATAR_ANIMATION_COLS);
+    if(_animationFrameCount++ % AVATAR_CYCLE_PER_FRAME == 0) {
+        _avatarBody->setFrame(base + (_avatarBody->getFrame()+_cycle)%AVATAR_ANIMATION_COLS);
+        
+        if(_animationFrameCount == AVATAR_CYCLE_PER_FRAME * AVATAR_ANIMATION_COLS ) {
             _animationFrameCount = 0;
         }
     }

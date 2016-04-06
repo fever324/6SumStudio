@@ -14,6 +14,7 @@
 #include "ToyaLevelModel.h"
 #include "ToyaPanelModel.h"
 #include "ToyaBlockFactory.h"
+// #include "ToyaMapEditor.h"
 
 #include <string>
 #include <iostream>
@@ -370,12 +371,16 @@ void GameController::populate() {
     // THIS DOES NOT FIX ASPECT RATIO PROBLEMS
     // If you are using a device with a 3:2 aspect ratio, you will need to
     // completely redo the level layout.  We can help if this is an issue.
+    auto map = new TMXTiledMap();
+    map->initWithTMXFile("maps/test4.tmx");
     
-// Remove
+    const Size size = *new Size((Vec2){1, 1});
+
+    createRemovableBlock(map, "removables", REMOVABLE_DRAW_LAYER, size, _scale);
     
     Vec2 removePos = ((Vec2) REMOVE_POS);
     
-    const Size size = *new Size((Vec2){10, 10});
+//    const Size size = *new Size((Vec2){10, 10});
     RemovableBlockModel* removed = BlockFactory::getRemovableBlock(removePos, size, _scale);
     addObstacle(removed, REMOVABLE_DRAW_LAYER);
     
@@ -473,6 +478,28 @@ PolygonObstacle* wallobj;
 void GameController::addObstacle(Obstacle* obj, int zOrder) {
     _theWorld->addObstacle(obj, zOrder);
 }
+
+//add map
+void GameController::createRemovableBlock(const TMXTiledMap* map, const std::string& layerName,
+                                 const int& texture, const Size& size, const Vec2& _scale) {
+
+    auto layer = map->getLayer(layerName);
+    if (layer != nullptr) {
+        Size layerSize = layer->getLayerSize();
+        for (int y = 0; y < layerSize.height; y++) {
+            for (int x = 0; x < layerSize.width; x++) {
+                // create a fixture if this tile has a sprite
+                auto tileSprite = layer->getTileAt(Point(x, y));
+                if (tileSprite) {
+                    RemovableBlockModel* removed = BlockFactory::getRemovableBlock(Vec2(x,layerSize.height-y), size, _scale);
+                    GameController::addObstacle(removed, texture);
+                }
+            }
+        }
+    }
+
+}
+
 
 
 #pragma mark -

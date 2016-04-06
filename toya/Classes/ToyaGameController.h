@@ -20,6 +20,19 @@
 #include "ToyaPanelModel.h"
 #include "ToyaExitDoorModel.h"
 
+#include <Box2D/Dynamics/Contacts/b2Contact.h>
+#include <Box2D/Collision/b2Collision.h>
+#include "ToyaLevelModel.h"
+#include "ToyaBlockFactory.h"
+// #include "ToyaMapEditor.h"
+
+// #include <string>
+// #include <iostream>
+// #include <sstream>
+
+// This is not part of cornell.h and SHOULD come last
+#include <cornell/CUGenericLoader.h>
+
 //class LevelModel;
 
 using namespace cocos2d;
@@ -46,6 +59,7 @@ protected:
     InputController _input;
     
     WorldModel* _theWorld;
+    TMXTiledMap* map;
     
     /** Reference to the root node of the scene graph */
     RootLayer* _rootnode;
@@ -301,6 +315,11 @@ public:
      * @param  contact  The collision manifold before contact
      */
     void beforeSolve(b2Contact* contact, const b2Manifold* oldManifold);
+    
+
+// add map
+    void createRemovableBlock(const TMXTiledMap* map, const std::string& mapname,
+                                     const int& texture, const Size& size, const Vec2& _scale);
 };
 
 #endif /* defined(__TOYA_GAME_CONTROLLER_H__) */
