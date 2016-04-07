@@ -39,6 +39,7 @@ protected:
     TMXTiledMap*    map;
     Size            tileSize;
     float           cscale;
+    Size            mapSize;
     
 public:
     MapReader(GameController* gameController);
