@@ -100,6 +100,16 @@ AvatarModel* AvatarModel::create(const Vec2& pos, const Vec2& scale) {
     return nullptr;
 }
 
+AvatarModel* AvatarModel::create(const Vec2& pos, const Vec2& scale, const std::string& texture) {
+    AvatarModel* avatar = new (std::nothrow) AvatarModel();
+    if (avatar && avatar->init(pos,scale,texture)) {
+        avatar->autorelease();
+        return avatar;
+    }
+    CC_SAFE_DELETE(avatar);
+    return nullptr;
+}
+
 
 #pragma mark -
 #pragma mark Initializers
@@ -123,7 +133,7 @@ bool AvatarModel::init(const Vec2& pos, const Vec2& scale) {
     float cscale = Director::getInstance()->getContentScaleFactor();
     SceneManager* scene = AssetManager::getInstance()->getCurrent();
     
-    Texture2D* image = scene->get<Texture2D>("bear");
+    Texture2D* image = scene->get<Texture2D>(_avatarTexture);
     
     // Multiply by the scaling factor so we can be resolution independent
     Size avatarSize = Size(image->getContentSize().width*cscale*AVATAR_SHRINK/scale.x,image->getContentSize().height*cscale*AVATAR_SHRINK/scale.y);

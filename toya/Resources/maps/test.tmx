@@ -1,20 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="10" height="10" tilewidth="64" tileheight="64" nextobjectid="1">
+<map version="1.0" orientation="orthogonal" renderorder="left-up" width="64" height="36" tilewidth="64" tileheight="64" nextobjectid="49">
  <tileset firstgid="1" name="texture" tilewidth="64" tileheight="64" tilecount="1" columns="1">
   <image source="../textures/texture.png" width="64" height="64"/>
  </tileset>
- <layer name="layer1" width="10" height="10">
-  <data encoding="csv">
-1,1,0,0,0,0,0,0,0,1,
-1,1,1,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,
-1,0,0,0,0,0,0,0,0,1
-</data>
+ <tileset firstgid="2" name="earthtile" tilewidth="64" tileheight="64" tilecount="1" columns="1">
+  <image source="../textures/earthtile.png" width="64" height="64"/>
+ </tileset>
+ <tileset firstgid="3" name="door" tilewidth="64" tileheight="64" tilecount="10" columns="2">
+  <image source="../textures/door.png" width="191" height="380"/>
+ </tileset>
+ <tileset firstgid="13" name="bear" tilewidth="64" tileheight="64" tilecount="6" columns="2">
+  <image source="../textures/bear.png" width="185" height="249"/>
+ </tileset>
+ <layer name="nonremovables" width="64" height="36">
+  <properties>
+   <property name="texture" value=""/>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eJztmNsKACEIRKP//+h9D7a8jGY1A8FCph1jy+qttf54QyrK7yxOJf6TRH7yk/9dkZ/82fyVzmyUrx21BsJnpbXwyDqXKvNHyMJxE79F5Cf/zfyrfTGTf0eeVzGz+LVxEGesZEzWOw1ijCWHEpsI/sh1k/rU8qNqQW8+d/FXEfl9/Ro7xP0JKTSbxKYKf8TeLrHZye+5t3r6x/hWWcdGxrXUWZ55aNYQtd/O6nmtH/Q/nPFONPry1FrVzj+J+s+3xc+p/Kha80R+lMhP/tfbB3JsAtc=
+  </data>
  </layer>
+ <layer name="removables" width="64" height="36">
+  <data encoding="base64" compression="zlib">
+   eJzt1TEKACEMBMDk/5+2PSTotSYzICpWuyJmRGSc3c5flp9BTTe1Kb1MyUnN/dem9NI5559snfMDwE1u876u9gBAL/56mMv7B4A3LUpWABU=
+  </data>
+ </layer>
+ <layer name="rootLayer" width="64" height="36">
+  <properties>
+   <property name="backgroundImage" value="background"/>
+   <property name="gravity" type="int" value="9"/>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eJztzjEBAAAIA6DZv7QhdngICUh+m+sAAAAAAAAAAAAUFkcAAAI=
+  </data>
+ </layer>
+ <objectgroup name="GoalDoor">
+  <object id="5" name="Door" gid="12" x="383.4" y="354.591" width="125.144" height="254.51"/>
+ </objectgroup>
+ <objectgroup name="Avatar">
+  <object id="15" name="Avatar" gid="18" x="359.986" y="484.962" width="64" height="64">
+   <properties>
+    <property name="texture" value="bear"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup name="nonremovables">
+  <object id="46" x="1960.7" y="806.386" width="241.506" height="323.373">
+   <ellipse/>
+  </object>
+ </objectgroup>
 </map>

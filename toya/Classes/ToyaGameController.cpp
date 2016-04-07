@@ -236,13 +236,8 @@ bool GameController::init(RootLayer* root, const Rect& rect) {
  * @return  true if the controller is initialized properly, false otherwise.
  */
 bool GameController::init(RootLayer* root, const Rect& rect, const Vec2& gravity) {
-//    root->setColor(WORLD_COLOR);
    
-    // set background image
-    Texture2D* image = _assets->get<Texture2D>(BACKGROUND_TEXTURE);
-    Sprite* bg = Sprite::createWithTexture(image,Rect(0,0,1024,576));
-    bg->setAnchorPoint(Vec2(0,0));
-    root->addChild(bg);
+
     
     Vec2 inputscale = Vec2(root->getScaleX(),root->getScaleY());
     _input.init();
@@ -371,30 +366,61 @@ void GameController::populate() {
     // THIS DOES NOT FIX ASPECT RATIO PROBLEMS
     // If you are using a device with a 3:2 aspect ratio, you will need to
     // completely redo the level layout.  We can help if this is an issue.
+    
+    WireNode* draw = WireNode::create();
+    
     auto map = new TMXTiledMap();
-    map->initWithTMXFile("maps/test4.tmx");
+    map->initWithTMXFile("maps/test.tmx");
+
+    Size tileSize = map->getTileSize();
     
     const Size size = *new Size((Vec2){1, 1});
+    
+    // Add background
+    TMXLayer* rootLayer = map->getLayer("rootLayer");
+    Size rootSize = rootLayer->getLayerSize();
+    Texture2D* image = _assets->get<Texture2D>(rootLayer->getProperty("backgroundImage").asString());
+    Sprite* bg = Sprite::createWithTexture(image,Rect(0,0,1024,576));
+    bg->setAnchorPoint(Vec2(0,0));
+    _rootnode->addChild(bg);
+    
+    
+    // Add removables
+    createBlocks(map, "removables", REMOVABLE_DRAW_LAYER, size, _scale);
+    
+    // Add nonremovables
+    //createBlocks(map, "nonremovables", NONREMOVABLE_DRAW_LAYER, size, _scale);
 
-    createRemovableBlock(map, "removables", REMOVABLE_DRAW_LAYER, size, _scale);
     
-    Vec2 removePos = ((Vec2) REMOVE_POS);
     
-//    const Size size = *new Size((Vec2){10, 10});
-    RemovableBlockModel* removed = BlockFactory::getRemovableBlock(removePos, size, _scale);
-    addObstacle(removed, REMOVABLE_DRAW_LAYER);
+    // Add exit door
+    TMXObjectGroup* goalDoorGroup = map->getObjectGroup("GoalDoor");
+    ValueMap door = goalDoorGroup->getObject("Door");
+    float goal_x = door.at("x").asFloat();
+    float goal_y = door.at("y").asFloat();
+    Vec2 goalPos = (Vec2){goal_x/tileSize.width, goal_y/tileSize.height};
+    image = _assets->get<Texture2D>(GOAL_TEXTURE);
     
-#pragma mark : Goal door
-    
-    // Create obstacle
-    Vec2 goalPos = ((Vec2)GOAL_POS);
-    Texture2D* image = _assets->get<Texture2D>(GOAL_TEXTURE);
     Size goalSize = Size(image->getContentSize().width/_scale.x, image->getContentSize().height/_scale.y);
     _goalDoor = ExitDoorModel::create(goalPos, goalSize/8);
     _goalDoor->setDrawScale(_scale.x, _scale.y);
-
+    draw->setColor(Color3B::YELLOW);
+    draw->setOpacity(193);
+    _goalDoor->setDebugNode(draw);
     addObstacle(_goalDoor, GOAL_DRAW_LAYER); // Put this at the very back
-
+    
+    // Add Avatar
+#pragma mark : Avatar
+    TMXObjectGroup* avatarGroup = map->getObjectGroup("Avatar");
+    ValueMap avatar = avatarGroup->getObject("Avatar");
+    string avatar_texture = avatar.at("texture").asString();
+    float avatar_x = avatar.at("x").asFloat();
+    float avatar_y = avatar.at("y").asFloat();
+    Vec2 avatarPos = (Vec2){avatar_x/tileSize.width, avatar_y/tileSize.height};
+    _avatar = AvatarModel::create(avatarPos,_scale, avatar_texture);
+    addObstacle(_avatar, AVATAR_DRAW_LAYER);
+    _theWorld->setFollow(_avatar);
+    _avatar->setName("avatar");
     
 PolygonObstacle* wallobj;
     
@@ -444,25 +470,8 @@ PolygonObstacle* wallobj;
     addObstacle(wallobj, NONREMOVABLE_DRAW_LAYER);
     
 
-#pragma mark : Avatar
-    Vec2 avatarPos = ((Vec2)AVATAR_POS);
-    _avatar = AvatarModel::create(avatarPos,_scale);
-    addObstacle(_avatar, AVATAR_DRAW_LAYER);
-    _theWorld->setFollow(_avatar);
-    _avatar->setName("avatar");
 
-#pragma mark : Barrier
-    Vec2 barrierPos = ((Vec2)BARRIER_POS);
-    _barrier = BlockFactory::getRemovableBlock(barrierPos, size, _scale);
-    addObstacle(_barrier, BARRIER_DRAW_LAYER);
-    
-    Vec2 barrierPos2 = Vec2(36, 10);
-    _barrier1 = BlockFactory::getRemovableBlock(barrierPos2, size, _scale);
-    addObstacle(_barrier1, BARRIER_DRAW_LAYER);
-    
-    Vec2 barrierPos3 = Vec2(36, 7);
-    _barrier2 = BlockFactory::getRemovableBlock(barrierPos3, size, _scale);
-    addObstacle(_barrier2, BARRIER_DRAW_LAYER);
+
 }
 
 /**
@@ -480,7 +489,7 @@ void GameController::addObstacle(Obstacle* obj, int zOrder) {
 }
 
 //add map
-void GameController::createRemovableBlock(const TMXTiledMap* map, const std::string& layerName,
+void GameController::createBlocks(const TMXTiledMap* map, const std::string& layerName,
                                  const int& texture, const Size& size, const Vec2& _scale) {
 
     auto layer = map->getLayer(layerName);
@@ -491,8 +500,14 @@ void GameController::createRemovableBlock(const TMXTiledMap* map, const std::str
                 // create a fixture if this tile has a sprite
                 auto tileSprite = layer->getTileAt(Point(x, y));
                 if (tileSprite) {
-                    RemovableBlockModel* removed = BlockFactory::getRemovableBlock(Vec2(x,layerSize.height-y), size, _scale);
-                    GameController::addObstacle(removed, texture);
+                    Obstacle* obj;
+                    
+                    if(layerName == "removables"){
+                        obj = BlockFactory::getRemovableBlock(Vec2(x,layerSize.height-y), size, _scale);
+                    } else if(layerName == "nonremovables") {
+                        //obj = BlockFactory::getNonRemovableBlock(Vec2(x,layerSize.height-y), size, _scale, "texture");
+                    }
+                    GameController::addObstacle(obj, texture);
                 }
             }
         }
