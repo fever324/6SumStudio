@@ -136,7 +136,8 @@ bool AvatarModel::init(const Vec2& pos, const Vec2& scale) {
     Texture2D* image = scene->get<Texture2D>(_avatarTexture);
     
     // Multiply by the scaling factor so we can be resolution independent
-    Size avatarSize = Size(image->getContentSize().width*cscale*AVATAR_SHRINK/scale.x,image->getContentSize().height*cscale*AVATAR_SHRINK/scale.y);
+//    Size avatarSize = Size(64*cscale*AVATAR_SHRINK/scale.x,80*cscale*AVATAR_SHRINK/scale.y);
+    Size avatarSize = Size(64*cscale/scale.x,80*cscale/scale.y);
     
     if (CapsuleObstacle::init(pos, avatarSize)) {
         _animationFrameCount = 0;
@@ -152,7 +153,7 @@ bool AvatarModel::init(const Vec2& pos, const Vec2& scale) {
         setRemovable(false);
         
         PolygonNode* sprite = PolygonNode::create(Rect(0, 0, avatarSize.width, avatarSize.height));
-        sprite->setScale(AVATAR_SHRINK);
+//        sprite->setScale(AVATAR_SHRINK);
         setSceneNode(sprite);
         
 

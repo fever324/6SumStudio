@@ -17,12 +17,12 @@
    <property name="texture" value="earth"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJztltEOhSAMQwn//9H3nbjajeF2tU2MCmzriYDMMcb8+JWpU3lP6F98npL4xS/+70r84n+av9OZJStXxVkrI2enb7GjqJcu/jMU4XgTf0TiF/9cnpm2sTxbeyLTxuZF3j191jirBmpbY6/uyCOb1xrP+rP0BD+qzea1xqB+1HaVY3f+W3drDnfkZ/J4+JEP8dvvVeufnf/Wmtid/6gW8u7pi4x7q8Qv/o78aN2fiOkk5p92F+Op1Ykf7efeGLZeF37mX+2NYWqKv16sB8/Zjs1XyR+pn+m5mr9a4tf1AxuzA2s=
+   eJztllEOgCAMQ4n3P7T/xNVuDDe1TYwKbOuLgIwxxvHzK1O78u7QW3zukvjFL/7/Svzif5q/05klK1fFWSsjZ6dvsaKoly7+MxTh+BJ/ROIX/zE9M21jerb2RKaNzYu8e/qscVYN1DbHXt2RRzavNZ71Z+kJflSbzWuNQf2o7SrH6vy37tYc7sjP5PHwIx/it9+r1j87/601sTr/US3k3dMXGfdViV/8HfnRut8R00nMP+0uxlOrEz/az70xbL0u/My/2hvD1BR/vVgPnrMdm6+SP1I/03M1f7XEr+sE06QDaQ==
   </data>
  </layer>
  <layer name="removables" width="64" height="36">
   <data encoding="base64" compression="zlib">
-   eJzt0cERACAIA0Hsv2kbQL/iZLcCLlTB3Xp9wFApu6R00vP/XsouKZ0n6f0AAAAAAAD8YwP31AAI
+   eJzt0cERACAIA0Hsv2kbQL/iZLcCclSxXh8wwK2BPr2ULik76fl/L6VLys6T9P0AAAAAAAD8YwM81wAK
   </data>
  </layer>
  <layer name="rootLayer" width="64" height="36">
