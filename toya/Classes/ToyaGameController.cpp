@@ -484,7 +484,7 @@ void GameController::addObstacle(Obstacle* obj, int zOrder) {
 
 //add map
 void GameController::createRemovableBlock(const TMXTiledMap* map, const std::string& layerName,
-                                 const int& texture, const Size& size, const Vec2& _scale) {
+                                 const int& layerLevel, const Size& size, const Vec2& _scale) {
 
     auto layer = map->getLayer(layerName);
     if (layer != nullptr) {
@@ -501,7 +501,7 @@ void GameController::createRemovableBlock(const TMXTiledMap* map, const std::str
 //                    plus = true;
 //                    x ++;
                     RemovableBlockModel* removed = BlockFactory::getRemovableBlock(Vec2(x,layerSize.height-y), size, _scale);
-                    GameController::addObstacle(removed, texture);
+                    GameController::addObstacle(removed, layerLevel);
                 }
             }
             if (plus) {
