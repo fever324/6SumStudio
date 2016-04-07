@@ -43,6 +43,84 @@ void MapReader::createRemovableBlocks() {
     }
 }
 
+
+void MapReader::createNonRemovableBlocks() {
+
+    auto layer = map->getLayer("nonremovables");
+    if (layer != nullptr) {
+        Obstacle* obj;
+        bool makeIt = false;
+        Vec2 start;
+        Vec2 stop;
+        Size layerSize = layer->getLayerSize();
+        Vec2 _scale = gameController->getScale();
+
+        bool onRoad = false;
+        for (int y = 0; y < layerSize.height; y++) {
+            makeIt = false;
+            onRoad = false;
+            for (int x = 0; x < layerSize.width; x++) {
+                
+                auto tileSprite = layer->getTileAt(Point(x, y));
+                
+                // meet the last block and it is not a valid block
+                if (x == layerSize.width-1 && !tileSprite) {
+                    continue;
+                }
+                
+                // meet the last block, end this line and create the block;
+                if (x == layerSize.width-1 && tileSprite) {
+                    // if on road, then create the stop
+                    // else, set the single block
+                    if (!onRoad) {
+                        start.x = x;
+                        start.y = y;
+                    }
+                    stop.x = x+1;
+                    stop.y = y;
+                    makeIt = true;
+                }
+                
+                // make the blocks
+                if (makeIt) {
+                    float wall[8] = {start.x,layerSize.height-start.y,stop.x,layerSize.height-stop.y,stop.x,layerSize.height-stop.y-1, start.x, layerSize.height-start.y-1};
+                    Poly2 wall1(wall,8);
+                    wall1.triangulate();
+                    obj = BlockFactory::getNonRemovableBlock(wall1,_scale, layer->getProperty("texture").asString());
+                    gameController->addObstacle(obj, NONREMOVABLE_DRAW_LAYER);
+                    makeIt = false;
+                }
+                
+                
+                // first time we meet a block
+                if (tileSprite && !onRoad) {
+                    onRoad = true;
+                    start.x = x;
+                    start.y = y;
+                }
+                
+                // if no continuous blocks (only one block)
+                if (!tileSprite && x - start.x == 1) {
+                    stop.x = x;
+                    stop.y = y;
+                    makeIt = true;
+                    onRoad = false;
+                }
+                
+                // last time we meet a continuous block
+                if (!tileSprite && onRoad) {
+                    // find the end point
+                    stop.x = x;
+                    stop.y = y;
+                    makeIt = true;
+                    onRoad = false;
+                }
+            }
+            
+        }
+    }
+}
+
 void MapReader::createBackground() {
     
     TMXLayer* rootLayer = map->getLayer("rootLayer");
@@ -69,7 +147,13 @@ ExitDoorModel* MapReader::createGoalDoor() {
     Size goalSize = Size(image->getContentSize().width/_scale.x, image->getContentSize().height/_scale.y);
     ExitDoorModel* _goalDoor = ExitDoorModel::create(goalPos, goalSize/8);
     _goalDoor->setDrawScale(_scale.x, _scale.y);
-   
+    
+    WireNode* draw = WireNode::create();
+    draw->setColor(Color3B::YELLOW);
+    draw->setOpacity(193);
+    _goalDoor->setDebugNode(draw);
+    
+    
     gameController->addObstacle(_goalDoor, GOAL_DRAW_LAYER);
     return _goalDoor;
 }

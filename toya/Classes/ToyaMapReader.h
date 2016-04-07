@@ -45,6 +45,8 @@ public:
     void loadMap(const std::string& mapFile);
     
     void createRemovableBlocks();
+
+    void createNonRemovableBlocks();
     
     void createBackground();
     
