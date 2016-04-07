@@ -61,20 +61,20 @@ using namespace std;
 /** The default value of gravity (going down) */
 #define DEFAULT_GRAVITY -5.0f
 
-
+//
 float WALL1[] = { -20.0f, 56.0f,  84.0f, 56.0f,   84.0f, 31.0f,
     5.0f, 31.0f, 5.0f, 5.0f,  59.0f, 5.0f,   59.0f, 31.0f,
     84.0f, 31.0f,   84.0f, -20.0f, -20.0f,-20.0f};
-
-float WALL2[] = {5.0f,28.0f,   12.0f,28.0f,  12.0f, 26.0f,  5.0f, 26.0f };
-
-float WALL22[] = {14.0f,28.0f,   27.0f,28.0f,  27.0f, 26.0f,  14.0f, 26.0f};
-
-float WALL3[] = {30.0f,22.0f,  50.0f,22.0f, 50.0f,20.0f,  30.0f,20.0f};
-float WALL5[] = {50.0f, 20.0f,  50.0f, 26.0f,  48.0f,26.0f,  48.0f, 20.0f};
-
-float WALL4[] = {30.0f,12.5f,   20.0f,12.5f,   17.0f,13.5f,   15.0f,13.5f,  19.0f,10.5f,  30.0f,10.5f};
-
+//
+//float WALL2[] = {5.0f,28.0f,   12.0f,28.0f,  12.0f, 26.0f,  5.0f, 26.0f };
+//
+//float WALL22[] = {14.0f,28.0f,   27.0f,28.0f,  27.0f, 26.0f,  14.0f, 26.0f};
+//
+//float WALL3[] = {30.0f,22.0f,  50.0f,22.0f, 50.0f,20.0f,  30.0f,20.0f};
+//float WALL5[] = {50.0f, 20.0f,  50.0f, 26.0f,  48.0f,26.0f,  48.0f, 20.0f};
+//
+//float WALL4[] = {30.0f,12.5f,   20.0f,12.5f,   17.0f,13.5f,   15.0f,13.5f,  19.0f,10.5f,  30.0f,10.5f};
+//
 
 
 //vector<float> tmp(WALL2,WALL2+8);
@@ -236,13 +236,8 @@ bool GameController::init(RootLayer* root, const Rect& rect) {
  * @return  true if the controller is initialized properly, false otherwise.
  */
 bool GameController::init(RootLayer* root, const Rect& rect, const Vec2& gravity) {
-//    root->setColor(WORLD_COLOR);
-   
-    // set background image
-    Texture2D* image = _assets->get<Texture2D>(BACKGROUND_TEXTURE);
-    Sprite* bg = Sprite::createWithTexture(image,Rect(0,0,1024,576));
-    bg->setAnchorPoint(Vec2(0,0));
-    root->addChild(bg);
+    
+    
     
     Vec2 inputscale = Vec2(root->getScaleX(),root->getScaleY());
     _input.init();
@@ -269,7 +264,7 @@ bool GameController::init(RootLayer* root, const Rect& rect, const Vec2& gravity
     root->addChild(winnode,3);
     root->addChild(failnode,3);
     root->addChild(timenode,3);
-
+    
     world->onBeginContact = [this](b2Contact* contact) {
         beginContact(contact);
     };
@@ -283,6 +278,9 @@ bool GameController::init(RootLayer* root, const Rect& rect, const Vec2& gravity
     
     _scale.set(root->getContentSize().width/32.0f,
                root->getContentSize().height/18.0f);
+    
+    CCLOG("%f, %f", _scale.x,_scale.y);
+    
     _rootnode = root;
     
     populate();
@@ -302,7 +300,7 @@ bool GameController::init(RootLayer* root, const Rect& rect, const Vec2& gravity
     
     _panel = PanelModel::create(Vec2(0,root->getContentSize().height));
     root->addChild(_panel, 3);
-
+    
     return true;
 }
 
@@ -345,7 +343,7 @@ void GameController::reset() {
     _input.clear();
     setComplete(false);
     _overview->reset();
-
+    
     setFail(false);
     _reset = false;
     _cooldown = COOL_DOWN;
@@ -365,20 +363,36 @@ void GameController::populate() {
     // If the device is higher resolution than 1024x576, Cocos2d will scale it
     // This was set as the design resolution in AppDelegate
     // To convert from design resolution to real, divide positions by cscale
-//    float cscale = Director::getInstance()->getContentScaleFactor();
+    //    float cscale = Director::getInstance()->getContentScaleFactor();
     // Note that this is different from _scale, which is the physics scale
     
     // THIS DOES NOT FIX ASPECT RATIO PROBLEMS
     // If you are using a device with a 3:2 aspect ratio, you will need to
     // completely redo the level layout.  We can help if this is an issue.
+    
+    WireNode* draw = WireNode::create();
+    
     auto map = new TMXTiledMap();
-    map->initWithTMXFile("maps/test4.tmx");
+    map->initWithTMXFile("maps/test.tmx");
+    
+    Size tileSize = map->getTileSize();
     
     const Size size = *new Size((Vec2){1, 1});
-
-    createRemovableBlock(map, "removables", REMOVABLE_DRAW_LAYER, size, _scale);
     
-    Vec2 removePos = ((Vec2) REMOVE_POS);
+    // Add background
+    TMXLayer* rootLayer = map->getLayer("rootLayer");
+    Size rootSize = rootLayer->getLayerSize();
+    Texture2D* image = _assets->get<Texture2D>(rootLayer->getProperty("backgroundImage").asString());
+    Sprite* bg = Sprite::createWithTexture(image,Rect(0,0,1024,576));
+    bg->setAnchorPoint(Vec2(0,0));
+    _rootnode->addChild(bg);
+    
+    
+    // Add removables
+    createBlocks(map, "removables", REMOVABLE_DRAW_LAYER, size, _scale);
+    
+    // Add nonremovables
+    //createBlocks(map, "nonremovables", NONREMOVABLE_DRAW_LAYER, size, _scale);
     
 //    const Size size = *new Size((Vec2){10, 10});
     RemovableBlockModel* removed = BlockFactory::getRemovableBlock(removePos, size, _scale);
@@ -386,18 +400,29 @@ void GameController::populate() {
 //
 #pragma mark : Goal door
     
-    // Create obstacle
-    Vec2 goalPos = ((Vec2)GOAL_POS);
-    Texture2D* image = _assets->get<Texture2D>(GOAL_TEXTURE);
     Size goalSize = Size(image->getContentSize().width/_scale.x, image->getContentSize().height/_scale.y);
     _goalDoor = ExitDoorModel::create(goalPos, goalSize/8);
     _goalDoor->setDrawScale(_scale.x, _scale.y);
-
+    draw->setColor(Color3B::YELLOW);
+    draw->setOpacity(193);
+    _goalDoor->setDebugNode(draw);
     addObstacle(_goalDoor, GOAL_DRAW_LAYER); // Put this at the very back
-
     
-PolygonObstacle* wallobj;
+    // Add Avatar
+#pragma mark : Avatar
+    TMXObjectGroup* avatarGroup = map->getObjectGroup("Avatar");
+    ValueMap avatar = avatarGroup->getObject("Avatar");
+    string avatar_texture = avatar.at("texture").asString();
+    float avatar_x = avatar.at("x").asFloat();
+    float avatar_y = avatar.at("y").asFloat();
+    Vec2 avatarPos = (Vec2){avatar_x/tileSize.width, avatar_y/tileSize.height};
+    _avatar = AvatarModel::create(avatarPos,_scale, avatar_texture);
+    addObstacle(_avatar, AVATAR_DRAW_LAYER);
+    _theWorld->setFollow(_avatar);
+    _avatar->setName("avatar");
     
+    PolygonObstacle* wallobj;
+    //
 #pragma mark : Wall polygon 1
     Poly2 wall1(WALL1,20);
     wall1.triangulate();
@@ -443,26 +468,8 @@ PolygonObstacle* wallobj;
 //    wallobj->setName("wall5");
 //    addObstacle(wallobj, NONREMOVABLE_DRAW_LAYER);
     
-
-#pragma mark : Avatar
-    Vec2 avatarPos = ((Vec2)AVATAR_POS);
-    _avatar = AvatarModel::create(avatarPos,_scale);
-    addObstacle(_avatar, AVATAR_DRAW_LAYER);
-    _theWorld->setFollow(_avatar);
-    _avatar->setName("avatar");
-
-#pragma mark : Barrier
-    Vec2 barrierPos = ((Vec2)BARRIER_POS);
-    _barrier = BlockFactory::getRemovableBlock(barrierPos, size, _scale);
-    addObstacle(_barrier, BARRIER_DRAW_LAYER);
     
-    Vec2 barrierPos2 = Vec2(36, 10);
-    _barrier1 = BlockFactory::getRemovableBlock(barrierPos2, size, _scale);
-    addObstacle(_barrier1, BARRIER_DRAW_LAYER);
     
-    Vec2 barrierPos3 = Vec2(36, 7);
-    _barrier2 = BlockFactory::getRemovableBlock(barrierPos3, size, _scale);
-    addObstacle(_barrier2, BARRIER_DRAW_LAYER);
 }
 
 /**
@@ -480,24 +487,31 @@ void GameController::addObstacle(Obstacle* obj, int zOrder) {
 }
 
 //add map
-void GameController::createRemovableBlock(const TMXTiledMap* map, const std::string& layerName,
-                                 const int& texture, const Size& size, const Vec2& _scale) {
-
+void GameController::createBlocks(const TMXTiledMap* map, const std::string& layerName,
+                                  const int& layerLevel, const Size& size, const Vec2& _scale) {
+    
     auto layer = map->getLayer(layerName);
     if (layer != nullptr) {
         Size layerSize = layer->getLayerSize();
         for (int y = 0; y < layerSize.height; y++) {
             for (int x = 0; x < layerSize.width; x++) {
-                // create a fixture if this tile has a sprite
                 auto tileSprite = layer->getTileAt(Point(x, y));
+                
                 if (tileSprite) {
-                    RemovableBlockModel* removed = BlockFactory::getRemovableBlock(Vec2(x,layerSize.height-y), size, _scale);
-                    GameController::addObstacle(removed, texture);
+                    Obstacle* obj;
+                    
+                    if(layerName == "removables"){
+                        obj = BlockFactory::getRemovableBlock(Vec2(x,layerSize.height-y), size, _scale);
+                    } else if(layerName == "nonremovables") {
+                        //obj = BlockFactory::getNonRemovableBlock(Vec2(x,layerSize.height-y), size, _scale, "texture");
+                    }
+                    GameController::addObstacle(obj, layerLevel);
+                    //obj = BlockFactory::getNonRemovableBlock(Vec2(x,layerSize.height-y), size, _scale, "texture");
+                    
                 }
             }
         }
     }
-
 }
 
 
@@ -506,7 +520,7 @@ void GameController::createRemovableBlock(const TMXTiledMap* map, const std::str
 #pragma mark Physics Handling
 
 Vec2* GameController::getRelativePosition(const Vec2& physicalPosition, Vec2& centerPosition, float turningAngel) {
-
+    
     Vec2 centerPosition_p = Vec2{512.0f, 288.0f};
     float dist = physicalPosition.getDistance(centerPosition_p);
     
@@ -523,8 +537,8 @@ Vec2* GameController::getRelativePosition(const Vec2& physicalPosition, Vec2& ce
     float originalX = centerPosition_p.x + cos(theta * M_PI / 180.0f) * dist;
     float originalY = centerPosition_p.y + sin(theta * M_PI / 180.0f) * dist;
     
-//    float relativeX = centerPosition.x - 16.0f + physicalPosition.x / 1024.0f * 32.0f;
-//    float relativeY = centerPosition.y - 9.0f + physicalPosition.y / 576.0f * 18.0f;
+    //    float relativeX = centerPosition.x - 16.0f + physicalPosition.x / 1024.0f * 32.0f;
+    //    float relativeY = centerPosition.y - 9.0f + physicalPosition.y / 576.0f * 18.0f;
     float relativeX = centerPosition.x - 16.0f + originalX / 1024.0f * 32.0f;
     float relativeY = centerPosition.y - 9.0f + originalY / 576.0f * 18.0f;
     Vec2* relativePosition = new Vec2(relativeX, relativeY);
@@ -556,12 +570,12 @@ void GameController::update(float dt) {
     }
     
     _input.update(dt);
-//    if (_barrier != nullptr) {
-//        _barrier->setAngle(_barrier->getAngle() + 1);
-//    }
-//    if (_barrier1 != nullptr) {
-//        _barrier1->setAngle(_barrier1->getAngle() + 1);
-//    }
+    //    if (_barrier != nullptr) {
+    //        _barrier->setAngle(_barrier->getAngle() + 1);
+    //    }
+    //    if (_barrier1 != nullptr) {
+    //        _barrier1->setAngle(_barrier1->getAngle() + 1);
+    //    }
     // Process the toggled key commands
     if (_input.didReset()) { reset(); }
     if (_input.didExit())  {
@@ -574,7 +588,7 @@ void GameController::update(float dt) {
         
         if (cRotation > 360.0f) {
             cRotation -= 360.0f;
-        }        
+        }
         _theWorld->setRotation(cRotation);
         _avatar->setAngle(cRotation/ 180.0f * M_PI);
         
@@ -587,13 +601,12 @@ void GameController::update(float dt) {
     if (_input.didSelect() && _selector->isSelected()) {
         if(_panel->getSpell() == DESTRUCTION_SPELL_SELECTED) {
             _panel->setSpell(0);
-//            BoxObstacle* obstacle = (BoxObstacle*)_selector->getObstacle();
+            //            BoxObstacle* obstacle = (BoxObstacle*)_selector->getObstacle();
             if (_selector->getObstacle()->getName() == "removable"){
                 //_theWorld->removeObstacle(&obstacle);
                 RemovableBlockModel* rmb = (RemovableBlockModel*) _selector->getObstacle();
                 rmb->destroy(_theWorld->getWorldNode(), _theWorld->getDebugNode(), _theWorld->getWorld());
                 _selector->deselect();
-
             }
         }
     } else if (_input.didSelect()) {
@@ -608,7 +621,7 @@ void GameController::update(float dt) {
     
     //    update world position
     Vec2 pos = _avatar->getPosition();
-//    _theWorld->setWorldPos(pos);
+    //    _theWorld->setWorldPos(pos);
     _theWorld->setWorldPos(_avatar,pos);
     
     // Turn the physics engine crank.
@@ -640,7 +653,7 @@ void GameController::endContact(b2Contact* contact) {
         (_avatar->getBottomSensorName() == fd1 && _avatar != bd2)) {
         _avatar->setGrounded(false);
     }
-
+    
 }
 
 
@@ -665,33 +678,33 @@ void GameController::beginContact(b2Contact* contact) {
     
     Obstacle* bd1 = (Obstacle*)body1->GetUserData();
     Obstacle* bd2 = (Obstacle*)body2->GetUserData();
-
-//    // If the avatar hits the barrier, game over
-//    if((body1->GetUserData() == _avatar && body2->GetUserData() == _barrier) ||
-//            (body1->GetUserData() == _barrier && body2->GetUserData() == _avatar)) {
-//        setFail(true);
-//        // show time using
-////        double time = _overview->getCurrentPlayTime();
-////        _theWorld->showTime(time);
-//        _reset = true;
-//    }
-//    
-//    // If the avatar hits the barrier, game over
-//    if((body1->GetUserData() == _avatar && body2->GetUserData() == _barrier1) ||
-//       (body1->GetUserData() == _barrier1 && body2->GetUserData() == _avatar)) {
-//        setFail(true);
-//        // show time using
-//        //        double time = _overview->getCurrentPlayTime();
-//        //        _theWorld->showTime(time);
-//        _reset = true;
-//    }
-//    
+    
+    //    // If the avatar hits the barrier, game over
+    //    if((body1->GetUserData() == _avatar && body2->GetUserData() == _barrier) ||
+    //            (body1->GetUserData() == _barrier && body2->GetUserData() == _avatar)) {
+    //        setFail(true);
+    //        // show time using
+    ////        double time = _overview->getCurrentPlayTime();
+    ////        _theWorld->showTime(time);
+    //        _reset = true;
+    //    }
+    //
+    //    // If the avatar hits the barrier, game over
+    //    if((body1->GetUserData() == _avatar && body2->GetUserData() == _barrier1) ||
+    //       (body1->GetUserData() == _barrier1 && body2->GetUserData() == _avatar)) {
+    //        setFail(true);
+    //        // show time using
+    //        //        double time = _overview->getCurrentPlayTime();
+    //        //        _theWorld->showTime(time);
+    //        _reset = true;
+    //    }
+    //
     
     // If we hit the "win" door, we are done
     if((body1->GetUserData() == _avatar && body2->GetUserData() == _goalDoor) ||
        (body1->GetUserData() == _goalDoor && body2->GetUserData() == _avatar)) {
         _goalDoor->open();
-
+        
         setComplete(true);
         _avatar->setLinearVelocity(Vec2(0.0f, 0.0f));
         // TODO: pause it
@@ -710,7 +723,7 @@ void GameController::beginContact(b2Contact* contact) {
                    (_avatar->getBottomSensorName() == fd1 && _avatar != bd2)) {
             _avatar->setGrounded(true);
         }
-
+        
     }
 }
 
@@ -803,27 +816,27 @@ void GameController::preload() {
     }
     reader.endObject();
     
-//    // Process sounds
-//    if (reader.startObject(SOUNDS_KEY) > 0) {
-//        // Convert the object to an array so we can see keys and values
-//        int ssize = reader.startArray();
-//        for(int ii = 0; ii < ssize; ii++) {
-//            string key   = reader.getKey();
-//            
-//            // Unwrap the object
-//            if (reader.startObject()) {
-//                string value = reader.getString(FILE_KEY);
-//                float vol = reader.getNumber(SOUND_VOLUME);
-//                _volume.emplace(key,vol); // We have to store volume in a different place
-//                _assets->loadAsync<Sound>(key, value);
-//            }
-//            
-//            reader.endObject();
-//            reader.advance();
-//        }
-//        reader.endArray();
-//    }
-//    reader.endObject();
+    //    // Process sounds
+    //    if (reader.startObject(SOUNDS_KEY) > 0) {
+    //        // Convert the object to an array so we can see keys and values
+    //        int ssize = reader.startArray();
+    //        for(int ii = 0; ii < ssize; ii++) {
+    //            string key   = reader.getKey();
+    //
+    //            // Unwrap the object
+    //            if (reader.startObject()) {
+    //                string value = reader.getString(FILE_KEY);
+    //                float vol = reader.getNumber(SOUND_VOLUME);
+    //                _volume.emplace(key,vol); // We have to store volume in a different place
+    //                _assets->loadAsync<Sound>(key, value);
+    //            }
+    //
+    //            reader.endObject();
+    //            reader.advance();
+    //        }
+    //        reader.endArray();
+    //    }
+    //    reader.endObject();
     
     // Process fonts
     if (reader.startObject(FONTS_KEY) > 0) {
@@ -850,5 +863,5 @@ void GameController::preload() {
     reader.endJSON();
     
     // Finally, load the level
-//    _assets->loadAsync<LevelModel>(LEVEL_ONE_KEY,LEVEL_ONE_FILE);
+    //    _assets->loadAsync<LevelModel>(LEVEL_ONE_KEY,LEVEL_ONE_FILE);
 }

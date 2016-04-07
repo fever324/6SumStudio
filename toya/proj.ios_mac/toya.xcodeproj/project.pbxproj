@@ -277,6 +277,7 @@
 		FB99ADFC1C962A5B0074BBE9 /* ToyaRemovableBlockModel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ToyaRemovableBlockModel.cpp; sourceTree = "<group>"; };
 		FB99ADFD1C962A5B0074BBE9 /* ToyaRemovableBlockModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToyaRemovableBlockModel.h; sourceTree = "<group>"; };
 		FB99ADFE1C962A5B0074BBE9 /* ToyaSpellModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToyaSpellModel.h; sourceTree = "<group>"; };
+		FBD3E40D1CB5EC8200A261D5 /* ToyaMapReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToyaMapReader.h; sourceTree = "<group>"; };
 		FBFF504C1CB48D5400D3B4CC /* maps */ = {isa = PBXFileReference; lastKnownFileType = folder; path = maps; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 

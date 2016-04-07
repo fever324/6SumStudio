@@ -11,13 +11,14 @@ AnimationBoxModel* AnimationBoxModel::create(int stateCount, int rowCount, int c
 }
 
 bool AnimationBoxModel::init(int stateCount, int rowCount, int columnCount, std::string textureKey, const Vec2& pos, const Size& size, Vec2 scale) {
-    float cscale = Director::getInstance()->getContentScaleFactor();
+    
+//    float cscale = Director::getInstance()->getContentScaleFactor();
 
-    int w = 64*cscale/scale.x; //Image size is 64*64
-    int h = 64*cscale/scale.y;
-    Size onScreenSize = Size(w,h);
+//    int w = 64*cscale/scale.x; //Image size is 64*64
+//    int h = 64*cscale/scale.y;
+//    Size onScreenSize = Size(w,h);
 
-    if(BoxObstacle::init(pos, onScreenSize)) {
+    if(BoxObstacle::init(pos, size)) {
         
         _stateCount = stateCount;
         _currState = 0;
@@ -27,18 +28,22 @@ bool AnimationBoxModel::init(int stateCount, int rowCount, int columnCount, std:
         _textureKey = textureKey;
         
         
-        PolygonNode* pnode = PolygonNode::create(Rect(0, 0, 64, 64));
-        
+        // here 32,32 define the size of the texture we want it show
+        PolygonNode* pnode = PolygonNode::create(Rect(0, 0, 32, 32));
+        // here set the scale
+        // TODO: change the scale to imageSize / textureSize
+        pnode->setScale(0.5);
         
         setSceneNode(pnode);
-        
+
         setDrawScale(scale);
+        
+//        CCLOG("%f,%f", scale.x,scale.y);
         
         WireNode* draw = WireNode::create();
         draw->setColor(Color3B::YELLOW);
         draw->setOpacity(193);
         setDebugNode(draw);
-        
         
         return true;
     }

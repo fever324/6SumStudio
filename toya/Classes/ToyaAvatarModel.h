@@ -158,6 +158,8 @@ public:
      * @return  An autoreleased physics object
      */
     static AvatarModel* create(const Vec2& pos, const Vec2& scale);
+    static AvatarModel* create(const Vec2& pos, const Vec2& scale, const std::string& avatarTexture);
+
     
 #pragma mark Attribute Properties
     /**

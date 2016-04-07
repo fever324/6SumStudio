@@ -318,7 +318,7 @@ public:
     
 
 // add map
-    void createRemovableBlock(const TMXTiledMap* map, const std::string& mapname,
+    void createBlocks(const TMXTiledMap* map, const std::string& mapname,
                                      const int& texture, const Size& size, const Vec2& _scale);
 };
 
