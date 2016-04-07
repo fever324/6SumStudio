@@ -383,7 +383,7 @@ void GameController::populate() {
 //    const Size size = *new Size((Vec2){10, 10});
     RemovableBlockModel* removed = BlockFactory::getRemovableBlock(removePos, size, _scale);
     addObstacle(removed, REMOVABLE_DRAW_LAYER);
-    
+//
 #pragma mark : Goal door
     
     // Create obstacle
@@ -404,44 +404,44 @@ PolygonObstacle* wallobj;
     wallobj = BlockFactory::getNonRemovableBlock(wall1, _scale, EARTH_TEXTURE, false); // 1st line
     wallobj->setName("wall1");
     addObstacle(wallobj, NONREMOVABLE_DRAW_LAYER);  // All walls share the same texture
-    
-#pragma mark : Wall polygon 2
-    
-    Poly2 wall2(WALL2,8);
-    wall2.triangulate();
-    wallobj = BlockFactory::getNonRemovableBlock(wall2, _scale, EARTH_TEXTURE);
-    wallobj->setName("wall2");
-    addObstacle(wallobj, NONREMOVABLE_DRAW_LAYER);
-    
-    Poly2 wall22(WALL22, 8);
-    wall22.triangulate();
-    wallobj = BlockFactory::getNonRemovableBlock(wall22, _scale, EARTH_TEXTURE);
-    wallobj->setName("wall22");
-    addObstacle(wallobj, NONREMOVABLE_DRAW_LAYER);
-    
-    
-#pragma mark : Walls polygon 3
-    Poly2 wall3(WALL3,8);
-    wall3.triangulate();
-    wallobj = BlockFactory::getNonRemovableBlock(wall3, _scale, EARTH_TEXTURE);
-    wallobj->setName("wall3");
-    addObstacle(wallobj, NONREMOVABLE_DRAW_LAYER);
-    
-    
-#pragma mark : Wall polygon 4
-    Poly2 wall4(WALL4,12);
-    wall4.triangulate();
-    wallobj = BlockFactory::getNonRemovableBlock(wall4, _scale, EARTH_TEXTURE);
-    wallobj->setName("wall4");
-    addObstacle(wallobj, NONREMOVABLE_DRAW_LAYER);
-    
-    
-#pragma mark : Walls polygon 5
-    Poly2 wall5(WALL5,8);
-    wall5.triangulate();
-    wallobj = BlockFactory::getNonRemovableBlock(wall5, _scale, EARTH_TEXTURE);
-    wallobj->setName("wall5");
-    addObstacle(wallobj, NONREMOVABLE_DRAW_LAYER);
+//    
+//#pragma mark : Wall polygon 2
+//    
+//    Poly2 wall2(WALL2,8);
+//    wall2.triangulate();
+//    wallobj = BlockFactory::getNonRemovableBlock(wall2, _scale, EARTH_TEXTURE);
+//    wallobj->setName("wall2");
+//    addObstacle(wallobj, NONREMOVABLE_DRAW_LAYER);
+//    
+//    Poly2 wall22(WALL22, 8);
+//    wall22.triangulate();
+//    wallobj = BlockFactory::getNonRemovableBlock(wall22, _scale, EARTH_TEXTURE);
+//    wallobj->setName("wall22");
+//    addObstacle(wallobj, NONREMOVABLE_DRAW_LAYER);
+//    
+//    
+//#pragma mark : Walls polygon 3
+//    Poly2 wall3(WALL3,8);
+//    wall3.triangulate();
+//    wallobj = BlockFactory::getNonRemovableBlock(wall3, _scale, EARTH_TEXTURE);
+//    wallobj->setName("wall3");
+//    addObstacle(wallobj, NONREMOVABLE_DRAW_LAYER);
+//    
+//    
+//#pragma mark : Wall polygon 4
+//    Poly2 wall4(WALL4,12);
+//    wall4.triangulate();
+//    wallobj = BlockFactory::getNonRemovableBlock(wall4, _scale, EARTH_TEXTURE);
+//    wallobj->setName("wall4");
+//    addObstacle(wallobj, NONREMOVABLE_DRAW_LAYER);
+//    
+//    
+//#pragma mark : Walls polygon 5
+//    Poly2 wall5(WALL5,8);
+//    wall5.triangulate();
+//    wallobj = BlockFactory::getNonRemovableBlock(wall5, _scale, EARTH_TEXTURE);
+//    wallobj->setName("wall5");
+//    addObstacle(wallobj, NONREMOVABLE_DRAW_LAYER);
     
 
 #pragma mark : Avatar
