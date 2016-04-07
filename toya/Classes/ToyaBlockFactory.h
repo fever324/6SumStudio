@@ -17,7 +17,6 @@
 #include <Box2D/Dynamics/b2World.h>
 #include <Box2D/Dynamics/Contacts/b2Contact.h>
 #include <Box2D/Collision/b2Collision.h>
-#include "ToyaLevelModel.h"
 #include "ToyaPanelModel.h"
 #include "ToyaRemovableBlockModel.h"
 
@@ -126,6 +125,8 @@ public:
         }
         return obstacle;
     }
+    
+    static ExitDoorModel* getExitDoor();
 };
 
 

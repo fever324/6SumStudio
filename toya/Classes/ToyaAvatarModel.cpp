@@ -340,7 +340,9 @@ void AvatarModel::animateAvatar() {
         _cycle = -1;
     }
     
-    int base = isFacingRight() ? 0 : 3;
+    int state = isGrounded() ? 0 : 2 * AVATAR_ANIMATION_COLS;
+    int base = isFacingRight() ? state : state + AVATAR_ANIMATION_COLS;
+    
     if(_animationFrameCount++ % AVATAR_CYCLE_PER_FRAME == 0) {
         _avatarBody->setFrame(base + (_avatarBody->getFrame()+_cycle)%AVATAR_ANIMATION_COLS);
         
@@ -377,7 +379,7 @@ void AvatarModel::resetSceneNode() {
         
         Texture2D* image = assets->get<Texture2D>(AVATAR_TEXTURE);
         
-        _avatarBody = AnimationNode::create(image, 2, 3, AVATAR_FRAMES);
+        _avatarBody = AnimationNode::create(image, AVATAR_ANIMATION_ROWS, AVATAR_ANIMATION_COLS, AVATAR_FRAMES);
         
         pnode->addChild(_avatarBody);
         _avatarBody->setPosition(pnode->getContentSize().width/2.0f,pnode->getContentSize().height/2.0f);

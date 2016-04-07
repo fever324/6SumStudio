@@ -9,23 +9,53 @@
 #ifndef __TOYA_MAP_READER_H__
 #define __TOYA_MAP_READER_H__
 
-
-
 #include <cocos2d.h>
-#include <cornell/CUKeyboardPoller.h>
-#include <cornell/CUAccelerationPoller.h>
-#include <cornell/CUTouchListener.h>
-#include "base/CCEventListenerTouch.h"
+#include "ToyaBlockFactory.h"
+#include "ToyaGameController.h"
+#include "ToyaExitDoorModel.h"
+
+#define REMOVABLE_LAYER "removables"
+
+#define REMOVABLE_DRAW_LAYER     1
+#define NONREMOVABLE_DRAW_LAYER  2
+#define GOAL_DRAW_LAYER          3
+#define AVATAR_DRAW_LAYER        4
+#define BARRIER_DRAW_LAYER       4
+
+static float BLOCK_SIZE[] = {1, 1};
+
 
 using namespace cocos2d;
 using namespace std;
-class MapReader  {  // Block demo game controller line 420
 
+
+class GameController;
+class ExitDoor;
+
+class MapReader : public Ref  {  
+
+protected:
+    GameController* gameController;
+    TMXTiledMap*    map;
+    Size            tileSize;
+    
 public:
-    static Vec2 getToyaCoordinate(float x, float y);
+    MapReader(GameController* gameController);
+    
+    void loadMap(const std::string& mapFile);
+    
+    void createRemovableBlocks();
+    
+    void createBackground();
+    
+    ExitDoorModel* createGoalDoor();
+    
+    AvatarModel* createAvatar();
+    
+    void reset();
 
     
-}
+};
 
 
 

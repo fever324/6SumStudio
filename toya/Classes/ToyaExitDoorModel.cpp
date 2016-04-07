@@ -70,6 +70,11 @@ bool ExitDoorModel::init(const Vec2 &pos, const Size &size) {
     sprite->setScale(cscale/4);
     setSceneNode(sprite);
     
+    WireNode* draw = new WireNode;
+    draw->setColor(Color3B::YELLOW);
+    draw->setOpacity(193);
+    setDebugNode(draw);
+    
     return true;
 }
 

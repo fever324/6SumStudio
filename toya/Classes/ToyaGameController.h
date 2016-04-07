@@ -22,13 +22,8 @@
 
 #include <Box2D/Dynamics/Contacts/b2Contact.h>
 #include <Box2D/Collision/b2Collision.h>
-#include "ToyaLevelModel.h"
 #include "ToyaBlockFactory.h"
-// #include "ToyaMapEditor.h"
-
-// #include <string>
-// #include <iostream>
-// #include <sstream>
+#include "ToyaMapReader.h"
 
 // This is not part of cornell.h and SHOULD come last
 #include <cornell/CUGenericLoader.h>
@@ -50,6 +45,7 @@ using namespace std;
  * desired aspect ratio).
  */
 class OverviewModel;
+class MapReader;
 class GameController {
 protected:
     /** The scene manager for this game demo */
@@ -59,7 +55,7 @@ protected:
     InputController _input;
     
     WorldModel* _theWorld;
-    TMXTiledMap* map;
+    MapReader*  _mapReader;
     
     /** Reference to the root node of the scene graph */
     RootLayer* _rootnode;
@@ -109,6 +105,10 @@ protected:
      */
     void populate();
     
+ 
+    
+    
+public:
     /**
      * Immediately adds the object to the physics world
      *
@@ -121,8 +121,9 @@ protected:
      */
     void addObstacle(Obstacle* obj, int zOrder);
     
-    
-public:
+    Vec2 getScale() {return _scale;}
+    SceneManager* getAssets(){return _assets;}
+    RootLayer* getRootNode(){return _rootnode;}
 #pragma mark -
 #pragma mark Initialization
     /**

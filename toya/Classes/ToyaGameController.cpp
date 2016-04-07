@@ -11,7 +11,6 @@
 #include <Box2D/Dynamics/b2World.h>
 #include <Box2D/Dynamics/Contacts/b2Contact.h>
 #include <Box2D/Collision/b2Collision.h>
-#include "ToyaLevelModel.h"
 #include "ToyaPanelModel.h"
 #include "ToyaBlockFactory.h"
 // #include "ToyaMapEditor.h"
@@ -174,7 +173,8 @@ _selector(nullptr),
 _debug(false),
 _cooldown(COOL_DOWN),
 _reset(false),
-_overview(nullptr)
+_overview(nullptr),
+_mapReader(nullptr)
 {
 }
 
@@ -246,8 +246,10 @@ bool GameController::init(RootLayer* root, const Rect& rect, const Vec2& gravity
     _theWorld = WorldModel::create();
     
     // Create the scene graph
-    
     WorldController* world = _theWorld->getWorld();
+    
+
+    _mapReader = new MapReader(this);
     
     
     // set text config ffor winnodw
@@ -341,6 +343,7 @@ void GameController::reset() {
     _selector->deselect();
     _theWorld->clear();
     _input.clear();
+    _mapReader->reset();
     setComplete(false);
     _overview->reset();
     
@@ -369,66 +372,16 @@ void GameController::populate() {
     // THIS DOES NOT FIX ASPECT RATIO PROBLEMS
     // If you are using a device with a 3:2 aspect ratio, you will need to
     // completely redo the level layout.  We can help if this is an issue.
+
     
-    WireNode* draw = WireNode::create();
+    _mapReader->loadMap("maps/test.tmx");
     
-    auto map = new TMXTiledMap();
-    map->initWithTMXFile("maps/test.tmx");
+    _mapReader->createBackground();
+    _mapReader->createRemovableBlocks();
+    _goalDoor = _mapReader->createGoalDoor();
+    _avatar = _mapReader->createAvatar();
     
-    Size tileSize = map->getTileSize();
-    
-    const Size size = *new Size((Vec2){1, 1});
-    
-    // Add background
-    TMXLayer* rootLayer = map->getLayer("rootLayer");
-    Size rootSize = rootLayer->getLayerSize();
-    Texture2D* image = _assets->get<Texture2D>(rootLayer->getProperty("backgroundImage").asString());
-    Sprite* bg = Sprite::createWithTexture(image,Rect(0,0,1024,576));
-    bg->setAnchorPoint(Vec2(0,0));
-    _rootnode->addChild(bg);
-    
-    
-    // Add removables
-    createBlocks(map, "removables", REMOVABLE_DRAW_LAYER, size, _scale);
-    
-    // Add nonremovables
-    //createBlocks(map, "nonremovables", NONREMOVABLE_DRAW_LAYER, size, _scale);
-    
-    
-    //    Vec2 removePos = ((Vec2) REMOVE_POS);
-    //
-    ////    const Size size = *new Size((Vec2){10, 10});
-    //    RemovableBlockModel* removed = BlockFactory::getRemovableBlock(removePos, size, _scale);
-    //    addObstacle(removed, REMOVABLE_DRAW_LAYER)
-    
-    // Add exit door
-    TMXObjectGroup* goalDoorGroup = map->getObjectGroup("GoalDoor");
-    ValueMap door = goalDoorGroup->getObject("Door");
-    float goal_x = door.at("x").asFloat();
-    float goal_y = door.at("y").asFloat();
-    Vec2 goalPos = (Vec2){goal_x/tileSize.width, goal_y/tileSize.height};
-    image = _assets->get<Texture2D>(GOAL_TEXTURE);
-    
-    Size goalSize = Size(image->getContentSize().width/_scale.x, image->getContentSize().height/_scale.y);
-    _goalDoor = ExitDoorModel::create(goalPos, goalSize/8);
-    _goalDoor->setDrawScale(_scale.x, _scale.y);
-    draw->setColor(Color3B::YELLOW);
-    draw->setOpacity(193);
-    _goalDoor->setDebugNode(draw);
-    addObstacle(_goalDoor, GOAL_DRAW_LAYER); // Put this at the very back
-    
-    // Add Avatar
-#pragma mark : Avatar
-    TMXObjectGroup* avatarGroup = map->getObjectGroup("Avatar");
-    ValueMap avatar = avatarGroup->getObject("Avatar");
-    string avatar_texture = avatar.at("texture").asString();
-    float avatar_x = avatar.at("x").asFloat();
-    float avatar_y = avatar.at("y").asFloat();
-    Vec2 avatarPos = (Vec2){avatar_x/tileSize.width, avatar_y/tileSize.height};
-    _avatar = AvatarModel::create(avatarPos,_scale, avatar_texture);
-    addObstacle(_avatar, AVATAR_DRAW_LAYER);
     _theWorld->setFollow(_avatar);
-    _avatar->setName("avatar");
     
     PolygonObstacle* wallobj;
     //
@@ -438,47 +391,6 @@ void GameController::populate() {
     wallobj = BlockFactory::getNonRemovableBlock(wall1, _scale, EARTH_TEXTURE, false); // 1st line
     wallobj->setName("wall1");
     addObstacle(wallobj, NONREMOVABLE_DRAW_LAYER);  // All walls share the same texture
-    
-    //#pragma mark : Wall polygon 2
-    //
-    //    Poly2 wall2(WALL2,8);
-    //    wall2.triangulate();
-    //    wallobj = BlockFactory::getNonRemovableBlock(wall2, _scale, EARTH_TEXTURE);
-    //    wallobj->setName("wall2");
-    //    addObstacle(wallobj, NONREMOVABLE_DRAW_LAYER);
-    //
-    //    Poly2 wall22(WALL22, 8);
-    //    wall22.triangulate();
-    //    wallobj = BlockFactory::getNonRemovableBlock(wall22, _scale, EARTH_TEXTURE);
-    //    wallobj->setName("wall22");
-    //    addObstacle(wallobj, NONREMOVABLE_DRAW_LAYER);
-    //
-    //
-    //#pragma mark : Walls polygon 3
-    //    Poly2 wall3(WALL3,8);
-    //    wall3.triangulate();
-    //    wallobj = BlockFactory::getNonRemovableBlock(wall3, _scale, EARTH_TEXTURE);
-    //    wallobj->setName("wall3");
-    //    addObstacle(wallobj, NONREMOVABLE_DRAW_LAYER);
-    //
-    //
-    //#pragma mark : Wall polygon 4
-    //    Poly2 wall4(WALL4,12);
-    //    wall4.triangulate();
-    //    wallobj = BlockFactory::getNonRemovableBlock(wall4, _scale, EARTH_TEXTURE);
-    //    wallobj->setName("wall4");
-    //    addObstacle(wallobj, NONREMOVABLE_DRAW_LAYER);
-    //
-    //
-    //#pragma mark : Walls polygon 5
-    //    Poly2 wall5(WALL5,8);
-    //    wall5.triangulate();
-    //    wallobj = BlockFactory::getNonRemovableBlock(wall5, _scale, EARTH_TEXTURE);
-    //    wallobj->setName("wall5");
-    //    addObstacle(wallobj, NONREMOVABLE_DRAW_LAYER);
-    //
-    
-    
     
 }
 

@@ -31,10 +31,13 @@
    <property name="gravity" type="int" value="9"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJztzjEBAAAIA6DZv7QhdngICUh+m+sAAAAAAAAAAAAUFkcAAAI=
+   eJztzgENAAAIA6Dbv7QxrhskIAEAAAAAAAAAgH+mHThiASUIAAI=
   </data>
  </layer>
  <objectgroup name="GoalDoor">
+  <properties>
+   <property name="texture" value="goal"/>
+  </properties>
   <object id="5" name="Door" gid="12" x="2913.38" y="1151.95" width="125.144" height="254.51"/>
  </objectgroup>
  <objectgroup name="Avatar">
@@ -42,11 +45,6 @@
    <properties>
     <property name="texture" value="bear"/>
    </properties>
-  </object>
- </objectgroup>
- <objectgroup name="nonremovables">
-  <object id="46" x="1960.7" y="806.386" width="241.506" height="323.373">
-   <ellipse/>
   </object>
  </objectgroup>
 </map>
