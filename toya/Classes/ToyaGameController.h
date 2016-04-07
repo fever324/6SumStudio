@@ -320,7 +320,9 @@ public:
 
 // add map
     void createBlocks(const TMXTiledMap* map, const std::string& mapname,
-                                     const int& texture, const Size& size, const Vec2& _scale);
+                                     const int& layerLevel, const Size& size, const Vec2& _scale);
+    void createNonRemovableBlocks(const TMXTiledMap* map, const std::string& mapname,
+                      const int& layerLevel, const Vec2& _scale);
 };
 
 #endif /* defined(__TOYA_GAME_CONTROLLER_H__) */

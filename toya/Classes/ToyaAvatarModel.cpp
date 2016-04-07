@@ -16,9 +16,9 @@ using namespace cocos2d;
 #pragma mark -
 #pragma mark Physics Constants
 /** the amout to shrink the body in three dimensions. **/
-#define AVATAR_SHRINK 0.3f
+#define AVATAR_SHRINK 0.2f
 /** The amount to shrink the sensor fixture (horizontally) relative to the image */
-#define AVATAR_SSHRINK  0.5f
+#define AVATAR_SSHRINK  0.3f
 /** Height of the sensor attached to the player's feet */
 #define SENSOR_HEIGHT   0.1f
 /** The density of the character */

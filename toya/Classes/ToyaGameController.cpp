@@ -412,6 +412,9 @@ void GameController::addObstacle(Obstacle* obj, int zOrder) {
 void GameController::createBlocks(const TMXTiledMap* map, const std::string& layerName,
                                   const int& layerLevel, const Size& size, const Vec2& _scale) {
     
+    if(layerName != "removables"){
+        return;
+    }
     auto layer = map->getLayer(layerName);
     if (layer != nullptr) {
         Size layerSize = layer->getLayerSize();
@@ -421,17 +424,90 @@ void GameController::createBlocks(const TMXTiledMap* map, const std::string& lay
                 
                 if (tileSprite) {
                     Obstacle* obj;
-                    
-                    if(layerName == "removables"){
-                        obj = BlockFactory::getRemovableBlock(Vec2(x,layerSize.height-y), size, _scale);
-                    } else if(layerName == "nonremovables") {
-                        //obj = BlockFactory::getNonRemovableBlock(Vec2(x,layerSize.height-y), size, _scale, "texture");
-                    }
+                    obj = BlockFactory::getRemovableBlock(Vec2(x+0.5,layerSize.height-y-0.5), size, _scale);
                     GameController::addObstacle(obj, layerLevel);
-                    //obj = BlockFactory::getNonRemovableBlock(Vec2(x,layerSize.height-y), size, _scale, "texture");
-                    
                 }
             }
+        }
+    }
+}
+
+//add non-removable block
+void GameController::createNonRemovableBlocks(const TMXTiledMap* map, const std::string& layerName,
+                                  const int& layerLevel, const Vec2& _scale) {
+    
+    if(layerName != "nonremovables"){
+        return;
+    }
+    auto layer = map->getLayer(layerName);
+    if (layer != nullptr) {
+        Obstacle* obj;
+        bool makeIt = false;
+        Vec2 start;
+        Vec2 stop;
+        Size layerSize = layer->getLayerSize();
+        bool onRoad = false;
+        for (int y = 0; y < layerSize.height; y++) {
+            makeIt = false;
+            onRoad = false;
+            for (int x = 0; x < layerSize.width; x++) {
+                
+                auto tileSprite = layer->getTileAt(Point(x, y));
+                
+                // meet the last block and it is not a valid block
+                if (x == layerSize.width-1 && !tileSprite) {
+                    continue;
+                }
+                
+                // meet the last block, end this line and create the block;
+                if (x == layerSize.width-1 && tileSprite) {
+                    // if on road, then create the stop
+                    // else, set the single block
+                    if (!onRoad) {
+                        start.x = x;
+                        start.y = y;
+                    }
+                    stop.x = x+1;
+                    stop.y = y;
+                    makeIt = true;
+                }
+                
+                // make the blocks
+                if (makeIt) {
+                    float wall[8] = {start.x,layerSize.height-start.y,stop.x,layerSize.height-stop.y,stop.x,layerSize.height-stop.y-1, start.x, layerSize.height-start.y-1};
+                    Poly2 wall1(wall,8);
+                    wall1.triangulate();
+                    obj = BlockFactory::getNonRemovableBlock(wall1,_scale,EARTH_TEXTURE);
+                    GameController::addObstacle(obj, layerLevel);
+                    makeIt = false;
+                }
+                
+                
+                // first time we meet a block
+                if (tileSprite && !onRoad) {
+                    onRoad = true;
+                    start.x = x;
+                    start.y = y;
+                }
+                
+                // if no continuous blocks (only one block)
+                if (!tileSprite && x - start.x == 1) {
+                    stop.x = x;
+                    stop.y = y;
+                    makeIt = true;
+                    onRoad = false;
+                }
+                
+                // last time we meet a continuous block
+                if (!tileSprite && onRoad) {
+                    // find the end point
+                    stop.x = x;
+                    stop.y = y;
+                    makeIt = true;
+                    onRoad = false;
+                }
+            }
+            
         }
     }
 }
@@ -645,7 +721,6 @@ void GameController::beginContact(b2Contact* contact) {
                    (_avatar->getBottomSensorName() == fd1 && _avatar != bd2)) {
             _avatar->setGrounded(true);
         }
-        
     }
 }
 
