@@ -137,7 +137,7 @@ void MapReader::createMovingObstacles() {
         vector<Vec2> routes = {(Vec2){ghostMap.at("x").asFloat(), ghostMap.at("y").asFloat()}, (Vec2){ghostMap.at("point1X").asFloat(), ghostMap.at("point1Y").asFloat()}};
         
         Vec2 ghostPos = (Vec2){x_pos/tileSize.width, y_pos/tileSize.height};
-        MovingObstacleModel* ghostObj = MovingObstacleModel::create(2, 4, 4, "ghosts", ghostPos, size, _scale, routes, ghostMap.at("speed").asFloat());
+        MovingObstacleModel* ghostObj = MovingObstacleModel::create(2, 4, 4, texture, ghostPos, size, _scale, routes, ghostMap.at("speed").asFloat());
         gameController->addObstacle(ghostObj, BARRIER_DRAW_LAYER);
         ghostObj->setName("ghost");
     }
