@@ -21,6 +21,8 @@ void MapReader::loadMap(const std::string &mapFile) {
     this->map = new TMXTiledMap();
     map->initWithTMXFile(mapFile);
     tileSize = map->getTileSize();
+    cscale = Director::getInstance()->getContentScaleFactor();
+
 }
 
 void MapReader::createRemovableBlocks() {
@@ -127,14 +129,14 @@ void MapReader::createMovingObstacles() {
     for(cocos2d::Value ghost : map->getObjectGroup("Ghosts")->getObjects()) {
         cocos2d::ValueMap ghostMap = ghost.asValueMap();
         string texture = ghostMap.at("texture").asString();
-        float x_pos = ghostMap.at("x").asFloat();
-        float y_pos = ghostMap.at("y").asFloat();
         
-        float cscale = Director::getInstance()->getContentScaleFactor();
+        float x_pos = ghostMap.at("x").asFloat()*cscale;
+        float y_pos = ghostMap.at("y").asFloat()*cscale;
+        
         
         const Size size = *new Size((Vec2){64.0f*cscale*0.3f/_scale.x, 64.0f*cscale*0.3f/_scale.y});
         
-        vector<Vec2> routes = {(Vec2){ghostMap.at("x").asFloat(), ghostMap.at("y").asFloat()}, (Vec2){ghostMap.at("point1X").asFloat(), ghostMap.at("point1Y").asFloat()}};
+        vector<Vec2> routes = {(Vec2){x_pos, y_pos}, (Vec2){ghostMap.at("point1X").asFloat(), ghostMap.at("point1Y").asFloat()}};
         
         Vec2 ghostPos = (Vec2){x_pos/tileSize.width, y_pos/tileSize.height};
         MovingObstacleModel* ghostObj = MovingObstacleModel::create(2, 4, 4, texture, ghostPos, size, _scale, routes, ghostMap.at("speed").asFloat());
@@ -156,12 +158,12 @@ void MapReader::createBackground() {
 }
 
 ExitDoorModel* MapReader::createGoalDoor() {
-    
+
     Vec2 _scale = gameController->getScale();
     TMXObjectGroup* goalDoorGroup = map->getObjectGroup("GoalDoor");
     ValueMap door = goalDoorGroup->getObject("Door");
-    float goal_x = door.at("x").asFloat();
-    float goal_y = door.at("y").asFloat();
+    float goal_x = door.at("x").asFloat()*cscale;
+    float goal_y = door.at("y").asFloat()*cscale;
     Vec2 goalPos = (Vec2){goal_x/tileSize.width, goal_y/tileSize.height};
     
     Texture2D* image = gameController->getAssets()->get<Texture2D>(goalDoorGroup->getProperty("texture").asString());
@@ -187,8 +189,8 @@ AvatarModel* MapReader::createAvatar() {
     TMXObjectGroup* avatarGroup = map->getObjectGroup("Avatar");
     ValueMap avatar = avatarGroup->getObject("Avatar");
     string avatar_texture = avatar.at("texture").asString();
-    float avatar_x = avatar.at("x").asFloat();
-    float avatar_y = avatar.at("y").asFloat();
+    float avatar_x = avatar.at("x").asFloat()*cscale;
+    float avatar_y = avatar.at("y").asFloat()*cscale;
     Vec2 avatarPos = (Vec2){avatar_x/tileSize.width, avatar_y/tileSize.height};
     AvatarModel* _avatar = AvatarModel::create(avatarPos,_scale, avatar_texture);
     gameController->addObstacle(_avatar, AVATAR_DRAW_LAYER);

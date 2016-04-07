@@ -84,8 +84,8 @@ void AnimationBoxModel::resetSceneNode() {
         
         Rect bounds;
         bounds.size = getDimension();
-        bounds.size.width  *= _drawScale.x/cscale;
-        bounds.size.height *= _drawScale.y/cscale;
+        bounds.size.width  /= _drawScale.x*cscale;
+        bounds.size.height /= _drawScale.y*cscale;
         
         Texture2D* image = assets->get<Texture2D>(_textureKey);
         

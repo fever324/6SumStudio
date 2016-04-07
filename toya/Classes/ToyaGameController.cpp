@@ -99,12 +99,6 @@ float BARRIER_POS[] = {32.5, 13.0};
 #define GOAL_TEXTURE        "goal"
 #define GOAL_REACHED_TEXTURE "goal-reached"
 
-/** The key for the avatar texture in the asset manager */
-#define AVATAR_TEXTURE      "avatar"
-/** The key for the block texture in the asset manager */
-#define BLOCK_TEXTURE       "block"
-#define BARRIER_TEXTURE     "barrier"
-#define BEAR_TEXTURE        "bear"
 
 #define BACKGROUND_TEXTURE  "background"
 /** Color to outline the physics nodes */
@@ -116,12 +110,6 @@ float BARRIER_POS[] = {32.5, 13.0};
 #define DEBUG_OPACITY   192
 
 #define COOL_DOWN   120
-
-#define REMOVABLE_DRAW_LAYER     1
-#define NONREMOVABLE_DRAW_LAYER  2
-#define GOAL_DRAW_LAYER          3
-#define AVATAR_DRAW_LAYER        4
-#define BARRIER_DRAW_LAYER       5
 
 /** The key for collisions sounds */
 #define COLLISION_SOUND     "bump"
