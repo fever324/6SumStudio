@@ -35,7 +35,7 @@ void MapReader::createRemovableBlocks() {
                 auto tileSprite = layer->getTileAt(Point(x, y));
                 
                 if (tileSprite) {
-                    Obstacle* obj = BlockFactory::getRemovableBlock(Vec2(x,layerSize.height-y), size, gameController->getScale());
+                    Obstacle* obj = BlockFactory::getRemovableBlock(Vec2(x+0.5,layerSize.height-y-0.5), size, gameController->getScale());
                     gameController->addObstacle(obj, REMOVABLE_DRAW_LAYER);
                 }
             }
