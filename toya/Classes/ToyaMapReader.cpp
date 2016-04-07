@@ -22,6 +22,7 @@ void MapReader::loadMap(const std::string &mapFile) {
     map->initWithTMXFile(mapFile);
     tileSize = map->getTileSize();
     cscale = Director::getInstance()->getContentScaleFactor();
+    mapSize = map->getMapSize();
 
 }
 
@@ -162,8 +163,9 @@ ExitDoorModel* MapReader::createGoalDoor() {
     Vec2 _scale = gameController->getScale();
     TMXObjectGroup* goalDoorGroup = map->getObjectGroup("GoalDoor");
     ValueMap door = goalDoorGroup->getObject("Door");
-    float goal_x = door.at("x").asFloat()*cscale;
-    float goal_y = door.at("y").asFloat()*cscale;
+    float goal_x = door.at("x").asFloat();
+    float goal_y = door.at("y").asFloat();
+    
     Vec2 goalPos = (Vec2){goal_x/tileSize.width, goal_y/tileSize.height};
     
     Texture2D* image = gameController->getAssets()->get<Texture2D>(goalDoorGroup->getProperty("texture").asString());

@@ -60,36 +60,6 @@ using namespace std;
 /** The default value of gravity (going down) */
 #define DEFAULT_GRAVITY -5.0f
 
-//
-float WALL1[] = { -20.0f, 56.0f,  84.0f, 56.0f,   84.0f, 31.0f,
-    5.0f, 31.0f, 5.0f, 5.0f,  59.0f, 5.0f,   59.0f, 31.0f,
-    84.0f, 31.0f,   84.0f, -20.0f, -20.0f,-20.0f};
-//
-//float WALL2[] = {5.0f,28.0f,   12.0f,28.0f,  12.0f, 26.0f,  5.0f, 26.0f };
-//
-//float WALL22[] = {14.0f,28.0f,   27.0f,28.0f,  27.0f, 26.0f,  14.0f, 26.0f};
-//
-//float WALL3[] = {30.0f,22.0f,  50.0f,22.0f, 50.0f,20.0f,  30.0f,20.0f};
-//float WALL5[] = {50.0f, 20.0f,  50.0f, 26.0f,  48.0f,26.0f,  48.0f, 20.0f};
-//
-//float WALL4[] = {30.0f,12.5f,   20.0f,12.5f,   17.0f,13.5f,   15.0f,13.5f,  19.0f,10.5f,  30.0f,10.5f};
-//
-
-
-//vector<float> tmp(WALL2,WALL2+8);
-
-/** The initial avatar position */
-float AVATAR_POS[] = {5.0, 30.0};
-/** The goal door position */
-float GOAL_POS[] = {58.0, 6.5};
-//float GOAL_POS[] = {10.0, 26.0};
-
-float REMOVE_POS[] = {13.0, 27.0};
-/** The goal door position2 */
-float DOOR_POS[] = {31.0, 6.4};
-/** The barrier position */
-float BARRIER_POS[] = {32.5, 13.0};
-
 #pragma mark Assset Constants
 /** The key for the earth texture in the asset manager */
 #define EARTH_TEXTURE       "earth"
@@ -225,8 +195,6 @@ bool GameController::init(RootLayer* root, const Rect& rect) {
  */
 bool GameController::init(RootLayer* root, const Rect& rect, const Vec2& gravity) {
     
-    
-    
     Vec2 inputscale = Vec2(root->getScaleX(),root->getScaleY());
     _input.init();
     _input.start();
@@ -235,8 +203,6 @@ bool GameController::init(RootLayer* root, const Rect& rect, const Vec2& gravity
     
     // Create the scene graph
     WorldController* world = _theWorld->getWorld();
-    
-
     _mapReader = new MapReader(this);
     
     
@@ -392,12 +358,6 @@ void GameController::addObstacle(Obstacle* obj, int zOrder) {
     _theWorld->addObstacle(obj, zOrder);
 }
 
-
-void GameController::createGhosts(const TMXObjectGroup* map, const Size& tileSize) {
-    }
-
-
-
 #pragma mark -
 #pragma mark Physics Handling
 
@@ -419,8 +379,6 @@ Vec2* GameController::getRelativePosition(const Vec2& physicalPosition, Vec2& ce
     float originalX = centerPosition_p.x + cos(theta * M_PI / 180.0f) * dist;
     float originalY = centerPosition_p.y + sin(theta * M_PI / 180.0f) * dist;
     
-    //    float relativeX = centerPosition.x - 16.0f + physicalPosition.x / 1024.0f * 32.0f;
-    //    float relativeY = centerPosition.y - 9.0f + physicalPosition.y / 576.0f * 18.0f;
     float relativeX = centerPosition.x - 16.0f + originalX / 1024.0f * 32.0f;
     float relativeY = centerPosition.y - 9.0f + originalY / 576.0f * 18.0f;
     Vec2* relativePosition = new Vec2(relativeX, relativeY);
@@ -452,12 +410,7 @@ void GameController::update(float dt) {
     }
     
     _input.update(dt);
-    //    if (_barrier != nullptr) {
-    //        _barrier->setAngle(_barrier->getAngle() + 1);
-    //    }
-    //    if (_barrier1 != nullptr) {
-    //        _barrier1->setAngle(_barrier1->getAngle() + 1);
-    //    }
+
     // Process the toggled key commands
     if (_input.didReset()) { reset(); }
     if (_input.didExit())  {
@@ -483,9 +436,7 @@ void GameController::update(float dt) {
     if (_input.didSelect() && _selector->isSelected()) {
         if(_panel->getSpell() == DESTRUCTION_SPELL_SELECTED) {
             _panel->setSpell(0);
-            //            BoxObstacle* obstacle = (BoxObstacle*)_selector->getObstacle();
             if (_selector->getObstacle()->getName() == "removable"){
-                //_theWorld->removeObstacle(&obstacle);
                 RemovableBlockModel* rmb = (RemovableBlockModel*) _selector->getObstacle();
                 rmb->destroy(_theWorld->getWorldNode(), _theWorld->getDebugNode(), _theWorld->getWorld());
                 _selector->deselect();
@@ -511,7 +462,6 @@ void GameController::update(float dt) {
     
     //    update world position
     Vec2 pos = _avatar->getPosition();
-    //    _theWorld->setWorldPos(pos);
     _theWorld->setWorldPos(_avatar,pos);
     
     // Turn the physics engine crank.
@@ -576,26 +526,6 @@ void GameController::beginContact(b2Contact* contact) {
         _theWorld->showTime(time);
         _reset = true;
     }
-    //    // If the avatar hits the barrier, game over
-    //    if((body1->GetUserData() == _avatar && body2->GetUserData() == _barrier) ||
-    //            (body1->GetUserData() == _barrier && body2->GetUserData() == _avatar)) {
-    //        setFail(true);
-    //        // show time using
-    ////        double time = _overview->getCurrentPlayTime();
-    ////        _theWorld->showTime(time);
-    //        _reset = true;
-    //    }
-    //
-    //    // If the avatar hits the barrier, game over
-    //    if((body1->GetUserData() == _avatar && body2->GetUserData() == _barrier1) ||
-    //       (body1->GetUserData() == _barrier1 && body2->GetUserData() == _avatar)) {
-    //        setFail(true);
-    //        // show time using
-    //        //        double time = _overview->getCurrentPlayTime();
-    //        //        _theWorld->showTime(time);
-    //        _reset = true;
-    //    }
-    //
     
     // If we hit the "win" door, we are done
     if((body1->GetUserData() == _avatar && body2->GetUserData() == _goalDoor) ||

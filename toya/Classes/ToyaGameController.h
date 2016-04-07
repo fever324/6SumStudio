@@ -317,8 +317,6 @@ public:
      */
     void beforeSolve(b2Contact* contact, const b2Manifold* oldManifold);
     
-
-    void createGhosts(const TMXObjectGroup* map, const Size& tileSize);
 };
 
 #endif /* defined(__TOYA_GAME_CONTROLLER_H__) */
