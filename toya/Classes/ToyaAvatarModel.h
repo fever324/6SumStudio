@@ -19,9 +19,9 @@ using namespace cocos2d;
 
 /** The texture for the character avatar */
 #define AVATAR_TEXTURE    "avatar"
-#define AVATAR_ANIMATION_ROWS 2
+#define AVATAR_ANIMATION_ROWS 6
 #define AVATAR_ANIMATION_COLS 3
-#define AVATAR_FRAMES 6
+#define AVATAR_FRAMES 18
 #define AVATAR_CYCLE_PER_FRAME 30
 
 #pragma mark -

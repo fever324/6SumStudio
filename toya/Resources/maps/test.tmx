@@ -17,15 +17,15 @@
  </tileset>
  <layer name="nonremovables" width="64" height="36">
   <properties>
-   <property name="texture" value=""/>
+   <property name="texture" value="earth"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJztmNsKACEIRKP//+h9D7a8jGY1A8FCph1jy+qttf54QyrK7yxOJf6TRH7yk/9dkZ/82fyVzmyUrx21BsJnpbXwyDqXKvNHyMJxE79F5Cf/zfyrfTGTf0eeVzGz+LVxEGesZEzWOw1ijCWHEpsI/sh1k/rU8qNqQW8+d/FXEfl9/Ro7xP0JKTSbxKYKf8TeLrHZye+5t3r6x/hWWcdGxrXUWZ55aNYQtd/O6nmtH/Q/nPFONPry1FrVzj+J+s+3xc+p/Kha80R+lMhP/tfbB3JsAtc=
+   eJztllEOgCAMQ4n3P7T/xNVuDDe1TYwKbOuLgIwxxvHzK1O78u7QW3zukvjFL/7/Svzif5q/05klK1fFWSsjZ6dvsaKoly7+MxTh+BJ/ROIX/zE9M21jerb2RKaNzYu8e/qscVYN1DbHXt2RRzavNZ71Z+kJflSbzWuNQf2o7SrH6vy37tYc7sjP5PHwIx/it9+r1j87/601sTr/US3k3dMXGfdViV/8HfnRut8R00nMP+0uxlOrEz/az70xbL0u/My/2hvD1BR/vVgPnrMdm6+SP1I/03M1f7XEr+sE06QDaQ==
   </data>
  </layer>
  <layer name="removables" width="64" height="36">
   <data encoding="base64" compression="zlib">
-   eJzt1TEKACEMBMDk/5+2PSTotSYzICpWuyJmRGSc3c5flp9BTTe1Kb1MyUnN/dem9NI5559snfMDwE1u876u9gBAL/56mMv7B4A3LUpWABU=
+   eJzt0cERACAIA0Hsv2kbQL/iZLcCclSxXh8wwK2BPr2ULik76fl/L6VLys6T9P0AAAAAAAD8YwM81wAK
   </data>
  </layer>
  <layer name="rootLayer" width="64" height="36">
@@ -34,11 +34,14 @@
    <property name="gravity" type="int" value="9"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJztzjEBAAAIA6DZv7QhdngICUh+m+sAAAAAAAAAAAAUFkcAAAI=
+   eJztzgEJAAAMA6Dx/qEfYww0gQkAAAAAAAAAAOuuHaDmASf4AAM=
   </data>
  </layer>
  <objectgroup name="GoalDoor">
-  <object id="5" name="Door" gid="12" x="2913.38" y="1151.95" width="125.144" height="254.51"/>
+  <properties>
+   <property name="texture" value="goal"/>
+  </properties>
+  <object id="5" name="Door" gid="12" x="3493.38" y="843.95" width="125.144" height="254.51"/>
  </objectgroup>
  <objectgroup name="Avatar">
   <object id="15" name="Avatar" gid="18" x="776.586" y="424.539" width="64" height="64">

@@ -16,9 +16,9 @@ using namespace cocos2d;
 #pragma mark -
 #pragma mark Physics Constants
 /** the amout to shrink the body in three dimensions. **/
-#define AVATAR_SHRINK 0.3f
+#define AVATAR_SHRINK 0.2f
 /** The amount to shrink the sensor fixture (horizontally) relative to the image */
-#define AVATAR_SSHRINK  0.5f
+#define AVATAR_SSHRINK  0.3f
 /** Height of the sensor attached to the player's feet */
 #define SENSOR_HEIGHT   0.1f
 /** The density of the character */
@@ -136,7 +136,8 @@ bool AvatarModel::init(const Vec2& pos, const Vec2& scale) {
     Texture2D* image = scene->get<Texture2D>(_avatarTexture);
     
     // Multiply by the scaling factor so we can be resolution independent
-    Size avatarSize = Size(image->getContentSize().width*cscale*AVATAR_SHRINK/scale.x,image->getContentSize().height*cscale*AVATAR_SHRINK/scale.y);
+//    Size avatarSize = Size(64*cscale*AVATAR_SHRINK/scale.x,80*cscale*AVATAR_SHRINK/scale.y);
+    Size avatarSize = Size(64*cscale/scale.x,80*cscale/scale.y);
     
     if (CapsuleObstacle::init(pos, avatarSize)) {
         _animationFrameCount = 0;
@@ -152,7 +153,7 @@ bool AvatarModel::init(const Vec2& pos, const Vec2& scale) {
         setRemovable(false);
         
         PolygonNode* sprite = PolygonNode::create(Rect(0, 0, avatarSize.width, avatarSize.height));
-        sprite->setScale(AVATAR_SHRINK);
+//        sprite->setScale(AVATAR_SHRINK);
         setSceneNode(sprite);
         
 
@@ -340,7 +341,9 @@ void AvatarModel::animateAvatar() {
         _cycle = -1;
     }
     
-    int base = isFacingRight() ? 0 : 3;
+    int state = isGrounded() ? 0 : 2 * AVATAR_ANIMATION_COLS;
+    int base = isFacingRight() ? state : state + AVATAR_ANIMATION_COLS;
+    
     if(_animationFrameCount++ % AVATAR_CYCLE_PER_FRAME == 0) {
         _avatarBody->setFrame(base + (_avatarBody->getFrame()+_cycle)%AVATAR_ANIMATION_COLS);
         
@@ -377,7 +380,7 @@ void AvatarModel::resetSceneNode() {
         
         Texture2D* image = assets->get<Texture2D>(AVATAR_TEXTURE);
         
-        _avatarBody = AnimationNode::create(image, 2, 3, AVATAR_FRAMES);
+        _avatarBody = AnimationNode::create(image, AVATAR_ANIMATION_ROWS, AVATAR_ANIMATION_COLS, AVATAR_FRAMES);
         
         pnode->addChild(_avatarBody);
         _avatarBody->setPosition(pnode->getContentSize().width/2.0f,pnode->getContentSize().height/2.0f);
