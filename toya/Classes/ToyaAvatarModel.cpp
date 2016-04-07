@@ -137,7 +137,7 @@ bool AvatarModel::init(const Vec2& pos, const Vec2& scale) {
     
     // Multiply by the scaling factor so we can be resolution independent
 //    Size avatarSize = Size(64*cscale*AVATAR_SHRINK/scale.x,80*cscale*AVATAR_SHRINK/scale.y);
-    Size avatarSize = Size(64*cscale/scale.x,80*cscale/scale.y);
+    Size avatarSize = Size(64/cscale/scale.x,80/cscale/scale.y);
     
     if (CapsuleObstacle::init(pos, avatarSize)) {
         _animationFrameCount = 0;

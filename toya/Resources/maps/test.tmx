@@ -25,7 +25,7 @@
  </layer>
  <layer name="removables" width="64" height="36">
   <data encoding="base64" compression="zlib">
-   eJzt0cERACAIA0Hsv2kbQL/iZLcCclSxXh8wwK2BPr2ULik76fl/L6VLys6T9P0AAAAAAAD8YwM81wAK
+   eJzt0UERACAMA8Hi3zQGwhuY7CporjOs2wc8Tp+spUvLTjL/z1q6tOw8ad8PAAAAAADAPzYa3wAJ
   </data>
  </layer>
  <layer name="rootLayer" width="64" height="36">

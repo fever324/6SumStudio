@@ -10,7 +10,7 @@
 #define BUTTON_SELECTED_BACKGROUND   "textures/button_selected_background.png"
 
 
-#define DESTROY_MAGIC_UNSELECTED_IMAGE "textures/destroy_magic.png"
+#define DESTROY_MAGIC_UNSELECTED_IMAGE "textures/destroy_magic_icon.png"
 #define DESTROY_MAGIC_SELECTED_IMAGE "textures/destroy_magic_selected.png"
 #define DESTROY_MAGIC_DISABLED_IMAGE "textures/destroy_magic_disabled.png"
 
