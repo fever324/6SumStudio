@@ -318,9 +318,6 @@ public:
     void beforeSolve(b2Contact* contact, const b2Manifold* oldManifold);
     
 
-// add map
-    void createBlocks(const TMXTiledMap* map, const std::string& mapname,
-                                     const int& texture, const Size& size, const Vec2& _scale);
     void createGhosts(const TMXObjectGroup* map, const Size& tileSize);
 };
 

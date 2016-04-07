@@ -575,10 +575,10 @@
 				LastUpgradeCheck = 0720;
 				TargetAttributes = {
 					1D6058900D05DD3D006BFB54 = {
-						DevelopmentTeam = 9WEW4LG4VB;
+						DevelopmentTeam = DD9LU872HK;
 					};
 					5087E73D17EB910900C73F5D = {
-						DevelopmentTeam = 9WEW4LG4VB;
+						DevelopmentTeam = DD9LU872HK;
 					};
 				};
 			};
@@ -862,7 +862,8 @@
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
 				CLANG_CXX_LIBRARY = "libc++";
-				CODE_SIGN_IDENTITY = "Developer ID Application";
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
@@ -887,6 +888,7 @@
 					"$(_COCOS_LIB_MAC_END)",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = edu.cornell.gdiac.toya;
+				PROVISIONING_PROFILE = "";
 				USER_HEADER_SEARCH_PATHS = "$(_COCOS_HEADER_MAC_BEGIN) $(_COCOS_HEADER_MAC_END)";
 			};
 			name = Debug;
@@ -897,7 +899,8 @@
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
 				CLANG_CXX_LIBRARY = "libc++";
-				CODE_SIGN_IDENTITY = "Developer ID Application";
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -920,6 +923,7 @@
 					"$(_COCOS_LIB_MAC_END)",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = edu.cornell.gdiac.toya;
+				PROVISIONING_PROFILE = "";
 				USER_HEADER_SEARCH_PATHS = "$(_COCOS_HEADER_MAC_BEGIN) $(_COCOS_HEADER_MAC_END)";
 			};
 			name = Release;

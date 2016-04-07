@@ -44,7 +44,10 @@
   <object id="5" name="Door" gid="12" x="3493.38" y="843.95" width="125.144" height="254.51"/>
  </objectgroup>
  <objectgroup name="Avatar">
-  <object id="15" name="Avatar" gid="18" x="776.586" y="424.539" width="64" height="64">
+  <properties>
+   <property name="texture" value="bear"/>
+  </properties>
+  <object id="15" name="Avatar" gid="18" x="359.986" y="484.962" width="64" height="64">
    <properties>
     <property name="texture" value="bear"/>
    </properties>

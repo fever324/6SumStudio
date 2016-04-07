@@ -379,15 +379,14 @@ void GameController::populate() {
     _mapReader->createBackground();
     _mapReader->createRemovableBlocks();
     _mapReader->createNonRemovableBlocks();
+    _mapReader->createMovingObstacles();
     _goalDoor = _mapReader->createGoalDoor();
     _avatar = _mapReader->createAvatar();
     
     _theWorld->setFollow(_avatar);
     _avatar->setName("avatar");
     
-#pragma mark : Ghosts
-    TMXObjectGroup* ghostsGroup = map->getObjectGroup("Ghosts");
-    createGhosts(ghostsGroup, tileSize);
+
     
     PolygonObstacle* wallobj;
     //
@@ -455,52 +454,9 @@ void GameController::addObstacle(Obstacle* obj, int zOrder) {
     _theWorld->addObstacle(obj, zOrder);
 }
 
-//add map
-void GameController::createBlocks(const TMXTiledMap* map, const std::string& layerName, const int& layerLevel, const Size& size, const Vec2& _scale) {
-    
-    auto layer = map->getLayer(layerName);
-    if (layer != nullptr) {
-        Size layerSize = layer->getLayerSize();
-        for (int y = 0; y < layerSize.height; y++) {
-            for (int x = 0; x < layerSize.width; x++) {
-                auto tileSprite = layer->getTileAt(Point(x, y));
-                
-                if (tileSprite) {
-                    Obstacle* obj;
-                    
-                    if(layerName == "removables"){
-                        obj = BlockFactory::getRemovableBlock(Vec2(x,layerSize.height-y), size, _scale);
-                    } else if(layerName == "nonremovables") {
-                        //obj = BlockFactory::getNonRemovableBlock(Vec2(x,layerSize.height-y), size, _scale, "texture");
-                    }
-                    GameController::addObstacle(obj, layerLevel);
-                    //obj = BlockFactory::getNonRemovableBlock(Vec2(x,layerSize.height-y), size, _scale, "texture");
-                    
-                }
-            }
-        }
-    }
-}
 
 void GameController::createGhosts(const TMXObjectGroup* map, const Size& tileSize) {
-    for(cocos2d::Value ghost : map->getObjects()) {
-        cocos2d::ValueMap ghostMap = ghost.asValueMap();
-        string texture = ghostMap.at("texture").asString();
-        float x_pos = ghostMap.at("x").asFloat();
-        float y_pos = ghostMap.at("y").asFloat();
-        
-        float cscale = Director::getInstance()->getContentScaleFactor();
-        
-        const Size size = *new Size((Vec2){64.0f*cscale*0.3f/_scale.x, 64.0f*cscale*0.3f/_scale.y});
-        
-        vector<Vec2> routes = {(Vec2){ghostMap.at("x").asFloat(), ghostMap.at("y").asFloat()}, (Vec2){ghostMap.at("point1X").asFloat(), ghostMap.at("point1Y").asFloat()}};
-        
-        Vec2 ghostPos = (Vec2){x_pos/tileSize.width, y_pos/tileSize.height};
-        MovingObstacleModel* ghostObj = MovingObstacleModel::create(2, 4, 4, "ghosts", ghostPos, size, _scale, routes, ghostMap.at("speed").asFloat());
-        addObstacle(ghostObj, BARRIER_DRAW_LAYER);
-        ghostObj->setName("ghost");
     }
-}
 
 
 
