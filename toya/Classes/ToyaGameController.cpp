@@ -122,7 +122,7 @@ float BARRIER_POS[] = {32.5, 13.0};
 #define NONREMOVABLE_DRAW_LAYER  2
 #define GOAL_DRAW_LAYER          3
 #define AVATAR_DRAW_LAYER        4
-#define BARRIER_DRAW_LAYER        4
+#define BARRIER_DRAW_LAYER       5
 
 /** The key for collisions sounds */
 #define COLLISION_SOUND     "bump"
@@ -394,11 +394,20 @@ void GameController::populate() {
     // Add nonremovables
     //createBlocks(map, "nonremovables", NONREMOVABLE_DRAW_LAYER, size, _scale);
     
-//    const Size size = *new Size((Vec2){10, 10});
-    RemovableBlockModel* removed = BlockFactory::getRemovableBlock(removePos, size, _scale);
-    addObstacle(removed, REMOVABLE_DRAW_LAYER);
-//
-#pragma mark : Goal door
+    
+    //    Vec2 removePos = ((Vec2) REMOVE_POS);
+    //
+    ////    const Size size = *new Size((Vec2){10, 10});
+    //    RemovableBlockModel* removed = BlockFactory::getRemovableBlock(removePos, size, _scale);
+    //    addObstacle(removed, REMOVABLE_DRAW_LAYER)
+    
+    // Add exit door
+    TMXObjectGroup* goalDoorGroup = map->getObjectGroup("GoalDoor");
+    ValueMap door = goalDoorGroup->getObject("Door");
+    float goal_x = door.at("x").asFloat();
+    float goal_y = door.at("y").asFloat();
+    Vec2 goalPos = (Vec2){goal_x/tileSize.width, goal_y/tileSize.height};
+    image = _assets->get<Texture2D>(GOAL_TEXTURE);
     
     Size goalSize = Size(image->getContentSize().width/_scale.x, image->getContentSize().height/_scale.y);
     _goalDoor = ExitDoorModel::create(goalPos, goalSize/8);
@@ -421,6 +430,10 @@ void GameController::populate() {
     _theWorld->setFollow(_avatar);
     _avatar->setName("avatar");
     
+#pragma mark : Ghosts
+    TMXObjectGroup* ghostsGroup = map->getObjectGroup("Ghosts");
+    createGhosts(ghostsGroup, tileSize);
+    
     PolygonObstacle* wallobj;
     //
 #pragma mark : Wall polygon 1
@@ -429,44 +442,45 @@ void GameController::populate() {
     wallobj = BlockFactory::getNonRemovableBlock(wall1, _scale, EARTH_TEXTURE, false); // 1st line
     wallobj->setName("wall1");
     addObstacle(wallobj, NONREMOVABLE_DRAW_LAYER);  // All walls share the same texture
-//    
-//#pragma mark : Wall polygon 2
-//    
-//    Poly2 wall2(WALL2,8);
-//    wall2.triangulate();
-//    wallobj = BlockFactory::getNonRemovableBlock(wall2, _scale, EARTH_TEXTURE);
-//    wallobj->setName("wall2");
-//    addObstacle(wallobj, NONREMOVABLE_DRAW_LAYER);
-//    
-//    Poly2 wall22(WALL22, 8);
-//    wall22.triangulate();
-//    wallobj = BlockFactory::getNonRemovableBlock(wall22, _scale, EARTH_TEXTURE);
-//    wallobj->setName("wall22");
-//    addObstacle(wallobj, NONREMOVABLE_DRAW_LAYER);
-//    
-//    
-//#pragma mark : Walls polygon 3
-//    Poly2 wall3(WALL3,8);
-//    wall3.triangulate();
-//    wallobj = BlockFactory::getNonRemovableBlock(wall3, _scale, EARTH_TEXTURE);
-//    wallobj->setName("wall3");
-//    addObstacle(wallobj, NONREMOVABLE_DRAW_LAYER);
-//    
-//    
-//#pragma mark : Wall polygon 4
-//    Poly2 wall4(WALL4,12);
-//    wall4.triangulate();
-//    wallobj = BlockFactory::getNonRemovableBlock(wall4, _scale, EARTH_TEXTURE);
-//    wallobj->setName("wall4");
-//    addObstacle(wallobj, NONREMOVABLE_DRAW_LAYER);
-//    
-//    
-//#pragma mark : Walls polygon 5
-//    Poly2 wall5(WALL5,8);
-//    wall5.triangulate();
-//    wallobj = BlockFactory::getNonRemovableBlock(wall5, _scale, EARTH_TEXTURE);
-//    wallobj->setName("wall5");
-//    addObstacle(wallobj, NONREMOVABLE_DRAW_LAYER);
+    
+    //#pragma mark : Wall polygon 2
+    //
+    //    Poly2 wall2(WALL2,8);
+    //    wall2.triangulate();
+    //    wallobj = BlockFactory::getNonRemovableBlock(wall2, _scale, EARTH_TEXTURE);
+    //    wallobj->setName("wall2");
+    //    addObstacle(wallobj, NONREMOVABLE_DRAW_LAYER);
+    //
+    //    Poly2 wall22(WALL22, 8);
+    //    wall22.triangulate();
+    //    wallobj = BlockFactory::getNonRemovableBlock(wall22, _scale, EARTH_TEXTURE);
+    //    wallobj->setName("wall22");
+    //    addObstacle(wallobj, NONREMOVABLE_DRAW_LAYER);
+    //
+    //
+    //#pragma mark : Walls polygon 3
+    //    Poly2 wall3(WALL3,8);
+    //    wall3.triangulate();
+    //    wallobj = BlockFactory::getNonRemovableBlock(wall3, _scale, EARTH_TEXTURE);
+    //    wallobj->setName("wall3");
+    //    addObstacle(wallobj, NONREMOVABLE_DRAW_LAYER);
+    //
+    //
+    //#pragma mark : Wall polygon 4
+    //    Poly2 wall4(WALL4,12);
+    //    wall4.triangulate();
+    //    wallobj = BlockFactory::getNonRemovableBlock(wall4, _scale, EARTH_TEXTURE);
+    //    wallobj->setName("wall4");
+    //    addObstacle(wallobj, NONREMOVABLE_DRAW_LAYER);
+    //
+    //
+    //#pragma mark : Walls polygon 5
+    //    Poly2 wall5(WALL5,8);
+    //    wall5.triangulate();
+    //    wallobj = BlockFactory::getNonRemovableBlock(wall5, _scale, EARTH_TEXTURE);
+    //    wallobj->setName("wall5");
+    //    addObstacle(wallobj, NONREMOVABLE_DRAW_LAYER);
+    //
     
     
     
@@ -487,8 +501,7 @@ void GameController::addObstacle(Obstacle* obj, int zOrder) {
 }
 
 //add map
-void GameController::createBlocks(const TMXTiledMap* map, const std::string& layerName,
-                                  const int& layerLevel, const Size& size, const Vec2& _scale) {
+void GameController::createBlocks(const TMXTiledMap* map, const std::string& layerName, const int& layerLevel, const Size& size, const Vec2& _scale) {
     
     auto layer = map->getLayer(layerName);
     if (layer != nullptr) {
@@ -511,6 +524,26 @@ void GameController::createBlocks(const TMXTiledMap* map, const std::string& lay
                 }
             }
         }
+    }
+}
+
+void GameController::createGhosts(const TMXObjectGroup* map, const Size& tileSize) {
+    for(cocos2d::Value ghost : map->getObjects()) {
+        cocos2d::ValueMap ghostMap = ghost.asValueMap();
+        string texture = ghostMap.at("texture").asString();
+        float x_pos = ghostMap.at("x").asFloat();
+        float y_pos = ghostMap.at("y").asFloat();
+        
+        float cscale = Director::getInstance()->getContentScaleFactor();
+        
+        const Size size = *new Size((Vec2){64.0f*cscale*0.3f/_scale.x, 64.0f*cscale*0.3f/_scale.y});
+        
+        vector<Vec2> routes = {(Vec2){ghostMap.at("x").asFloat(), ghostMap.at("y").asFloat()}, (Vec2){ghostMap.at("point1X").asFloat(), ghostMap.at("point1Y").asFloat()}};
+        
+        Vec2 ghostPos = (Vec2){x_pos/tileSize.width, y_pos/tileSize.height};
+        MovingObstacleModel* ghostObj = MovingObstacleModel::create(2, 4, 4, "ghosts", ghostPos, size, _scale, routes, ghostMap.at("speed").asFloat());
+        addObstacle(ghostObj, BARRIER_DRAW_LAYER);
+        ghostObj->setName("ghost");
     }
 }
 

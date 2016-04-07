@@ -17,13 +17,16 @@ private:
     WorldController* _world;
     
     float _movement;
+    float _speed;
     bool _faceRight;
     
-    std::vector<Vec2> routes;
+    std::vector<Vec2> _routes; // A list of points that define the routes of this moving obstacle.
+    int _nextPos; // The index of next turing point on the route.
+    int _freezeTime; // The time of freezing 
 public:
-    static MovingObstacleModel* create(int stateCount, int rowCount, int columnCount, std::string textureKey, const Vec2& pos, const Size& size, Vec2 scale, std::vector<Vec2>& routes);
+    static MovingObstacleModel* create(int stateCount, int rowCount, int columnCount, std::string textureKey, const Vec2& pos, const Size& size, Vec2 scale, std::vector<Vec2>& routes, int speed);
     
-    bool init(int stateCount, int rowCount, int columnCount, std::string textureKey, const Vec2& pos, const Size& size, Vec2 scale, std::vector<Vec2>& routes);
+    bool init(int stateCount, int rowCount, int columnCount, std::string textureKey, const Vec2& pos, const Size& size, Vec2 scale, std::vector<Vec2>& routes, int speed);
     
     void update(float dt) override;
     

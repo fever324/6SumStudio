@@ -455,6 +455,7 @@
 				FB54E8D11C95C8D6003A51B9 /* ToyaWorldModel.h */,
 				EB28113E1CB5F982003B4616 /* ToyaMovingObstacle.cpp */,
 				EB28113F1CB5F982003B4616 /* ToyaMovingObstacle.h */,
+				FBD3E40D1CB5EC8200A261D5 /* ToyaMapReader.h */,
 			);
 			name = Classes;
 			path = ../Classes;

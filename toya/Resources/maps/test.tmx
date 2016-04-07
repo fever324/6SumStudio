@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="left-up" width="64" height="36" tilewidth="64" tileheight="64" nextobjectid="49">
+<map version="1.0" orientation="orthogonal" renderorder="left-up" width="64" height="36" tilewidth="64" tileheight="64" nextobjectid="55">
  <tileset firstgid="1" name="texture" tilewidth="64" tileheight="64" tilecount="1" columns="1">
   <image source="../textures/texture.png" width="64" height="64"/>
  </tileset>
@@ -11,6 +11,9 @@
  </tileset>
  <tileset firstgid="13" name="bear" tilewidth="64" tileheight="64" tilecount="6" columns="2">
   <image source="../textures/bear.png" width="185" height="249"/>
+ </tileset>
+ <tileset firstgid="19" name="heigui" tilewidth="64" tileheight="64" tilecount="9" columns="3">
+  <image source="../../../../../../../Downloads/heigui.png" width="200" height="200"/>
  </tileset>
  <layer name="nonremovables" width="64" height="36">
   <properties>
@@ -38,15 +41,20 @@
   <object id="5" name="Door" gid="12" x="2913.38" y="1151.95" width="125.144" height="254.51"/>
  </objectgroup>
  <objectgroup name="Avatar">
-  <object id="15" name="Avatar" gid="18" x="359.986" y="484.962" width="64" height="64">
+  <object id="15" name="Avatar" gid="18" x="776.586" y="424.539" width="64" height="64">
    <properties>
     <property name="texture" value="bear"/>
    </properties>
   </object>
  </objectgroup>
- <objectgroup name="nonremovables">
-  <object id="46" x="1960.7" y="806.386" width="241.506" height="323.373">
-   <ellipse/>
+ <objectgroup name="Ghosts">
+  <object id="51" name="Ghost" gid="23" x="450.927" y="579.258" width="64" height="64">
+   <properties>
+    <property name="point1X" type="float" value="10"/>
+    <property name="point1Y" type="float" value="0"/>
+    <property name="speed" type="float" value="5"/>
+    <property name="texture" value="heigui.png"/>
+   </properties>
   </object>
  </objectgroup>
 </map>
