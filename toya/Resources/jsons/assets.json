@@ -24,8 +24,8 @@
             "file":     "textures/background.png",
             "wrap":     true
         },
-        "barrier":    {
-            "file":     "textures/obstacle_01.png",
+        "ghosts":    {
+            "file":     "textures/ghosts.png",
             "wrap":     false
         },
         "goal-reached": {

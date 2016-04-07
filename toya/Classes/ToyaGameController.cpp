@@ -121,7 +121,7 @@ float BARRIER_POS[] = {32.5, 13.0};
 #define NONREMOVABLE_DRAW_LAYER  2
 #define GOAL_DRAW_LAYER          3
 #define AVATAR_DRAW_LAYER        4
-#define BARRIER_DRAW_LAYER        4
+#define BARRIER_DRAW_LAYER       5
 
 /** The key for collisions sounds */
 #define COLLISION_SOUND     "bump"
@@ -379,10 +379,13 @@ void GameController::populate() {
     _mapReader->createBackground();
     _mapReader->createRemovableBlocks();
     _mapReader->createNonRemovableBlocks();
+    _mapReader->createMovingObstacles();
     _goalDoor = _mapReader->createGoalDoor();
     _avatar = _mapReader->createAvatar();
     
     _theWorld->setFollow(_avatar);
+    _avatar->setName("avatar");
+    
 
     
 }
@@ -400,6 +403,11 @@ void GameController::populate() {
 void GameController::addObstacle(Obstacle* obj, int zOrder) {
     _theWorld->addObstacle(obj, zOrder);
 }
+
+
+void GameController::createGhosts(const TMXObjectGroup* map, const Size& tileSize) {
+    }
+
 
 
 #pragma mark -
@@ -565,6 +573,13 @@ void GameController::beginContact(b2Contact* contact) {
     Obstacle* bd1 = (Obstacle*)body1->GetUserData();
     Obstacle* bd2 = (Obstacle*)body2->GetUserData();
     
+    if((bd1->getName() == "avatar" && bd2->getName() == "ghost") ||
+       (bd1->getName() == "ghost" && bd2->getName() == "avatar")) {
+        setFail(true);
+        double time = _overview->getCurrentPlayTime();
+        _theWorld->showTime(time);
+        _reset = true;
+    }
     //    // If the avatar hits the barrier, game over
     //    if((body1->GetUserData() == _avatar && body2->GetUserData() == _barrier) ||
     //            (body1->GetUserData() == _barrier && body2->GetUserData() == _avatar)) {

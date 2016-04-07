@@ -19,6 +19,7 @@
 #include <Box2D/Collision/b2Collision.h>
 #include "ToyaPanelModel.h"
 #include "ToyaRemovableBlockModel.h"
+#include "ToyaMovingObstacle.h"
 
 
 // Physics constants for initialization
@@ -127,6 +128,7 @@ public:
     }
     
     static ExitDoorModel* getExitDoor();
+    static MovingObstacleModel* getMovingObstacle(int stateCount, int rowCount, int columnCount, std::string textureKey, const Vec2& pos, const Size& size, Vec2 scale, std::vector<Vec2>& routes, int speed);
 };
 
 

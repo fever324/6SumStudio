@@ -63,6 +63,8 @@
 		D6692C0F1C987D1F00DD9B2F /* ToyaLevelConstants.h in Sources */ = {isa = PBXBuildFile; fileRef = 2B47DADC1C9649AD003B2491 /* ToyaLevelConstants.h */; };
 		EB24EB901C5B0EAB0069DBBE /* textures in Resources */ = {isa = PBXBuildFile; fileRef = EB24EB8F1C5B0EAB0069DBBE /* textures */; };
 		EB24EB911C5B10C60069DBBE /* textures in Resources */ = {isa = PBXBuildFile; fileRef = EB24EB8F1C5B0EAB0069DBBE /* textures */; };
+		EB2811401CB5F982003B4616 /* ToyaMovingObstacle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB28113E1CB5F982003B4616 /* ToyaMovingObstacle.cpp */; };
+		EB2811411CB5F982003B4616 /* ToyaMovingObstacle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB28113E1CB5F982003B4616 /* ToyaMovingObstacle.cpp */; };
 		EB4A34FA1C516DFC00F5FF0F /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB4A34F91C516DFC00F5FF0F /* Security.framework */; };
 		EB4A34FC1C516E1F00F5FF0F /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB4A34FB1C516E1F00F5FF0F /* CoreMotion.framework */; };
 		EB4A34FE1C516E3F00F5FF0F /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB4A34FD1C516E3F00F5FF0F /* OpenGLES.framework */; };
@@ -225,6 +227,8 @@
 		D6692C021C987CB900DD9B2F /* ToyaConstructionSpellModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToyaConstructionSpellModel.h; sourceTree = "<group>"; };
 		D6692C031C987CB900DD9B2F /* ToyaDestructionSpellModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToyaDestructionSpellModel.h; sourceTree = "<group>"; };
 		EB24EB8F1C5B0EAB0069DBBE /* textures */ = {isa = PBXFileReference; lastKnownFileType = folder; path = textures; sourceTree = "<group>"; };
+		EB28113E1CB5F982003B4616 /* ToyaMovingObstacle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ToyaMovingObstacle.cpp; sourceTree = "<group>"; };
+		EB28113F1CB5F982003B4616 /* ToyaMovingObstacle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToyaMovingObstacle.h; sourceTree = "<group>"; };
 		EB4A34F91C516DFC00F5FF0F /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.2.sdk/System/Library/Frameworks/Security.framework; sourceTree = DEVELOPER_DIR; };
 		EB4A34FB1C516E1F00F5FF0F /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.2.sdk/System/Library/Frameworks/CoreMotion.framework; sourceTree = DEVELOPER_DIR; };
 		EB4A34FD1C516E3F00F5FF0F /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.2.sdk/System/Library/Frameworks/OpenGLES.framework; sourceTree = DEVELOPER_DIR; };
@@ -444,6 +448,8 @@
 				FB99ADFE1C962A5B0074BBE9 /* ToyaSpellModel.h */,
 				FB54E8D01C95C8D6003A51B9 /* ToyaWorldModel.cpp */,
 				FB54E8D11C95C8D6003A51B9 /* ToyaWorldModel.h */,
+				EB28113E1CB5F982003B4616 /* ToyaMovingObstacle.cpp */,
+				EB28113F1CB5F982003B4616 /* ToyaMovingObstacle.h */,
 				FBD3E40D1CB5EC8200A261D5 /* ToyaMapReader.h */,
 				FBD3E40F1CB611D300A261D5 /* ToyaMapReader.cpp */,
 			);
@@ -569,6 +575,9 @@
 				LastUpgradeCheck = 0720;
 				TargetAttributes = {
 					1D6058900D05DD3D006BFB54 = {
+						DevelopmentTeam = DD9LU872HK;
+					};
+					5087E73D17EB910900C73F5D = {
 						DevelopmentTeam = 9WEW4LG4VB;
 					};
 				};
@@ -678,6 +687,7 @@
 				FB99ADFF1C962A5B0074BBE9 /* ToyaInputController.cpp in Sources */,
 				FB54E9071C95F46D003A51B9 /* ToyaMenuModel.h in Sources */,
 				FB54E9081C95F46D003A51B9 /* ToyaMenuView.h in Sources */,
+				EB2811401CB5F982003B4616 /* ToyaMovingObstacle.cpp in Sources */,
 				FB54E9091C95F46D003A51B9 /* ToyaPanelModel.h in Sources */,
 				FB99AE001C962A5B0074BBE9 /* ToyaRemovableBlockModel.cpp in Sources */,
 				FB54E90A1C95F46D003A51B9 /* ToyaProgressController.h in Sources */,
@@ -732,6 +742,7 @@
 				FB54E8EC1C95F1E4003A51B9 /* ToyaMenuModel.h in Sources */,
 				FB54E8ED1C95F1E4003A51B9 /* ToyaMenuView.cpp in Sources */,
 				FB54E8EE1C95F1E4003A51B9 /* ToyaMenuView.h in Sources */,
+				EB2811411CB5F982003B4616 /* ToyaMovingObstacle.cpp in Sources */,
 				FB54E8EF1C95F1E4003A51B9 /* ToyaPanelModel.cpp in Sources */,
 				FB54E8F01C95F1E4003A51B9 /* ToyaPanelModel.h in Sources */,
 				FB54E8F11C95F1E4003A51B9 /* ToyaProgressController.cpp in Sources */,
@@ -851,6 +862,8 @@
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
 				CLANG_CXX_LIBRARY = "libc++";
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
@@ -875,6 +888,7 @@
 					"$(_COCOS_LIB_MAC_END)",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = edu.cornell.gdiac.toya;
+				PROVISIONING_PROFILE = "";
 				USER_HEADER_SEARCH_PATHS = "$(_COCOS_HEADER_MAC_BEGIN) $(_COCOS_HEADER_MAC_END)";
 			};
 			name = Debug;
@@ -885,6 +899,8 @@
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
 				CLANG_CXX_LIBRARY = "libc++";
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -907,6 +923,7 @@
 					"$(_COCOS_LIB_MAC_END)",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = edu.cornell.gdiac.toya;
+				PROVISIONING_PROFILE = "";
 				USER_HEADER_SEARCH_PATHS = "$(_COCOS_HEADER_MAC_BEGIN) $(_COCOS_HEADER_MAC_END)";
 			};
 			name = Release;

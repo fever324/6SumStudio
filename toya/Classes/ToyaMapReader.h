@@ -50,6 +50,8 @@ public:
     
     void createBackground();
     
+    void createMovingObstacles();
+    
     ExitDoorModel* createGoalDoor();
     
     AvatarModel* createAvatar();

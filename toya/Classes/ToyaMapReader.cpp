@@ -121,6 +121,29 @@ void MapReader::createNonRemovableBlocks() {
     }
 }
 
+void MapReader::createMovingObstacles() {
+    Vec2 _scale = gameController->getScale();
+    
+    for(cocos2d::Value ghost : map->getObjectGroup("Ghosts")->getObjects()) {
+        cocos2d::ValueMap ghostMap = ghost.asValueMap();
+        string texture = ghostMap.at("texture").asString();
+        float x_pos = ghostMap.at("x").asFloat();
+        float y_pos = ghostMap.at("y").asFloat();
+        
+        float cscale = Director::getInstance()->getContentScaleFactor();
+        
+        const Size size = *new Size((Vec2){64.0f*cscale*0.3f/_scale.x, 64.0f*cscale*0.3f/_scale.y});
+        
+        vector<Vec2> routes = {(Vec2){ghostMap.at("x").asFloat(), ghostMap.at("y").asFloat()}, (Vec2){ghostMap.at("point1X").asFloat(), ghostMap.at("point1Y").asFloat()}};
+        
+        Vec2 ghostPos = (Vec2){x_pos/tileSize.width, y_pos/tileSize.height};
+        MovingObstacleModel* ghostObj = MovingObstacleModel::create(2, 4, 4, texture, ghostPos, size, _scale, routes, ghostMap.at("speed").asFloat());
+        gameController->addObstacle(ghostObj, BARRIER_DRAW_LAYER);
+        ghostObj->setName("ghost");
+    }
+
+}
+
 void MapReader::createBackground() {
     
     TMXLayer* rootLayer = map->getLayer("rootLayer");
