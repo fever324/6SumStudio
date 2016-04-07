@@ -61,20 +61,20 @@ using namespace std;
 /** The default value of gravity (going down) */
 #define DEFAULT_GRAVITY -5.0f
 
-
+//
 float WALL1[] = { -20.0f, 56.0f,  84.0f, 56.0f,   84.0f, 31.0f,
     5.0f, 31.0f, 5.0f, 5.0f,  59.0f, 5.0f,   59.0f, 31.0f,
     84.0f, 31.0f,   84.0f, -20.0f, -20.0f,-20.0f};
-
-float WALL2[] = {5.0f,28.0f,   12.0f,28.0f,  12.0f, 26.0f,  5.0f, 26.0f };
-
-float WALL22[] = {14.0f,28.0f,   27.0f,28.0f,  27.0f, 26.0f,  14.0f, 26.0f};
-
-float WALL3[] = {30.0f,22.0f,  50.0f,22.0f, 50.0f,20.0f,  30.0f,20.0f};
-float WALL5[] = {50.0f, 20.0f,  50.0f, 26.0f,  48.0f,26.0f,  48.0f, 20.0f};
-
-float WALL4[] = {30.0f,12.5f,   20.0f,12.5f,   17.0f,13.5f,   15.0f,13.5f,  19.0f,10.5f,  30.0f,10.5f};
-
+//
+//float WALL2[] = {5.0f,28.0f,   12.0f,28.0f,  12.0f, 26.0f,  5.0f, 26.0f };
+//
+//float WALL22[] = {14.0f,28.0f,   27.0f,28.0f,  27.0f, 26.0f,  14.0f, 26.0f};
+//
+//float WALL3[] = {30.0f,22.0f,  50.0f,22.0f, 50.0f,20.0f,  30.0f,20.0f};
+//float WALL5[] = {50.0f, 20.0f,  50.0f, 26.0f,  48.0f,26.0f,  48.0f, 20.0f};
+//
+//float WALL4[] = {30.0f,12.5f,   20.0f,12.5f,   17.0f,13.5f,   15.0f,13.5f,  19.0f,10.5f,  30.0f,10.5f};
+//
 
 
 //vector<float> tmp(WALL2,WALL2+8);
@@ -278,6 +278,9 @@ bool GameController::init(RootLayer* root, const Rect& rect, const Vec2& gravity
     
     _scale.set(root->getContentSize().width/32.0f,
                root->getContentSize().height/18.0f);
+    
+    CCLOG("%f, %f", _scale.x,_scale.y);
+    
     _rootnode = root;
     
     populate();
@@ -423,7 +426,7 @@ void GameController::populate() {
     _avatar->setName("avatar");
     
 PolygonObstacle* wallobj;
-    
+//    
 #pragma mark : Wall polygon 1
     Poly2 wall1(WALL1,20);
     wall1.triangulate();
@@ -431,44 +434,44 @@ PolygonObstacle* wallobj;
     wallobj->setName("wall1");
     addObstacle(wallobj, NONREMOVABLE_DRAW_LAYER);  // All walls share the same texture
     
-#pragma mark : Wall polygon 2
-    
-    Poly2 wall2(WALL2,8);
-    wall2.triangulate();
-    wallobj = BlockFactory::getNonRemovableBlock(wall2, _scale, EARTH_TEXTURE);
-    wallobj->setName("wall2");
-    addObstacle(wallobj, NONREMOVABLE_DRAW_LAYER);
-    
-    Poly2 wall22(WALL22, 8);
-    wall22.triangulate();
-    wallobj = BlockFactory::getNonRemovableBlock(wall22, _scale, EARTH_TEXTURE);
-    wallobj->setName("wall22");
-    addObstacle(wallobj, NONREMOVABLE_DRAW_LAYER);
-    
-    
-#pragma mark : Walls polygon 3
-    Poly2 wall3(WALL3,8);
-    wall3.triangulate();
-    wallobj = BlockFactory::getNonRemovableBlock(wall3, _scale, EARTH_TEXTURE);
-    wallobj->setName("wall3");
-    addObstacle(wallobj, NONREMOVABLE_DRAW_LAYER);
-    
-    
-#pragma mark : Wall polygon 4
-    Poly2 wall4(WALL4,12);
-    wall4.triangulate();
-    wallobj = BlockFactory::getNonRemovableBlock(wall4, _scale, EARTH_TEXTURE);
-    wallobj->setName("wall4");
-    addObstacle(wallobj, NONREMOVABLE_DRAW_LAYER);
-    
-    
-#pragma mark : Walls polygon 5
-    Poly2 wall5(WALL5,8);
-    wall5.triangulate();
-    wallobj = BlockFactory::getNonRemovableBlock(wall5, _scale, EARTH_TEXTURE);
-    wallobj->setName("wall5");
-    addObstacle(wallobj, NONREMOVABLE_DRAW_LAYER);
-    
+//#pragma mark : Wall polygon 2
+//    
+//    Poly2 wall2(WALL2,8);
+//    wall2.triangulate();
+//    wallobj = BlockFactory::getNonRemovableBlock(wall2, _scale, EARTH_TEXTURE);
+//    wallobj->setName("wall2");
+//    addObstacle(wallobj, NONREMOVABLE_DRAW_LAYER);
+//    
+//    Poly2 wall22(WALL22, 8);
+//    wall22.triangulate();
+//    wallobj = BlockFactory::getNonRemovableBlock(wall22, _scale, EARTH_TEXTURE);
+//    wallobj->setName("wall22");
+//    addObstacle(wallobj, NONREMOVABLE_DRAW_LAYER);
+//    
+//    
+//#pragma mark : Walls polygon 3
+//    Poly2 wall3(WALL3,8);
+//    wall3.triangulate();
+//    wallobj = BlockFactory::getNonRemovableBlock(wall3, _scale, EARTH_TEXTURE);
+//    wallobj->setName("wall3");
+//    addObstacle(wallobj, NONREMOVABLE_DRAW_LAYER);
+//    
+//    
+//#pragma mark : Wall polygon 4
+//    Poly2 wall4(WALL4,12);
+//    wall4.triangulate();
+//    wallobj = BlockFactory::getNonRemovableBlock(wall4, _scale, EARTH_TEXTURE);
+//    wallobj->setName("wall4");
+//    addObstacle(wallobj, NONREMOVABLE_DRAW_LAYER);
+//    
+//    
+//#pragma mark : Walls polygon 5
+//    Poly2 wall5(WALL5,8);
+//    wall5.triangulate();
+//    wallobj = BlockFactory::getNonRemovableBlock(wall5, _scale, EARTH_TEXTURE);
+//    wallobj->setName("wall5");
+//    addObstacle(wallobj, NONREMOVABLE_DRAW_LAYER);
+//    
 
 
 
@@ -495,8 +498,11 @@ void GameController::createBlocks(const TMXTiledMap* map, const std::string& lay
     auto layer = map->getLayer(layerName);
     if (layer != nullptr) {
         Size layerSize = layer->getLayerSize();
-        for (int y = 0; y < layerSize.height; y++) {
-            for (int x = 0; x < layerSize.width; x++) {
+        bool plus = false;
+        int x = 0;
+        int y = 0;
+        for (y = 0; y < layerSize.height; y++) {
+            for (x = 0; x < layerSize.width; x++) {
                 // create a fixture if this tile has a sprite
                 auto tileSprite = layer->getTileAt(Point(x, y));
                 if (tileSprite) {
@@ -510,9 +516,12 @@ void GameController::createBlocks(const TMXTiledMap* map, const std::string& lay
                     GameController::addObstacle(obj, texture);
                 }
             }
+            if (plus) {
+                y ++;
+                plus = false;
+            }
         }
     }
-
 }
 
 
@@ -608,7 +617,6 @@ void GameController::update(float dt) {
                 RemovableBlockModel* rmb = (RemovableBlockModel*) _selector->getObstacle();
                 rmb->destroy(_theWorld->getWorldNode(), _theWorld->getDebugNode(), _theWorld->getWorld());
                 _selector->deselect();
-
             }
         }
     } else if (_input.didSelect()) {
