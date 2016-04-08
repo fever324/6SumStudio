@@ -69,7 +69,9 @@ public:
     
     void createMovingObstacles();
     
-//    void createMagicPotions();
+    void createMagicPotions();
+    
+    PanelModel* createMagicPanel();
     
     ExitDoorModel* createGoalDoor();
     
