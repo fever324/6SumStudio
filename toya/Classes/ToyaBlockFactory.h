@@ -128,7 +128,7 @@ public:
     }
     
     static ExitDoorModel* getExitDoor();
-    static MovingObstacleModel* getMovingObstacle(int stateCount, int rowCount, int columnCount, std::string textureKey, const Vec2& pos, const Size& size, Vec2 scale, std::vector<Vec2>& routes, int speed);
+    static MovingObstacleModel* getMovingObstacle(int stateCount, int rowCount, int columnCount, std::string textureKey, const Vec2& pos, const Size& size, Vec2 scale, std::vector<Vec2>& routes, float speed, int faceRight);
 };
 
 

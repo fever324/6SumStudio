@@ -245,9 +245,10 @@ public:
             setLinearVelocity(Vec2{direction*AVATAR_INITIAL_SPEED, getVY()});
         }
         _faceRight = faceRight;
-        
-        // Change facing
-//        _avatarBody->flipHorizontal(!faceRight);
+        _animationFrameCount = 0;
+        int state = isGrounded() ? 0 : 2 * AVATAR_ANIMATION_COLS;
+
+        _avatarBody->setFrame((state+1)*AVATAR_ANIMATION_COLS-1);
 
     }
     

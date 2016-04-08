@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="left-up" width="64" height="36" tilewidth="64" tileheight="64" nextobjectid="59">
+<map version="1.0" orientation="orthogonal" renderorder="left-up" width="64" height="36" tilewidth="64" tileheight="64" nextobjectid="60">
  <tileset firstgid="1" name="texture" tilewidth="64" tileheight="64" tilecount="1" columns="1">
   <image source="../textures/texture.png" width="64" height="64"/>
  </tileset>
@@ -47,26 +47,19 @@
   <properties>
    <property name="texture" value="bear"/>
   </properties>
-  <object id="15" name="Avatar" gid="18" x="359.986" y="484.962" width="64" height="64">
+  <object id="15" name="Avatar" gid="18" x="1151.73" y="362.601" width="64" height="64">
    <properties>
     <property name="texture" value="bear"/>
    </properties>
   </object>
  </objectgroup>
  <objectgroup name="Ghosts">
-  <object id="55" name="Ghost" gid="23" x="373.567" y="983.596" width="64" height="64">
+  <object id="55" name="Ghost" gid="23" x="615.89" y="827.645" width="64" height="64">
    <properties>
-    <property name="point1X" type="float" value="10"/>
-    <property name="point1Y" type="float" value="0"/>
+    <property name="faceRight" type="bool" value="true"/>
+    <property name="point1X" type="float" value="-5"/>
+    <property name="point1Y" type="float" value="-5"/>
     <property name="speed" type="float" value="5"/>
-    <property name="texture" value="ghosts"/>
-   </properties>
-  </object>
-  <object id="57" gid="23" x="559.509" y="963.786" width="64" height="64">
-   <properties>
-    <property name="point1X" type="float" value="5"/>
-    <property name="point1Y" type="float" value="0"/>
-    <property name="speed" type="float" value="3"/>
     <property name="texture" value="ghosts"/>
    </properties>
   </object>

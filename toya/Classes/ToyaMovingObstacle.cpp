@@ -7,8 +7,11 @@
 #include <cornell/CUAssetManager.h>
 #include <cornell/CUSceneManager.h>
 
-#define NORMAL_STATE 0
-#define FREEZE_STATE 1
+#define NORMAL_STATE_RIGHT 0
+#define NORMAL_STATE_LEFT 1
+#define FREEZE_STATE_RIGHT 2
+#define FREEZE_STATE_LEFT 3
+
 #define FREEZING_TIME 3
 
 #pragma mark -
@@ -32,9 +35,9 @@
  * @return  An autoreleased physics object
  */
 
-MovingObstacleModel* MovingObstacleModel::create(int stateCount, int rowCount, int columnCount, std::string textureKey, const Vec2& pos, const Size& size, Vec2 scale, std::vector<Vec2>& routes, int speed) {
+MovingObstacleModel* MovingObstacleModel::create(int stateCount, int rowCount, int columnCount, std::string textureKey, const Vec2& pos, const Size& size, Vec2 scale, std::vector<Vec2>& routes, float speed, int faceRight) {
     MovingObstacleModel* movingObstacle = new (std::nothrow) MovingObstacleModel();
-    if (movingObstacle && movingObstacle->init(stateCount, rowCount, columnCount, textureKey, pos, size, scale, routes, speed)) {
+    if (movingObstacle && movingObstacle->init(stateCount, rowCount, columnCount, textureKey, pos, size, scale, routes, speed, faceRight)) {
         movingObstacle->autorelease();
         return movingObstacle;
     }
@@ -42,7 +45,7 @@ MovingObstacleModel* MovingObstacleModel::create(int stateCount, int rowCount, i
     return nullptr;
 }
 
-bool MovingObstacleModel::init(int stateCount, int rowCount, int columnCount, std::string textureKey, const Vec2& pos, const Size& size, Vec2 scale, std::vector<Vec2>& routes, int speed) {
+bool MovingObstacleModel::init(int stateCount, int rowCount, int columnCount, std::string textureKey, const Vec2& pos, const Size& size, Vec2 scale, std::vector<Vec2>& routes, float speed, int faceRight) {
     
     if(AnimationBoxModel::init(stateCount, rowCount, columnCount, textureKey, pos, size, scale)) {
         setName(MOVING_OBSTACLE_NAME);
@@ -54,11 +57,16 @@ bool MovingObstacleModel::init(int stateCount, int rowCount, int columnCount, st
         setActive(false);
         
         // Gameplay attributes
-        _faceRight  = true;
+        _faceRight  = faceRight;
         _routes = routes;
         _nextPos = 1;
         _freezeTime = 0;
         _speed = speed / 60.0f;
+        
+        float distance = pow(pow(_routes[1].x,2.0f) + pow(_routes[1].y,2.0f), 0.5f);
+        _angle = asin(_routes[1].y/distance) * 180.0f / M_PI;
+        if(_routes[1].y < 0) _angle = 180.0f - _angle;
+        
         setDrawScale(scale);
         
         PolygonNode* sprite = PolygonNode::create(Rect(0, 0, size.width, size.height));
@@ -76,8 +84,8 @@ bool MovingObstacleModel::init(int stateCount, int rowCount, int columnCount, st
 }
 
 void MovingObstacleModel::freeze(Node* parent, Node* parentDebugNode, WorldController* world) {
-    if(_currState != FREEZE_STATE) {
-        _currState = FREEZE_STATE;
+    if(_currState == NORMAL_STATE_LEFT || _currState == NORMAL_STATE_RIGHT) {
+        _currState += 2;
         if(_parent == nullptr) _parent = parent;
         if(_parentDebugNode == nullptr) _parentDebugNode = parentDebugNode;
         _frameCount = 0;
@@ -87,18 +95,41 @@ void MovingObstacleModel::freeze(Node* parent, Node* parentDebugNode, WorldContr
 }
 
 void MovingObstacleModel::update(float dt) {
-    if(_currState == FREEZE_STATE) {
+    if(_currState == FREEZE_STATE_LEFT || _currState == FREEZE_STATE_RIGHT) {
         _freezeTime += dt;
         if(_freezeTime >= FREEZING_TIME) {
-            _currState = NORMAL_STATE;
+            _currState %= 2;
         }
     }
-    else if(_currState == NORMAL_STATE) {
+    else if(_currState == NORMAL_STATE_LEFT || _currState == NORMAL_STATE_RIGHT) {
         int direction = _faceRight ? 1 : -1;
         _movement = direction * _speed;
-        setPosition(Vec2{getPosition().x+_movement, getPosition().y});
-        if(getPosition().x > _routes[0].x/64 + _routes[1].x) _faceRight = false;
-        if(getPosition().x < _routes[0].x/64) _faceRight = true;
+        setPosition(Vec2{getPosition().x+_movement*cos(_angle), getPosition().y+_movement*sin(_angle)});
+        if(_routes[1].x > 0) {
+            if(getPosition().x > _routes[0].x/64 + _routes[1].x) {
+                _faceRight = false;
+                _currState = NORMAL_STATE_LEFT;
+                _frameCount = 0;
+                _animationNode->setFrame((_currState+1)*_columnCount-1);
+            } else if(getPosition().x < _routes[0].x/64) {
+                _faceRight = true;
+                _currState = NORMAL_STATE_RIGHT;
+                _frameCount = 0;
+                _animationNode->setFrame((_currState+1)*_columnCount-1);
+            }
+        } else {
+            if(getPosition().x < _routes[0].x/64 + _routes[1].x) {
+                _faceRight = true;
+                _currState = NORMAL_STATE_RIGHT;
+                _frameCount = 0;
+                _animationNode->setFrame((_currState+1)*_columnCount-1);
+            } else if(getPosition().x >= _routes[0].x/64) {
+                _faceRight = false;
+                _currState = NORMAL_STATE_LEFT;
+                _frameCount = 0;
+                _animationNode->setFrame((_currState+1)*_columnCount-1);
+            }
+        }
     }
     AnimationBoxModel::update(dt);
 }
