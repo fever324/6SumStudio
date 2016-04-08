@@ -16,7 +16,7 @@ using namespace cocos2d;
 #pragma mark -
 #pragma mark Physics Constants
 /** the amout to shrink the body in three dimensions. **/
-#define AVATAR_SHRINK 0.2f
+#define AVATAR_SHRINK 2.1
 /** The amount to shrink the sensor fixture (horizontally) relative to the image */
 #define AVATAR_SSHRINK  0.3f
 /** Height of the sensor attached to the player's feet */
@@ -137,7 +137,7 @@ bool AvatarModel::init(const Vec2& pos, const Vec2& scale) {
     
     // Multiply by the scaling factor so we can be resolution independent
 //    Size avatarSize = Size(64*cscale*AVATAR_SHRINK/scale.x,80*cscale*AVATAR_SHRINK/scale.y);
-    Size avatarSize = Size(64/cscale/scale.x,80/cscale/scale.y);
+    Size avatarSize = Size(64/cscale/scale.x/AVATAR_SHRINK,80/cscale/scale.y/AVATAR_SHRINK);
     
     if (CapsuleObstacle::init(pos, avatarSize)) {
         _animationFrameCount = 0;
@@ -153,7 +153,7 @@ bool AvatarModel::init(const Vec2& pos, const Vec2& scale) {
         setRemovable(false);
         
         PolygonNode* sprite = PolygonNode::create(Rect(0, 0, avatarSize.width, avatarSize.height));
-//        sprite->setScale(AVATAR_SHRINK);
+        sprite->setScale(1/AVATAR_SHRINK);
         setSceneNode(sprite);
         
 

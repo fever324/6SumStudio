@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <cstdio>
+#include <cstdlib>
 #include <ctime>
 #include "ui/CocosGUI.h"
 #include "ToyaFreezingSpellModel.h"
@@ -18,9 +19,11 @@ using namespace cocos2d;
 #define FREEZING_SPELL_SELECTED 1
 #define DESTRUCTION_SPELL_SELECTED 2
 
+
 class PanelModel : public Node {
 private:
     int _totalMana;
+    int _currentMana;
     int _selection;
     
     ui::CheckBox* _freezingSpellCB;
@@ -28,20 +31,35 @@ private:
     
     ui::CheckBox* _destructionSpellCB;
     DestructionSpellModel* _destructionSpell;
+    
+    Label* manaLabel;
+    
+protected:
+    void updateLabelText();
+    void updateButtons();
+
 public:
     int getTotalMana() { return _totalMana; }
-    bool deduceTotalMana(int cost);
+    int getCurrentMana() { return _currentMana; }
+    
+    bool deduceMana(int cost);
+    void addMana(int mana);
+    void setTotalMana(int mana){ _totalMana = mana; updateLabelText(); updateButtons();}
+    void setCurrentMana(int mana){ _currentMana = mana; updateLabelText(); updateButtons();}
+    
     int getSpell();
     void setSpell(int i);
     
     bool init();
-    bool init(const Vec2& pos);
+    bool init(const Vec2& pos, const int totalMana);
+    
+    void reset();
     
 #pragma mark -
 #pragma mark Static Constructors
     
     static PanelModel* create();
-    static PanelModel* create(const Vec2& pos);
+    static PanelModel* create(const Vec2& pos, const int totalMana);
     
     void freezingTouchEvent(Ref *sender, ui::Widget::TouchEventType type);
     void destructionTouchEvent(Ref *sender, ui::Widget::TouchEventType type);

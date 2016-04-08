@@ -29,7 +29,7 @@ using namespace cocos2d;
 /** The initial speed of avatar **/
 #define AVATAR_INITIAL_SPEED 3.0f
 /** The factor to multiply by the input */
-#define AVATAR_FORCE    2.0f
+#define AVATAR_FORCE    10.0f
 /** The amount to slow the character down */
 #define AVATAR_DAMPING    5.0f
 /** The maximum character speed */
@@ -239,11 +239,6 @@ public:
     bool isFacingRight() const { return _faceRight; }
     void setFacingRight(bool faceRight) {
         
-        int direction = faceRight ? 1 : -1;
-        
-        if(_faceRight != faceRight) {
-            setLinearVelocity(Vec2{direction*AVATAR_INITIAL_SPEED, getVY()});
-        }
         _faceRight = faceRight;
         _animationFrameCount = 0;
         int state = isGrounded() ? 0 : 2 * AVATAR_ANIMATION_COLS;

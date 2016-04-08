@@ -13,8 +13,19 @@
 #include "ToyaBlockFactory.h"
 #include "ToyaGameController.h"
 #include "ToyaExitDoorModel.h"
+#include "Constants.h"
 
-#define REMOVABLE_LAYER "removables"
+#define DIRT_LAYER "dirt"
+#define ROCK_LAYER "rock"
+#define ICE_DIRT_LAYER "ice"
+#define SAND_DIRT_LAYER "sand"
+#define GRASS_DIRT_LAYER "grass"
+
+#define DIRT_TEXTURE "dirt"
+#define ROCK_TEXTURE "rock"
+#define ICE_DIRT_TEXTURE "ice"
+#define SAND_DIRT_TEXTURE "sand"
+#define GRASS_DIRT_TEXTURE "grass"
 
 #define REMOVABLE_DRAW_LAYER     1
 #define NONREMOVABLE_DRAW_LAYER  2
@@ -22,6 +33,8 @@
 #define AVATAR_DRAW_LAYER        4
 #define BARRIER_DRAW_LAYER       4
 #define POTION_DRAW_LAYER        5
+
+#define PANEL_Z_ORDER            3
 
 static float BLOCK_SIZE[] = {1, 1};
 
@@ -48,6 +61,7 @@ public:
     void loadMap(const std::string& mapFile);
     
     void createRemovableBlocks();
+    void createTheBlocks(TMXLayer* layer);
 
     void createNonRemovableBlocks();
     
@@ -62,6 +76,8 @@ public:
     AvatarModel* createAvatar();
     
     void reset();
+    
+    ~MapReader();
 
     
 };

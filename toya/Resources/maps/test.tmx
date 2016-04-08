@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="64" height="36" tilewidth="64" tileheight="64" nextobjectid="63">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="64" height="36" tilewidth="64" tileheight="64" nextobjectid="66">
  <tileset firstgid="1" name="texture" tilewidth="64" tileheight="64" tilecount="1" columns="1">
   <image source="../textures/texture.png" width="64" height="64"/>
  </tileset>
@@ -12,42 +12,82 @@
  <tileset firstgid="11" name="bear" tilewidth="64" tileheight="64" tilecount="6" columns="2">
   <image source="../textures/bear.png" width="185" height="249"/>
  </tileset>
- <tileset firstgid="17" name="ghost" tilewidth="64" tileheight="64" tilecount="1" columns="1">
-  <image source="../textures/ghost.png" width="64" height="64"/>
+ <tileset firstgid="17" name="heigui" tilewidth="64" tileheight="64" tilecount="1" columns="1">
+  <image source="../textures/heigui.png" width="64" height="64"/>
  </tileset>
- <layer name="nonremovables" width="64" height="36">
-  <properties>
-   <property name="texture" value="earth"/>
-  </properties>
-  <data encoding="base64" compression="zlib">
-   eJztltEOhTAIQ5f9/0ff92XUgky42iZG3Qb0JJsyxxjz41emTuU9oX/xeUriF7/4vyvxi/9p/l1/UNWzZOWq6LUycnbsHyOKeuniP0MRjjfxRyR+8c/lmRkby7P1TWTG2LzIu2fOWmfVQGNr7O6OPLJ5rfWsP0tP8KPabF5rDZpHY7scd/e/dbf2cEd+Jo+HH/kQv/1edf7Z/W+dibv7H9VC3j1zkXVvlfjF35EfnfsTMZ3E/NOuYjy1OvGj77k3hq3XhZ/5V3tjmJrirxfrwdPbsfkq+SP1Mz1X81dL/Lp+sZwDZw==
-  </data>
- </layer>
- <layer name="removables" width="64" height="36">
-  <data encoding="base64" compression="zlib">
-   eJzt0zkOACAIBED8/6et7Oy8IM4ktGQFjKC9DpDc6fm0SVWwK2f2997Y/8+y3739z/n/Nfqvyp4PAAAAAAAAhg6zBgAW
-  </data>
- </layer>
+ <tileset firstgid="18" name="heigui" tilewidth="64" tileheight="64" tilecount="1" columns="1">
+  <image source="../textures/heigui.png" width="64" height="64"/>
+ </tileset>
+ <tileset firstgid="19" name="dirt" tilewidth="64" tileheight="64" tilecount="1" columns="1">
+  <image source="../textures/dirt.png" width="64" height="64"/>
+ </tileset>
+ <tileset firstgid="20" name="sand_dirt" tilewidth="64" tileheight="64" tilecount="1" columns="1">
+  <image source="../textures/sand_dirt.png" width="64" height="64"/>
+ </tileset>
+ <tileset firstgid="21" name="ice_dirt" tilewidth="64" tileheight="64" tilecount="1" columns="1">
+  <image source="../textures/ice_dirt.png" width="64" height="64"/>
+ </tileset>
  <layer name="rootLayer" width="64" height="36">
   <properties>
    <property name="backgroundImage" value="background"/>
    <property name="gravity" type="int" value="9"/>
+   <property name="magicPoints" type="int" value="10"/>
   </properties>
   <data encoding="base64" compression="zlib">
    eJztzgEJAAAMA6Dx/qEfYww0gQkAAAAAAAAAAOuuHaDmASf4AAM=
+  </data>
+ </layer>
+ <layer name="rock" width="64" height="36">
+  <properties>
+   <property name="texture" value="rock"/>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eJzt1jEKgDAQRcFl739oSysFgybqnwcLgVRDimxXVYfP3fXB+W095f9KM97/yt3svD8/f8acmVPj5+fPjX/sv/jbpMbPz58bPz9/biv2q9W7nv1vj5+fPzd+fv7c+M0Ght8C9w==
+  </data>
+ </layer>
+ <layer name="grass" width="64" height="36">
+  <properties>
+   <property name="texture" value="grass_dirt"/>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eJzt1NEOgCAIQFH5/59uvTVHJCJY7Z7N5YMCQ6014BtEGZV5d7HyZ9cl3byiD94zzqrJ6vnqOxiNF6lDe1eeeHf7PWOFHTn/gn7Qg1Pfg2hPtLcm3Xc0zmgMK2elmZwztV/3WGuf/nu7e6TNI3fEWveG+wEAAAAAAAAAQJYDmvoAXw==
+  </data>
+ </layer>
+ <layer name="sand" width="64" height="36">
+  <properties>
+   <property name="texture" value="sand_dirt"/>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eJzt1zEKACAIAEAf0f/f2ipBUwWGdyAulhgtRgAAwH0jRaT88o61/tTYxMuePzideXe20xtW0+0PAwBwT8edCAAAKpqIuAJt
+  </data>
+ </layer>
+ <layer name="dirt" width="64" height="36">
+  <properties>
+   <property name="texture" value="dirt"/>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eJzt1tENwCAIRVF3YP9du4BIFHy29p6EpP0RaBTbGpTsdAEC5jz33m9X2a91QkGZa5TfC3Xu3aJ+VTUpc6/0fOIsfBXfCJ6/74vofyVzdqpm1swalfNxdu5mZ3ZmzZV6IxX30lsDAAAAAAAAAHCvB/JDDi4=
+  </data>
+ </layer>
+ <layer name="ice" width="64" height="36">
+  <properties>
+   <property name="texture" value="ice_dirt"/>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eJzt1EEOgCAMRFEu4f2v6srNpKWDaAL6X2I0FWhrwNYAAAAAAAAAAACAbzrk6sWaPEdz3DXddbXOKjYqml/FtPbs7uRz1r2eo7FVvsrK/Wust/7dbzC7/7O7zs/qfKP/Kqc7z6kpG+PW8nT/o2dk5f7d8z+aU9+5+z87E7P7P8sVjatimmfm37i7P/fecwKhDg2f
   </data>
  </layer>
  <objectgroup name="GoalDoor">
   <properties>
    <property name="texture" value="goal"/>
   </properties>
-  <object id="56" name="Door" gid="6" x="1216" y="1022" width="64" height="128"/>
+  <object id="56" name="Door" gid="6" x="3204.36" y="2046.06" width="64" height="128"/>
  </objectgroup>
  <objectgroup name="Avatar">
   <properties>
    <property name="texture" value="bear"/>
   </properties>
-  <object id="15" name="Avatar" gid="16" x="707.986" y="908.962" width="64" height="64">
+  <object id="15" name="Avatar" gid="16" x="63.986" y="140.962" width="64" height="64">
    <properties>
     <property name="texture" value="bear"/>
    </properties>
@@ -59,6 +99,42 @@
     <property name="point1X" type="float" value="0"/>
     <property name="point1Y" type="float" value="-2"/>
     <property name="speed" type="float" value="3"/>
+    <property name="texture" value="ghosts"/>
+   </properties>
+  </object>
+  <object id="61" name="Bob" gid="18" x="2942.91" y="642.182" width="64" height="64">
+   <properties>
+    <property name="faceRight" type="bool" value="true"/>
+    <property name="point1X" type="float" value="5"/>
+    <property name="point1Y" type="float" value="0"/>
+    <property name="speed" type="float" value="2"/>
+    <property name="texture" value="ghosts"/>
+   </properties>
+  </object>
+  <object id="62" name="Yida" gid="17" x="675.606" y="698.303" width="64" height="64">
+   <properties>
+    <property name="faceRight" type="bool" value="false"/>
+    <property name="point1X" type="float" value="0"/>
+    <property name="point1Y" type="float" value="3"/>
+    <property name="speed" type="float" value="2"/>
+    <property name="texture" value="ghosts"/>
+   </properties>
+  </object>
+  <object id="63" name="Sarah" gid="17" x="769.909" y="575" width="64" height="64">
+   <properties>
+    <property name="faceRight" type="bool" value="false"/>
+    <property name="point1X" type="float" value="0"/>
+    <property name="point1Y" type="float" value="3"/>
+    <property name="speed" value="2"/>
+    <property name="texture" value="ghosts"/>
+   </properties>
+  </object>
+  <object id="65" name="Alpha" gid="17" x="450" y="832" width="64" height="64">
+   <properties>
+    <property name="faceRight" type="bool" value="true"/>
+    <property name="point1X" type="float" value="-4"/>
+    <property name="point1Y" type="float" value="0"/>
+    <property name="speed" type="float" value="2"/>
     <property name="texture" value="ghosts"/>
    </properties>
   </object>

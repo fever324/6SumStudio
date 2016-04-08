@@ -8,4 +8,9 @@
 #define MAGIC_POTION_NAME "magicPotion"
 
 
+#define PRIMARY_FONT        "retro"
+
+#define DESTRUCTION_COST 1
+#define FREEZE_COST      2
+
 #endif /* Constants_h */
