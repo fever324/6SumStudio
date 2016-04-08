@@ -50,7 +50,7 @@
    <property name="texture" value="grass_dirt"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJzt1NEOgCAIQFH5/59uvTVHJCJY7Z7N5YMCQ6014BtEGZV5d7HyZ9cl3byiD94zzqrJ6vnqOxiNF6lDe1eeeHf7PWOFHTn/gn7Qg1Pfg2hPtLcm3Xc0zmgMK2elmZwztV/3WGuf/nu7e6TNI3fEWveG+wEAAAAAAAAAQJYDmvoAXw==
+   eJzt1tEOQDAMAED+/6dF4mmZbVRN5C5p8KCtpsSyAC3rEbPrn0V27bKPbFefL6uns7wZ84/mi/QR3avefo7EE2bU/AvzMINdOYPoTGrv2locn9aq+aY7NaPfpta9vdyzZ1Q7b/1/1K5Ha35hPwAAAAAAIMsGXnIAXQ==
   </data>
  </layer>
  <layer name="sand" width="64" height="36">
@@ -58,7 +58,7 @@
    <property name="texture" value="sand_dirt"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJzt1zEKACAIAEAf0f/f2ipBUwWGdyAulhgtRgAAwH0jRaT88o61/tTYxMuePzideXe20xtW0+0PAwBwT8edCAAAKpqIuAJt
+   eJzt10kKACAIAEAf0f/f2rVDEO0UMyChQoI3IwAAYL1URBTvyZkn3Ji5W+qImf9r9Vq/lTPPTgEAGPXjTQQAAC/KzcICvQ==
   </data>
  </layer>
  <layer name="dirt" width="64" height="36">
@@ -66,7 +66,7 @@
    <property name="texture" value="dirt"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJzt1tENwCAIRVF3YP9du4BIFHy29p6EpP0RaBTbGpTsdAEC5jz33m9X2a91QkGZa5TfC3Xu3aJ+VTUpc6/0fOIsfBXfCJ6/74vofyVzdqpm1swalfNxdu5mZ3ZmzZV6IxX30lsDAAAAAAAAAHCvB/JDDi4=
+   eJzt1lEOwBAMAFB36P3vugtMLEaZvZdI+NEWQSlkitUJJIhK/258uhPqjbK2jmi07NizterNyikzdk/N2fvyZdaImr+fi5n/lZ3u7d65RsR+mtPbdRn9Tox4l3ZtAAAAAACc6wI3hgvO
   </data>
  </layer>
  <layer name="ice" width="64" height="36">
@@ -99,11 +99,11 @@
     <property name="faceRight" type="bool" value="false"/>
     <property name="point1X" type="float" value="5"/>
     <property name="point1Y" type="float" value="0"/>
-    <property name="speed" type="float" value="3"/>
+    <property name="speed" type="float" value="2"/>
     <property name="texture" value="ghosts"/>
    </properties>
   </object>
-  <object id="61" name="Bob" gid="18" x="2942.91" y="642.182" width="64" height="64">
+  <object id="61" name="Bob" gid="18" x="2942.91" y="769.455" width="64" height="64">
    <properties>
     <property name="faceRight" type="bool" value="true"/>
     <property name="point1X" type="float" value="5"/>
@@ -112,7 +112,7 @@
     <property name="texture" value="ghosts"/>
    </properties>
   </object>
-  <object id="62" name="Yida" gid="17" x="675.606" y="698.303" width="64" height="64">
+  <object id="62" name="Yida" gid="17" x="633.182" y="704.364" width="64" height="64">
    <properties>
     <property name="faceRight" type="bool" value="false"/>
     <property name="point1X" type="float" value="0"/>
@@ -130,10 +130,10 @@
     <property name="texture" value="ghosts"/>
    </properties>
   </object>
-  <object id="65" name="Alpha" gid="17" x="450" y="832" width="64" height="64">
+  <object id="65" name="Alpha" gid="17" x="446.97" y="892.606" width="64" height="64">
    <properties>
     <property name="faceRight" type="bool" value="true"/>
-    <property name="point1X" type="float" value="-4"/>
+    <property name="point1X" type="float" value="-3"/>
     <property name="point1Y" type="float" value="0"/>
     <property name="speed" type="float" value="2"/>
     <property name="texture" value="ghosts"/>
