@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="64" height="36" tilewidth="64" tileheight="64" nextobjectid="69">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="64" height="36" tilewidth="64" tileheight="64" nextobjectid="76">
  <tileset firstgid="1" name="texture" tilewidth="64" tileheight="64" tilecount="1" columns="1">
   <image source="../textures/texture.png" width="64" height="64"/>
  </tileset>
@@ -28,7 +28,7 @@
   <image source="../textures/ice_dirt.png" width="64" height="64"/>
  </tileset>
  <tileset firstgid="22" name="portion" tilewidth="64" tileheight="64" tilecount="1" columns="1">
-  <image source="../textures/portion.png" width="64" height="64"/>
+  <image source="../textures/potion.png" width="64" height="64"/>
  </tileset>
  <layer name="rootLayer" width="64" height="36">
   <properties>
@@ -90,7 +90,7 @@
   <properties>
    <property name="texture" value="bear"/>
   </properties>
-  <object id="15" name="Avatar" gid="16" x="63.986" y="140.962" width="64" height="64">
+  <object id="15" name="Avatar" gid="16" x="79.986" y="1168.96" width="64" height="64">
    <properties>
     <property name="texture" value="bear"/>
    </properties>
@@ -146,7 +146,7 @@
    <properties>
     <property name="faceRight" type="bool" value="true"/>
     <property name="point1X" type="float" value="0"/>
-    <property name="point1Y" type="float" value="5"/>
+    <property name="point1Y" type="float" value="7"/>
     <property name="speed" type="float" value="2"/>
     <property name="texture" value="ghosts"/>
    </properties>
@@ -160,32 +160,17 @@
     <property name="texture" value="ghosts"/>
    </properties>
   </object>
-  <object id="68" name="Bob" gid="17" x="2946.79" y="1528.61" width="64" height="64">
-   <properties>
-    <property name="faceRight" type="bool" value="true"/>
-    <property name="point1X" type="float" value="0"/>
-    <property name="point1Y" type="float" value="5"/>
-    <property name="speed" type="float" value="2"/>
-    <property name="texture" value="ghosts"/>
-   </properties>
-  </object>
  </objectgroup>
  <objectgroup name="MagicPotions">
-  <object id="66" gid="22" x="2064.93" y="766.165" width="64" height="64">
+  <object id="70" gid="22" x="1668" y="636" width="64" height="64">
    <properties>
     <property name="points" type="int" value="2"/>
     <property name="texture" value="potions"/>
    </properties>
   </object>
-  <object id="67" gid="22" x="1884.99" y="391.885" width="64" height="64">
+  <object id="71" gid="22" x="1208" y="1084" width="64" height="64">
    <properties>
     <property name="points" type="int" value="3"/>
-    <property name="texture" value="potions"/>
-   </properties>
-  </object>
-  <object id="68" gid="22" x="1412.34" y="377.489" width="64" height="64">
-   <properties>
-    <property name="points" type="int" value="4"/>
     <property name="texture" value="potions"/>
    </properties>
   </object>
