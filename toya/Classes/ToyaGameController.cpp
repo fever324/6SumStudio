@@ -90,8 +90,6 @@ using namespace std;
 /** The key for the left afterburner sound */
 #define LEFT_FIRE_SOUND     "sounds/sideburner-right.mp3"
 
-/** The key for the font reference */
-#define PRIMARY_FONT        "retro"
 
 #pragma mark Physics Constants
 
@@ -211,6 +209,7 @@ bool GameController::init(RootLayer* root, const Rect& rect, const Vec2& gravity
     Label* winnode = _theWorld->getWinNode();
     Label* failnode = _theWorld->getFailNode();
     Label* timenode = _theWorld->getTimeNode();
+
     winnode->setTTFConfig(_assets->get<TTFont>(PRIMARY_FONT)->getTTF());
     failnode->setTTFConfig(_assets->get<TTFont>(PRIMARY_FONT)->getTTF());
     timenode->setTTFConfig(_assets->get<TTFont>(PRIMARY_FONT)->getTTF());
@@ -220,6 +219,7 @@ bool GameController::init(RootLayer* root, const Rect& rect, const Vec2& gravity
     root->addChild(winnode,3);
     root->addChild(failnode,3);
     root->addChild(timenode,3);
+
     
     world->onBeginContact = [this](b2Contact* contact) {
         beginContact(contact);
@@ -254,8 +254,7 @@ bool GameController::init(RootLayer* root, const Rect& rect, const Vec2& gravity
     _overview->setGameController(this);
     root->addChild(_overview,3);
     
-    _panel = PanelModel::create(Vec2(0,root->getContentSize().height));
-    root->addChild(_panel, 3);
+   
     
     return true;
 }
@@ -300,6 +299,7 @@ void GameController::reset() {
     _mapReader->reset();
     setComplete(false);
     _overview->reset();
+    _panel->reset();
     
     setFail(false);
     _reset = false;
@@ -335,13 +335,11 @@ void GameController::populate() {
     _mapReader->createNonRemovableBlocks();
     _mapReader->createMovingObstacles();
     _goalDoor = _mapReader->createGoalDoor();
-    _avatar = _mapReader->createAvatar();
+    _avatar   = _mapReader->createAvatar();
+    _panel    = _mapReader->createMagicPanel();
     
     _theWorld->setFollow(_avatar);
     _avatar->setName("avatar");
-    
-
-    
 }
 
 /**
@@ -439,7 +437,9 @@ void GameController::update(float dt) {
             if (_selector->getObstacle()->getName() == "removable"){
                 RemovableBlockModel* rmb = (RemovableBlockModel*) _selector->getObstacle();
                 rmb->destroy(_theWorld->getWorldNode(), _theWorld->getDebugNode(), _theWorld->getWorld());
+                _panel->deduceMana(DESTRUCTION_COST);
                 _selector->deselect();
+                
             }
         } else if (_panel->getSpell() == FREEZING_SPELL_SELECTED) {
             _panel->setSpell(0);
@@ -447,6 +447,7 @@ void GameController::update(float dt) {
             if(_selector->getObstacle()->getName() == "ghost") {
                 MovingObstacleModel* movingObstacle = (MovingObstacleModel*) _selector->getObstacle();
                 movingObstacle->freeze(_theWorld->getWorldNode(), _theWorld->getDebugNode(), _theWorld->getWorld());
+                _panel->deduceMana(FREEZE_COST);
                 _selector->deselect();
             }
         }

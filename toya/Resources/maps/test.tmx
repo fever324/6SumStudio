@@ -31,6 +31,7 @@
   <properties>
    <property name="backgroundImage" value="background"/>
    <property name="gravity" type="int" value="9"/>
+   <property name="magicPoints" type="int" value="10"/>
   </properties>
   <data encoding="base64" compression="zlib">
    eJztzgEJAAAMA6Dx/qEfYww0gQkAAAAAAAAAAOuuHaDmASf4AAM=
