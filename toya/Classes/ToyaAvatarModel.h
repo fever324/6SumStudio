@@ -29,7 +29,7 @@ using namespace cocos2d;
 /** The initial speed of avatar **/
 #define AVATAR_INITIAL_SPEED 3.0f
 /** The factor to multiply by the input */
-#define AVATAR_FORCE    10.0f
+#define AVATAR_FORCE    8.0f
 /** The amount to slow the character down */
 #define AVATAR_DAMPING    5.0f
 /** The maximum character speed */

@@ -22,7 +22,7 @@ using namespace cocos2d;
 /** Height of the sensor attached to the player's feet */
 #define SENSOR_HEIGHT   0.1f
 /** The density of the character */
-#define AVATAR_DENSITY    1.0f
+#define AVATAR_DENSITY    10.0f
 /** Debug color for the sensor */
 #define DEBUG_COLOR     Color3B::RED
 
