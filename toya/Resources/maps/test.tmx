@@ -90,7 +90,7 @@
   <properties>
    <property name="texture" value="bear"/>
   </properties>
-  <object id="15" name="Avatar" gid="16" x="79.986" y="1168.96" width="64" height="64">
+  <object id="15" name="Avatar" gid="16" x="71.986" y="136.962" width="64" height="64">
    <properties>
     <property name="texture" value="bear"/>
    </properties>
@@ -130,15 +130,6 @@
     <property name="point1X" type="float" value="0"/>
     <property name="point1Y" type="float" value="-3"/>
     <property name="speed" value="1"/>
-    <property name="texture" value="ghosts"/>
-   </properties>
-  </object>
-  <object id="65" name="Alpha" gid="17" x="446.97" y="892.606" width="64" height="64">
-   <properties>
-    <property name="faceRight" type="bool" value="true"/>
-    <property name="point1X" type="float" value="-3"/>
-    <property name="point1Y" type="float" value="0"/>
-    <property name="speed" type="float" value="2"/>
     <property name="texture" value="ghosts"/>
    </properties>
   </object>
