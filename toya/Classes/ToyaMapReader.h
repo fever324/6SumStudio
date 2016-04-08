@@ -65,6 +65,8 @@ public:
     AvatarModel* createAvatar();
     
     void reset();
+    
+    ~MapReader();
 
     
 };

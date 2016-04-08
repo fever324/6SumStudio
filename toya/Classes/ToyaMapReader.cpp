@@ -13,7 +13,6 @@ MapReader::MapReader(GameController* gameController){
 }
 
 void MapReader::reset(){
-    this->map->release();
     this->map = nullptr;
 }
 
@@ -219,7 +218,9 @@ PanelModel* MapReader::createMagicPanel() {
 }
 
 
-
+MapReader::~MapReader() {
+    delete[] map;
+}
 
 
 

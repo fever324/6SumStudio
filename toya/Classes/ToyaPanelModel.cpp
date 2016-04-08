@@ -44,22 +44,25 @@ bool PanelModel::init() {
 
     _freezingSpell = new FreezingSpellModel();
     _destructionSpell = new DestructionSpellModel();
+    if(_freezingSpellCB == nullptr){
+        _freezingSpellCB = ui::CheckBox::create(FREEZE_MAGIC_UNSELECTED_IMAGE, FREEZE_MAGIC_SELECTED_IMAGE, FREEZE_MAGIC_SELECTED_IMAGE, FREEZE_MAGIC_DISABLED_IMAGE, FREEZE_MAGIC_DISABLED_IMAGE);
+        _freezingSpellCB->addTouchEventListener(CC_CALLBACK_2(PanelModel::freezingTouchEvent, this));
+        this->addChild(_freezingSpellCB);
 
-    _freezingSpellCB = ui::CheckBox::create(FREEZE_MAGIC_UNSELECTED_IMAGE, FREEZE_MAGIC_SELECTED_IMAGE, FREEZE_MAGIC_SELECTED_IMAGE, FREEZE_MAGIC_DISABLED_IMAGE, FREEZE_MAGIC_DISABLED_IMAGE);
-    _destructionSpellCB = ui::CheckBox::create(DESTROY_MAGIC_UNSELECTED_IMAGE,DESTROY_MAGIC_SELECTED_IMAGE,DESTROY_MAGIC_SELECTED_IMAGE,DESTROY_MAGIC_DISABLED_IMAGE,DESTROY_MAGIC_DISABLED_IMAGE);
+    }
+    if(_destructionSpellCB == nullptr) {
+        _destructionSpellCB = ui::CheckBox::create(DESTROY_MAGIC_UNSELECTED_IMAGE,DESTROY_MAGIC_SELECTED_IMAGE,DESTROY_MAGIC_SELECTED_IMAGE,DESTROY_MAGIC_DISABLED_IMAGE,DESTROY_MAGIC_DISABLED_IMAGE);
+        _destructionSpellCB->addTouchEventListener(CC_CALLBACK_2(PanelModel::destructionTouchEvent, this));
+        this->addChild(_destructionSpellCB);
 
-    _freezingSpellCB->addTouchEventListener(CC_CALLBACK_2(PanelModel::freezingTouchEvent, this));
-    _destructionSpellCB->addTouchEventListener(CC_CALLBACK_2(PanelModel::destructionTouchEvent, this));
+    }
     
-    
-    manaLabel = Label::create();
-    manaLabel->setColor(Color3B::RED);
-    manaLabel->setVisible(true);
-
-    
-    this->addChild(_freezingSpellCB);
-    this->addChild(_destructionSpellCB);
-    this->addChild(manaLabel);
+    if(manaLabel == nullptr) {
+        manaLabel = Label::create();
+        manaLabel->setColor(Color3B::RED);
+        manaLabel->setVisible(true);
+        this->addChild(manaLabel);
+    }
     
     return true;
 }
@@ -168,6 +171,7 @@ void PanelModel::updateButtons() {
 }
 
 void PanelModel::reset(){
+    manaLabel->setVisible(false);
     _currentMana = _totalMana;
 }
 
