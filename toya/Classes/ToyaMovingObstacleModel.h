@@ -33,6 +33,7 @@ public:
     void update(float dt) override;
     
     void freeze(Node* parent, Node* parentDebugNode, WorldController* world);
+    bool isFrozen();
 };
 
 #endif /* ToyaMovingObstacle_h */

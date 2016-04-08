@@ -523,10 +523,14 @@ void GameController::beginContact(b2Contact* contact) {
     
     if((bd1->getName() == "avatar" && bd2->getName() == "ghost") ||
        (bd1->getName() == "ghost" && bd2->getName() == "avatar")) {
-        setFail(true);
-        double time = _overview->getCurrentPlayTime();
-        _theWorld->showTime(time);
-        _reset = true;
+        MovingObstacleModel* ghost = bd1->getName() == "ghost" ? (MovingObstacleModel*)bd1 : (MovingObstacleModel*)bd2;
+        
+        if(!ghost->isFrozen()) {
+            setFail(true);
+            double time = _overview->getCurrentPlayTime();
+            _theWorld->showTime(time);
+            _reset = true;
+        }
     }
     
     if((bd1->getName() == "avatar" && bd2->getName() == "potion") || (bd1->getName() == "potion" && bd2->getName() == "avatar")) {

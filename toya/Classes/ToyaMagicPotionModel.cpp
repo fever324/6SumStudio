@@ -48,7 +48,7 @@ void MagicPotionModel::update(float dt) {
     if(pickedUp) {
         getBody()->SetActive(false);
     }
-    if(_frameCount == _columnCount * FRAME_PER_STEP && _currState == PICKING_STATE) {
+    if(_currState == PICKING_STATE) {
         _parent->removeChild(getSceneNode());
         _parentDebugNode->removeChild(getDebugNode());
         
