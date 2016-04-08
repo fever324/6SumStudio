@@ -247,8 +247,9 @@ public:
         _faceRight = faceRight;
         _animationFrameCount = 0;
         int state = isGrounded() ? 0 : 2 * AVATAR_ANIMATION_COLS;
+        int base = isFacingRight() ? state : state + AVATAR_ANIMATION_COLS;
 
-        _avatarBody->setFrame((state+1)*AVATAR_ANIMATION_COLS-1);
+        _avatarBody->setFrame(base + AVATAR_ANIMATION_COLS - 1);
 
     }
     

@@ -1,22 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="left-up" width="64" height="36" tilewidth="64" tileheight="64" nextobjectid="60">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="64" height="36" tilewidth="64" tileheight="64" nextobjectid="63">
  <tileset firstgid="1" name="texture" tilewidth="64" tileheight="64" tilecount="1" columns="1">
   <image source="../textures/texture.png" width="64" height="64"/>
  </tileset>
  <tileset firstgid="2" name="earthtile" tilewidth="64" tileheight="64" tilecount="1" columns="1">
   <image source="../textures/earthtile.png" width="64" height="64"/>
  </tileset>
- <tileset firstgid="3" name="door" tilewidth="64" tileheight="64" tilecount="9" columns="2">
+ <tileset firstgid="3" name="door" tilewidth="64" tileheight="64" tilecount="8" columns="2">
   <image source="../textures/door.png" width="128" height="256"/>
  </tileset>
- <tileset firstgid="13" name="bear" tilewidth="64" tileheight="64" tilecount="6" columns="2">
+ <tileset firstgid="11" name="bear" tilewidth="64" tileheight="64" tilecount="6" columns="2">
   <image source="../textures/bear.png" width="185" height="249"/>
  </tileset>
- <tileset firstgid="19" name="heigui" tilewidth="64" tileheight="64" tilecount="9" columns="1">
-  <image source="../textures/heigui.png" width="64" height="64"/>
- </tileset>
- <tileset firstgid="28" name="heigui" tilewidth="64" tileheight="64" tilecount="1" columns="1">
-  <image source="../textures/heigui.png" width="64" height="64"/>
+ <tileset firstgid="17" name="ghost" tilewidth="64" tileheight="64" tilecount="1" columns="1">
+  <image source="../textures/ghost.png" width="64" height="64"/>
  </tileset>
  <layer name="nonremovables" width="64" height="36">
   <properties>
@@ -50,19 +47,19 @@
   <properties>
    <property name="texture" value="bear"/>
   </properties>
-  <object id="15" name="Avatar" gid="18" x="1151.73" y="362.601" width="64" height="64">
+  <object id="15" name="Avatar" gid="16" x="707.986" y="908.962" width="64" height="64">
    <properties>
     <property name="texture" value="bear"/>
    </properties>
   </object>
  </objectgroup>
  <objectgroup name="Ghosts">
-  <object id="55" name="Ghost" gid="23" x="615.89" y="827.645" width="64" height="64">
+  <object id="62" gid="17" x="318.288" y="514.246" width="64" height="64">
    <properties>
-    <property name="faceRight" type="bool" value="true"/>
-    <property name="point1X" type="float" value="-5"/>
-    <property name="point1Y" type="float" value="-5"/>
-    <property name="speed" type="float" value="5"/>
+    <property name="faceRight" type="bool" value="false"/>
+    <property name="point1X" type="float" value="5"/>
+    <property name="point1Y" type="float" value="5"/>
+    <property name="speed" type="float" value="3"/>
     <property name="texture" value="ghosts"/>
    </properties>
   </object>
