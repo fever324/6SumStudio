@@ -18,19 +18,20 @@
  <tileset firstgid="18" name="heigui" tilewidth="64" tileheight="64" tilecount="1" columns="1">
   <image source="../textures/heigui.png" width="64" height="64"/>
  </tileset>
- <tileset firstgid="19" name="dirt" tilewidth="64" tileheight="64" tilecount="2" columns="1">
+ <tileset firstgid="19" name="dirt" tilewidth="64" tileheight="64" tilecount="1" columns="1">
   <image source="../textures/dirt.png" width="64" height="64"/>
  </tileset>
- <tileset firstgid="32" name="sand_dirt" tilewidth="64" tileheight="64" tilecount="2" columns="1">
+ <tileset firstgid="20" name="sand_dirt" tilewidth="64" tileheight="64" tilecount="1" columns="1">
   <image source="../textures/sand_dirt.png" width="64" height="64"/>
  </tileset>
- <tileset firstgid="146" name="ice_dirt" tilewidth="64" tileheight="64" tilecount="1" columns="1">
+ <tileset firstgid="21" name="ice_dirt" tilewidth="64" tileheight="64" tilecount="1" columns="1">
   <image source="../textures/ice_dirt.png" width="64" height="64"/>
  </tileset>
  <layer name="rootLayer" width="64" height="36">
   <properties>
    <property name="backgroundImage" value="background"/>
    <property name="gravity" type="int" value="9"/>
+   <property name="magicPoints" type="int" value="10"/>
   </properties>
   <data encoding="base64" compression="zlib">
    eJztzgEJAAAMA6Dx/qEfYww0gQkAAAAAAAAAAOuuHaDmASf4AAM=
@@ -46,9 +47,7 @@
  </layer>
  <layer name="grass" width="64" height="36">
   <properties>
-   <property name="backgroundImage" value="background"/>
-   <property name="gravity" type="int" value="9"/>
-   <property name="magicPoints" type="int" value="10"/>
+   <property name="texture" value="grass_dirt"/>
   </properties>
   <data encoding="base64" compression="zlib">
    eJzt1NEOgCAIQFH5/59uvTVHJCJY7Z7N5YMCQ6014BtEGZV5d7HyZ9cl3byiD94zzqrJ6vnqOxiNF6lDe1eeeHf7PWOFHTn/gn7Qg1Pfg2hPtLcm3Xc0zmgMK2elmZwztV/3WGuf/nu7e6TNI3fEWveG+wEAAAAAAAAAQJYDmvoAXw==
@@ -59,7 +58,7 @@
    <property name="texture" value="sand_dirt"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJzt1jEKACEMBMB9Sv7/Sls5sDEKJ8xAsIkrsUoCAADn1VSZzpsZ3/6uWtTNN19Q6c28urubR1/F/wMAsKdinwQAgD8YXsYD4Q==
+   eJzt1zEKACAIAEAf0f/f2ipBUwWGdyAulhgtRgAAwH0jRaT88o61/tTYxMuePzideXe20xtW0+0PAwBwT8edCAAAKpqIuAJt
   </data>
  </layer>
  <layer name="dirt" width="64" height="36">
@@ -75,7 +74,7 @@
    <property name="texture" value="ice_dirt"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJzt1EEOgCAMRFHuv/TErtxMWjqIJqD/JUZTgbYGbA0AAAAAAAAAAAD4pkOuXqzJczTHXdNdV+usYqOi+VVMa8/uTj5n3es5Glvlq6zcv8Z669/9BrP7P7vr/KzON/qvcrrznJqyMW4tT/c/ekZW7t89/6M59Z27/7MzMbv/s1zRuCqmeWb+jbv7c+89JwOKXq0=
+   eJzt1EEOgCAMRFEu4f2v6srNpKWDaAL6X2I0FWhrwNYAAAAAAAAAAACAbzrk6sWaPEdz3DXddbXOKjYqml/FtPbs7uRz1r2eo7FVvsrK/Wust/7dbzC7/7O7zs/qfKP/Kqc7z6kpG+PW8nT/o2dk5f7d8z+aU9+5+z87E7P7P8sVjatimmfm37i7P/fecwKhDg2f
   </data>
  </layer>
  <objectgroup name="GoalDoor">

@@ -15,7 +15,6 @@
 #include "ToyaExitDoorModel.h"
 #include "Constants.h"
 
-
 #define DIRT_LAYER "dirt"
 #define ROCK_LAYER "rock"
 #define ICE_DIRT_LAYER "ice"
