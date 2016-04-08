@@ -3,7 +3,7 @@
 //  Created by 6Sum Studio on 2/27/16.
 //
 
-#include "ToyaMovingObstacle.h"
+#include "ToyaMovingObstacleModel.h"
 #include <cornell/CUAssetManager.h>
 #include <cornell/CUSceneManager.h>
 

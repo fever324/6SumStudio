@@ -19,7 +19,7 @@
 #include <Box2D/Collision/b2Collision.h>
 #include "ToyaPanelModel.h"
 #include "ToyaRemovableBlockModel.h"
-#include "ToyaMovingObstacle.h"
+#include "ToyaMovingObstacleModel.h"
 
 
 // Physics constants for initialization

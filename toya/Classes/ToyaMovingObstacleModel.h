@@ -1,5 +1,5 @@
-#ifndef ToyaMovingObstacle_hpp
-#define ToyaMovingObstacle_hpp
+#ifndef TOYA_MOVING_OBSTACLE_MODEL_H
+#define TOYA_MOVING_OBSTACLE_MODEL_H
 
 #include <stdio.h>
 #include <vector>
@@ -35,4 +35,4 @@ public:
     void freeze(Node* parent, Node* parentDebugNode, WorldController* world);
 };
 
-#endif /* ToyaMovingObstacle_hpp */
+#endif /* ToyaMovingObstacle_h */
