@@ -9,45 +9,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "../Classes/ToyaMovingObstacle.cpp"
-            timestampString = "481755904.735546"
+            filePath = "../Classes/ToyaMapReader.cpp"
+            timestampString = "481759668.908681"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "45"
-            endingLineNumber = "45"
-            landmarkName = "MovingObstacleModel::init(int stateCount, int rowCount, int columnCount, std::string textureKey, const Vec2&amp; pos, const Size&amp; size, Vec2 scale, std::vector&lt;Vec2&gt;&amp; routes, int speed)"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../Classes/ToyaMovingObstacle.cpp"
-            timestampString = "481755905.484022"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "48"
-            endingLineNumber = "48"
-            landmarkName = "MovingObstacleModel::init(int stateCount, int rowCount, int columnCount, std::string textureKey, const Vec2&amp; pos, const Size&amp; size, Vec2 scale, std::vector&lt;Vec2&gt;&amp; routes, int speed)"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../Classes/ToyaMovingObstacle.cpp"
-            timestampString = "481755912.896482"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "47"
-            endingLineNumber = "47"
-            landmarkName = "MovingObstacleModel::init(int stateCount, int rowCount, int columnCount, std::string textureKey, const Vec2&amp; pos, const Size&amp; size, Vec2 scale, std::vector&lt;Vec2&gt;&amp; routes, int speed)"
+            startingLineNumber = "167"
+            endingLineNumber = "167"
+            landmarkName = "MapReader::createGoalDoor()"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

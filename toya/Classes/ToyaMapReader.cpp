@@ -23,6 +23,7 @@ void MapReader::loadMap(const std::string &mapFile) {
     tileSize = map->getTileSize();
     mapSize = map->getMapSize();
     cscale = Director::getInstance()->getContentScaleFactor();
+    mapSize = map->getMapSize();
 
 }
 

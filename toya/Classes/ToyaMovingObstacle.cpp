@@ -46,7 +46,8 @@ bool MovingObstacleModel::init(int stateCount, int rowCount, int columnCount, st
     
     if(AnimationBoxModel::init(stateCount, rowCount, columnCount, textureKey, pos, size, scale)) {
         setName(MOVING_OBSTACLE_NAME);
-        setBodyType(b2_kinematicBody);
+//        setBodyType(b2_kinematicBody);
+        setBodyType(b2_staticBody);
         
         setFriction(0.0f);      // HE WILL STICK TO WALLS IF YOU FORGET
         setFixedRotation(true); // OTHERWISE, HE IS A WEEBLE WOBBLE
