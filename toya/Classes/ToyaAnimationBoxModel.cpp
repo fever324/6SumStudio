@@ -11,12 +11,6 @@ AnimationBoxModel* AnimationBoxModel::create(int stateCount, int rowCount, int c
 }
 
 bool AnimationBoxModel::init(int stateCount, int rowCount, int columnCount, std::string textureKey, const Vec2& pos, const Size& size, Vec2 scale) {
-    
-//    float cscale = Director::getInstance()->getContentScaleFactor();
-
-//    int w = 64*cscale/scale.x; //Image size is 64*64
-//    int h = 64*cscale/scale.y;
-//    Size onScreenSize = Size(w,h);
 
     if(BoxObstacle::init(pos, size)) {
         
@@ -37,8 +31,6 @@ bool AnimationBoxModel::init(int stateCount, int rowCount, int columnCount, std:
         setSceneNode(pnode);
 
         setDrawScale(scale);
-        
-//        CCLOG("%f,%f", scale.x,scale.y);
         
         WireNode* draw = WireNode::create();
         draw->setColor(Color3B::YELLOW);
@@ -76,8 +68,10 @@ void AnimationBoxModel::update(float dt) {
 
 void AnimationBoxModel::resetSceneNode() {
     BoxObstacle::resetSceneNode();
+    
     float cscale = Director::getInstance()->getContentScaleFactor();
     PolygonNode* pnode = dynamic_cast<PolygonNode*>(_node);
+    pnode->setOpacity(0);
     
     if(pnode != nullptr) {
         SceneManager* assets =  AssetManager::getInstance()->getCurrent();
@@ -89,12 +83,22 @@ void AnimationBoxModel::resetSceneNode() {
         
         Texture2D* image = assets->get<Texture2D>(_textureKey);
         
+        pnode->removeChild(_animationNode);
+        
         _animationNode = AnimationNode::create(image, _rowCount, _columnCount, _rowCount*_columnCount);
         
         pnode->addChild(_animationNode);
         _animationNode->setPosition(pnode->getContentSize().width/2.0f,pnode->getContentSize().height/2.0f);
-        
     }
+}
+
+void AnimationBoxModel::replaceAnimationTexture(int rowCount, int columnCount, std::string textureKey) {
+    
+    _textureKey = textureKey;
+    _rowCount   = rowCount;
+    _columnCount  = columnCount;
+    
+    resetSceneNode();
 }
 
 void AnimationBoxModel::resetDebugNode() {
@@ -102,6 +106,5 @@ void AnimationBoxModel::resetDebugNode() {
 }
 
 AnimationBoxModel::~AnimationBoxModel(void) {
-//    delete[] _animationNode; //TODO this is creating issue
     _animationNode = nullptr;
 }

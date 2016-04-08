@@ -7,7 +7,7 @@
 #include <cornell/CUAnimationNode.h>
 #include "Constants.h"
 
-#define FRAME_PER_STEP 30
+#define FRAME_PER_STEP 13
 
 using namespace std;
 using namespace cocos2d;
@@ -39,6 +39,8 @@ public:
     virtual void resetSceneNode() override;
     
     virtual void resetDebugNode() override;
+    
+    virtual void replaceAnimationTexture(int rowCount, int columnCount, std::string textureKey);
     
     virtual ~AnimationBoxModel(void);
 };

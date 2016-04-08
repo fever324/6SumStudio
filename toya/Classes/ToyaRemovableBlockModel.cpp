@@ -56,7 +56,7 @@ void RemovableBlockModel::destroy(Node* parent, Node* parentDebugNode, WorldCont
     _parentDebugNode = parentDebugNode;
     _frameCount = 0;
     _world = world;
-    
+    _animationNode->setFrame(7);
     this->getBody()->SetActive(false);
 }
 

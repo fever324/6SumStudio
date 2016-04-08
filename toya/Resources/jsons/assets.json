@@ -31,6 +31,10 @@
         "goal-reached": {
             "file":     "textures/door_open.png",
             "wrap":     false
+        },
+        "explosion": {
+            "file":     "textures/explosionSprite.png",
+            "wrap":     false
         }
   	},
   	"sounds": {
