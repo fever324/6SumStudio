@@ -144,17 +144,16 @@ bool WorldModel::init(const Vec2& size, const Vec2& gravity) {
     _failnode = Label::create();
     
     _timenode = Label::create();
-    _timenode->setVisible(false);
     _timenode->setPosition(DESIGN_RES_W/2.0f,DESIGN_RES_H/2.0f-100);
 
     _winnode->setString("VICTORY!");
     _failnode->setString("GAME OVER");
     
     _winnode->setColor(DEBUG_COLOR);
-    //TODO: change color
     _failnode->setColor(DEBUG_COLOR);
-    _winnode->setVisible(false);
     
+    _timenode->setVisible(false);
+    _winnode->setVisible(false);
     _failnode->setVisible(false);
     
     _winnode->setPosition(DESIGN_RES_W/2.0f,DESIGN_RES_H/2.0f);
@@ -168,19 +167,13 @@ bool WorldModel::init(const Vec2& size, const Vec2& gravity) {
     _worldnode->ignoreAnchorPointForPosition(true);
     _debugnode->ignoreAnchorPointForPosition(true);
     
-//    _worldnode->setPosition(-2.5f*_scale.x,(18.0f-WORLD_HEIGHT+2.5f)*_scale.y);
-    
     _debugnode->setPosition(Vec2(DESIGN_RES_W/4.0f,DESIGN_RES_H/4.0f));
     
-    // set the bg color
+    // set the overview bg color
     LayerColor* bg = LayerColor::create(Color4B(53, 53, 53, 255));
 
     // change the scale to parameter
     bg->setContentSize(Size(DESIGN_RES_W*2,DESIGN_RES_H*2));
-    //    Layer* bg;
-    //    bg = Layer::create();
-    //    bg->setContentSize(Size(DESIGN_RES_W,DESIGN_RES_H));
-    //    bg->setColor(DEBUG_COLOR);
     _debugnode->addChild(bg);
     
     // scale the debugnode to half size of the screen

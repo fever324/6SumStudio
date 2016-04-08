@@ -13,6 +13,8 @@
 #include "ToyaBlockFactory.h"
 #include "ToyaGameController.h"
 #include "ToyaExitDoorModel.h"
+#include "Constants.h"
+
 
 #define REMOVABLE_LAYER "removables"
 
@@ -21,6 +23,8 @@
 #define GOAL_DRAW_LAYER          3
 #define AVATAR_DRAW_LAYER        4
 #define BARRIER_DRAW_LAYER       4
+
+#define PANEL_Z_ORDER            3
 
 static float BLOCK_SIZE[] = {1, 1};
 
@@ -53,6 +57,8 @@ public:
     void createBackground();
     
     void createMovingObstacles();
+    
+    PanelModel* createMagicPanel();
     
     ExitDoorModel* createGoalDoor();
     

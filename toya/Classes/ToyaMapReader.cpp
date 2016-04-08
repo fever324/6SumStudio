@@ -207,6 +207,18 @@ AvatarModel* MapReader::createAvatar() {
     return _avatar;
 }
 
+PanelModel* MapReader::createMagicPanel() {
+    
+    TMXLayer* rootLayer = map->getLayer("rootLayer");
+    
+    int totalMana = rootLayer->getProperty("magicPoints").asInt();
+    PanelModel* _panel = PanelModel::create(Vec2(0,gameController->getRootNode()->getContentSize().height), totalMana);
+    gameController->getRootNode()->addChild(_panel, PANEL_Z_ORDER);
+    
+    return _panel;
+}
+
+
 
 
 

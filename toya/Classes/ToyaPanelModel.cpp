@@ -1,9 +1,9 @@
 #include "ToyaPanelModel.h"
 #include "ToyaWorldModel.h"
 
-#define FREEZE_MAGIC_UNSELECTED_IMAGE "textures/create_magic.png"
-#define FREEZE_MAGIC_SELECTED_IMAGE "textures/create_magic_selected.png"
-#define FREEZE_MAGIC_DISABLED_IMAGE "textures/create_magic_disabled.png"
+#define FREEZE_MAGIC_UNSELECTED_IMAGE "textures/freeze_magic_icon.png"
+#define FREEZE_MAGIC_SELECTED_IMAGE "textures/freeze_magic_selected.png"
+#define FREEZE_MAGIC_DISABLED_IMAGE "textures/freeze_magic_disabled.png"
 
 #define FREEZE_MAGIC_ICON            "textures/create_magic_icon.png"
 #define BUTTON_BACKGROUND            "textures/button_background.png"
@@ -15,6 +15,7 @@
 #define DESTROY_MAGIC_DISABLED_IMAGE "textures/destroy_magic_disabled.png"
 
 using namespace cocos2d;
+using namespace std;
 
 PanelModel* PanelModel::create() {
     PanelModel* panel = new (std::nothrow) PanelModel();
@@ -26,9 +27,9 @@ PanelModel* PanelModel::create() {
     return nullptr;
 }
 
-PanelModel* PanelModel::create(const Vec2& pos) {
+PanelModel* PanelModel::create(const Vec2& pos, const int totalMana) {
     PanelModel* panel = new (std::nothrow) PanelModel();
-    if (panel && panel->init(pos)) {
+    if (panel && panel->init(pos, totalMana)) {
         panel->autorelease();
         return panel;
     }
@@ -50,23 +51,41 @@ bool PanelModel::init() {
     _freezingSpellCB->addTouchEventListener(CC_CALLBACK_2(PanelModel::freezingTouchEvent, this));
     _destructionSpellCB->addTouchEventListener(CC_CALLBACK_2(PanelModel::destructionTouchEvent, this));
     
+    
+    manaLabel = Label::create();
+    manaLabel->setColor(Color3B::RED);
+    manaLabel->setVisible(true);
+
+    
     this->addChild(_freezingSpellCB);
     this->addChild(_destructionSpellCB);
+    this->addChild(manaLabel);
     
     return true;
 }
 
-bool PanelModel::init(const Vec2& pos) {
+bool PanelModel::init(const Vec2& pos, const int totalMana) {
     init();
-
+    
+    _totalMana = totalMana;
+    _currentMana = totalMana;
+    
     Vec2 actualPosition = Vec2(pos);
     actualPosition.x += (_freezingSpellCB->getContentSize().width + _destructionSpellCB->getContentSize().width) / 2.0f;
     actualPosition.y -= _freezingSpellCB->getContentSize().height / 2.0f;
-    
-    setPosition(actualPosition);
 
-    _freezingSpellCB->setPosition(Vec2(-_freezingSpellCB->getContentSize().width/2.0f,0));
+    setPosition(actualPosition);
+    float x= -_freezingSpellCB->getContentSize().width/2.0f;
+    _freezingSpellCB->setPosition(Vec2(x,0));
     _destructionSpellCB->setPosition(Vec2(_destructionSpellCB->getContentSize().width/2.0f,0));
+    
+    x = actualPosition.x+_destructionSpellCB->getContentSize().width+manaLabel->getContentSize().width/3.0f;
+    
+    manaLabel->setPosition(x,0);
+    manaLabel->setSystemFontSize(30.0f);
+    updateLabelText();
+    updateButtons();
+    
     
     return true;
 
@@ -118,9 +137,37 @@ void PanelModel::setSpell(int i){
     }
     _selection = i;
 }
+void PanelModel::addMana(int mana) {
+    int result = mana + _currentMana;
+    _currentMana =  result > _totalMana ?  _totalMana : result;
+    
+    updateLabelText();
+    updateButtons();
+}
 
-bool PanelModel::deduceTotalMana(int cost) {
+bool PanelModel::deduceMana(int cost) {
     if(cost > _totalMana) return false;
-    _totalMana -= cost;
+    _currentMana -= cost;
+    updateLabelText();
+    updateButtons();
+
     return true;
 }
+
+
+void PanelModel::updateLabelText() {
+    if(manaLabel != nullptr) {
+        manaLabel->setString(std::to_string(_currentMana)+"/"+std::to_string(_totalMana));
+        manaLabel->updateContent();
+    }
+}
+
+void PanelModel::updateButtons() {
+    _destructionSpellCB->setEnabled(_currentMana >= DESTRUCTION_COST);
+    _freezingSpellCB->setEnabled(_currentMana >= FREEZE_COST);
+}
+
+void PanelModel::reset(){
+    _currentMana = _totalMana;
+}
+
