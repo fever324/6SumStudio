@@ -6,16 +6,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "No"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "../Classes/ToyaWorldModel.cpp"
-            timestampString = "479873433.870485"
+            filePath = "../cocos2d/external/Box2D/Dynamics/Joints/b2MouseJoint.cpp"
+            timestampString = "481729706.261164"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "235"
-            endingLineNumber = "235"
-            landmarkName = "WorldModel::removeObstacle(Obstacle** objPtr)"
+            startingLineNumber = "125"
+            endingLineNumber = "125"
+            landmarkName = "b2MouseJoint::InitVelocityConstraints(const b2SolverData&amp; data)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

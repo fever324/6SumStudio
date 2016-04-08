@@ -17,8 +17,10 @@
 #include <Box2D/Dynamics/b2World.h>
 #include <Box2D/Dynamics/Contacts/b2Contact.h>
 #include <Box2D/Collision/b2Collision.h>
-#include "ToyaLevelModel.h"
 #include "ToyaPanelModel.h"
+#include "ToyaRemovableBlockModel.h"
+#include "ToyaMovingObstacleModel.h"
+#include "ToyaMagicPotionModel.h"
 
 
 // Physics constants for initialization
@@ -43,7 +45,7 @@
 
 using namespace cocos2d;
 
-class BlockFactory : public Ref {
+class BlockFactory {
     
 public:
     static BoxObstacle* create(const Vec2& pos, const Size& size) {
@@ -52,44 +54,46 @@ public:
         return obj;
     }
     
-    static BoxObstacle* getRemovableBlock(const Vec2& pos, const Vec2& scale,const std::string& texture) {
-        return getRemovableBlock(pos, scale, texture, true);
-    }
+//    static BoxObstacle* getRemovableBlock(const Vec2& pos, const Vec2& scale,const std::string& texture) {
+//        return getRemovableBlock(pos, scale, texture, true);
+//    }
+//    
+//    static BoxObstacle* getRemovableBlock(const Vec2& pos, const Vec2& scale,
+//                                          const std::string& texture, bool debug) {
+//        BoxObstacle* obj;
+//        
+//        SceneManager* assets =  AssetManager::getInstance()->getCurrent();
+//        Texture2D* image = assets->get<Texture2D>(texture);
+//        
+//        PolygonNode* sprite = PolygonNode::createWithTexture(image);
+//        
+//        float cscale = Director::getInstance()->getContentScaleFactor();
+//        sprite->setScale(cscale);
+//        
+//        Size realSize = Size(image->getContentSize().width/scale.x, image->getContentSize().height/scale.y);
+//        
+//        obj = BoxObstacle::create(pos,realSize);
+//        obj->setSceneNode(sprite);
+//        obj->setDrawScale(scale);
+//        obj->setBodyType(b2_staticBody);
+//        obj->setDensity(BASIC_DENSITY);
+//        obj->setFriction(BASIC_FRICTION);
+//        obj->setRestitution(BASIC_RESTITUTION);
+//        
+////        obj->setSensor(true);
+//        obj->setName("removable");
+//        
+//        if (debug == true) {
+//            WireNode* draw;
+//            draw = WireNode::create();
+//            draw->setColor(DEBUG_COLOR);
+//            draw->setOpacity(DEBUG_OPACITY);
+//            obj->setDebugNode(draw);
+//        }
+//        return obj;
+//    }
     
-    static BoxObstacle* getRemovableBlock(const Vec2& pos, const Vec2& scale,
-                                          const std::string& texture, bool debug) {
-        BoxObstacle* obj;
-        
-        SceneManager* assets =  AssetManager::getInstance()->getCurrent();
-        Texture2D* image = assets->get<Texture2D>(texture);
-        
-        PolygonNode* sprite = PolygonNode::createWithTexture(image);
-        
-        float cscale = Director::getInstance()->getContentScaleFactor();
-        sprite->setScale(cscale);
-        
-        Size realSize = Size(image->getContentSize().width/scale.x, image->getContentSize().height/scale.y);
-        
-        obj = BoxObstacle::create(pos,realSize);
-        obj->setBodyType(b2_staticBody);
-        obj->setSceneNode(sprite);
-        obj->setDrawScale(scale);
-        obj->setDensity(BASIC_DENSITY);
-        obj->setFriction(BASIC_FRICTION);
-        obj->setRestitution(BASIC_RESTITUTION);
-        
-//        obj->setSensor(true);
-        obj->setName("removable");
-        
-        if (debug == true) {
-            WireNode* draw;
-            draw = WireNode::create();
-            draw->setColor(DEBUG_COLOR);
-            draw->setOpacity(DEBUG_OPACITY);
-            obj->setDebugNode(draw);
-        }
-        return obj;
-    }
+    static RemovableBlockModel* getRemovableBlock(const Vec2& pos, const Size& size, Vec2 scale, const std::string textureKey);
     
     static PolygonObstacle* getNonRemovableBlock(const Poly2& poly, const Vec2& scale,
                                               const std::string& texture) {
@@ -123,6 +127,11 @@ public:
         }
         return obstacle;
     }
+    
+    static ExitDoorModel* getExitDoor();
+    static MovingObstacleModel* getMovingObstacle(int stateCount, int rowCount, int columnCount, std::string textureKey, const Vec2& pos, const Size& size, Vec2 scale, std::vector<Vec2>& routes, float speed, int faceRight);
+    
+    static MagicPotionModel* getMagicPotion(int stateCount, int rowCount, int columnCount, std::string textureKey, const Vec2& pos, const Size& size, Vec2 scale, int points);
 };
 
 

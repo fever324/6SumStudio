@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="left-up" width="65" height="36" tilewidth="64" tileheight="64" nextobjectid="1">
+ <tileset firstgid="1" name="texture" tilewidth="64" tileheight="64" tilecount="1" columns="1">
+  <image source="../textures/texture.png" width="64" height="64"/>
+ </tileset>
+ <layer name="removables" width="65" height="36">
+  <data encoding="base64" compression="zlib">
+   eJztlFluhEAMROH+l84v6pRrsdHQs1hCSYOXerZ7zqNn5+VB79iz+qf1VJxT++rr6u9o7Oap8roa1v+VXvROza07y8S/ux8sT8KX8ie7X3G45jCnOpnf+o1pueveI3OZJxqrOpWfo5flcMxlvoOdaVf6HB1TcxlO4a/uocqb1pjwdxlYrPJdvx3gW3W+Y9adnWUa1Uym9wj5oDqude+rmn2lKeFyfCc2mbszz5TP8WH3xjF3FigmmYO7J90edGzCXjFVdTrs6a4k5uhhMUn97k4ncYmhGIeb9ev6Po2d9iA1lA9pR/Wqdyi+s8edHriGOFkOxtnpe2JuD9xc6Oyyd2y698r/yvEqc/fuzjuvetBhUGe19zuwOzrQedVVae/85ryaXdVCjMfxP06xV2w7sFczqoz1447ZP8GOtCLmZO5JX3dgX/Wiv0x72tMd2VUfKt0sB7Nd2ZV+NuMqvuLcld2ZverB6q/Ouz5It9uDd2dHXIpT8b8Te8qpYj6Bfcr/tPYne/BJz7fz/3rw4/8D0wkF9Q==
+  </data>
+ </layer>
+</map>

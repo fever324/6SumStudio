@@ -4,7 +4,6 @@
  * Created by sb2345 on 3/13/2016.
  */
 
-#include "ToyaBlockModel.h"
 #include "ToyaExitDoorModel.h"
 #include <cornell/CUAssetManager.h>
 #include <cornell/CUSceneManager.h>
@@ -53,25 +52,27 @@ ExitDoorModel* ExitDoorModel::create(const Vec2 &pos, const Size &size) {
 
 //
 bool ExitDoorModel::init(const Vec2 &pos, const Size &size) {
-    BoxObstacle::init(pos, size);
+    if(BoxObstacle::init(pos, size)) {
+        // Set the physics attributes
+        setBodyType(b2_staticBody);
+        setSensor(true);
+        
+        // Set door state
+        _state = DOOR_CLOSED;
+        
+        // Apply image
+        SceneManager* am = AssetManager::getInstance()->getCurrent();
+        Texture2D* image = am->get<Texture2D>(GOAL_TEXTURE);
+        
+        float cscale = Director::getInstance()->getContentScaleFactor();
+        Sprite* sprite = Sprite::createWithTexture(image);
+        sprite->setScale(cscale/4);
+        setSceneNode(sprite);
+        
+        return true;
+    }
     
-    // Set the physics attributes
-    setBodyType(b2_staticBody);
-    setSensor(true);
-    
-    // Set door state
-    _state = DOOR_CLOSED;
-    
-    // Apply image
-    SceneManager* am = AssetManager::getInstance()->getCurrent();
-    Texture2D* image = am->get<Texture2D>(GOAL_TEXTURE);
-    
-    float cscale = Director::getInstance()->getContentScaleFactor();
-    Sprite* sprite = Sprite::createWithTexture(image);
-    sprite->setScale(cscale/4);
-    setSceneNode(sprite);
-    
-    return true;
+    return false;
 }
 
 

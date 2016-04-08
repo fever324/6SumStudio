@@ -7,7 +7,7 @@
 //
 
 #include "ToyaGameRoot.h"
-#include "ToyaLevelModel.h"
+//#include "ToyaLevelModel.h"
 
 // This is not part of cornell.h and should come last
 #include <cornell/CUGenericLoader.h>
@@ -41,8 +41,8 @@ void ToyaRoot::start() {
     AssetManager::getInstance()->at(scene)->attach<Texture2D>(TextureLoader::create());
     AssetManager::getInstance()->at(scene)->attach<Sound>(SoundLoader::create());
     
-    GenericLoader<LevelModel>* levels = GenericLoader<LevelModel>::create();
-    AssetManager::getInstance()->at(scene)->attach<LevelModel>(levels);
+//    GenericLoader<LevelModel>* levels = GenericLoader<LevelModel>::create();
+//    AssetManager::getInstance()->at(scene)->attach<LevelModel>(levels);
     
     AssetManager::getInstance()->startScene(scene);
     

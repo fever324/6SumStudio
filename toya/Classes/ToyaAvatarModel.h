@@ -19,9 +19,9 @@ using namespace cocos2d;
 
 /** The texture for the character avatar */
 #define AVATAR_TEXTURE    "avatar"
-#define AVATAR_ANIMATION_ROWS 2
+#define AVATAR_ANIMATION_ROWS 6
 #define AVATAR_ANIMATION_COLS 3
-#define AVATAR_FRAMES 6
+#define AVATAR_FRAMES 18
 #define AVATAR_CYCLE_PER_FRAME 30
 
 #pragma mark -
@@ -29,7 +29,7 @@ using namespace cocos2d;
 /** The initial speed of avatar **/
 #define AVATAR_INITIAL_SPEED 3.0f
 /** The factor to multiply by the input */
-#define AVATAR_FORCE    2.0f
+#define AVATAR_FORCE    8.0f
 /** The amount to slow the character down */
 #define AVATAR_DAMPING    5.0f
 /** The maximum character speed */
@@ -59,7 +59,7 @@ protected:
     /** Avatar body animation node */
     AnimationNode* _avatarBody;
     /** Animation phase cycle */
-    bool _cycle;
+    int _cycle;
     /** Update cycle per animation */
     int _animationFrameCount;
     /** The current horizontal movement of the character */
@@ -158,6 +158,8 @@ public:
      * @return  An autoreleased physics object
      */
     static AvatarModel* create(const Vec2& pos, const Vec2& scale);
+    static AvatarModel* create(const Vec2& pos, const Vec2& scale, const std::string& avatarTexture);
+
     
 #pragma mark Attribute Properties
     /**
@@ -237,15 +239,12 @@ public:
     bool isFacingRight() const { return _faceRight; }
     void setFacingRight(bool faceRight) {
         
-        int direction = faceRight ? 1 : -1;
-        
-        if(_faceRight != faceRight) {
-            setLinearVelocity(Vec2{direction*AVATAR_INITIAL_SPEED, getVY()});
-        }
         _faceRight = faceRight;
-        
-        // Change facing
-//        _avatarBody->flipHorizontal(!faceRight);
+        _animationFrameCount = 0;
+        int state = isGrounded() ? 0 : 2 * AVATAR_ANIMATION_COLS;
+        int base = isFacingRight() ? state : state + AVATAR_ANIMATION_COLS;
+
+        _avatarBody->setFrame(base + AVATAR_ANIMATION_COLS - 1);
 
     }
     

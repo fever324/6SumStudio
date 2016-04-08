@@ -10,7 +10,7 @@ private:
 public:
     DestructionSpellModel() : SpellModel() {}
     
-    void cast(BlockModel* block) override {}
+    void cast(AnimationBoxModel* block) override {}
     int getCost() override { return _cost; }
 };
 

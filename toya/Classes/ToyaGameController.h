@@ -15,13 +15,20 @@
 #include <Box2D/Dynamics/b2WorldCallbacks.h>
 #include "ToyaInputController.h"
 #include "ToyaWorldModel.h"
-#include "ToyaBlockModel.h"
 #include "ToyaAvatarModel.h"
 #include "ToyaOverviewModel.h"
 #include "ToyaPanelModel.h"
 #include "ToyaExitDoorModel.h"
 
-class LevelModel;
+#include <Box2D/Dynamics/Contacts/b2Contact.h>
+#include <Box2D/Collision/b2Collision.h>
+#include "ToyaBlockFactory.h"
+#include "ToyaMapReader.h"
+
+// This is not part of cornell.h and SHOULD come last
+#include <cornell/CUGenericLoader.h>
+
+//class LevelModel;
 
 using namespace cocos2d;
 using namespace std;
@@ -38,6 +45,7 @@ using namespace std;
  * desired aspect ratio).
  */
 class OverviewModel;
+class MapReader;
 class GameController {
 protected:
     /** The scene manager for this game demo */
@@ -47,12 +55,13 @@ protected:
     InputController _input;
     
     WorldModel* _theWorld;
+    MapReader*  _mapReader;
     
     /** Reference to the root node of the scene graph */
     RootLayer* _rootnode;
     
     /** reference to the level model */
-    LevelModel* _level;
+//    LevelModel* _level;
     
     
     /** The world scale (computed from root node) */
@@ -62,10 +71,12 @@ protected:
     /** Reference to the goalDoor (for collision detection) */
     ExitDoorModel* _goalDoor;
 
-    BlockModel* _door;
+//    BlockModel* _door;
 
     BoxObstacle* _barrier;
     BoxObstacle* _barrier1;
+    BoxObstacle* _barrier2;
+
     /** Reference to the player avatar */
     AvatarModel* _avatar;
     
@@ -94,6 +105,10 @@ protected:
      */
     void populate();
     
+ 
+    
+    
+public:
     /**
      * Immediately adds the object to the physics world
      *
@@ -106,8 +121,9 @@ protected:
      */
     void addObstacle(Obstacle* obj, int zOrder);
     
-    
-public:
+    Vec2 getScale() {return _scale;}
+    SceneManager* getAssets(){return _assets;}
+    RootLayer* getRootNode(){return _rootnode;}
 #pragma mark -
 #pragma mark Initialization
     /**
@@ -300,6 +316,7 @@ public:
      * @param  contact  The collision manifold before contact
      */
     void beforeSolve(b2Contact* contact, const b2Manifold* oldManifold);
+    
 };
 
 #endif /* defined(__TOYA_GAME_CONTROLLER_H__) */

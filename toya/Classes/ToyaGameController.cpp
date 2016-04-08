@@ -11,9 +11,9 @@
 #include <Box2D/Dynamics/b2World.h>
 #include <Box2D/Dynamics/Contacts/b2Contact.h>
 #include <Box2D/Collision/b2Collision.h>
-#include "ToyaLevelModel.h"
 #include "ToyaPanelModel.h"
 #include "ToyaBlockFactory.h"
+// #include "ToyaMapEditor.h"
 
 #include <string>
 #include <iostream>
@@ -60,51 +60,15 @@ using namespace std;
 /** The default value of gravity (going down) */
 #define DEFAULT_GRAVITY -5.0f
 
-
-float WALL1[] = { -20.0f, 56.0f,  84.0f, 56.0f,   84.0f, 31.0f,
-    5.0f, 31.0f, 5.0f, 5.0f,  59.0f, 5.0f,   59.0f, 31.0f,
-    84.0f, 31.0f,   84.0f, -20.0f, -20.0f,-20.0f};
-
-float WALL2[] = {5.0f,28.0f,   12.0f,28.0f,  12.0f, 26.0f,  5.0f, 26.0f };
-
-float WALL22[] = {14.0f,28.0f,   27.0f,28.0f,  27.0f, 26.0f,  14.0f, 26.0f};
-
-float WALL3[] = {30.0f,22.0f,  50.0f,22.0f, 50.0f,20.0f,  30.0f,20.0f};
-float WALL5[] = {50.0f, 20.0f,  50.0f, 26.0f,  48.0f,26.0f,  48.0f, 20.0f};
-
-float WALL4[] = {30.0f,12.5f,   20.0f,12.5f,   17.0f,13.5f,   15.0f,13.5f,  19.0f,10.5f,  30.0f,10.5f};
-
-
-
-//vector<float> tmp(WALL2,WALL2+8);
-
-/** The initial avatar position */
-float AVATAR_POS[] = {5.0, 30.0};
-/** The goal door position */
-float GOAL_POS[] = {58.0, 6.5};
-//float GOAL_POS[] = {10.0, 26.0};
-
-float REMOVE_POS[] = {13.0, 27.0};
-/** The goal door position2 */
-float DOOR_POS[] = {31.0, 6.4};
-/** The barrier position */
-float BARRIER_POS[] = {32.5, 13.0};
-
 #pragma mark Assset Constants
 /** The key for the earth texture in the asset manager */
-#define EARTH_TEXTURE       "earth"
+#define EARTH_TEXTURE       "rock"
 /** The key for the removable block texture in the asset manager */
 #define REMOVABLE_TEXTURE   "removable"
 /** The key for the win door texture in the asset manager */
 #define GOAL_TEXTURE        "goal"
 #define GOAL_REACHED_TEXTURE "goal-reached"
 
-/** The key for the avatar texture in the asset manager */
-#define AVATAR_TEXTURE      "avatar"
-/** The key for the block texture in the asset manager */
-#define BLOCK_TEXTURE       "block"
-#define BARRIER_TEXTURE     "barrier"
-#define BEAR_TEXTURE        "bear"
 
 #define BACKGROUND_TEXTURE  "background"
 /** Color to outline the physics nodes */
@@ -117,12 +81,6 @@ float BARRIER_POS[] = {32.5, 13.0};
 
 #define COOL_DOWN   120
 
-#define REMOVABLE_DRAW_LAYER     1
-#define NONREMOVABLE_DRAW_LAYER  2
-#define GOAL_DRAW_LAYER          3
-#define AVATAR_DRAW_LAYER        4
-#define BARRIER_DRAW_LAYER        4
-
 /** The key for collisions sounds */
 #define COLLISION_SOUND     "bump"
 /** The key for the main afterburner sound */
@@ -132,8 +90,6 @@ float BARRIER_POS[] = {32.5, 13.0};
 /** The key for the left afterburner sound */
 #define LEFT_FIRE_SOUND     "sounds/sideburner-right.mp3"
 
-/** The key for the font reference */
-#define PRIMARY_FONT        "retro"
 
 #pragma mark Physics Constants
 
@@ -167,13 +123,14 @@ _rootnode(nullptr),
 _goalDoor(nullptr),
 _avatar(nullptr),
 _active(false),
-_level(nullptr),
+//_level(nullptr),
 _complete(false),
 _selector(nullptr),
 _debug(false),
 _cooldown(COOL_DOWN),
 _reset(false),
-_overview(nullptr)
+_overview(nullptr),
+_mapReader(nullptr)
 {
 }
 
@@ -235,13 +192,6 @@ bool GameController::init(RootLayer* root, const Rect& rect) {
  * @return  true if the controller is initialized properly, false otherwise.
  */
 bool GameController::init(RootLayer* root, const Rect& rect, const Vec2& gravity) {
-//    root->setColor(WORLD_COLOR);
-   
-    // set background image
-    Texture2D* image = _assets->get<Texture2D>(BACKGROUND_TEXTURE);
-    Sprite* bg = Sprite::createWithTexture(image,Rect(0,0,1024,576));
-    bg->setAnchorPoint(Vec2(0,0));
-    root->addChild(bg);
     
     Vec2 inputscale = Vec2(root->getScaleX(),root->getScaleY());
     _input.init();
@@ -250,8 +200,8 @@ bool GameController::init(RootLayer* root, const Rect& rect, const Vec2& gravity
     _theWorld = WorldModel::create();
     
     // Create the scene graph
-    
     WorldController* world = _theWorld->getWorld();
+    _mapReader = new MapReader(this);
     
     
     // set text config ffor winnodw
@@ -259,6 +209,7 @@ bool GameController::init(RootLayer* root, const Rect& rect, const Vec2& gravity
     Label* winnode = _theWorld->getWinNode();
     Label* failnode = _theWorld->getFailNode();
     Label* timenode = _theWorld->getTimeNode();
+
     winnode->setTTFConfig(_assets->get<TTFont>(PRIMARY_FONT)->getTTF());
     failnode->setTTFConfig(_assets->get<TTFont>(PRIMARY_FONT)->getTTF());
     timenode->setTTFConfig(_assets->get<TTFont>(PRIMARY_FONT)->getTTF());
@@ -269,6 +220,7 @@ bool GameController::init(RootLayer* root, const Rect& rect, const Vec2& gravity
     root->addChild(failnode,3);
     root->addChild(timenode,3);
 
+    
     world->onBeginContact = [this](b2Contact* contact) {
         beginContact(contact);
     };
@@ -282,6 +234,9 @@ bool GameController::init(RootLayer* root, const Rect& rect, const Vec2& gravity
     
     _scale.set(root->getContentSize().width/32.0f,
                root->getContentSize().height/18.0f);
+    
+    CCLOG("%f, %f", _scale.x,_scale.y);
+    
     _rootnode = root;
     
     populate();
@@ -299,9 +254,8 @@ bool GameController::init(RootLayer* root, const Rect& rect, const Vec2& gravity
     _overview->setGameController(this);
     root->addChild(_overview,3);
     
-    _panel = PanelModel::create(Vec2(0,root->getContentSize().height));
-    root->addChild(_panel, 3);
-
+   
+    
     return true;
 }
 
@@ -342,9 +296,11 @@ void GameController::reset() {
     _selector->deselect();
     _theWorld->clear();
     _input.clear();
+    _mapReader->reset();
     setComplete(false);
     _overview->reset();
-
+    _panel->reset();
+    
     setFail(false);
     _reset = false;
     _cooldown = COOL_DOWN;
@@ -364,99 +320,27 @@ void GameController::populate() {
     // If the device is higher resolution than 1024x576, Cocos2d will scale it
     // This was set as the design resolution in AppDelegate
     // To convert from design resolution to real, divide positions by cscale
-//    float cscale = Director::getInstance()->getContentScaleFactor();
+    //    float cscale = Director::getInstance()->getContentScaleFactor();
     // Note that this is different from _scale, which is the physics scale
     
     // THIS DOES NOT FIX ASPECT RATIO PROBLEMS
     // If you are using a device with a 3:2 aspect ratio, you will need to
     // completely redo the level layout.  We can help if this is an issue.
-    
-// Remove
-    
-    Vec2 removePos = ((Vec2) REMOVE_POS);
-    
-    BoxObstacle* removed = BlockFactory::getRemovableBlock(removePos, _scale, REMOVABLE_TEXTURE);
-    addObstacle(removed, REMOVABLE_DRAW_LAYER);
-    
-#pragma mark : Goal door
-    
-    // Create obstacle
-    Vec2 goalPos = ((Vec2)GOAL_POS);
-    Texture2D* image = _assets->get<Texture2D>(GOAL_TEXTURE);
-    Size goalSize = Size(image->getContentSize().width/_scale.x, image->getContentSize().height/_scale.y);
-    _goalDoor = ExitDoorModel::create(goalPos, goalSize/8);
-    _goalDoor->setDrawScale(_scale.x, _scale.y);
-
-    addObstacle(_goalDoor, GOAL_DRAW_LAYER); // Put this at the very back
 
     
-PolygonObstacle* wallobj;
+    _mapReader->loadMap("maps/test.tmx");
     
-#pragma mark : Wall polygon 1
-    Poly2 wall1(WALL1,20);
-    wall1.triangulate();
-    wallobj = BlockFactory::getNonRemovableBlock(wall1, _scale, EARTH_TEXTURE, false); // 1st line
-    wallobj->setName("wall1");
-    addObstacle(wallobj, NONREMOVABLE_DRAW_LAYER);  // All walls share the same texture
+    _mapReader->createBackground();
+    _mapReader->createRemovableBlocks();
+    _mapReader->createNonRemovableBlocks();
+    _mapReader->createMovingObstacles();
+    _mapReader->createMagicPotions();
+    _goalDoor = _mapReader->createGoalDoor();
+    _avatar   = _mapReader->createAvatar();
+    _panel    = _mapReader->createMagicPanel();
     
-#pragma mark : Wall polygon 2
-    
-    Poly2 wall2(WALL2,8);
-    wall2.triangulate();
-    wallobj = BlockFactory::getNonRemovableBlock(wall2, _scale, EARTH_TEXTURE);
-    wallobj->setName("wall2");
-    addObstacle(wallobj, NONREMOVABLE_DRAW_LAYER);
-    
-    Poly2 wall22(WALL22, 8);
-    wall22.triangulate();
-    wallobj = BlockFactory::getNonRemovableBlock(wall22, _scale, EARTH_TEXTURE);
-    wallobj->setName("wall22");
-    addObstacle(wallobj, NONREMOVABLE_DRAW_LAYER);
-    
-    
-#pragma mark : Walls polygon 3
-    Poly2 wall3(WALL3,8);
-    wall3.triangulate();
-    wallobj = BlockFactory::getNonRemovableBlock(wall3, _scale, REMOVABLE_TEXTURE);
-    wallobj->setName("wall3");
-    addObstacle(wallobj, NONREMOVABLE_DRAW_LAYER);
-    
-    
-#pragma mark : Wall polygon 4
-    Poly2 wall4(WALL4,12);
-    wall4.triangulate();
-    wallobj = BlockFactory::getNonRemovableBlock(wall4, _scale, REMOVABLE_TEXTURE);
-    wallobj->setName("wall4");
-    addObstacle(wallobj, NONREMOVABLE_DRAW_LAYER);
-    
-    
-#pragma mark : Walls polygon 5
-    Poly2 wall5(WALL5,8);
-    wall5.triangulate();
-    wallobj = BlockFactory::getNonRemovableBlock(wall5, _scale, EARTH_TEXTURE);
-    wallobj->setName("wall5");
-    addObstacle(wallobj, NONREMOVABLE_DRAW_LAYER);
-    
-
-#pragma mark : Avatar
-    Vec2 avatarPos = ((Vec2)AVATAR_POS);
-    _avatar = AvatarModel::create(avatarPos,_scale);
-    addObstacle(_avatar, AVATAR_DRAW_LAYER);
     _theWorld->setFollow(_avatar);
     _avatar->setName("avatar");
-
-#pragma mark : Barrier
-    Vec2 barrierPos = ((Vec2)BARRIER_POS);
-    _barrier = BlockFactory::getRemovableBlock(barrierPos, _scale, BARRIER_TEXTURE);
-//    _barrier->setSensor(true);
-    // seems useless for barrier
-    
-    addObstacle(_barrier, BARRIER_DRAW_LAYER);
-    
-    
-    Vec2 barrierPos2 = Vec2(36, 22);
-    _barrier1 = BlockFactory::getRemovableBlock(barrierPos2, _scale, BARRIER_TEXTURE);
-    addObstacle(_barrier1, BARRIER_DRAW_LAYER);
 }
 
 /**
@@ -473,12 +357,11 @@ void GameController::addObstacle(Obstacle* obj, int zOrder) {
     _theWorld->addObstacle(obj, zOrder);
 }
 
-
 #pragma mark -
 #pragma mark Physics Handling
 
 Vec2* GameController::getRelativePosition(const Vec2& physicalPosition, Vec2& centerPosition, float turningAngel) {
-
+    
     Vec2 centerPosition_p = Vec2{512.0f, 288.0f};
     float dist = physicalPosition.getDistance(centerPosition_p);
     
@@ -495,8 +378,6 @@ Vec2* GameController::getRelativePosition(const Vec2& physicalPosition, Vec2& ce
     float originalX = centerPosition_p.x + cos(theta * M_PI / 180.0f) * dist;
     float originalY = centerPosition_p.y + sin(theta * M_PI / 180.0f) * dist;
     
-//    float relativeX = centerPosition.x - 16.0f + physicalPosition.x / 1024.0f * 32.0f;
-//    float relativeY = centerPosition.y - 9.0f + physicalPosition.y / 576.0f * 18.0f;
     float relativeX = centerPosition.x - 16.0f + originalX / 1024.0f * 32.0f;
     float relativeY = centerPosition.y - 9.0f + originalY / 576.0f * 18.0f;
     Vec2* relativePosition = new Vec2(relativeX, relativeY);
@@ -528,12 +409,7 @@ void GameController::update(float dt) {
     }
     
     _input.update(dt);
-//    if (_barrier != nullptr) {
-//        _barrier->setAngle(_barrier->getAngle() + 1);
-//    }
-//    if (_barrier1 != nullptr) {
-//        _barrier1->setAngle(_barrier1->getAngle() + 1);
-//    }
+
     // Process the toggled key commands
     if (_input.didReset()) { reset(); }
     if (_input.didExit())  {
@@ -546,7 +422,7 @@ void GameController::update(float dt) {
         
         if (cRotation > 360.0f) {
             cRotation -= 360.0f;
-        }        
+        }
         _theWorld->setRotation(cRotation);
         _avatar->setAngle(cRotation/ 180.0f * M_PI);
         
@@ -559,10 +435,21 @@ void GameController::update(float dt) {
     if (_input.didSelect() && _selector->isSelected()) {
         if(_panel->getSpell() == DESTRUCTION_SPELL_SELECTED) {
             _panel->setSpell(0);
-            BlockModel* obstacle = (BlockModel*)_selector->getObstacle();
-            if (obstacle->getName() == "removable"){
+            if (_selector->getObstacle()->getName() == "removable"){
+                RemovableBlockModel* rmb = (RemovableBlockModel*) _selector->getObstacle();
+                rmb->destroy(_theWorld->getWorldNode(), _theWorld->getDebugNode(), _theWorld->getWorld());
+                _panel->deduceMana(DESTRUCTION_COST);
                 _selector->deselect();
-                _theWorld->removeObstacle(&obstacle);
+                
+            }
+        } else if (_panel->getSpell() == FREEZING_SPELL_SELECTED) {
+            _panel->setSpell(0);
+            
+            if(_selector->getObstacle()->getName() == "ghost") {
+                MovingObstacleModel* movingObstacle = (MovingObstacleModel*) _selector->getObstacle();
+                movingObstacle->freeze(_theWorld->getWorldNode(), _theWorld->getDebugNode(), _theWorld->getWorld());
+                _panel->deduceMana(FREEZE_COST);
+                _selector->deselect();
             }
         }
     } else if (_input.didSelect()) {
@@ -577,7 +464,6 @@ void GameController::update(float dt) {
     
     //    update world position
     Vec2 pos = _avatar->getPosition();
-//    _theWorld->setWorldPos(pos);
     _theWorld->setWorldPos(_avatar,pos);
     
     // Turn the physics engine crank.
@@ -609,7 +495,7 @@ void GameController::endContact(b2Contact* contact) {
         (_avatar->getBottomSensorName() == fd1 && _avatar != bd2)) {
         _avatar->setGrounded(false);
     }
-
+    
 }
 
 
@@ -634,33 +520,30 @@ void GameController::beginContact(b2Contact* contact) {
     
     Obstacle* bd1 = (Obstacle*)body1->GetUserData();
     Obstacle* bd2 = (Obstacle*)body2->GetUserData();
-
-    // If the avatar hits the barrier, game over
-    if((body1->GetUserData() == _avatar && body2->GetUserData() == _barrier) ||
-            (body1->GetUserData() == _barrier && body2->GetUserData() == _avatar)) {
-        setFail(true);
-        // show time using
-//        double time = _overview->getCurrentPlayTime();
-//        _theWorld->showTime(time);
-        _reset = true;
+    
+    if((bd1->getName() == "avatar" && bd2->getName() == "ghost") ||
+       (bd1->getName() == "ghost" && bd2->getName() == "avatar")) {
+        MovingObstacleModel* ghost = bd1->getName() == "ghost" ? (MovingObstacleModel*)bd1 : (MovingObstacleModel*)bd2;
+        
+        if(!ghost->isFrozen()) {
+            setFail(true);
+            double time = _overview->getCurrentPlayTime();
+            _theWorld->showTime(time);
+            _reset = true;
+        }
     }
     
-    // If the avatar hits the barrier, game over
-    if((body1->GetUserData() == _avatar && body2->GetUserData() == _barrier1) ||
-       (body1->GetUserData() == _barrier1 && body2->GetUserData() == _avatar)) {
-        setFail(true);
-        // show time using
-        //        double time = _overview->getCurrentPlayTime();
-        //        _theWorld->showTime(time);
-        _reset = true;
+    if((bd1->getName() == "avatar" && bd2->getName() == "potion") || (bd1->getName() == "potion" && bd2->getName() == "avatar")) {
+        MagicPotionModel* magicPotion = bd1->getName() == "potion" ? (MagicPotionModel*)bd1 : (MagicPotionModel*)bd2;
+        magicPotion->pickUp(_theWorld->getWorldNode(), _theWorld->getDebugNode(), _theWorld->getWorld());
+        _panel->addMana(magicPotion->getPoints());
     }
-    
     
     // If we hit the "win" door, we are done
     if((body1->GetUserData() == _avatar && body2->GetUserData() == _goalDoor) ||
        (body1->GetUserData() == _goalDoor && body2->GetUserData() == _avatar)) {
         _goalDoor->open();
-
+        
         setComplete(true);
         _avatar->setLinearVelocity(Vec2(0.0f, 0.0f));
         // TODO: pause it
@@ -679,7 +562,6 @@ void GameController::beginContact(b2Contact* contact) {
                    (_avatar->getBottomSensorName() == fd1 && _avatar != bd2)) {
             _avatar->setGrounded(true);
         }
-
     }
 }
 
@@ -772,27 +654,27 @@ void GameController::preload() {
     }
     reader.endObject();
     
-//    // Process sounds
-//    if (reader.startObject(SOUNDS_KEY) > 0) {
-//        // Convert the object to an array so we can see keys and values
-//        int ssize = reader.startArray();
-//        for(int ii = 0; ii < ssize; ii++) {
-//            string key   = reader.getKey();
-//            
-//            // Unwrap the object
-//            if (reader.startObject()) {
-//                string value = reader.getString(FILE_KEY);
-//                float vol = reader.getNumber(SOUND_VOLUME);
-//                _volume.emplace(key,vol); // We have to store volume in a different place
-//                _assets->loadAsync<Sound>(key, value);
-//            }
-//            
-//            reader.endObject();
-//            reader.advance();
-//        }
-//        reader.endArray();
-//    }
-//    reader.endObject();
+    //    // Process sounds
+    //    if (reader.startObject(SOUNDS_KEY) > 0) {
+    //        // Convert the object to an array so we can see keys and values
+    //        int ssize = reader.startArray();
+    //        for(int ii = 0; ii < ssize; ii++) {
+    //            string key   = reader.getKey();
+    //
+    //            // Unwrap the object
+    //            if (reader.startObject()) {
+    //                string value = reader.getString(FILE_KEY);
+    //                float vol = reader.getNumber(SOUND_VOLUME);
+    //                _volume.emplace(key,vol); // We have to store volume in a different place
+    //                _assets->loadAsync<Sound>(key, value);
+    //            }
+    //
+    //            reader.endObject();
+    //            reader.advance();
+    //        }
+    //        reader.endArray();
+    //    }
+    //    reader.endObject();
     
     // Process fonts
     if (reader.startObject(FONTS_KEY) > 0) {
@@ -819,5 +701,5 @@ void GameController::preload() {
     reader.endJSON();
     
     // Finally, load the level
-    _assets->loadAsync<LevelModel>(LEVEL_ONE_KEY,LEVEL_ONE_FILE);
+    //    _assets->loadAsync<LevelModel>(LEVEL_ONE_KEY,LEVEL_ONE_FILE);
 }

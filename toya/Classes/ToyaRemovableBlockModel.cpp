@@ -1,6 +1,4 @@
-//
 //  ToyaRemovableBlockModel.cpp
-//  Can be cleared if we determine to use block factory
 //  Toya
 //  Created by 6Sum Studio on 2/27/16.
 //
@@ -9,7 +7,7 @@
 #include <cornell/CUAssetManager.h>
 #include <cornell/CUSceneManager.h>
 
-#define CONSTRUCT_FRAMES 5
+#define DESTROY_STATE 1
 
 using namespace cocos2d;
 
@@ -34,110 +32,44 @@ using namespace cocos2d;
  * @return  An autoreleased physics object
  */
 
-static RemovableBlockModel* create(const Vec2& pos, const Vec2& scale, const std::string& texture, const int& state) {
-    
-//    RemovableBlockModel* bm = new (std::nothrow) RemovableBlockModel(const Vec2& pos, const Vec2& scale, const String& texture);
-//    
-//    if (bm && bm->init()) {
-//        bm->autorelease();
-//        
-//        bm._state = state;
-//        bm._frameCount = 0;
-//        
-//        return bm;
-//    }
-//    CC_SAFE_DELETE(rocket);
+RemovableBlockModel* RemovableBlockModel::create(int stateCount, int rowCount, int columnCount, std::string textureKey, const Vec2& pos, const Size& size, Vec2 scale) {
+    RemovableBlockModel* removableBlock = new (std::nothrow) RemovableBlockModel();
+    if (removableBlock && removableBlock->init(stateCount, rowCount, columnCount, textureKey, pos, size, scale)) {
+        removableBlock->autorelease();
+        return removableBlock;
+    }
+    CC_SAFE_DELETE(removableBlock);
     return nullptr;
 }
 
-/**
- * Destroys this block, releasing all resources.
- */
-RemovableBlockModel::~RemovableBlockModel(void) {
-    // We do not own any of these, so we can just set to null
-    _animationNode = nullptr;
-}
-
-#pragma mark -
-#pragma mark Static Constructor
-
-
-#pragma mark -
-#pragma mark Animation
-/**
- * Performs any necessary additions to the scene graph node.
- *
- * This method is necessary for custom physics objects that are composed
- * of multiple scene graph nodes.  In this case, it is because we
- * manage our own afterburner animations.
- */
-void RemovableBlockModel::resetSceneNode() {
-    // We need to know the content scale for resolution independence
-    // If the device is higher resolution than 1024x576, Cocos2d will scale it
-    // This was set as the design resolution in AppDelegate
-    // To convert from design resolution to real, divide positions by cscale
-    float cscale = Director::getInstance()->getContentScaleFactor();
+bool RemovableBlockModel::init(int stateCount, int rowCount, int columnCount, std::string textureKey, const Vec2& pos, const Size& size, Vec2 scale) {
+    AnimationBoxModel::init(stateCount, rowCount, columnCount, textureKey, pos, size, scale);
+    setName(REMOVABLE_OBJECT_NAME);
+    setBodyType(b2_staticBody);
     
-    PolygonNode* pnode = dynamic_cast<PolygonNode*>(_node);
-    if (pnode != nullptr) {
-        SceneManager* assets =  AssetManager::getInstance()->getCurrent();
+    return true;
+}
+
+void RemovableBlockModel::destroy(Node* parent, Node* parentDebugNode, WorldController* world) {
+    _currState = DESTROY_STATE;
+    _parent = parent;
+    _parentDebugNode = parentDebugNode;
+    _frameCount = 0;
+    _world = world;
+    _animationNode->setFrame(7);
+    getBody()->SetActive(false);
+}
+
+void RemovableBlockModel::update(float dt) {
+    AnimationBoxModel::update(dt);
+    if(_frameCount == _columnCount * FRAME_PER_STEP && _currState == DESTROY_STATE) {
+        _parent->removeChild(this->getSceneNode());
+        _parentDebugNode->removeChild(this->getDebugNode());
         
-        Rect bounds;
-        bounds.size = getDimension();
-        bounds.size.width  *= _drawScale.x/cscale;
-        bounds.size.height *= _drawScale.y/cscale;
+        _world->removeObstacle(this);
         
-        Texture2D* image = assets->get<Texture2D>(_texture);
-        
-        pnode->setTexture(image); //Main object does not contain a image
-        pnode->setPolygon(bounds);
-        //
-        //
-        //        image  = assets->get<Texture2D>(_texture);
-        //        _animationNode = AnimationNode::create(image, 1, CONSTRUCT_FRAMES, CONSTRUCT_FRAMES);
-        //        _animationNode->setScale(cscale);
-        //
-        //        pnode->addChild(_mainBurner);   // TRANSFER OWNERSHIP
-        //        _animationNode->setPosition(_animationNode);
+        _parent = nullptr;
+        _parentDebugNode = nullptr;
+        _world = nullptr;
     }
-}
-
-
-
-/**
- *   Function to destroy this block
- *   Will update the status code to STATE_DESTROYING and change frameCount = 0
- */
-void destroy() {
-    //_state = STATE_DESTROYING;
-    //_frameCount = 0;
-}
-/**
- *   Update block for controller access
- *   If state = STATE_DESTROYING and frameCount == MAX_FRAME_COUNT, ready for garabage collection
- */
-void update() {
-    //animateBlock();
-}
-/**
- *   Function that updates the block's animation node frame based on block state and frame count
- */
-void animateBlock() {
-    //    if(_state == STATE_STABLE) {
-    //        return;
-    //    }
-    //
-    //    if(_state == STATE_GROWING) {
-    //        _node.image = "";
-    //        frameCount++;
-    //    }
-    //
-    //    if(_state == STATE_DESTROYING) {
-    //        frameCount--;
-    //    }
-    //
-    //    AnimationNode* node = _animationNode;
-    //    node->setFrame(frameCount);
-    //
-    //
 }

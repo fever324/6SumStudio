@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="left-down" width="64" height="32" tilewidth="64" tileheight="64" nextobjectid="1">
+ <tileset firstgid="1" name="texture" tilewidth="64" tileheight="64" tilecount="1" columns="1">
+  <image source="../textures/texture.png" width="64" height="64"/>
+ </tileset>
+ <layer name="removables" width="64" height="32">
+  <data encoding="base64" compression="zlib">
+   eJztVtsKxSAM2/7/p8/ToIjWpknHttPAYKjpRXs7jkaj0eBwktzoh+pm7EIQsdPjMmdXa4xNKM7FP8od18Y9z9eo7Aqo/N+9292xleEq3z+6jshWnPW4GRujdS8qO5P3TJ2w+ap+Iyuz8v2tLqT/WD2Z+9vVb++slyfq2r/zn40dK2cVTzP/7+z/0V6biR0ry9uP2BTZy4Cpy6t7QPxD658a6P2jfPTtd3rUc6Da/1l+s7OP5yc7VzD+V8TOtR7tP+r8Vca+gl/tf4aHnEP5qnko0qMyvUdVh7O6VZzonFUxd116Imsz2xCO5VX10AyYusNwnoJ/83/saVU15MlQ5+Db/M+CnTPejupe1Gg0voEfQOsA+g==
+  </data>
+ </layer>
+ <imagelayer name="Background"/>
+</map>

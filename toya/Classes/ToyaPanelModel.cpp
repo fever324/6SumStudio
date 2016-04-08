@@ -1,20 +1,21 @@
 #include "ToyaPanelModel.h"
 #include "ToyaWorldModel.h"
 
-#define CREATE_MAGIC_UNSELECTED_IMAGE "textures/create_magic.png"
-#define CREATE_MAGIC_SELECTED_IMAGE "textures/create_magic_selected.png"
-#define CREATE_MAGIC_DISABLED_IMAGE "textures/create_magic_disabled.png"
+#define FREEZE_MAGIC_UNSELECTED_IMAGE "textures/freeze_magic_icon.png"
+#define FREEZE_MAGIC_SELECTED_IMAGE "textures/freeze_magic_selected.png"
+#define FREEZE_MAGIC_DISABLED_IMAGE "textures/freeze_magic_disabled.png"
 
-#define CREATE_MAGIC_ICON            "textures/create_magic_icon.png"
+#define FREEZE_MAGIC_ICON            "textures/create_magic_icon.png"
 #define BUTTON_BACKGROUND            "textures/button_background.png"
 #define BUTTON_SELECTED_BACKGROUND   "textures/button_selected_background.png"
 
 
-#define DESTROY_MAGIC_UNSELECTED_IMAGE "textures/destroy_magic.png"
+#define DESTROY_MAGIC_UNSELECTED_IMAGE "textures/destroy_magic_icon.png"
 #define DESTROY_MAGIC_SELECTED_IMAGE "textures/destroy_magic_selected.png"
 #define DESTROY_MAGIC_DISABLED_IMAGE "textures/destroy_magic_disabled.png"
 
 using namespace cocos2d;
+using namespace std;
 
 PanelModel* PanelModel::create() {
     PanelModel* panel = new (std::nothrow) PanelModel();
@@ -26,9 +27,9 @@ PanelModel* PanelModel::create() {
     return nullptr;
 }
 
-PanelModel* PanelModel::create(const Vec2& pos) {
+PanelModel* PanelModel::create(const Vec2& pos, const int totalMana) {
     PanelModel* panel = new (std::nothrow) PanelModel();
-    if (panel && panel->init(pos)) {
+    if (panel && panel->init(pos, totalMana)) {
         panel->autorelease();
         return panel;
     }
@@ -41,49 +42,70 @@ bool PanelModel::init() {
     
     auto windowSize = Director::getInstance()->getWinSize();
 
-    _constructionSpell = new ConstructionSpellModel();
+    _freezingSpell = new FreezingSpellModel();
     _destructionSpell = new DestructionSpellModel();
+    if(_freezingSpellCB == nullptr){
+        _freezingSpellCB = ui::CheckBox::create(FREEZE_MAGIC_UNSELECTED_IMAGE, FREEZE_MAGIC_SELECTED_IMAGE, FREEZE_MAGIC_SELECTED_IMAGE, FREEZE_MAGIC_DISABLED_IMAGE, FREEZE_MAGIC_DISABLED_IMAGE);
+        _freezingSpellCB->addTouchEventListener(CC_CALLBACK_2(PanelModel::freezingTouchEvent, this));
+        this->addChild(_freezingSpellCB);
 
-    _constructionSpellCB = ui::CheckBox::create(CREATE_MAGIC_UNSELECTED_IMAGE, CREATE_MAGIC_SELECTED_IMAGE, CREATE_MAGIC_SELECTED_IMAGE, CREATE_MAGIC_DISABLED_IMAGE, CREATE_MAGIC_DISABLED_IMAGE);
-    _destructionSpellCB = ui::CheckBox::create(DESTROY_MAGIC_UNSELECTED_IMAGE,DESTROY_MAGIC_SELECTED_IMAGE,DESTROY_MAGIC_SELECTED_IMAGE,DESTROY_MAGIC_DISABLED_IMAGE,DESTROY_MAGIC_DISABLED_IMAGE);
+    }
+    if(_destructionSpellCB == nullptr) {
+        _destructionSpellCB = ui::CheckBox::create(DESTROY_MAGIC_UNSELECTED_IMAGE,DESTROY_MAGIC_SELECTED_IMAGE,DESTROY_MAGIC_SELECTED_IMAGE,DESTROY_MAGIC_DISABLED_IMAGE,DESTROY_MAGIC_DISABLED_IMAGE);
+        _destructionSpellCB->addTouchEventListener(CC_CALLBACK_2(PanelModel::destructionTouchEvent, this));
+        this->addChild(_destructionSpellCB);
 
-    _constructionSpellCB->addTouchEventListener(CC_CALLBACK_2(PanelModel::constructionTouchEvent, this));
-    _destructionSpellCB->addTouchEventListener(CC_CALLBACK_2(PanelModel::destructionTouchEvent, this));
+    }
     
-    this->addChild(_constructionSpellCB);
-    this->addChild(_destructionSpellCB);
+    if(manaLabel == nullptr) {
+        manaLabel = Label::create();
+        manaLabel->setColor(Color3B::RED);
+        manaLabel->setVisible(true);
+        this->addChild(manaLabel);
+    }
     
     return true;
 }
 
-bool PanelModel::init(const Vec2& pos) {
+bool PanelModel::init(const Vec2& pos, const int totalMana) {
     init();
-
-    Vec2 actualPosition = Vec2(pos);
-    actualPosition.x += (_constructionSpellCB->getContentSize().width + _destructionSpellCB->getContentSize().width) / 2.0f;
-    actualPosition.y -= _constructionSpellCB->getContentSize().height / 2.0f;
     
-    setPosition(actualPosition);
+    _totalMana = totalMana;
+    _currentMana = totalMana;
+    
+    Vec2 actualPosition = Vec2(pos);
+    actualPosition.x += (_freezingSpellCB->getContentSize().width + _destructionSpellCB->getContentSize().width) / 2.0f;
+    actualPosition.y -= _freezingSpellCB->getContentSize().height / 2.0f;
 
-    _constructionSpellCB->setPosition(Vec2(-_constructionSpellCB->getContentSize().width/2.0f,0));
+    setPosition(actualPosition);
+    float x= -_freezingSpellCB->getContentSize().width/2.0f;
+    _freezingSpellCB->setPosition(Vec2(x,0));
     _destructionSpellCB->setPosition(Vec2(_destructionSpellCB->getContentSize().width/2.0f,0));
     
+    x = actualPosition.x+_destructionSpellCB->getContentSize().width+manaLabel->getContentSize().width/3.0f;
+    
+    manaLabel->setPosition(x,0);
+    manaLabel->setSystemFontSize(30.0f);
+    updateLabelText();
+    updateButtons();
+    
+    
     return true;
 
 }
 
-void PanelModel::constructionTouchEvent(Ref *sender, ui::Widget::TouchEventType type) {
+void PanelModel::freezingTouchEvent(Ref *sender, ui::Widget::TouchEventType type) {
     switch(type) {
         case ui::Widget::TouchEventType::BEGAN:
             if(_selection == DESTRUCTION_SPELL_SELECTED) {
                 _destructionSpellCB->setSelected(false);
-                _selection = CONSTRUCTION_SPELL_SELECTED;
+                _selection = FREEZING_SPELL_SELECTED;
             }
-            else if(_selection == CONSTRUCTION_SPELL_SELECTED) {
+            else if(_selection == FREEZING_SPELL_SELECTED) {
                 _selection = NO_SPELL_SELECTED;
             }
             else
-                _selection = CONSTRUCTION_SPELL_SELECTED;
+                _selection = FREEZING_SPELL_SELECTED;
             break;
         default:
             break;
@@ -93,8 +115,8 @@ void PanelModel::constructionTouchEvent(Ref *sender, ui::Widget::TouchEventType 
 void PanelModel::destructionTouchEvent(Ref *sender, ui::Widget::TouchEventType type) {
     switch(type) {
         case ui::Widget::TouchEventType::BEGAN:
-            if(_selection == CONSTRUCTION_SPELL_SELECTED) {
-                _constructionSpellCB->setSelected(false);
+            if(_selection == FREEZING_SPELL_SELECTED) {
+                _freezingSpellCB->setSelected(false);
                 _selection = DESTRUCTION_SPELL_SELECTED;
             }
             else if(_selection == DESTRUCTION_SPELL_SELECTED) {
@@ -113,14 +135,43 @@ int PanelModel::getSpell() {
 }
 void PanelModel::setSpell(int i){
     if(i == 0) {
-        _constructionSpellCB->setSelected(false);
+        _freezingSpellCB->setSelected(false);
         _destructionSpellCB->setSelected(false);
     }
     _selection = i;
 }
+void PanelModel::addMana(int mana) {
+    int result = mana + _currentMana;
+    _currentMana =  result > _totalMana ?  _totalMana : result;
+    
+    updateLabelText();
+    updateButtons();
+}
 
-bool PanelModel::deduceTotalMana(int cost) {
+bool PanelModel::deduceMana(int cost) {
     if(cost > _totalMana) return false;
-    _totalMana -= cost;
+    _currentMana -= cost;
+    updateLabelText();
+    updateButtons();
+
     return true;
 }
+
+
+void PanelModel::updateLabelText() {
+    if(manaLabel != nullptr) {
+        manaLabel->setString(std::to_string(_currentMana)+"/"+std::to_string(_totalMana));
+        manaLabel->updateContent();
+    }
+}
+
+void PanelModel::updateButtons() {
+    _destructionSpellCB->setEnabled(_currentMana >= DESTRUCTION_COST);
+    _freezingSpellCB->setEnabled(_currentMana >= FREEZE_COST);
+}
+
+void PanelModel::reset(){
+    manaLabel->setVisible(false);
+    _currentMana = _totalMana;
+}
+

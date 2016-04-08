@@ -1,7 +1,7 @@
 {
     "textures": {
-        "earth":  {
-            "file":     "textures/earthtile.png",
+        "rock":  {
+            "file":     "textures/rock.png",
             "wrap":     true
         },
         "bear":  {
@@ -12,8 +12,20 @@
             "file":     "textures/door.png",
             "wrap":     false
         },
-        "removable": {
-            "file":     "textures/removable.png",
+        "dirt": {
+            "file":     "textures/dirts.png",
+            "wrap":     true
+        },
+        "ice_dirt": {
+            "file":     "textures/ice_dirts.png",
+            "wrap":     true
+        },
+        "sand_dirt": {
+            "file":     "textures/sand_dirts.png",
+            "wrap":     true
+        },
+        "grass_dirt": {
+            "file":     "textures/grass_dirts.png",
             "wrap":     true
         },
         "avatar": {
@@ -24,12 +36,20 @@
             "file":     "textures/background.png",
             "wrap":     true
         },
-        "barrier":    {
-            "file":     "textures/obstacle_01.png",
+        "ghosts":    {
+            "file":     "textures/ghosts.png",
             "wrap":     false
         },
         "goal-reached": {
             "file":     "textures/door_open.png",
+            "wrap":     false
+        },
+        "explosion": {
+            "file":     "textures/explosionSprite.png",
+            "wrap":     false
+        },
+        "potions":    {
+            "file":     "textures/potions.png",
             "wrap":     false
         }
   	},

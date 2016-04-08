@@ -16,73 +16,24 @@
 
 #define MAX_FRAME_COUNT       60
 
-#include "ToyaBlockModel.h"
+#include "ToyaAnimationBoxModel.h"
 #include "cornell/CUAnimationNode.h"
 
 using namespace cocos2d;
 
-class RemovableBlockModel : public BlockModel {  // Block demo game controller line 420
-    
+class RemovableBlockModel : public AnimationBoxModel {  // Block demo game controller line 420
 private:
-    /** The state showing current state of removable block. **/
-    int _state;
-    /** The count of which frame should appear on the screen. Initialize to 0 if state is initialized to STATE_GROWING; initialize to MAX_FRAME_COUNT if state is initialized to STATE_STABLE. **/
-    int _frameCount;
-    
-    
-    /** The animation node for the main afterburner */
-    AnimationNode* _animationNode;
-    
-protected:
-    /**
-     * Performs any necessary additions to the scene graph node.
-     *
-     * This method is necessary for custom physics objects that are composed
-     * of multiple scene graph nodes.  In this case, it is because we
-     * manage our own afterburner animations.
-     */
-    virtual void resetSceneNode() override;
-    /**
-     *   Function that updates the block's animation node frame based on block state and frame count
-     */
-    void animateBlock();
-    
-    
+    Node* _parent;
+    Node* _parentDebugNode;
+    WorldController* _world;
 public:
-    /**
-     * Creates a new removable box at the given position.
-     *
-     * The removable box is sized according to the given drawing scale.
-     *
-     * The scene graph is completely decoupled from the physics system.
-     * The node does not have to be the same size as the physics body. We
-     * only guarantee that the scene graph node is positioned correctly
-     * according to the drawing scale.
-     *
-     * @param  pos      Initial position in world coordinates
-     * @param  scale    The drawing scale
-     * @param  texture  The texture of the removable box
-     * @param  state    The state of the removable box
-     *
-     * @return  An autoreleased physics object
-     */
-    static RemovableBlockModel* create(const Vec2& pos, const Vec2& scale,
-                                       const std::string& texture, const int& state);
+    static RemovableBlockModel* create(int stateCount, int rowCount, int columnCount, std::string textureKey, const Vec2& pos, const Size& size, Vec2 scale);
     
+    bool init(int stateCount, int rowCount, int columnCount, std::string textureKey, const Vec2& pos, const Size& size, Vec2 scale) override;
+
+    void update(float dt) override;
     
-    virtual ~RemovableBlockModel(void);
-    
-    
-    /**
-     *   Function to destroy this block
-     *   Will update the status code to STATE_DESTROYING and change frameCount = 0
-     */
-    void destroy();
-    /**
-     *   Update block for controller access
-     *   If state = STATE_DESTROYING and frameCount == MAX_FRAME_COUNT, ready for garabage collection
-     */
-    void update();
+    void destroy(Node* parent, Node* parentDebugNode, WorldController* world);
 };
 
 #endif /** __TOYA_REMOVABLEBLOCK_MODEL_H__ **/

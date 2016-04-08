@@ -7,10 +7,10 @@
 #ifndef __TOYA_EXITDOOR_MODEL_H__
 #define __TOYA_EXITDOOR_MODEL_H__
 
-
 #include "cornell/CUAnimationNode.h"
-#include "ToyaBlockModel.h"
-#include <cornell/CUAnimationNode.h>
+#include <cocos2d.h>
+#include <cornell.h>
+#include <Box2D/Dynamics/b2World.h>
 
 
 #define GOAL_TEXTURE "goal"
