@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="64" height="36" tilewidth="64" tileheight="64" nextobjectid="66">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="64" height="36" tilewidth="64" tileheight="64" nextobjectid="69">
  <tileset firstgid="1" name="texture" tilewidth="64" tileheight="64" tilecount="1" columns="1">
   <image source="../textures/texture.png" width="64" height="64"/>
  </tileset>
@@ -42,7 +42,7 @@
    <property name="texture" value="rock"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJzt1jEKgDAQRcFl739oSysFgybqnwcLgVRDimxXVYfP3fXB+W095f9KM97/yt3svD8/f8acmVPj5+fPjX/sv/jbpMbPz58bPz9/biv2q9W7nv1vj5+fPzd+fv7c+M0Ght8C9w==
+   eJzt1kEKgDAMRNGS+x/avbQpFR1i5n8ICC7Ko2IbY4wwn7eLxXO1vvL/JcX+n7xTx/7jx+8xmdk1/Pjx+4b/2XnRbdRV+ebw48ffu+xf190/s83ONnWKNbM13M6/3Z1GXTW/y6z83XP333P2Vzj/lDnff3bhx4/fN/zMBSKDAz8=
   </data>
  </layer>
  <layer name="grass" width="64" height="36">
@@ -50,7 +50,7 @@
    <property name="texture" value="grass_dirt"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJzt1tEOQDAMAED+/6dF4mmZbVRN5C5p8KCtpsSyAC3rEbPrn0V27bKPbFefL6uns7wZ84/mi/QR3avefo7EE2bU/AvzMINdOYPoTGrv2locn9aq+aY7NaPfpta9vdyzZ1Q7b/1/1K5Ha35hPwAAAAAAIMsGXnIAXQ==
+   eJzt1tEOgCAIQFH9/59ubj0xRAvJJvdsLntIkKhZCgBLvcfu+L0RHVvmEe3p/qJy6q0bUX/vep48vH016s+ZscKOmKegHtSgkTXw1kT71qq4rmbF/NKbmN5/k/XsaO3dNdLm1vlDu5+N+Yf+wHnoo1wynymz7bfJ9q4z9zcAAAAAAKe4AEGpAGo=
   </data>
  </layer>
  <layer name="sand" width="64" height="36">
@@ -58,7 +58,7 @@
    <property name="texture" value="sand_dirt"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJzt10kKACAIAEAf0f/f2rVDEO0UMyChQoI3IwAAYL1URBTvyZkn3Ji5W+qImf9r9Vq/lTPPTgEAGPXjTQQAAC/KzcICvQ==
+   eJzt0MEJACAIAECHaP9Z+/YQIiojuAMRFRSMAACA89oQMeTKmxVe3LytLcTO/qyfzWc1+/wUAAAAAOBvHRYEAoE=
   </data>
  </layer>
  <layer name="dirt" width="64" height="36">
@@ -66,7 +66,7 @@
    <property name="texture" value="dirt"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJzt1lEOwBAMAFB36P3vugtMLEaZvZdI+NEWQSlkitUJJIhK/258uhPqjbK2jmi07NizterNyikzdk/N2fvyZdaImr+fi5n/lZ3u7d65RsR+mtPbdRn9Tox4l3ZtAAAAAACc6wI3hgvO
+   eJzt1tEJwCAMRdHskP137QIVi8an9d0DQv0xiYppBJRydwIC2fh+m9/uhnoz9taRnaGOvVqvXlVOytgjNavP5c/YI7S434uV/ysnvduja1XE/prT7L5U94mKvnTqAKpxr7w4vykzPcWZe/0AAAAAAKg9DhkMjA==
   </data>
  </layer>
  <layer name="ice" width="64" height="36">
@@ -94,7 +94,7 @@
   </object>
  </objectgroup>
  <objectgroup name="Ghosts">
-  <object id="59" name="Amy" gid="17" x="2941" y="578" width="64" height="64">
+  <object id="59" name="Wo" gid="17" x="2941" y="578" width="64" height="64">
    <properties>
     <property name="faceRight" type="bool" value="false"/>
     <property name="point1X" type="float" value="5"/>
@@ -135,6 +135,33 @@
     <property name="faceRight" type="bool" value="true"/>
     <property name="point1X" type="float" value="-3"/>
     <property name="point1Y" type="float" value="0"/>
+    <property name="speed" type="float" value="2"/>
+    <property name="texture" value="ghosts"/>
+   </properties>
+  </object>
+  <object id="66" name="Bob" gid="17" x="2046.79" y="1540.73" width="64" height="64">
+   <properties>
+    <property name="faceRight" type="bool" value="true"/>
+    <property name="point1X" type="float" value="0"/>
+    <property name="point1Y" type="float" value="-5"/>
+    <property name="speed" type="float" value="2"/>
+    <property name="texture" value="ghosts"/>
+   </properties>
+  </object>
+  <object id="67" name="Bob" gid="17" x="2492.24" y="1028.61" width="64" height="64">
+   <properties>
+    <property name="faceRight" type="bool" value="true"/>
+    <property name="point1X" type="float" value="0"/>
+    <property name="point1Y" type="float" value="5"/>
+    <property name="speed" type="float" value="2"/>
+    <property name="texture" value="ghosts"/>
+   </properties>
+  </object>
+  <object id="68" name="Bob" gid="17" x="2946.79" y="1528.61" width="64" height="64">
+   <properties>
+    <property name="faceRight" type="bool" value="true"/>
+    <property name="point1X" type="float" value="0"/>
+    <property name="point1Y" type="float" value="-5"/>
     <property name="speed" type="float" value="2"/>
     <property name="texture" value="ghosts"/>
    </properties>
