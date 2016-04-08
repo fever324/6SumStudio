@@ -334,6 +334,7 @@ void GameController::populate() {
     _mapReader->createRemovableBlocks();
     _mapReader->createNonRemovableBlocks();
     _mapReader->createMovingObstacles();
+//    _mapReader->createMagicPotions();
     _goalDoor = _mapReader->createGoalDoor();
     _avatar   = _mapReader->createAvatar();
     _panel    = _mapReader->createMagicPanel();

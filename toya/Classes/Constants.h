@@ -5,6 +5,7 @@
 #define REMOVABLE_BLOCK_TEXTURE "removable"
 
 #define MOVING_OBSTACLE_NAME "movingObstacle"
+#define MAGIC_POTION_NAME "magicPotion"
 
 
 #define PRIMARY_FONT        "retro"

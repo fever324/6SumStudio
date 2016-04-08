@@ -147,12 +147,32 @@ void MapReader::createMovingObstacles() {
         vector<Vec2> routes = {(Vec2){x_pos, y_pos}, (Vec2){ghostMap.at("point1X").asFloat(), ghostMap.at("point1Y").asFloat()}};
         
         Vec2 ghostPos = (Vec2){x_pos/tileSize.width, y_pos/tileSize.height};
-        MovingObstacleModel* ghostObj = MovingObstacleModel::create(2, 4, 4, texture, ghostPos, size, _scale, routes, ghostMap.at("speed").asFloat(), ghostMap.at("faceRight").asBool());
+        MovingObstacleModel* ghostObj = MovingObstacleModel::create(2, 4, 4, texture, ghostPos, size, _scale, routes, ghostMap.at("speed").asFloat());
         gameController->addObstacle(ghostObj, BARRIER_DRAW_LAYER);
         ghostObj->setName("ghost");
     }
-
 }
+
+//void MapReader::createMagicPotions() {
+//    Vec2 _scale = gameController->getScale();
+//    
+//    for(cocos2d::Value potion : map->getObjectGroup("MagicPotions")->getObjects()) {
+//        cocos2d::ValueMap potionMap = potion.asValueMap();
+//        string texture = potionMap.at("texture").asString();
+//        
+//        float x_pos = potionMap.at("x").asFloat()*cscale;
+//        
+//        float y_pos = potionMap.at("y").asFloat()*cscale + 1.5*tileSize.height;
+//        
+//        
+//        const Size size = *new Size((Vec2){64.0f*cscale/2/_scale.x, 64.0f*cscale/_scale.y/2});
+//        
+//        Vec2 potionPos = (Vec2){x_pos/tileSize.width, y_pos/tileSize.height};
+//        MagicPotionModel* potionObj = MagicPotionModel::create(2, 4, 4, texture, potionPos, size, _scale, potionMap.at("points").asFloat());
+//        gameController->addObstacle(potionObj, POTION_DRAW_LAYER);
+//        potionObj->setName("potion");
+//    }
+//}
 
 void MapReader::createBackground() {
     
