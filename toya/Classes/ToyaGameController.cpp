@@ -62,7 +62,7 @@ using namespace std;
 
 #pragma mark Assset Constants
 /** The key for the earth texture in the asset manager */
-#define EARTH_TEXTURE       "earth"
+#define EARTH_TEXTURE       "rock"
 /** The key for the removable block texture in the asset manager */
 #define REMOVABLE_TEXTURE   "removable"
 /** The key for the win door texture in the asset manager */

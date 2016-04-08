@@ -27,10 +27,15 @@ void MapReader::loadMap(const std::string &mapFile) {
 }
 
 void MapReader::createRemovableBlocks() {
-    
-    const Size size = *new Size((Vec2)BLOCK_SIZE);
+    createTheBlocks(map->getLayer(DIRT_LAYER));
+    createTheBlocks(map->getLayer(ICE_DIRT_LAYER));
+    createTheBlocks(map->getLayer(GRASS_DIRT_LAYER));
+    createTheBlocks(map->getLayer(SAND_DIRT_LAYER));
+}
 
-    auto layer = map->getLayer(REMOVABLE_LAYER);
+void MapReader::createTheBlocks(TMXLayer* layer) {
+    std::cout << layer->getProperty("texture").asString() << endl;
+    const Size size = *new Size((Vec2)BLOCK_SIZE);
     if(layer != nullptr) {
         Size layerSize = layer->getLayerSize();
         for (int y = 0; y < layerSize.height; y++) {
@@ -38,7 +43,7 @@ void MapReader::createRemovableBlocks() {
                 auto tileSprite = layer->getTileAt(Point(x, y));
                 
                 if (tileSprite) {
-                    Obstacle* obj = BlockFactory::getRemovableBlock(Vec2(x+0.5,layerSize.height-y-0.5), size, gameController->getScale());
+                    Obstacle* obj = BlockFactory::getRemovableBlock(Vec2(x+0.5,layerSize.height-y-0.5), size, gameController->getScale(),layer->getProperty("texture").asString());
                     gameController->addObstacle(obj, REMOVABLE_DRAW_LAYER);
                 }
             }
@@ -49,7 +54,7 @@ void MapReader::createRemovableBlocks() {
 
 void MapReader::createNonRemovableBlocks() {
 
-    auto layer = map->getLayer("nonremovables");
+    auto layer = map->getLayer(ROCK_LAYER);
     if (layer != nullptr) {
         Obstacle* obj;
         bool makeIt = false;
@@ -183,7 +188,6 @@ ExitDoorModel* MapReader::createGoalDoor() {
     draw->setColor(Color3B::YELLOW);
     draw->setOpacity(193);
     _goalDoor->setDebugNode(draw);
-    
     
     gameController->addObstacle(_goalDoor, GOAL_DRAW_LAYER);
     return _goalDoor;

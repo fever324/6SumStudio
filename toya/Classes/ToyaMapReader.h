@@ -16,7 +16,17 @@
 #include "Constants.h"
 
 
-#define REMOVABLE_LAYER "removables"
+#define DIRT_LAYER "dirt"
+#define ROCK_LAYER "rock"
+#define ICE_DIRT_LAYER "ice"
+#define SAND_DIRT_LAYER "sand"
+#define GRASS_DIRT_LAYER "grass"
+
+#define DIRT_TEXTURE "dirt"
+#define ROCK_TEXTURE "rock"
+#define ICE_DIRT_TEXTURE "ice"
+#define SAND_DIRT_TEXTURE "sand"
+#define GRASS_DIRT_TEXTURE "grass"
 
 #define REMOVABLE_DRAW_LAYER     1
 #define NONREMOVABLE_DRAW_LAYER  2
@@ -51,6 +61,7 @@ public:
     void loadMap(const std::string& mapFile);
     
     void createRemovableBlocks();
+    void createTheBlocks(TMXLayer* layer);
 
     void createNonRemovableBlocks();
     

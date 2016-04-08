@@ -1,7 +1,7 @@
 {
     "textures": {
-        "earth":  {
-            "file":     "textures/earthtile.png",
+        "rock":  {
+            "file":     "textures/rock.png",
             "wrap":     true
         },
         "bear":  {
@@ -12,8 +12,20 @@
             "file":     "textures/door.png",
             "wrap":     false
         },
-        "removable": {
-            "file":     "textures/removable.png",
+        "dirt": {
+            "file":     "textures/dirts.png",
+            "wrap":     true
+        },
+        "ice_dirt": {
+            "file":     "textures/ice_dirts.png",
+            "wrap":     true
+        },
+        "sand_dirt": {
+            "file":     "textures/sand_dirts.png",
+            "wrap":     true
+        },
+        "grass_dirt": {
+            "file":     "textures/grass_dirts.png",
             "wrap":     true
         },
         "avatar": {

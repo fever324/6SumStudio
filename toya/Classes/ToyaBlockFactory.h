@@ -19,7 +19,7 @@
 #include <Box2D/Collision/b2Collision.h>
 #include "ToyaPanelModel.h"
 #include "ToyaRemovableBlockModel.h"
-#include "ToyaMovingObstacle.h"
+#include "ToyaMovingObstacleModel.h"
 
 
 // Physics constants for initialization
@@ -92,7 +92,7 @@ public:
 //        return obj;
 //    }
     
-    static RemovableBlockModel* getRemovableBlock(const Vec2& pos, const Size& size, Vec2 scale);
+    static RemovableBlockModel* getRemovableBlock(const Vec2& pos, const Size& size, Vec2 scale, const std::string textureKey);
     
     static PolygonObstacle* getNonRemovableBlock(const Poly2& poly, const Vec2& scale,
                                               const std::string& texture) {
