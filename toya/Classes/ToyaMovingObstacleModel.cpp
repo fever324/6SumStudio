@@ -70,7 +70,7 @@ bool MovingObstacleModel::init(int stateCount, int rowCount, int columnCount, st
         setDrawScale(scale);
         
         PolygonNode* sprite = PolygonNode::create(Rect(0, 0, size.width, size.height));
-//        sprite->setScale(AVATAR_SHRINK);
+//        sprite->setScale(1);
         setSceneNode(sprite);
         
         WireNode* draw = WireNode::create();

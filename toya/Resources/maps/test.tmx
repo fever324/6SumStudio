@@ -18,13 +18,13 @@
  <tileset firstgid="18" name="heigui" tilewidth="64" tileheight="64" tilecount="1" columns="1">
   <image source="../textures/heigui.png" width="64" height="64"/>
  </tileset>
- <tileset firstgid="19" name="dirt" tilewidth="64" tileheight="64" tilecount="2" columns="1">
+ <tileset firstgid="19" name="dirt" tilewidth="64" tileheight="64" tilecount="1" columns="1">
   <image source="../textures/dirt.png" width="64" height="64"/>
  </tileset>
- <tileset firstgid="32" name="sand_dirt" tilewidth="64" tileheight="64" tilecount="2" columns="1">
+ <tileset firstgid="20" name="sand_dirt" tilewidth="64" tileheight="64" tilecount="1" columns="1">
   <image source="../textures/sand_dirt.png" width="64" height="64"/>
  </tileset>
- <tileset firstgid="146" name="ice_dirt" tilewidth="64" tileheight="64" tilecount="1" columns="1">
+ <tileset firstgid="21" name="ice_dirt" tilewidth="64" tileheight="64" tilecount="1" columns="1">
   <image source="../textures/ice_dirt.png" width="64" height="64"/>
  </tileset>
  <layer name="rootLayer" width="64" height="36">
@@ -57,7 +57,7 @@
    <property name="texture" value="sand_dirt"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJzt1jEKACEMBMB9Sv7/Sls5sDEKJ8xAsIkrsUoCAADn1VSZzpsZ3/6uWtTNN19Q6c28urubR1/F/wMAsKdinwQAgD8YXsYD4Q==
+   eJzt1zEKACAIAEAf0f/f2ipBUwWGdyAulhgtRgAAwH0jRaT88o61/tTYxMuePzideXe20xtW0+0PAwBwT8edCAAAKpqIuAJt
   </data>
  </layer>
  <layer name="dirt" width="64" height="36">
@@ -73,7 +73,7 @@
    <property name="texture" value="ice_dirt"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJzt1EEOgCAMRFHuv/TErtxMWjqIJqD/JUZTgbYGbA0AAAAAAAAAAAD4pkOuXqzJczTHXdNdV+usYqOi+VVMa8/uTj5n3es5Glvlq6zcv8Z669/9BrP7P7vr/KzON/qvcrrznJqyMW4tT/c/ekZW7t89/6M59Z27/7MzMbv/s1zRuCqmeWb+jbv7c+89JwOKXq0=
+   eJzt1EEOgCAMRFEu4f2v6srNpKWDaAL6X2I0FWhrwNYAAAAAAAAAAACAbzrk6sWaPEdz3DXddbXOKjYqml/FtPbs7uRz1r2eo7FVvsrK/Wust/7dbzC7/7O7zs/qfKP/Kqc7z6kpG+PW8nT/o2dk5f7d8z+aU9+5+z87E7P7P8sVjatimmfm37i7P/fecwKhDg2f
   </data>
  </layer>
  <objectgroup name="GoalDoor">
@@ -98,7 +98,7 @@
     <property name="faceRight" type="bool" value="false"/>
     <property name="point1X" type="float" value="5"/>
     <property name="point1Y" type="float" value="0"/>
-    <property name="speed" type="float" value="2"/>
+    <property name="speed" type="float" value="3"/>
     <property name="texture" value="ghosts"/>
    </properties>
   </object>
@@ -106,21 +106,21 @@
    <properties>
     <property name="faceRight" type="bool" value="true"/>
     <property name="point1X" type="float" value="5"/>
-    <property name="point1Y" type="float" value="5"/>
-    <property name="speed" type="float" value="3"/>
-    <property name="texture" value="ghosts"/>
-   </properties>
-  </object>
-  <object id="62" name="Yida" gid="17" x="1215" y="768" width="64" height="64">
-   <properties>
-    <property name="faceRight" type="bool" value="true"/>
-    <property name="point1X" type="float" value="0"/>
-    <property name="point1Y" type="float" value="-3"/>
+    <property name="point1Y" type="float" value="0"/>
     <property name="speed" type="float" value="2"/>
     <property name="texture" value="ghosts"/>
    </properties>
   </object>
-  <object id="63" name="Sarah" gid="17" x="1279" y="575" width="64" height="64">
+  <object id="62" name="Yida" gid="17" x="675.606" y="698.303" width="64" height="64">
+   <properties>
+    <property name="faceRight" type="bool" value="false"/>
+    <property name="point1X" type="float" value="0"/>
+    <property name="point1Y" type="float" value="3"/>
+    <property name="speed" type="float" value="2"/>
+    <property name="texture" value="ghosts"/>
+   </properties>
+  </object>
+  <object id="63" name="Sarah" gid="17" x="769.909" y="575" width="64" height="64">
    <properties>
     <property name="faceRight" type="bool" value="false"/>
     <property name="point1X" type="float" value="0"/>
@@ -131,8 +131,8 @@
   </object>
   <object id="65" name="Alpha" gid="17" x="450" y="832" width="64" height="64">
    <properties>
-    <property name="faceRight" type="bool" value="false"/>
-    <property name="point1X" type="float" value="4"/>
+    <property name="faceRight" type="bool" value="true"/>
+    <property name="point1X" type="float" value="-4"/>
     <property name="point1Y" type="float" value="0"/>
     <property name="speed" type="float" value="2"/>
     <property name="texture" value="ghosts"/>

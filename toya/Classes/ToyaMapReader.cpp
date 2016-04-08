@@ -203,7 +203,6 @@ AvatarModel* MapReader::createAvatar() {
     float avatar_x = avatar.at("x").asFloat()*cscale;
     float avatar_y = avatar.at("y").asFloat()*cscale + tileSize.height*2;
     Vec2 avatarPos = (Vec2){avatar_x/tileSize.width, avatar_y/tileSize.height};
-    CCLOG("%.2f",avatarPos.x);
     AvatarModel* _avatar = AvatarModel::create(avatarPos,_scale, avatar_texture);
     gameController->addObstacle(_avatar, AVATAR_DRAW_LAYER);
     _avatar->setName("avatar");
