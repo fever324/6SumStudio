@@ -21,6 +21,7 @@ void MapReader::loadMap(const std::string &mapFile) {
     this->map = new TMXTiledMap();
     map->initWithTMXFile(mapFile);
     tileSize = map->getTileSize();
+    mapSize = map->getMapSize();
     cscale = Director::getInstance()->getContentScaleFactor();
 
 }
@@ -131,10 +132,12 @@ void MapReader::createMovingObstacles() {
         string texture = ghostMap.at("texture").asString();
         
         float x_pos = ghostMap.at("x").asFloat()*cscale;
-        float y_pos = ghostMap.at("y").asFloat()*cscale;
+        
+
+        float y_pos = ghostMap.at("y").asFloat()*cscale + 1.5*tileSize.height;
         
         
-        const Size size = *new Size((Vec2){64.0f*cscale*0.3f/_scale.x, 64.0f*cscale*0.3f/_scale.y});
+        const Size size = *new Size((Vec2){64.0f*cscale/2/_scale.x, 64.0f*cscale/_scale.y/2});
         
         vector<Vec2> routes = {(Vec2){x_pos, y_pos}, (Vec2){ghostMap.at("point1X").asFloat(), ghostMap.at("point1Y").asFloat()}};
         
@@ -162,15 +165,18 @@ ExitDoorModel* MapReader::createGoalDoor() {
     Vec2 _scale = gameController->getScale();
     TMXObjectGroup* goalDoorGroup = map->getObjectGroup("GoalDoor");
     ValueMap door = goalDoorGroup->getObject("Door");
-    float goal_x = door.at("x").asFloat()*cscale;
-    float goal_y = door.at("y").asFloat()*cscale;
-    Vec2 goalPos = (Vec2){goal_x/tileSize.width, goal_y/tileSize.height};
+    float goal_x = door.at("x").asFloat()*cscale + tileSize.width/2;
     
+    // y need to be re-calculated
+    float goal_y = door.at("y").asFloat()*cscale + 3*tileSize.height;
+
+    Vec2 goalPos = (Vec2){goal_x/tileSize.width, goal_y/tileSize.height};
+//    CCLOG("%.2f",goal_x/64);
     Texture2D* image = gameController->getAssets()->get<Texture2D>(goalDoorGroup->getProperty("texture").asString());
     
     
     Size goalSize = Size(image->getContentSize().width/_scale.x, image->getContentSize().height/_scale.y);
-    ExitDoorModel* _goalDoor = ExitDoorModel::create(goalPos, goalSize/8);
+    ExitDoorModel* _goalDoor = ExitDoorModel::create(goalPos, goalSize/4);
     _goalDoor->setDrawScale(_scale.x, _scale.y);
     
     WireNode* draw = WireNode::create();
@@ -190,8 +196,9 @@ AvatarModel* MapReader::createAvatar() {
     ValueMap avatar = avatarGroup->getObject("Avatar");
     string avatar_texture = avatar.at("texture").asString();
     float avatar_x = avatar.at("x").asFloat()*cscale;
-    float avatar_y = avatar.at("y").asFloat()*cscale;
+    float avatar_y = avatar.at("y").asFloat()*cscale + tileSize.height*2;
     Vec2 avatarPos = (Vec2){avatar_x/tileSize.width, avatar_y/tileSize.height};
+    CCLOG("%.2f",avatarPos.x);
     AvatarModel* _avatar = AvatarModel::create(avatarPos,_scale, avatar_texture);
     gameController->addObstacle(_avatar, AVATAR_DRAW_LAYER);
     _avatar->setName("avatar");

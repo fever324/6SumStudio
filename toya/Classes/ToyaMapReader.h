@@ -38,6 +38,7 @@ protected:
     GameController* gameController;
     TMXTiledMap*    map;
     Size            tileSize;
+    Size            mapSize;
     float           cscale;
     
 public:
