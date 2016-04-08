@@ -12,6 +12,7 @@ protected:
     Node* _parent;
     Node* _parentDebugNode;
     WorldController* _world;
+    bool pickedUp;
     
     int _points;
 public:
@@ -22,6 +23,8 @@ public:
     void update(float dt) override;
     
     void pickUp(Node* parent, Node* parentDebugNode, WorldController* world);
+    
+    int getPoints() { return _points; }
 };
 
 #endif /* ToyaMagicPotionModel_h */

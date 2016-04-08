@@ -21,6 +21,7 @@ bool MagicPotionModel::init(int stateCount, int rowCount, int columnCount, std::
         setName(REMOVABLE_OBJECT_NAME);
         setBodyType(b2_staticBody);
         setDrawScale(scale);
+        _points = points;
         
         WireNode* draw = WireNode::create();
         draw->setColor(Color3B::RED);
@@ -38,12 +39,15 @@ void MagicPotionModel::pickUp(Node* parent, Node* parentDebugNode, WorldControll
     _parentDebugNode = parentDebugNode;
     _frameCount = 0;
     _world = world;
-    _animationNode->setFrame(7);
-    getBody()->SetActive(false);
+    _animationNode->setFrame(2);
+    pickedUp = true;
 }
 
 void MagicPotionModel::update(float dt) {
     AnimationBoxModel::update(dt);
+    if(pickedUp) {
+        getBody()->SetActive(false);
+    }
     if(_frameCount == _columnCount * FRAME_PER_STEP && _currState == PICKING_STATE) {
         _parent->removeChild(getSceneNode());
         _parentDebugNode->removeChild(getDebugNode());

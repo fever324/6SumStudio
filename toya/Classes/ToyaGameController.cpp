@@ -334,7 +334,7 @@ void GameController::populate() {
     _mapReader->createRemovableBlocks();
     _mapReader->createNonRemovableBlocks();
     _mapReader->createMovingObstacles();
-//    _mapReader->createMagicPotions();
+    _mapReader->createMagicPotions();
     _goalDoor = _mapReader->createGoalDoor();
     _avatar   = _mapReader->createAvatar();
     _panel    = _mapReader->createMagicPanel();
@@ -527,6 +527,12 @@ void GameController::beginContact(b2Contact* contact) {
         double time = _overview->getCurrentPlayTime();
         _theWorld->showTime(time);
         _reset = true;
+    }
+    
+    if((bd1->getName() == "avatar" && bd2->getName() == "potion") || (bd1->getName() == "potion" && bd2->getName() == "avatar")) {
+        MagicPotionModel* magicPotion = bd1->getName() == "potion" ? (MagicPotionModel*)bd1 : (MagicPotionModel*)bd2;
+        magicPotion->pickUp(_theWorld->getWorldNode(), _theWorld->getDebugNode(), _theWorld->getWorld());
+        _panel->addMana(magicPotion->getPoints());
     }
     
     // If we hit the "win" door, we are done
