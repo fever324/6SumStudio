@@ -96,7 +96,7 @@
  <objectgroup name="Ghosts">
   <object id="59" name="Wo" gid="17" x="2941" y="578" width="64" height="64">
    <properties>
-    <property name="faceRight" type="bool" value="false"/>
+    <property name="faceRight" type="bool" value="true"/>
     <property name="point1X" type="float" value="5"/>
     <property name="point1Y" type="float" value="0"/>
     <property name="speed" type="float" value="2"/>
@@ -112,12 +112,12 @@
     <property name="texture" value="ghosts"/>
    </properties>
   </object>
-  <object id="62" name="Yida" gid="17" x="633.182" y="704.364" width="64" height="64">
+  <object id="62" name="Yida" gid="17" x="633.182" y="768" width="64" height="64">
    <properties>
     <property name="faceRight" type="bool" value="false"/>
     <property name="point1X" type="float" value="0"/>
     <property name="point1Y" type="float" value="3"/>
-    <property name="speed" type="float" value="2"/>
+    <property name="speed" type="float" value="1"/>
     <property name="texture" value="ghosts"/>
    </properties>
   </object>
@@ -125,8 +125,8 @@
    <properties>
     <property name="faceRight" type="bool" value="false"/>
     <property name="point1X" type="float" value="0"/>
-    <property name="point1Y" type="float" value="3"/>
-    <property name="speed" value="2"/>
+    <property name="point1Y" type="float" value="-3"/>
+    <property name="speed" value="1"/>
     <property name="texture" value="ghosts"/>
    </properties>
   </object>
@@ -143,7 +143,7 @@
    <properties>
     <property name="faceRight" type="bool" value="true"/>
     <property name="point1X" type="float" value="0"/>
-    <property name="point1Y" type="float" value="-5"/>
+    <property name="point1Y" type="float" value="5"/>
     <property name="speed" type="float" value="2"/>
     <property name="texture" value="ghosts"/>
    </properties>
@@ -152,7 +152,7 @@
    <properties>
     <property name="faceRight" type="bool" value="true"/>
     <property name="point1X" type="float" value="0"/>
-    <property name="point1Y" type="float" value="5"/>
+    <property name="point1Y" type="float" value="-5"/>
     <property name="speed" type="float" value="2"/>
     <property name="texture" value="ghosts"/>
    </properties>
@@ -161,7 +161,7 @@
    <properties>
     <property name="faceRight" type="bool" value="true"/>
     <property name="point1X" type="float" value="0"/>
-    <property name="point1Y" type="float" value="-5"/>
+    <property name="point1Y" type="float" value="5"/>
     <property name="speed" type="float" value="2"/>
     <property name="texture" value="ghosts"/>
    </properties>
