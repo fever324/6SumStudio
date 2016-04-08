@@ -40,7 +40,6 @@ protected:
     Size            tileSize;
     Size            mapSize;
     float           cscale;
-    Size            mapSize;
     
 public:
     MapReader(GameController* gameController);

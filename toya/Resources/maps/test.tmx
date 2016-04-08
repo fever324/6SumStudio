@@ -73,13 +73,5 @@
     <property name="texture" value="ghosts"/>
    </properties>
   </object>
-  <object id="57" gid="23" x="559.509" y="963.786" width="64" height="64">
-   <properties>
-    <property name="point1X" type="float" value="5"/>
-    <property name="point1Y" type="float" value="0"/>
-    <property name="speed" type="float" value="3"/>
-    <property name="texture" value="ghosts"/>
-   </properties>
-  </object>
  </objectgroup>
 </map>
