@@ -179,7 +179,8 @@ void MapReader::createBackground() {
     TMXLayer* rootLayer = map->getLayer("rootLayer");
     Size rootSize = rootLayer->getLayerSize();
     Texture2D* image = gameController->getAssets()->get<Texture2D>(rootLayer->getProperty("backgroundImage").asString());
-    Sprite* bg = Sprite::createWithTexture(image,Rect(0,0,1024,576));
+    Sprite* bg = Sprite::createWithTexture(image,Rect(0,0,1024,1024));
+    bg->setScale(1);
     bg->setAnchorPoint(Vec2(0,0));
     gameController->getRootNode()->addChild(bg);
     
