@@ -47,6 +47,10 @@
         "explosion": {
             "file":     "textures/explosionSprite.png",
             "wrap":     false
+        },
+        "potions":    {
+            "file":     "textures/potions.png",
+            "wrap":     false
         }
   	},
   	"sounds": {
