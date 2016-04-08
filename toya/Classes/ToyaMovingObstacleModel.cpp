@@ -1,8 +1,3 @@
-//  ToyaRemovableBlockModel.cpp
-//  Toya
-//  Created by 6Sum Studio on 2/27/16.
-//
-
 #include "ToyaMovingObstacleModel.h"
 #include <cornell/CUAssetManager.h>
 #include <cornell/CUSceneManager.h>
@@ -35,9 +30,9 @@
  * @return  An autoreleased physics object
  */
 
-MovingObstacleModel* MovingObstacleModel::create(int stateCount, int rowCount, int columnCount, std::string textureKey, const Vec2& pos, const Size& size, Vec2 scale, std::vector<Vec2>& routes, float speed, int faceRight) {
+MovingObstacleModel* MovingObstacleModel::create(int stateCount, int rowCount, int columnCount, std::string textureKey, const Vec2& pos, const Size& size, Vec2 scale, std::vector<Vec2>& routes, float speed) {
     MovingObstacleModel* movingObstacle = new (std::nothrow) MovingObstacleModel();
-    if (movingObstacle && movingObstacle->init(stateCount, rowCount, columnCount, textureKey, pos, size, scale, routes, speed, faceRight)) {
+    if (movingObstacle && movingObstacle->init(stateCount, rowCount, columnCount, textureKey, pos, size, scale, routes, speed)) {
         movingObstacle->autorelease();
         return movingObstacle;
     }
@@ -45,11 +40,10 @@ MovingObstacleModel* MovingObstacleModel::create(int stateCount, int rowCount, i
     return nullptr;
 }
 
-bool MovingObstacleModel::init(int stateCount, int rowCount, int columnCount, std::string textureKey, const Vec2& pos, const Size& size, Vec2 scale, std::vector<Vec2>& routes, float speed, int faceRight) {
+bool MovingObstacleModel::init(int stateCount, int rowCount, int columnCount, std::string textureKey, const Vec2& pos, const Size& size, Vec2 scale, std::vector<Vec2>& routes, float speed) {
     
     if(AnimationBoxModel::init(stateCount, rowCount, columnCount, textureKey, pos, size, scale)) {
         setName(MOVING_OBSTACLE_NAME);
-//        setBodyType(b2_kinematicBody);
         setBodyType(b2_staticBody);
         
         setFriction(0.0f);      // HE WILL STICK TO WALLS IF YOU FORGET
@@ -57,7 +51,10 @@ bool MovingObstacleModel::init(int stateCount, int rowCount, int columnCount, st
         setActive(false);
         
         // Gameplay attributes
-        _faceRight  = faceRight;
+        if(routes[1].x != 0) _faceRight = routes[1].x > 0 ;
+        else _faceRight = true;
+        _currState = _faceRight ? NORMAL_STATE_RIGHT : NORMAL_STATE_LEFT;
+        
         _routes = routes;
         _nextPos = 1;
         _freezeTime = 0;
@@ -70,7 +67,7 @@ bool MovingObstacleModel::init(int stateCount, int rowCount, int columnCount, st
         setDrawScale(scale);
         
         PolygonNode* sprite = PolygonNode::create(Rect(0, 0, size.width, size.height));
-//        sprite->setScale(AVATAR_SHRINK);
+        //        sprite->setScale(AVATAR_SHRINK);
         setSceneNode(sprite);
         
         WireNode* draw = WireNode::create();
@@ -86,12 +83,12 @@ bool MovingObstacleModel::init(int stateCount, int rowCount, int columnCount, st
 void MovingObstacleModel::freeze(Node* parent, Node* parentDebugNode, WorldController* world) {
     if(_currState == NORMAL_STATE_LEFT || _currState == NORMAL_STATE_RIGHT) {
         _currState += 2;
-        if(_parent == nullptr) _parent = parent;
-        if(_parentDebugNode == nullptr) _parentDebugNode = parentDebugNode;
-        _frameCount = 0;
-        _freezeTime = 0;
-        if(_world == nullptr) _world = world;
     }
+    if(_parent == nullptr) _parent = parent;
+    if(_parentDebugNode == nullptr) _parentDebugNode = parentDebugNode;
+    _frameCount = 0;
+    _freezeTime = 0;
+    if(_world == nullptr) _world = world;
 }
 
 void MovingObstacleModel::update(float dt) {
@@ -104,7 +101,7 @@ void MovingObstacleModel::update(float dt) {
     else if(_currState == NORMAL_STATE_LEFT || _currState == NORMAL_STATE_RIGHT) {
         int direction = _faceRight ? 1 : -1;
         _movement = direction * _speed;
-        setPosition(Vec2{getPosition().x+_movement*cos(_angle), getPosition().y+_movement*sin(_angle)});
+        setPosition(Vec2{getPosition().x+_movement*cos(_angle/180.0f*(float)M_PI), getPosition().y+_movement*sin(_angle/180.0f*(float)M_PI)});
         if(_routes[1].x > 0) {
             if(getPosition().x > _routes[0].x/64 + _routes[1].x) {
                 _faceRight = false;
@@ -117,7 +114,7 @@ void MovingObstacleModel::update(float dt) {
                 _frameCount = 0;
                 _animationNode->setFrame((_currState+1)*_columnCount-1);
             }
-        } else {
+        } else if(_routes[1].x < 0) {
             if(getPosition().x < _routes[0].x/64 + _routes[1].x) {
                 _faceRight = true;
                 _currState = NORMAL_STATE_RIGHT;
@@ -125,6 +122,30 @@ void MovingObstacleModel::update(float dt) {
                 _animationNode->setFrame((_currState+1)*_columnCount-1);
             } else if(getPosition().x >= _routes[0].x/64) {
                 _faceRight = false;
+                _currState = NORMAL_STATE_LEFT;
+                _frameCount = 0;
+                _animationNode->setFrame((_currState+1)*_columnCount-1);
+            }
+        } else if(_routes[1].y > 0) {
+            if(getPosition().y > _routes[0].y/64 + _routes[1].y) {
+                _faceRight = false;
+                _currState = NORMAL_STATE_LEFT;
+                _frameCount = 0;
+                _animationNode->setFrame((_currState+1)*_columnCount-1);
+            } else if(getPosition().y < _routes[0].y/64) {
+                _faceRight = true;
+                _currState = NORMAL_STATE_RIGHT;
+                _frameCount = 0;
+                _animationNode->setFrame((_currState+1)*_columnCount-1);
+            }
+        } else if(_routes[1].y < 0) {
+            if(getPosition().y < _routes[0].y/64 + _routes[1].y) {
+                _faceRight = false;
+                _currState = NORMAL_STATE_RIGHT;
+                _frameCount = 0;
+                _animationNode->setFrame((_currState+1)*_columnCount-1);
+            } else if(getPosition().y >= _routes[0].y/64) {
+                _faceRight = true;
                 _currState = NORMAL_STATE_LEFT;
                 _frameCount = 0;
                 _animationNode->setFrame((_currState+1)*_columnCount-1);

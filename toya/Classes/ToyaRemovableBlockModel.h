@@ -34,8 +34,6 @@ public:
     void update(float dt) override;
     
     void destroy(Node* parent, Node* parentDebugNode, WorldController* world);
-    
-    ~RemovableBlockModel();
 };
 
 #endif /** __TOYA_REMOVABLEBLOCK_MODEL_H__ **/

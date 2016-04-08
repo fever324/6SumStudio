@@ -54,11 +54,10 @@
   </object>
  </objectgroup>
  <objectgroup name="Ghosts">
-  <object id="62" gid="17" x="318.288" y="514.246" width="64" height="64">
+  <object id="62" gid="17" x="272.702" y="955.704" width="64" height="64">
    <properties>
-    <property name="faceRight" type="bool" value="false"/>
-    <property name="point1X" type="float" value="5"/>
-    <property name="point1Y" type="float" value="5"/>
+    <property name="point1X" type="float" value="0"/>
+    <property name="point1Y" type="float" value="-2"/>
     <property name="speed" type="float" value="3"/>
     <property name="texture" value="ghosts"/>
    </properties>

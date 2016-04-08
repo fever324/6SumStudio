@@ -21,6 +21,7 @@
 #define GOAL_DRAW_LAYER          3
 #define AVATAR_DRAW_LAYER        4
 #define BARRIER_DRAW_LAYER       4
+#define POTION_DRAW_LAYER        5
 
 static float BLOCK_SIZE[] = {1, 1};
 
@@ -53,6 +54,8 @@ public:
     void createBackground();
     
     void createMovingObstacles();
+    
+//    void createMagicPotions();
     
     ExitDoorModel* createGoalDoor();
     

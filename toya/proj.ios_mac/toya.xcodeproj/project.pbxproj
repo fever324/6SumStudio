@@ -70,6 +70,8 @@
 		EB4A34FE1C516E3F00F5FF0F /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB4A34FD1C516E3F00F5FF0F /* OpenGLES.framework */; };
 		EB4A35001C516E5400F5FF0F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB4A34FF1C516E5400F5FF0F /* UIKit.framework */; };
 		EB4A350A1C516F1900F5FF0F /* libcurl.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = EB4A35091C516F1900F5FF0F /* libcurl.tbd */; };
+		EBCA80AF1CB74935002F20D5 /* ToyaMagicPotionModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EBCA80AD1CB74935002F20D5 /* ToyaMagicPotionModel.cpp */; };
+		EBCA80B01CB74935002F20D5 /* ToyaMagicPotionModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EBCA80AD1CB74935002F20D5 /* ToyaMagicPotionModel.cpp */; };
 		EBCF3C391CB3347B003DCF67 /* ToyaAnimationBoxModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EBCF3C381CB3347B003DCF67 /* ToyaAnimationBoxModel.cpp */; };
 		EBCF3C3A1CB3347B003DCF67 /* ToyaAnimationBoxModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EBCF3C381CB3347B003DCF67 /* ToyaAnimationBoxModel.cpp */; };
 		EBCF3C401CB35F27003DCF67 /* ToyaBlockFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EBCF3C3F1CB35F27003DCF67 /* ToyaBlockFactory.cpp */; };
@@ -234,6 +236,8 @@
 		EB4A34FD1C516E3F00F5FF0F /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.2.sdk/System/Library/Frameworks/OpenGLES.framework; sourceTree = DEVELOPER_DIR; };
 		EB4A34FF1C516E5400F5FF0F /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.2.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
 		EB4A35091C516F1900F5FF0F /* libcurl.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libcurl.tbd; path = usr/lib/libcurl.tbd; sourceTree = SDKROOT; };
+		EBCA80AD1CB74935002F20D5 /* ToyaMagicPotionModel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ToyaMagicPotionModel.cpp; sourceTree = "<group>"; };
+		EBCA80AE1CB74935002F20D5 /* ToyaMagicPotionModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToyaMagicPotionModel.h; sourceTree = "<group>"; };
 		EBCF3C371CB3327C003DCF67 /* ToyaAnimationBoxModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToyaAnimationBoxModel.h; sourceTree = "<group>"; };
 		EBCF3C381CB3347B003DCF67 /* ToyaAnimationBoxModel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ToyaAnimationBoxModel.cpp; sourceTree = "<group>"; };
 		EBCF3C3E1CB355E4003DCF67 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
@@ -452,6 +456,8 @@
 				EB28113F1CB5F982003B4616 /* ToyaMovingObstacleModel.h */,
 				FBD3E40D1CB5EC8200A261D5 /* ToyaMapReader.h */,
 				FBD3E40F1CB611D300A261D5 /* ToyaMapReader.cpp */,
+				EBCA80AD1CB74935002F20D5 /* ToyaMagicPotionModel.cpp */,
+				EBCA80AE1CB74935002F20D5 /* ToyaMagicPotionModel.h */,
 			);
 			name = Classes;
 			path = ../Classes;
@@ -684,6 +690,7 @@
 				FB54E9021C95F46D003A51B9 /* ToyaOverviewModel.h in Sources */,
 				FB54E9041C95F46D003A51B9 /* ToyaExitDoorModel.h in Sources */,
 				FB54E9061C95F46D003A51B9 /* ToyaGameView.h in Sources */,
+				EBCA80AF1CB74935002F20D5 /* ToyaMagicPotionModel.cpp in Sources */,
 				FB99ADFF1C962A5B0074BBE9 /* ToyaInputController.cpp in Sources */,
 				FB54E9071C95F46D003A51B9 /* ToyaMenuModel.h in Sources */,
 				FB54E9081C95F46D003A51B9 /* ToyaMenuView.h in Sources */,
@@ -749,6 +756,7 @@
 				FB54E8F21C95F1E4003A51B9 /* ToyaProgressController.h in Sources */,
 				FB54E8F51C95F1E4003A51B9 /* ToyaWorldModel.cpp in Sources */,
 				FB54E8F61C95F1E4003A51B9 /* ToyaWorldModel.h in Sources */,
+				EBCA80B01CB74935002F20D5 /* ToyaMagicPotionModel.cpp in Sources */,
 				FB54E8F71C95F1E4003A51B9 /* ToyaAvatarModel.h in Sources */,
 				FB54E8F91C95F1E4003A51B9 /* ToyaGameController.h in Sources */,
 				FB54E8FA1C95F1E4003A51B9 /* ToyaGameRoot.h in Sources */,

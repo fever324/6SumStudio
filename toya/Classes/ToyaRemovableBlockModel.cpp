@@ -44,8 +44,8 @@ RemovableBlockModel* RemovableBlockModel::create(int stateCount, int rowCount, i
 
 bool RemovableBlockModel::init(int stateCount, int rowCount, int columnCount, std::string textureKey, const Vec2& pos, const Size& size, Vec2 scale) {
     AnimationBoxModel::init(stateCount, rowCount, columnCount, textureKey, pos, size, scale);
-    this->setName(REMOVABLE_OBJECT_NAME);
-    this->setBodyType(b2_staticBody);
+    setName(REMOVABLE_OBJECT_NAME);
+    setBodyType(b2_staticBody);
     
     return true;
 }
@@ -57,7 +57,7 @@ void RemovableBlockModel::destroy(Node* parent, Node* parentDebugNode, WorldCont
     _frameCount = 0;
     _world = world;
     _animationNode->setFrame(7);
-    this->getBody()->SetActive(false);
+    getBody()->SetActive(false);
 }
 
 void RemovableBlockModel::update(float dt) {
@@ -72,9 +72,4 @@ void RemovableBlockModel::update(float dt) {
         _parentDebugNode = nullptr;
         _world = nullptr;
     }
-}
-
-RemovableBlockModel::~RemovableBlockModel() {
-//    delete[] _parent;
-//    delete[] _parentDebugNode;
 }
