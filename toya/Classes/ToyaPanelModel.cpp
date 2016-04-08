@@ -1,11 +1,11 @@
 #include "ToyaPanelModel.h"
 #include "ToyaWorldModel.h"
 
-#define CREATE_MAGIC_UNSELECTED_IMAGE "textures/freeze_magic_icon.png"
-#define CREATE_MAGIC_SELECTED_IMAGE "textures/freeze_magic_selected.png"
-#define CREATE_MAGIC_DISABLED_IMAGE "textures/create_magic_disabled.png"
+#define FREEZE_MAGIC_UNSELECTED_IMAGE "textures/create_magic.png"
+#define FREEZE_MAGIC_SELECTED_IMAGE "textures/create_magic_selected.png"
+#define FREEZE_MAGIC_DISABLED_IMAGE "textures/create_magic_disabled.png"
 
-#define CREATE_MAGIC_ICON            "textures/create_magic_icon.png"
+#define FREEZE_MAGIC_ICON            "textures/create_magic_icon.png"
 #define BUTTON_BACKGROUND            "textures/button_background.png"
 #define BUTTON_SELECTED_BACKGROUND   "textures/button_selected_background.png"
 
@@ -41,16 +41,16 @@ bool PanelModel::init() {
     
     auto windowSize = Director::getInstance()->getWinSize();
 
-    _constructionSpell = new ConstructionSpellModel();
+    _freezingSpell = new FreezingSpellModel();
     _destructionSpell = new DestructionSpellModel();
 
-    _constructionSpellCB = ui::CheckBox::create(CREATE_MAGIC_UNSELECTED_IMAGE, CREATE_MAGIC_SELECTED_IMAGE, CREATE_MAGIC_SELECTED_IMAGE, CREATE_MAGIC_DISABLED_IMAGE, CREATE_MAGIC_DISABLED_IMAGE);
+    _freezingSpellCB = ui::CheckBox::create(FREEZE_MAGIC_UNSELECTED_IMAGE, FREEZE_MAGIC_SELECTED_IMAGE, FREEZE_MAGIC_SELECTED_IMAGE, FREEZE_MAGIC_DISABLED_IMAGE, FREEZE_MAGIC_DISABLED_IMAGE);
     _destructionSpellCB = ui::CheckBox::create(DESTROY_MAGIC_UNSELECTED_IMAGE,DESTROY_MAGIC_SELECTED_IMAGE,DESTROY_MAGIC_SELECTED_IMAGE,DESTROY_MAGIC_DISABLED_IMAGE,DESTROY_MAGIC_DISABLED_IMAGE);
 
-    _constructionSpellCB->addTouchEventListener(CC_CALLBACK_2(PanelModel::constructionTouchEvent, this));
+    _freezingSpellCB->addTouchEventListener(CC_CALLBACK_2(PanelModel::freezingTouchEvent, this));
     _destructionSpellCB->addTouchEventListener(CC_CALLBACK_2(PanelModel::destructionTouchEvent, this));
     
-    this->addChild(_constructionSpellCB);
+    this->addChild(_freezingSpellCB);
     this->addChild(_destructionSpellCB);
     
     return true;
@@ -60,30 +60,30 @@ bool PanelModel::init(const Vec2& pos) {
     init();
 
     Vec2 actualPosition = Vec2(pos);
-    actualPosition.x += (_constructionSpellCB->getContentSize().width + _destructionSpellCB->getContentSize().width) / 2.0f;
-    actualPosition.y -= _constructionSpellCB->getContentSize().height / 2.0f;
+    actualPosition.x += (_freezingSpellCB->getContentSize().width + _destructionSpellCB->getContentSize().width) / 2.0f;
+    actualPosition.y -= _freezingSpellCB->getContentSize().height / 2.0f;
     
     setPosition(actualPosition);
 
-    _constructionSpellCB->setPosition(Vec2(-_constructionSpellCB->getContentSize().width/2.0f,0));
+    _freezingSpellCB->setPosition(Vec2(-_freezingSpellCB->getContentSize().width/2.0f,0));
     _destructionSpellCB->setPosition(Vec2(_destructionSpellCB->getContentSize().width/2.0f,0));
     
     return true;
 
 }
 
-void PanelModel::constructionTouchEvent(Ref *sender, ui::Widget::TouchEventType type) {
+void PanelModel::freezingTouchEvent(Ref *sender, ui::Widget::TouchEventType type) {
     switch(type) {
         case ui::Widget::TouchEventType::BEGAN:
             if(_selection == DESTRUCTION_SPELL_SELECTED) {
                 _destructionSpellCB->setSelected(false);
-                _selection = CONSTRUCTION_SPELL_SELECTED;
+                _selection = FREEZING_SPELL_SELECTED;
             }
-            else if(_selection == CONSTRUCTION_SPELL_SELECTED) {
+            else if(_selection == FREEZING_SPELL_SELECTED) {
                 _selection = NO_SPELL_SELECTED;
             }
             else
-                _selection = CONSTRUCTION_SPELL_SELECTED;
+                _selection = FREEZING_SPELL_SELECTED;
             break;
         default:
             break;
@@ -93,8 +93,8 @@ void PanelModel::constructionTouchEvent(Ref *sender, ui::Widget::TouchEventType 
 void PanelModel::destructionTouchEvent(Ref *sender, ui::Widget::TouchEventType type) {
     switch(type) {
         case ui::Widget::TouchEventType::BEGAN:
-            if(_selection == CONSTRUCTION_SPELL_SELECTED) {
-                _constructionSpellCB->setSelected(false);
+            if(_selection == FREEZING_SPELL_SELECTED) {
+                _freezingSpellCB->setSelected(false);
                 _selection = DESTRUCTION_SPELL_SELECTED;
             }
             else if(_selection == DESTRUCTION_SPELL_SELECTED) {
@@ -113,7 +113,7 @@ int PanelModel::getSpell() {
 }
 void PanelModel::setSpell(int i){
     if(i == 0) {
-        _constructionSpellCB->setSelected(false);
+        _freezingSpellCB->setSelected(false);
         _destructionSpellCB->setSelected(false);
     }
     _selection = i;

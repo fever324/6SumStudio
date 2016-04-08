@@ -441,6 +441,14 @@ void GameController::update(float dt) {
                 rmb->destroy(_theWorld->getWorldNode(), _theWorld->getDebugNode(), _theWorld->getWorld());
                 _selector->deselect();
             }
+        } else if (_panel->getSpell() == FREEZING_SPELL_SELECTED) {
+            _panel->setSpell(0);
+            
+            if(_selector->getObstacle()->getName() == "ghost") {
+                MovingObstacleModel* movingObstacle = (MovingObstacleModel*) _selector->getObstacle();
+                movingObstacle->freeze(_theWorld->getWorldNode(), _theWorld->getDebugNode(), _theWorld->getWorld());
+                _selector->deselect();
+            }
         }
     } else if (_input.didSelect()) {
         Vec2 centerPosition = _avatar->getPosition();

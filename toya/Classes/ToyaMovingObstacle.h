@@ -22,7 +22,7 @@ private:
     
     std::vector<Vec2> _routes; // A list of points that define the routes of this moving obstacle.
     int _nextPos; // The index of next turing point on the route.
-    int _freezeTime; // The time of freezing 
+    double _freezeTime; // The time of freezing
 public:
     static MovingObstacleModel* create(int stateCount, int rowCount, int columnCount, std::string textureKey, const Vec2& pos, const Size& size, Vec2 scale, std::vector<Vec2>& routes, int speed);
     

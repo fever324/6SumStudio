@@ -55,10 +55,10 @@
 		D44C620C132DFF330009C878 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D44C620B132DFF330009C878 /* OpenAL.framework */; };
 		D44C620E132DFF430009C878 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D44C620D132DFF430009C878 /* AVFoundation.framework */; };
 		D44C6210132DFF4E0009C878 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D44C620F132DFF4E0009C878 /* AudioToolbox.framework */; };
-		D6692C071C987D1000DD9B2F /* ToyaConstructionSpellModel.h in Sources */ = {isa = PBXBuildFile; fileRef = D6692C021C987CB900DD9B2F /* ToyaConstructionSpellModel.h */; };
+		D6692C071C987D1000DD9B2F /* ToyaFreezingSpellModel.h in Sources */ = {isa = PBXBuildFile; fileRef = D6692C021C987CB900DD9B2F /* ToyaFreezingSpellModel.h */; };
 		D6692C081C987D1000DD9B2F /* ToyaDestructionSpellModel.h in Sources */ = {isa = PBXBuildFile; fileRef = D6692C031C987CB900DD9B2F /* ToyaDestructionSpellModel.h */; };
 		D6692C0B1C987D1000DD9B2F /* ToyaLevelConstants.h in Sources */ = {isa = PBXBuildFile; fileRef = 2B47DADC1C9649AD003B2491 /* ToyaLevelConstants.h */; };
-		D6692C0C1C987D1F00DD9B2F /* ToyaConstructionSpellModel.h in Sources */ = {isa = PBXBuildFile; fileRef = D6692C021C987CB900DD9B2F /* ToyaConstructionSpellModel.h */; };
+		D6692C0C1C987D1F00DD9B2F /* ToyaFreezingSpellModel.h in Sources */ = {isa = PBXBuildFile; fileRef = D6692C021C987CB900DD9B2F /* ToyaFreezingSpellModel.h */; };
 		D6692C0D1C987D1F00DD9B2F /* ToyaDestructionSpellModel.h in Sources */ = {isa = PBXBuildFile; fileRef = D6692C031C987CB900DD9B2F /* ToyaDestructionSpellModel.h */; };
 		D6692C0F1C987D1F00DD9B2F /* ToyaLevelConstants.h in Sources */ = {isa = PBXBuildFile; fileRef = 2B47DADC1C9649AD003B2491 /* ToyaLevelConstants.h */; };
 		EB24EB901C5B0EAB0069DBBE /* textures in Resources */ = {isa = PBXBuildFile; fileRef = EB24EB8F1C5B0EAB0069DBBE /* textures */; };
@@ -224,7 +224,7 @@
 		D44C620B132DFF330009C878 /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
 		D44C620D132DFF430009C878 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		D44C620F132DFF4E0009C878 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
-		D6692C021C987CB900DD9B2F /* ToyaConstructionSpellModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToyaConstructionSpellModel.h; sourceTree = "<group>"; };
+		D6692C021C987CB900DD9B2F /* ToyaFreezingSpellModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToyaFreezingSpellModel.h; sourceTree = "<group>"; };
 		D6692C031C987CB900DD9B2F /* ToyaDestructionSpellModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToyaDestructionSpellModel.h; sourceTree = "<group>"; };
 		EB24EB8F1C5B0EAB0069DBBE /* textures */ = {isa = PBXFileReference; lastKnownFileType = folder; path = textures; sourceTree = "<group>"; };
 		EB28113E1CB5F982003B4616 /* ToyaMovingObstacle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ToyaMovingObstacle.cpp; sourceTree = "<group>"; };
@@ -420,7 +420,7 @@
 				FB21ACDE1C82B52200613B39 /* ToyaAvatarModel.h */,
 				EBCF3C3F1CB35F27003DCF67 /* ToyaBlockFactory.cpp */,
 				2BBB8B901C9E020100E935DB /* ToyaBlockFactory.h */,
-				D6692C021C987CB900DD9B2F /* ToyaConstructionSpellModel.h */,
+				D6692C021C987CB900DD9B2F /* ToyaFreezingSpellModel.h */,
 				D6692C031C987CB900DD9B2F /* ToyaDestructionSpellModel.h */,
 				FB54E8BE1C95C8D6003A51B9 /* ToyaExitDoorModel.cpp */,
 				FB54E8BF1C95C8D6003A51B9 /* ToyaExitDoorModel.h */,
@@ -429,6 +429,7 @@
 				FB21ACE31C82B52200613B39 /* ToyaGameRoot.cpp */,
 				FB21ACE41C82B52200613B39 /* ToyaGameRoot.h */,
 				FB54E8C21C95C8D6003A51B9 /* ToyaGameView.cpp */,
+				FB54E8C71C95C8D6003A51B9 /* ToyaMenuView.h */,
 				FB54E8C31C95C8D6003A51B9 /* ToyaGameView.h */,
 				FB99ADF91C962A5B0074BBE9 /* ToyaInputController.cpp */,
 				FB99ADFA1C962A5B0074BBE9 /* ToyaInputController.h */,
@@ -436,7 +437,6 @@
 				FB54E8C41C95C8D6003A51B9 /* ToyaMenuModel.cpp */,
 				FB54E8C51C95C8D6003A51B9 /* ToyaMenuModel.h */,
 				FB54E8C61C95C8D6003A51B9 /* ToyaMenuView.cpp */,
-				FB54E8C71C95C8D6003A51B9 /* ToyaMenuView.h */,
 				FB54E8DE1C95F1BE003A51B9 /* ToyaOverviewModel.cpp */,
 				FB54E8DF1C95F1BE003A51B9 /* ToyaOverviewModel.h */,
 				FB54E8CA1C95C8D6003A51B9 /* ToyaPanelModel.cpp */,
@@ -578,7 +578,7 @@
 						DevelopmentTeam = 9WEW4LG4VB;
 					};
 					5087E73D17EB910900C73F5D = {
-						DevelopmentTeam = 9WEW4LG4VB;
+						DevelopmentTeam = FUM3E9989D;
 					};
 				};
 			};
@@ -675,7 +675,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2BBB8B951C9E034500E935DB /* ToyaBlockFactory.h in Sources */,
-				D6692C0C1C987D1F00DD9B2F /* ToyaConstructionSpellModel.h in Sources */,
+				D6692C0C1C987D1F00DD9B2F /* ToyaFreezingSpellModel.h in Sources */,
 				D6692C0D1C987D1F00DD9B2F /* ToyaDestructionSpellModel.h in Sources */,
 				D6692C0F1C987D1F00DD9B2F /* ToyaLevelConstants.h in Sources */,
 				FB99AE011C962A760074BBE9 /* ToyaInputController.h in Sources */,
@@ -722,7 +722,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2BBB8B931C9E022200E935DB /* ToyaBlockFactory.h in Sources */,
-				D6692C071C987D1000DD9B2F /* ToyaConstructionSpellModel.h in Sources */,
+				D6692C071C987D1000DD9B2F /* ToyaFreezingSpellModel.h in Sources */,
 				D6692C081C987D1000DD9B2F /* ToyaDestructionSpellModel.h in Sources */,
 				D6692C0B1C987D1000DD9B2F /* ToyaLevelConstants.h in Sources */,
 				FB99AE051C962A850074BBE9 /* ToyaInputController.cpp in Sources */,
