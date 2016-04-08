@@ -7,7 +7,7 @@
 #define FREEZE_STATE_RIGHT 2
 #define FREEZE_STATE_LEFT 3
 
-#define FREEZING_TIME 3
+#define FREEZING_TIME 6
 
 #pragma mark -
 #pragma mark Initializers
@@ -90,6 +90,8 @@ void MovingObstacleModel::freeze(Node* parent, Node* parentDebugNode, WorldContr
     _freezeTime = 0;
     if(_world == nullptr) _world = world;
 }
+
+bool MovingObstacleModel::isFrozen() { return _currState == FREEZE_STATE_LEFT || _currState == FREEZE_STATE_RIGHT; }
 
 void MovingObstacleModel::update(float dt) {
     if(_currState == FREEZE_STATE_LEFT || _currState == FREEZE_STATE_RIGHT) {
