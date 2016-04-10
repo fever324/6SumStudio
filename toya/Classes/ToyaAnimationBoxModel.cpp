@@ -44,6 +44,9 @@ bool AnimationBoxModel::init(int stateCount, int rowCount, int columnCount, std:
 }
 
 void AnimationBoxModel::animate() {
+    if(!isAnimating) {
+        return;
+    }
     if(_animationNode->getFrame() == 0) {
         _cycle = 1;
     } else if (_animationNode->getFrame() == _columnCount-1) {
@@ -90,6 +93,8 @@ void AnimationBoxModel::resetSceneNode() {
         
         pnode->addChild(_animationNode);
         _animationNode->setPosition(pnode->getContentSize().width/2.0f,pnode->getContentSize().height/2.0f);
+        _animationNode->setFrame(0);
+        isAnimating = true;
     }
 }
 

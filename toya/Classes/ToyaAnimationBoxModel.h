@@ -29,6 +29,9 @@ protected:
     AnimationNode* _animationNode;
     int _cycle;
     
+    bool isAnimating;
+    
+    
     
 public:
     static AnimationBoxModel* create(int stateCount, int rowCount, int columnCount, std::string textureKey, const Vec2& pos, const Size& size, Vec2 scale);
@@ -43,6 +46,8 @@ public:
     virtual void replaceAnimationTexture(int rowCount, int columnCount, std::string textureKey);
     
     virtual ~AnimationBoxModel(void);
+    
+    void setIsAnimating(bool animating) { isAnimating = animating; _cycle = 1;}
 };
 
 

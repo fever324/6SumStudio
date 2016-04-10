@@ -46,12 +46,14 @@ bool RemovableBlockModel::init(int stateCount, int rowCount, int columnCount, st
     AnimationBoxModel::init(stateCount, rowCount, columnCount, textureKey, pos, size, scale);
     setName(REMOVABLE_OBJECT_NAME);
     setBodyType(b2_staticBody);
-    
+
+    setIsAnimating(false);
     return true;
 }
 
 void RemovableBlockModel::destroy(Node* parent, Node* parentDebugNode, WorldController* world) {
     _currState = DESTROY_STATE;
+    setIsAnimating(true);
     _parent = parent;
     _parentDebugNode = parentDebugNode;
     _frameCount = 0;
@@ -61,6 +63,7 @@ void RemovableBlockModel::destroy(Node* parent, Node* parentDebugNode, WorldCont
 }
 
 void RemovableBlockModel::update(float dt) {
+
     AnimationBoxModel::update(dt);
     if(_frameCount == _columnCount * FRAME_PER_STEP && _currState == DESTROY_STATE) {
         _parent->removeChild(this->getSceneNode());
