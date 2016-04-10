@@ -9,6 +9,8 @@
 
 #define FREEZING_TIME 6
 
+#define ANIMATION_SPEED 13
+
 #pragma mark -
 #pragma mark Initializers
 
@@ -42,7 +44,7 @@ MovingObstacleModel* MovingObstacleModel::create(int stateCount, int rowCount, i
 
 bool MovingObstacleModel::init(int stateCount, int rowCount, int columnCount, std::string textureKey, const Vec2& pos, const Size& size, Vec2 scale, std::vector<Vec2>& routes, float speed) {
     
-    if(AnimationBoxModel::init(stateCount, rowCount, columnCount, textureKey, pos, size, scale)) {
+    if(AnimationBoxModel::init(stateCount, rowCount, columnCount, textureKey, pos, size, scale, ANIMATION_SPEED)) {
         setName(MOVING_OBSTACLE_NAME);
         setBodyType(b2_staticBody);
         

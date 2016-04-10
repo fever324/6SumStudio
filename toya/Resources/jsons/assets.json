@@ -13,19 +13,19 @@
             "wrap":     false
         },
         "dirt": {
-            "file":     "textures/dirts.png",
+            "file":     "textures/dirt.png",
             "wrap":     true
         },
         "ice_dirt": {
-            "file":     "textures/ice_dirts.png",
+            "file":     "textures/ice_dirt.png",
             "wrap":     true
         },
         "sand_dirt": {
-            "file":     "textures/sand_dirts.png",
+            "file":     "textures/sand_dirt.png",
             "wrap":     true
         },
         "grass_dirt": {
-            "file":     "textures/grass_dirts.png",
+            "file":     "textures/grass_dirt.png",
             "wrap":     true
         },
         "avatar": {
@@ -51,7 +51,12 @@
         "potions":    {
             "file":     "textures/potions.png",
             "wrap":     false
+        },
+        "destroy_animation":    {
+            "file":     "textures/destroy_animation.png",
+            "wrap":     false
         }
+        
   	},
   	"sounds": {
         "bump": {

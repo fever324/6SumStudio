@@ -16,6 +16,8 @@
 
 #define MAX_FRAME_COUNT       60
 
+#define ANIMATION_SPEED       13
+
 #include "ToyaAnimationBoxModel.h"
 #include "cornell/CUAnimationNode.h"
 
@@ -29,7 +31,7 @@ private:
 public:
     static RemovableBlockModel* create(int stateCount, int rowCount, int columnCount, std::string textureKey, const Vec2& pos, const Size& size, Vec2 scale);
     
-    bool init(int stateCount, int rowCount, int columnCount, std::string textureKey, const Vec2& pos, const Size& size, Vec2 scale) override;
+    bool init(int stateCount, int rowCount, int columnCount, std::string textureKey, const Vec2& pos, const Size& size, Vec2 scale);
 
     void update(float dt) override;
     

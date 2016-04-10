@@ -24,6 +24,7 @@ protected:
     int _frameCount;
     int _rowCount;
     int _columnCount;
+    int _updatePerFrame;
     std::string _textureKey;
     
     AnimationNode* _animationNode;
@@ -34,8 +35,8 @@ protected:
     
     
 public:
-    static AnimationBoxModel* create(int stateCount, int rowCount, int columnCount, std::string textureKey, const Vec2& pos, const Size& size, Vec2 scale);
-    virtual bool init(int stateCount, int rowCount, int columnCount, std::string textureKey, const Vec2& pos, const Size& size, Vec2 scale);
+    static AnimationBoxModel* create(int stateCount, int rowCount, int columnCount, std::string textureKey, const Vec2& pos, const Size& size, Vec2 scale, int updatesPerFrame);
+    virtual bool init(int stateCount, int rowCount, int columnCount, std::string textureKey, const Vec2& pos, const Size& size, Vec2 scale, int updatesPerFrame);
     
     virtual void update(float dt) override;
     
