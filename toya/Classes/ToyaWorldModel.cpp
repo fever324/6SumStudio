@@ -200,6 +200,7 @@ void WorldModel::setRotation(float rotation){
 }
 
 void WorldModel::update(float dt){
+    _world->garbageCollect();
     _world->update(dt);
 //    _worldnode->update(dt);
 }

@@ -468,6 +468,7 @@ void GameController::update(float dt) {
     
     // Turn the physics engine crank.
     _theWorld->update(dt);
+    
 }
 
 /**

@@ -34,7 +34,8 @@ void MapReader::createRemovableBlocks() {
 }
 
 void MapReader::createTheBlocks(TMXLayer* layer) {
-    const Size size = *new Size((Vec2)BLOCK_SIZE);
+    Size size = *new Size((Vec2)BLOCK_SIZE);
+    
     if(layer != nullptr) {
         Size layerSize = layer->getLayerSize();
         for (int y = 0; y < layerSize.height; y++) {

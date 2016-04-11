@@ -24,10 +24,11 @@ bool AnimationBoxModel::init(int stateCount, int rowCount, int columnCount, std:
         
         
         // here 32,32 define the size of the texture we want it show
+        float cscale = Director::getInstance()->getContentScaleFactor();
         PolygonNode* pnode = PolygonNode::create(Rect(0, 0, 32, 32));
         // here set the scale
         // TODO: change the scale to imageSize / textureSize
-        pnode->setScale(0.5);
+        pnode->setScale(0.5*cscale);
         
         setSceneNode(pnode);
 
