@@ -25,9 +25,12 @@ protected:
     // CONTROLLERS
     /** The primary controller for the game world */
      GameController _gameplay;
+    // init the game controller
+    InputController _input;
     
     /** Whether or not we have finished preloading all assets */
     bool _preloaded;
+    bool _initialized;
     
     /**
      * Builds the scene graph for the loading screen.

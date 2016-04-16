@@ -80,18 +80,23 @@ void ToyaRoot::stop() {
 void ToyaRoot::update(float deltaTime) {
     RootLayer::update(deltaTime);  // YOU MUST BEGIN with call to parent
     bool complete = true;
-    
     complete = complete && AssetManager::getInstance()->getCurrent()->isComplete();
-    if (_preloaded && !_gameplay.isActive() && complete) {
+    if (_preloaded && complete && !_initialized) {
         // Transfer control to the gameplay subcontroller
         removeAllChildren();
-        _gameplay.init(this);
+        _input.init();
+        _input.start();
+        _initialized = true;
+        CCLOG("Start the input controller.");
+    } else if (_preloaded && !_gameplay.isActive() && complete && _initialized && _input.didStart()) {
+        _gameplay.init(this,&_input);
     } else if (_gameplay.isActive()) {
         _gameplay.update(deltaTime);
     } else if (!_preloaded) {
-        _preloaded = true;
         _gameplay.preload();
+        _preloaded = true;
     }
+    _input.update(deltaTime);
 }
 
 

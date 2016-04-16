@@ -95,7 +95,9 @@ bool AppDelegate::applicationDidFinishLaunching() {
     
     // Rescale the window to align with the design resolution
     if (frameSize.height > designResolutionSize.height) {
-        director->setContentScaleFactor(MIN(frameSize.height/designResolutionSize.height,
+    
+        // change to bigger ratio of the width or height between actual resolution and design resolution
+        director->setContentScaleFactor(MAX(frameSize.height/designResolutionSize.height,
                                             frameSize.width/designResolutionSize.width));
     }
     

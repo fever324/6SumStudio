@@ -10,6 +10,9 @@
 
 #define RANGE_CLAMP(x,y,z)  (x < y ? y : (x > z ? z : x))
 
+// the key to use for start the main game -> for main interface
+#define START_KEY EventKeyboard::KeyCode::KEY_S
+
 /** The key to use for reseting the game */
 #define RESET_KEY EventKeyboard::KeyCode::KEY_R
 /** The key for toggling the debug display */
@@ -63,6 +66,9 @@ _touchListener(nullptr)
     _keyDebug = false;
     _keyExit  = false;
     _keyRotate = false;
+    
+    // ready to remove
+    _keyStart = false;
     
     _select = false;
     
@@ -167,6 +173,11 @@ void InputController::update(float dt) {
     _keyReset  = keys->keyPressed(RESET_KEY);
     _keyDebug  = keys->keyPressed(DEBUG_KEY);
     _keyExit   = keys->keyPressed(EXIT_KEY);
+    
+    // for main interface, press k to start (new level)
+    _keyStart = keys->keyPressed(START_KEY);
+    
+    CCLOG("The key pressed : %i",_keyStart);
     
     // rotation angles increase the longer you hold a key.
     if (keys->keyDown(EventKeyboard::KeyCode::KEY_LEFT_ARROW)) {
@@ -402,6 +413,8 @@ void InputController::touchCancelCB(Touch* t, timestamp_t current) {
     _keyReset = false;
     _keyExit  = false;
     _keyRotate = false;
+    
+    _keyStart = false;
     
     _select = false;
     

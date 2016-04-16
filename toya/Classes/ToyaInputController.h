@@ -49,6 +49,12 @@ private:
     /** Whether the exit key is down */
     bool  _keyExit;
     
+    
+    // whether the start key is down
+    bool _keyStart;
+    
+    
+    
     /** whether it is rotating or not */
     bool _keyRotate;
     /** whether tap or not */
@@ -181,6 +187,10 @@ public:
     
     /* return true if it is a rotation */
     bool didRotate() const { return _keyRotate; }
+    
+    // return status of start
+    bool didStart() const { return _keyStart; }
+    
     
     /** return turning */
     float getTurning() const { return _turning; }

@@ -22,19 +22,26 @@ bool AnimationBoxModel::init(int stateCount, int rowCount, int columnCount, std:
         _textureKey = textureKey;
         
         
-        // here 32,32 define the size of the texture we want it show
-        PolygonNode* pnode = PolygonNode::create(Rect(0, 0, 32, 32));
+        // use scale, 1x1 in game means scale.x * scale.y in design
+        PolygonNode* pnode = PolygonNode::create(Rect(0, 0, scale.x, scale.y));
         // here set the scale
         // TODO: change the scale to imageSize / textureSize
-        pnode->setScale(0.5);
+        
+        float cscale = Director::getInstance()->getContentScaleFactor();
+
+        pnode->setScale(0.5*cscale);
         
         setSceneNode(pnode);
 
+        // use cscale to fix the gap between blocks
         setDrawScale(scale);
         
         WireNode* draw = WireNode::create();
+        
         draw->setColor(Color3B::YELLOW);
+        
         draw->setOpacity(193);
+        
         setDebugNode(draw);
         
         return true;

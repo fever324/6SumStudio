@@ -52,7 +52,7 @@ protected:
     SceneManager* _assets;
     
     /** Controller for abstracting out input away from layer */
-    InputController _input;
+    InputController* _input;
     
     WorldModel* _theWorld;
     MapReader*  _mapReader;
@@ -140,7 +140,7 @@ public:
      *
      * @return  true if the controller is initialized properly, false otherwise.
      */
-    bool init(RootLayer* root);
+    bool init(RootLayer* root, InputController* input);
     
     /**
      * Initializes the controller contents, and starts the game
@@ -158,7 +158,7 @@ public:
      *
      * @return  true if the controller is initialized properly, false otherwise.
      */
-    bool init(RootLayer* root, const Rect& rect);
+    bool init(RootLayer* root, InputController* input, const Rect& rect);
     
     /**
      * Initializes the controller contents, and starts the game
@@ -177,7 +177,7 @@ public:
      *
      * @return  true if the controller is initialized properly, false otherwise.
      */
-    bool init(RootLayer* root, const Rect& rect, const Vec2& gravity);
+    bool init(RootLayer* root, InputController* input, const Rect& rect, const Vec2& gravity);
     
     
 #pragma mark -

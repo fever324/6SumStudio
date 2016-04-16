@@ -149,8 +149,8 @@ _mapReader(nullptr)
  *
  * @return  true if the controller is initialized properly, false otherwise.
  */
-bool GameController::init(RootLayer* root) {
-    return init(root,Rect(0,0,DEFAULT_WIDTH,DEFAULT_HEIGHT),Vec2(0,DEFAULT_GRAVITY));
+bool GameController::init(RootLayer* root,InputController* input) {
+    return init(root,input,Rect(0,0,DEFAULT_WIDTH,DEFAULT_HEIGHT),Vec2(0,DEFAULT_GRAVITY));
 }
 
 /**
@@ -169,8 +169,8 @@ bool GameController::init(RootLayer* root) {
  *
  * @return  true if the controller is initialized properly, false otherwise.
  */
-bool GameController::init(RootLayer* root, const Rect& rect) {
-    return init(root,rect,Vec2(0,DEFAULT_GRAVITY));
+bool GameController::init(RootLayer* root, InputController* input, const Rect& rect) {
+    return init(root,input,rect,Vec2(0,DEFAULT_GRAVITY));
 }
 
 
@@ -191,11 +191,11 @@ bool GameController::init(RootLayer* root, const Rect& rect) {
  *
  * @return  true if the controller is initialized properly, false otherwise.
  */
-bool GameController::init(RootLayer* root, const Rect& rect, const Vec2& gravity) {
+bool GameController::init(RootLayer* root, InputController* input, const Rect& rect, const Vec2& gravity) {
     
     Vec2 inputscale = Vec2(root->getScaleX(),root->getScaleY());
-    _input.init();
-    _input.start();
+    
+    _input = input;
     
     _theWorld = WorldModel::create();
     
@@ -295,7 +295,7 @@ void GameController::reset() {
     _avatar->reset();
     _selector->deselect();
     _theWorld->clear();
-    _input.clear();
+    _input->clear();
     _mapReader->reset();
     setComplete(false);
     _overview->reset();
@@ -408,17 +408,17 @@ void GameController::update(float dt) {
         reset();
     }
     
-    _input.update(dt);
+    _input->update(dt);
 
     // Process the toggled key commands
-    if (_input.didReset()) { reset(); }
-    if (_input.didExit())  {
+    if (_input->didReset()) { reset(); }
+    if (_input->didExit())  {
         CCLOG("Shutting down");
         _rootnode->shutdown();
     }
-    if(_input.didRotate()) {
+    if(_input->didRotate()) {
         
-        float cRotation = _theWorld->getRotation() + _input.getTurning()*2;
+        float cRotation = _theWorld->getRotation() + _input->getTurning()*2;
         
         if (cRotation > 360.0f) {
             cRotation -= 360.0f;
@@ -427,12 +427,12 @@ void GameController::update(float dt) {
         _avatar->setAngle(cRotation/ 180.0f * M_PI);
         
         Vec2 gravity = Vec2(DEFAULT_GRAVITY,DEFAULT_GRAVITY);
-        Vec2 newGravity = _input.getGravity(gravity,cRotation);
+        Vec2 newGravity = _input->getGravity(gravity,cRotation);
         
         _theWorld->setGravity(newGravity);
     }
     
-    if (_input.didSelect() && _selector->isSelected()) {
+    if (_input->didSelect() && _selector->isSelected()) {
         if(_panel->getSpell() == DESTRUCTION_SPELL_SELECTED) {
             _panel->setSpell(0);
             if (_selector->getObstacle()->getName() == "removable"){
@@ -452,9 +452,9 @@ void GameController::update(float dt) {
                 _selector->deselect();
             }
         }
-    } else if (_input.didSelect()) {
+    } else if (_input->didSelect()) {
         Vec2 centerPosition = _avatar->getPosition();
-        Vec2 relativePosition = *getRelativePosition(_input.getSelection(), centerPosition, 0.0f);
+        Vec2 relativePosition = *getRelativePosition(_input->getSelection(), centerPosition, 0.0f);
         _selector->select(relativePosition);
         if(_avatar == _selector->getObstacle())
             _selector->deselect();
