@@ -177,7 +177,6 @@ void InputController::update(float dt) {
     // for main interface, press k to start (new level)
     _keyStart = keys->keyPressed(START_KEY);
     
-    CCLOG("The key pressed : %i",_keyStart);
     
     // rotation angles increase the longer you hold a key.
     if (keys->keyDown(EventKeyboard::KeyCode::KEY_LEFT_ARROW)) {

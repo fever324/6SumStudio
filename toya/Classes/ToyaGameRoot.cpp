@@ -7,7 +7,8 @@
 //
 
 #include "ToyaGameRoot.h"
-//#include "ToyaLevelModel.h"
+#include "ui/CocosGUI.h"
+#include "ToyaMenuModel.h"
 
 // This is not part of cornell.h and should come last
 #include <cornell/CUGenericLoader.h>
@@ -21,6 +22,7 @@ using namespace cocos2d;
 #define DEFAULT_FONT_SIZE   64.0f
 #define LOADING_FONT_NAME   "felt"
 #define LOADING_MESSAGE     "Loading..."
+#define START_BUTTON_IMAGE "textures/resetButton.png"
 
 
 #pragma mark -
@@ -81,6 +83,21 @@ void ToyaRoot::update(float deltaTime) {
     RootLayer::update(deltaTime);  // YOU MUST BEGIN with call to parent
     bool complete = true;
     complete = complete && AssetManager::getInstance()->getCurrent()->isComplete();
+    /*
+     Before level interface:
+     1. Menu Page
+        a. New Game Button
+        b. Continue Game Button
+        c. Level Selector Button
+        d. 
+     
+     
+     
+     
+     
+     
+     
+    */
     if (_preloaded && complete && !_initialized) {
         // Transfer control to the gameplay subcontroller
         removeAllChildren();
@@ -88,6 +105,7 @@ void ToyaRoot::update(float deltaTime) {
         _input.start();
         _initialized = true;
         CCLOG("Start the input controller.");
+        drawMainUI();
     } else if (_preloaded && !_gameplay.isActive() && complete && _initialized && _input.didStart()) {
         _gameplay.init(this,&_input);
     } else if (_gameplay.isActive()) {
@@ -97,6 +115,12 @@ void ToyaRoot::update(float deltaTime) {
         _preloaded = true;
     }
     _input.update(deltaTime);
+}
+
+void ToyaRoot::drawMainUI(){
+    Vec2 inputscale = Vec2(this->getScaleX(),this->getScaleY());
+    auto menu = MenuModel::create(Vec2(this->getContentSize().width/2,this->getContentSize().height/2), inputscale);
+    this->addChild(menu);
 }
 
 

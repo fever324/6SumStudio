@@ -63,6 +63,8 @@ public:
      */
     void update(float dt) override;
     
+    void drawMainUI();
+    
     /**
      * Stops the layer, releasing all resources
      *
