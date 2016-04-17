@@ -102,6 +102,10 @@ void MenuModel::levelButtonTouchEvent(cocos2d::Ref *sender, ui::Widget::TouchEve
     switch (type) {
         case ui::Widget::TouchEventType::BEGAN:
             _level = _levelMap[sender->_ID];
+            
+            // select the level and start immediately
+//            _start = true;
+            
             break;
         default:
             break;
