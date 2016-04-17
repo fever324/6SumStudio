@@ -61,6 +61,8 @@
 		D6692C0C1C987D1F00DD9B2F /* ToyaFreezingSpellModel.h in Sources */ = {isa = PBXBuildFile; fileRef = D6692C021C987CB900DD9B2F /* ToyaFreezingSpellModel.h */; };
 		D6692C0D1C987D1F00DD9B2F /* ToyaDestructionSpellModel.h in Sources */ = {isa = PBXBuildFile; fileRef = D6692C031C987CB900DD9B2F /* ToyaDestructionSpellModel.h */; };
 		D6692C0F1C987D1F00DD9B2F /* ToyaLevelConstants.h in Sources */ = {isa = PBXBuildFile; fileRef = 2B47DADC1C9649AD003B2491 /* ToyaLevelConstants.h */; };
+		D6D155981CC31C5D00C5F407 /* audios in Resources */ = {isa = PBXBuildFile; fileRef = D6D155971CC31C5D00C5F407 /* audios */; };
+		D6D155991CC31C5D00C5F407 /* audios in Resources */ = {isa = PBXBuildFile; fileRef = D6D155971CC31C5D00C5F407 /* audios */; };
 		EB24EB901C5B0EAB0069DBBE /* textures in Resources */ = {isa = PBXBuildFile; fileRef = EB24EB8F1C5B0EAB0069DBBE /* textures */; };
 		EB24EB911C5B10C60069DBBE /* textures in Resources */ = {isa = PBXBuildFile; fileRef = EB24EB8F1C5B0EAB0069DBBE /* textures */; };
 		EB2811401CB5F982003B4616 /* ToyaMovingObstacleModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB28113E1CB5F982003B4616 /* ToyaMovingObstacleModel.cpp */; };
@@ -228,6 +230,7 @@
 		D44C620F132DFF4E0009C878 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		D6692C021C987CB900DD9B2F /* ToyaFreezingSpellModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToyaFreezingSpellModel.h; sourceTree = "<group>"; };
 		D6692C031C987CB900DD9B2F /* ToyaDestructionSpellModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToyaDestructionSpellModel.h; sourceTree = "<group>"; };
+		D6D155971CC31C5D00C5F407 /* audios */ = {isa = PBXFileReference; lastKnownFileType = folder; path = audios; sourceTree = "<group>"; };
 		EB24EB8F1C5B0EAB0069DBBE /* textures */ = {isa = PBXFileReference; lastKnownFileType = folder; path = textures; sourceTree = "<group>"; };
 		EB28113E1CB5F982003B4616 /* ToyaMovingObstacleModel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ToyaMovingObstacleModel.cpp; sourceTree = "<group>"; };
 		EB28113F1CB5F982003B4616 /* ToyaMovingObstacleModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToyaMovingObstacleModel.h; sourceTree = "<group>"; };
@@ -403,6 +406,7 @@
 		46880B7519C43A67006E1F66 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				D6D155971CC31C5D00C5F407 /* audios */,
 				FBFF504C1CB48D5400D3B4CC /* maps */,
 				2B47DAD91C964191003B2491 /* jsons */,
 				EB24EB8F1C5B0EAB0069DBBE /* textures */,
@@ -584,7 +588,7 @@
 						DevelopmentTeam = 9WEW4LG4VB;
 					};
 					5087E73D17EB910900C73F5D = {
-						DevelopmentTeam = 9WEW4LG4VB;
+						DevelopmentTeam = 8DGY69RX2V;
 					};
 				};
 			};
@@ -644,6 +648,7 @@
 				5087E77D17EB970100C73F5D /* Default-568h@2x.png in Resources */,
 				5087E78517EB970100C73F5D /* Icon-72.png in Resources */,
 				521A8E6519F0C34300D177D7 /* Default-736h@3x.png in Resources */,
+				D6D155981CC31C5D00C5F407 /* audios in Resources */,
 				521A8EA919F11F5000D177D7 /* fonts in Resources */,
 				50EF62A317ECD613001EB2F8 /* Icon-50.png in Resources */,
 				5087E78017EB970100C73F5D /* Icon-114.png in Resources */,
@@ -666,6 +671,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2B8310371C99236700CDC935 /* jsons in Resources */,
+				D6D155991CC31C5D00C5F407 /* audios in Resources */,
 				EB24EB911C5B10C60069DBBE /* textures in Resources */,
 				503AE0F817EB97AB00D1A890 /* Icon.icns in Resources */,
 				FBFF504E1CB48D5400D3B4CC /* maps in Resources */,

@@ -84,7 +84,7 @@
   <properties>
    <property name="texture" value="goal"/>
   </properties>
-  <object id="56" name="Door" gid="6" x="3204.36" y="2046.06" width="64" height="128"/>
+  <object id="56" name="Door" gid="6" x="1619.58" y="375.933" width="64" height="128"/>
  </objectgroup>
  <objectgroup name="Avatar">
   <properties>
@@ -115,7 +115,7 @@
     <property name="texture" value="ghosts"/>
    </properties>
   </object>
-  <object id="62" name="Yida" gid="17" x="633.182" y="768" width="64" height="64">
+  <object id="62" name="Yida" gid="17" x="1438.26" y="163.617" width="64" height="64">
    <properties>
     <property name="faceRight" type="bool" value="false"/>
     <property name="point1X" type="float" value="0"/>

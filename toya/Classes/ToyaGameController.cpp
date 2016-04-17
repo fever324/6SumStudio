@@ -15,13 +15,16 @@
 #include "ToyaBlockFactory.h"
 // #include "ToyaMapEditor.h"
 
+
 #include <string>
 #include <iostream>
 #include <sstream>
 
 // This is not part of cornell.h and SHOULD come last
 #include <cornell/CUGenericLoader.h>
-
+#include <cornell/CUSoundEngine.h>
+#include <cornell/CUSound.h>
+#include <SimpleAudioEngine.h>
 
 using namespace cocos2d;
 using namespace std;
@@ -81,14 +84,16 @@ using namespace std;
 
 #define COOL_DOWN   120
 
-/** The key for collisions sounds */
-#define COLLISION_SOUND     "bump"
-/** The key for the main afterburner sound */
-#define MAIN_FIRE_SOUND     "burn"
-/** The key for the right afterburner sound */
-#define RGHT_FIRE_SOUND     "sounds/sideburner-left.mp3"
+
+// Audios
+/** The key for background music */
+#define BG_SOUND    "audios/XMAS Grains.wav"
+/** */
+#define DESTROY_EFFECT "audios/destroy.m4a"
+
+#define DEATH_SOUND "audios/death.wav"
 /** The key for the left afterburner sound */
-#define LEFT_FIRE_SOUND     "sounds/sideburner-right.mp3"
+// #define LEFT_FIRE_SOUND     "sounds/sideburner-right.mp3"
 
 
 #pragma mark Physics Constants
@@ -134,6 +139,11 @@ _mapReader(nullptr)
 {
 }
 
+//
+
+auto audio = CocosDenshion::SimpleAudioEngine::getInstance();
+
+// auto sound = SoundEngine::init();
 
 /**
  * Initializes the controller contents, and starts the game
@@ -341,6 +351,21 @@ void GameController::populate() {
     
     _theWorld->setFollow(_avatar);
     _avatar->setName("avatar");
+    
+    // Audio Loader
+    // auto bg_sound = Sound::create(BG_SOUND);
+    // sound->queueMusic(bg_sound);
+    // sound->setMusicLoop(false);
+    // sound->playMusic(bg_sound);
+    
+    
+    audio->preloadBackgroundMusic(BG_SOUND);
+    audio->preloadEffect(DESTROY_EFFECT);
+    audio->preloadEffect(DEATH_SOUND);
+    // Set bg_music volume
+    audio->setBackgroundMusicVolume(0.1);
+    audio->setEffectsVolume(0.5);
+    audio->playBackgroundMusic(BG_SOUND);
 }
 
 /**
@@ -438,6 +463,7 @@ void GameController::update(float dt) {
             if (_selector->getObstacle()->getName() == "removable"){
                 RemovableBlockModel* rmb = (RemovableBlockModel*) _selector->getObstacle();
                 rmb->destroy(_theWorld->getWorldNode(), _theWorld->getDebugNode(), _theWorld->getWorld());
+                audio->playEffect(DESTROY_EFFECT);
                 _panel->deduceMana(DESTRUCTION_COST);
                 _selector->deselect();
                 
@@ -527,6 +553,8 @@ void GameController::beginContact(b2Contact* contact) {
         MovingObstacleModel* ghost = bd1->getName() == "ghost" ? (MovingObstacleModel*)bd1 : (MovingObstacleModel*)bd2;
         
         if(!ghost->isFrozen()) {
+            audio->playEffect("audios/pew-pew-lei.wav");
+            audio->stopBackgroundMusic();
             setFail(true);
             double time = _overview->getCurrentPlayTime();
             _theWorld->showTime(time);
