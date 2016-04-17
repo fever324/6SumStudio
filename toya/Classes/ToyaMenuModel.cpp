@@ -4,7 +4,7 @@
 #define OVERVIEW_BUTTON_NORMAL "textures/overviewButton.png"
 #define OVERVIEW_BUTTON_PRESSED "textures/overviewResumeButton.png"
 
-#define RESET_BUTTON_IMAGE "textures/resetButton.png"
+#define START_BUTTON_IMAGE "textures/resetButton.png"
 
 using namespace cocos2d;
 
@@ -20,33 +20,30 @@ bool MenuModel::init(const Vec2& pos) {
  */
 bool MenuModel::init(const Vec2& pos, const Vec2& scale){
     
-    pauseButton = ui::CheckBox::create(OVERVIEW_BUTTON_NORMAL, OVERVIEW_BUTTON_PRESSED, OVERVIEW_BUTTON_PRESSED, OVERVIEW_BUTTON_PRESSED, OVERVIEW_BUTTON_NORMAL);
+//    pauseButton = ui::CheckBox::create(OVERVIEW_BUTTON_NORMAL, OVERVIEW_BUTTON_PRESSED, OVERVIEW_BUTTON_PRESSED, OVERVIEW_BUTTON_PRESSED, OVERVIEW_BUTTON_NORMAL);
     
-    resetButton = ui::Button::create(RESET_BUTTON_IMAGE);
+    createLevelButtons(4,scale,pos);
     
+    startButton = ui::Button::create(START_BUTTON_IMAGE);
     
-    
-    
-    pauseButton->setScale(scale.x, scale.y);
-    resetButton->setScale(scale.x, scale.y);
+    startButton->setScale(scale.x, scale.y);
     
     
-    Vec2 pauseButtonPosition = Vec2(pos);
-    pauseButtonPosition.x -= pauseButton->getContentSize().width / 2.0f;
-    pauseButtonPosition.y -= pauseButton->getContentSize().height / 2.0f;
+    Vec2 startButtonPosition = Vec2(pos/2);
+    startButtonPosition.x -= startButton->getContentSize().width / 2.0f;
+    startButtonPosition.y -= startButton->getContentSize().height / 2.0f;
     
-    Vec2 resetButtonPosition = Vec2(pauseButtonPosition);
-    resetButtonPosition.x -= pauseButton->getContentSize().width / 2.0f+ resetButton->getContentSize().width / 2.0f;
+    startButton->setPosition(startButtonPosition);
     
-    pauseButton->setPosition(pauseButtonPosition);
-    resetButton->setPosition(resetButtonPosition);
-    
-    pauseButton->addTouchEventListener(CC_CALLBACK_2(MenuModel::pauseButtonTouchEvent, this));
-    resetButton->addTouchEventListener(CC_CALLBACK_2(MenuModel::resetButtonTouchEvent, this));
+    startButton->addTouchEventListener(CC_CALLBACK_2(MenuModel::startButtonTouchEvent, this));
     
     
-    this->addChild(resetButton);
-    this->addChild(pauseButton);
+    this->addChild(startButton);
+    
+    
+    // default value for status
+    _start = false;
+    _level = 0;
     
     return true;
 }
@@ -60,6 +57,24 @@ MenuModel* MenuModel::create(const Vec2& pos){
     }
     CC_SAFE_DELETE(menu);
     return nullptr;
+}
+
+void MenuModel::createLevelButtons(int count, const Vec2& scale,const Vec2& pos){
+    int i = 0;
+    for (; i < count; i++) {
+        ui::Button* levelButton = ui::Button::create(START_BUTTON_IMAGE);
+        
+        levelButton->setScale(scale.x, scale.y);
+        
+        Vec2 lbPos = Vec2(pos.x/8+i*100, pos.y-100);
+        lbPos.x -= levelButton->getContentSize().width / 2.0f;
+        lbPos.y -= levelButton->getContentSize().height / 2.0f;
+        
+        levelButton->setPosition(lbPos);
+        levelButton->addTouchEventListener(CC_CALLBACK_2(MenuModel::levelButtonTouchEvent, this));
+        _levelMap[levelButton->_ID] = i;
+        this->addChild(levelButton);
+    }
 }
 
 MenuModel* MenuModel::create(const Vec2& pos, const Vec2& scale) {
@@ -82,10 +97,20 @@ void MenuModel::pauseButtonTouchEvent(cocos2d::Ref *sender, ui::Widget::TouchEve
     }
 }
 
-
-void MenuModel::resetButtonTouchEvent(cocos2d::Ref *sender, ui::Widget::TouchEventType type) {
+void MenuModel::levelButtonTouchEvent(cocos2d::Ref *sender, ui::Widget::TouchEventType type) {
     switch (type) {
         case ui::Widget::TouchEventType::BEGAN:
+            _level = _levelMap[sender->_ID];
+            break;
+        default:
+            break;
+    }
+}
+
+void MenuModel::startButtonTouchEvent(cocos2d::Ref *sender, ui::Widget::TouchEventType type) {
+    switch (type) {
+        case ui::Widget::TouchEventType::BEGAN:
+            _start = !_start;
             break;
         default:
             break;

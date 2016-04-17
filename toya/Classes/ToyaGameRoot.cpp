@@ -43,15 +43,51 @@ void ToyaRoot::start() {
     AssetManager::getInstance()->at(scene)->attach<Texture2D>(TextureLoader::create());
     AssetManager::getInstance()->at(scene)->attach<Sound>(SoundLoader::create());
     
+    
+    
 //    GenericLoader<LevelModel>* levels = GenericLoader<LevelModel>::create();
 //    AssetManager::getInstance()->at(scene)->attach<LevelModel>(levels);
     
     AssetManager::getInstance()->startScene(scene);
     
+    AssetManager::getInstance()->getCurrent()->load<TTFont>(LOADING_FONT_NAME, "fonts/MarkerFelt.ttf");
+    
+    Size size = getContentSize();
+    Vec2 center(size.width/2.0f,size.height/2.0f);
+
+    _loader = Label::create();
+    _loader->setTTFConfig(AssetManager::getInstance()->getCurrent()->get<TTFont>(LOADING_FONT_NAME)->getTTF());
+    _loader->setAnchorPoint(Vec2(0.5f,0.5f));
+    _loader->setPosition(center);
+    _loader->setString(LOADING_MESSAGE);
+
     // Create a "loading" screen
     _preloaded = false;
-    displayLoader();
+    toggleLoader(true);
+    
     RootLayer::start(); // YOU MUST END with call to parent
+    
+    // initial input
+    _input.init();
+    _input.start();
+    
+    // initial the menu
+    Vec2 inputscale = Vec2(this->getScaleX(),this->getScaleY());
+    _menu = MenuModel::create(Vec2(this->getContentSize().width,this->getContentSize().height), inputscale);
+    
+    
+    // add to rootlayer
+    this->addChild(_menu);
+    this->addChild(_loader);
+    
+    
+    // intial the status
+    _showMenu = true;
+    _silentMode = false;
+    
+    // should get from progressController
+    _playLevel = 2;
+    
 }
 
 /**
@@ -86,41 +122,58 @@ void ToyaRoot::update(float deltaTime) {
     /*
      Before level interface:
      1. Menu Page
-        a. New Game Button
-        b. Continue Game Button
-        c. Level Selector Button
-        d. 
+        a. how many buttons we have
+     2. 
      
      
      
+     Status:
+     1. showMenu: indicate when I need to show the menu page, from gameController.
+     2. silentMode: indicate whether sounds open or not, pass to gameController.
+     3. playLevel: default is getting from progressController, indicate which level we are, pass to gameController.
      
-     
+     // if we have continue game setting
+     4. continueOrNot: indicate whether the continue button should be visible or not, getting from progressController.
      
      
     */
-    if (_preloaded && complete && !_initialized) {
-        // Transfer control to the gameplay subcontroller
-        removeAllChildren();
-        _input.init();
-        _input.start();
-        _initialized = true;
-        CCLOG("Start the input controller.");
-        drawMainUI();
-    } else if (_preloaded && !_gameplay.isActive() && complete && _initialized && _input.didStart()) {
-        _gameplay.init(this,&_input);
-    } else if (_gameplay.isActive()) {
+    if (_preloaded && complete && !_gameplay.isActive()) {
+        // initial status
+        // after preload all assets and game haven't started
+        // show the menu
+        toggleLoader(false);
+        toggleMenu(true);
+    }
+    
+    if (!_showMenu && !_gameplay.isActive() && complete && _preloaded) {
+        // hide the menu after entering the game
+        // removeAllChildren();
+        _gameplay.init(this,&_input,_playLevel);
+    }
+    
+    
+    // update the game status if we are in game mode
+    if (_gameplay.isActive()) {
         _gameplay.update(deltaTime);
-    } else if (!_preloaded) {
+    }
+    
+    // preload all resources
+    if (!_preloaded) {
         _gameplay.preload();
         _preloaded = true;
     }
+    
+    // if use keyboard
+    if (_input.didStart() || _menu->didStart()) {
+        _showMenu = false;
+        _playLevel = _menu->getLevel();
+    }
+    
     _input.update(deltaTime);
 }
 
-void ToyaRoot::drawMainUI(){
-    Vec2 inputscale = Vec2(this->getScaleX(),this->getScaleY());
-    auto menu = MenuModel::create(Vec2(this->getContentSize().width/2,this->getContentSize().height/2), inputscale);
-    this->addChild(menu);
+void ToyaRoot::toggleMenu(bool showOrNot){
+    _menu->setVisible(showOrNot);
 }
 
 
@@ -136,20 +189,6 @@ void ToyaRoot::drawMainUI(){
  * assets that have been loaded already, and the font is the only thing that
  * is guaranteed to be loaded at start.
  */
-void ToyaRoot::displayLoader() {
-    // Load the font NOW
-    AssetManager::getInstance()->getCurrent()->load<TTFont>(LOADING_FONT_NAME, "fonts/MarkerFelt.ttf");
-    
-    Size size = getContentSize();
-    Vec2 center(size.width/2.0f,size.height/2.0f);
-    
-    // Create the message label.
-    auto label = Label::create();
-    label->setTTFConfig(AssetManager::getInstance()->getCurrent()->get<TTFont>(LOADING_FONT_NAME)->getTTF());
-    label->setAnchorPoint(Vec2(0.5f,0.5f));
-    label->setPosition(center);
-    label->setString(LOADING_MESSAGE);
-    
-    // Add the label as a child to this layer
-    addChild(label, 1);
+void ToyaRoot::toggleLoader(bool showOrNot) {
+    _loader->setVisible(showOrNot);
 }

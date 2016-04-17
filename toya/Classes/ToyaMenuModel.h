@@ -24,9 +24,15 @@ private:
     
     
     ui::CheckBox* pauseButton; //pause button
-    ui::Button* resetButton;
-    bool paused;
-    bool reseted;
+    ui::Button* startButton;
+    
+    // start status
+    bool _start;
+    // level status
+    int _level;
+    
+    std::vector< int > _levelIndex;
+    std::map<int, int> _levelMap;
     
     
 protected:
@@ -89,6 +95,8 @@ CC_CONSTRUCTOR_ACCESS:
     static MenuModel* create(const Vec2& pos);
     static MenuModel* create(const Vec2& pos, const Vec2& scale);
     
+    void createLevelButtons(int count,const Vec2& scale, const Vec2& pos);
+    
 #pragma mark -
 #pragma mark Destructors
     
@@ -98,11 +106,17 @@ CC_CONSTRUCTOR_ACCESS:
 #pragma mark -
 #pragma mark Event Listeners
     void pauseButtonTouchEvent(Ref *sender, ui::Widget::TouchEventType type);
-    void resetButtonTouchEvent(Ref *sender, ui::Widget::TouchEventType type);
+    void startButtonTouchEvent(Ref *sender, ui::Widget::TouchEventType type);
+    void levelButtonTouchEvent(Ref *sender, ui::Widget::TouchEventType type);
     
 #pragma mark -
 #pragma mark Helper Functions
     void reset();
+    
+    bool didStart(){return _start;}
+    
+    int getLevel(){return _level;}
+    
 };
 
 #endif /* defined(__TOYA_MENU_MODEL_H__) */

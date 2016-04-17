@@ -77,7 +77,7 @@
    <property name="texture" value="ice_dirt"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJzt2dEKgCAMhWFfwvd/1a6CWM4dM8z0/yAKU7eFdlEpAc/krxMYIF+O0r3VUf/e9QMAAAAAAADACnK6f+/12pK5Lo1R51TntXlGba3Ub9xenrWzEk+Z97wu9Y3iRWau37bV5n/6DHrXv3f2/qGMqD+KqY5TcvL6qLm8XX/rHpm5fnX/t8a099T17+2J3vXvxSr1i9psnJ5349/tXHvNAb7IDrA=
+   eJzt1EEOgCAMRFEu4f2v6srNpKWDaAL6X2I0FWhrwNYAAAAAAAAAAACAbzrk6sWaPEdz3DXddbXOKjYqml/FtPbs7uRz1r2eo7FVvsrK/Wust/7dbzC7/7O7zs/qfKP/Kqc7z6kpG+PW8nT/o2dk5f7d8z+aU9+5+z87E7P7P8sVjatimmfm37i7P/fecwKhDg2f
   </data>
  </layer>
  <objectgroup name="GoalDoor">

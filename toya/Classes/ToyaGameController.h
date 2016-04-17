@@ -97,6 +97,7 @@ protected:
     /** Whether or not reset mode is active */
     bool _reset;
     int _cooldown;
+    int _currentLevel;
     
     
 #pragma mark Internal Object Management
@@ -140,7 +141,7 @@ public:
      *
      * @return  true if the controller is initialized properly, false otherwise.
      */
-    bool init(RootLayer* root, InputController* input);
+    bool init(RootLayer* root, InputController* input, int playLevel);
     
     /**
      * Initializes the controller contents, and starts the game
@@ -158,7 +159,7 @@ public:
      *
      * @return  true if the controller is initialized properly, false otherwise.
      */
-    bool init(RootLayer* root, InputController* input, const Rect& rect);
+    bool init(RootLayer* root, InputController* input, int playLevel, const Rect& rect);
     
     /**
      * Initializes the controller contents, and starts the game
@@ -177,7 +178,7 @@ public:
      *
      * @return  true if the controller is initialized properly, false otherwise.
      */
-    bool init(RootLayer* root, InputController* input, const Rect& rect, const Vec2& gravity);
+    bool init(RootLayer* root, InputController* input, int playLevel, const Rect& rect, const Vec2& gravity);
     
     
 #pragma mark -

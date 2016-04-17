@@ -149,8 +149,8 @@ _mapReader(nullptr)
  *
  * @return  true if the controller is initialized properly, false otherwise.
  */
-bool GameController::init(RootLayer* root,InputController* input) {
-    return init(root,input,Rect(0,0,DEFAULT_WIDTH,DEFAULT_HEIGHT),Vec2(0,DEFAULT_GRAVITY));
+bool GameController::init(RootLayer* root,InputController* input,int playLevel) {
+    return init(root,input,playLevel,Rect(0,0,DEFAULT_WIDTH,DEFAULT_HEIGHT),Vec2(0,DEFAULT_GRAVITY));
 }
 
 /**
@@ -169,8 +169,8 @@ bool GameController::init(RootLayer* root,InputController* input) {
  *
  * @return  true if the controller is initialized properly, false otherwise.
  */
-bool GameController::init(RootLayer* root, InputController* input, const Rect& rect) {
-    return init(root,input,rect,Vec2(0,DEFAULT_GRAVITY));
+bool GameController::init(RootLayer* root, InputController* input, int playLevel, const Rect& rect) {
+    return init(root,input,playLevel,rect,Vec2(0,DEFAULT_GRAVITY));
 }
 
 
@@ -191,11 +191,12 @@ bool GameController::init(RootLayer* root, InputController* input, const Rect& r
  *
  * @return  true if the controller is initialized properly, false otherwise.
  */
-bool GameController::init(RootLayer* root, InputController* input, const Rect& rect, const Vec2& gravity) {
+bool GameController::init(RootLayer* root, InputController* input, int playLevel, const Rect& rect, const Vec2& gravity) {
     
     Vec2 inputscale = Vec2(root->getScaleX(),root->getScaleY());
     
     _input = input;
+    _currentLevel = playLevel;
     
     _theWorld = WorldModel::create();
     
@@ -234,8 +235,6 @@ bool GameController::init(RootLayer* root, InputController* input, const Rect& r
     
     _scale.set(root->getContentSize().width/32.0f,
                root->getContentSize().height/18.0f);
-    
-    CCLOG("%f, %f", _scale.x,_scale.y);
     
     _rootnode = root;
     
@@ -327,8 +326,7 @@ void GameController::populate() {
     // If you are using a device with a 3:2 aspect ratio, you will need to
     // completely redo the level layout.  We can help if this is an issue.
 
-    
-    _mapReader->loadMap("maps/test.tmx");
+    _mapReader->loadMap("maps/test"+std::to_string(_currentLevel)+".tmx");
     
     _mapReader->createBackground();
     _mapReader->createRemovableBlocks();

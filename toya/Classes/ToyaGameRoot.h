@@ -12,6 +12,7 @@
 #define __TOYA_GAME_ROOT_H__
 
 #include "ToyaGameController.h"
+#include "ToyaMenuModel.h"
 #include <cocos2d.h>
 #include <cornell.h>
 
@@ -27,10 +28,19 @@ protected:
      GameController _gameplay;
     // init the game controller
     InputController _input;
+    // menu
+    MenuModel* _menu;
+    
+    Label* _loader;
     
     /** Whether or not we have finished preloading all assets */
     bool _preloaded;
     bool _initialized;
+    
+    // status variables
+    bool _showMenu;
+    bool _silentMode;
+    int _playLevel;
     
     /**
      * Builds the scene graph for the loading screen.
@@ -41,7 +51,13 @@ protected:
      * assets that have been loaded already, and the font is the only thing that
      * is guaranteed to be loaded at start.
      */
-    void displayLoader();
+    void toggleLoader(bool showOrNot);
+    
+    /**
+     * show menu node or not
+     * 
+    */
+    void toggleMenu(bool showOrNot);
     
 public:
     /**
@@ -62,8 +78,6 @@ public:
      * @param  dt   the time in seconds since last update
      */
     void update(float dt) override;
-    
-    void drawMainUI();
     
     /**
      * Stops the layer, releasing all resources
