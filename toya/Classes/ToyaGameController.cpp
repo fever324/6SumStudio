@@ -91,9 +91,11 @@ using namespace std;
 
 #define DESTROY_EFFECT  "audios/destroy.m4a"
 
-#define DEATH_SOUND "audios/death.wav"
+#define DEATH_SOUND "audios/death.m4a"
 
-#define PICKUP_MAGIC  "audios/pickup.wav"
+#define PICKUP_MAGIC  "audios/pickup.m4a"
+
+#define FREEZE_EFFECT "audios/freeze.m4a"
 
 
 #pragma mark Physics Constants
@@ -362,6 +364,7 @@ void GameController::populate() {
     audio->preloadEffect(DESTROY_EFFECT);
     audio->preloadEffect(DEATH_SOUND);
     audio->preloadEffect(PICKUP_MAGIC);
+    audio->preloadEffect(FREEZE_EFFECT);
     // Set bg_music volume
     audio->setBackgroundMusicVolume(0.1);
     audio->setEffectsVolume(0.5);
@@ -473,7 +476,9 @@ void GameController::update(float dt) {
             
             if(_selector->getObstacle()->getName() == "ghost") {
                 MovingObstacleModel* movingObstacle = (MovingObstacleModel*) _selector->getObstacle();
-                movingObstacle->freeze(_theWorld->getWorldNode(), _theWorld->getDebugNode(), _theWorld->getWorld());
+                movingObstacle->freeze(_theWorld->getWorldNode(), _theWorld->getDebugNode(),
+                                       _theWorld->getWorld());
+                audio->playEffect(FREEZE_EFFECT);
                 _panel->deduceMana(FREEZE_COST);
                 _selector->deselect();
             }
@@ -554,10 +559,11 @@ void GameController::beginContact(b2Contact* contact) {
         
         if(!ghost->isFrozen()) {
             audio->playEffect(DEATH_SOUND);
-            audio->stopBackgroundMusic();
+            
             setFail(true);
             double time = _overview->getCurrentPlayTime();
             _theWorld->showTime(time);
+            audio->stopBackgroundMusic();
             _reset = true;
         }
     }
@@ -581,6 +587,7 @@ void GameController::beginContact(b2Contact* contact) {
         // TODO: pause it
         double time = _overview->getCurrentPlayTime();
         _theWorld->showTime(time);
+        audio->stopBackgroundMusic();
         _reset = true;
     } else {
         // See if we have hit a wall.
