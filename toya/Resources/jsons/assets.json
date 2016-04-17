@@ -28,6 +28,34 @@
             "file":     "textures/grass_dirt.png",
             "wrap":     true
         },
+        "level_one": {
+            "file":     "textures/level_one.png",
+            "wrap":     true
+        },
+        "level_two": {
+            "file":     "textures/level_two.png",
+            "wrap":     true
+        },
+        "level_three": {
+            "file":     "textures/level_three.png",
+            "wrap":     true
+        },
+        "level_four": {
+            "file":     "textures/level_four.png",
+            "wrap":     true
+        },
+        "level_five": {
+            "file":     "textures/level_five.png",
+            "wrap":     true
+        },
+        "level_six": {
+            "file":     "textures/level_six.png",
+            "wrap":     true
+        },
+        "start": {
+            "file":     "textures/start_normal.png",
+            "wrap":     true
+        },
         "avatar": {
             "file":     "textures/bears.png",
             "wrap":     false

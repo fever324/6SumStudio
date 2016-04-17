@@ -1,10 +1,10 @@
 #include "ToyaMenuModel.h"
 
 
-#define OVERVIEW_BUTTON_NORMAL "textures/overviewButton.png"
-#define OVERVIEW_BUTTON_PRESSED "textures/overviewResumeButton.png"
+#define Level_BUTTON_NORMAL "textures/level.png"
+#define Level_BUTTON_PRESSED "textures/overviewResumeButton.png"
 
-#define START_BUTTON_IMAGE "textures/resetButton.png"
+#define START_BUTTON_IMAGE "textures/start_normal.png"
 
 using namespace cocos2d;
 
@@ -62,7 +62,8 @@ MenuModel* MenuModel::create(const Vec2& pos){
 void MenuModel::createLevelButtons(int count, const Vec2& scale,const Vec2& pos){
     int i = 0;
     for (; i < count; i++) {
-        ui::Button* levelButton = ui::Button::create(START_BUTTON_IMAGE);
+        
+        ui::Button* levelButton = ui::Button::create("textures/level"+std::to_string(i)+".png");
         
         levelButton->setScale(scale.x, scale.y);
         
