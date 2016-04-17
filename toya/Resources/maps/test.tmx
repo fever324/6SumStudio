@@ -153,7 +153,7 @@
   </object>
  </objectgroup>
  <objectgroup name="MagicPotions">
-  <object id="70" gid="22" x="1668" y="636" width="64" height="64">
+  <object id="70" gid="22" x="1001.33" y="322.275" width="64" height="64">
    <properties>
     <property name="points" type="int" value="2"/>
     <property name="texture" value="potions"/>

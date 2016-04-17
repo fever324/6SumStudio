@@ -87,13 +87,13 @@ using namespace std;
 
 // Audios
 /** The key for background music */
-#define BG_SOUND    "audios/XMAS Grains.wav"
-/** */
-#define DESTROY_EFFECT "audios/destroy.m4a"
+#define BG_SOUND  "audios/XMAS Grains.wav"
+
+#define DESTROY_EFFECT  "audios/destroy.m4a"
 
 #define DEATH_SOUND "audios/death.wav"
-/** The key for the left afterburner sound */
-// #define LEFT_FIRE_SOUND     "sounds/sideburner-right.mp3"
+
+#define PICKUP_MAGIC  "audios/pickup.wav"
 
 
 #pragma mark Physics Constants
@@ -358,10 +358,10 @@ void GameController::populate() {
     // sound->setMusicLoop(false);
     // sound->playMusic(bg_sound);
     
-    
     audio->preloadBackgroundMusic(BG_SOUND);
     audio->preloadEffect(DESTROY_EFFECT);
     audio->preloadEffect(DEATH_SOUND);
+    audio->preloadEffect(PICKUP_MAGIC);
     // Set bg_music volume
     audio->setBackgroundMusicVolume(0.1);
     audio->setEffectsVolume(0.5);
@@ -553,7 +553,7 @@ void GameController::beginContact(b2Contact* contact) {
         MovingObstacleModel* ghost = bd1->getName() == "ghost" ? (MovingObstacleModel*)bd1 : (MovingObstacleModel*)bd2;
         
         if(!ghost->isFrozen()) {
-            audio->playEffect("audios/pew-pew-lei.wav");
+            audio->playEffect(DEATH_SOUND);
             audio->stopBackgroundMusic();
             setFail(true);
             double time = _overview->getCurrentPlayTime();
@@ -562,9 +562,12 @@ void GameController::beginContact(b2Contact* contact) {
         }
     }
     
-    if((bd1->getName() == "avatar" && bd2->getName() == "potion") || (bd1->getName() == "potion" && bd2->getName() == "avatar")) {
-        MagicPotionModel* magicPotion = bd1->getName() == "potion" ? (MagicPotionModel*)bd1 : (MagicPotionModel*)bd2;
+    if((bd1->getName() == "avatar" && bd2->getName() == "potion") ||
+       (bd1->getName() == "potion" && bd2->getName() == "avatar")) {
+        MagicPotionModel* magicPotion = bd1->getName() == "potion" ?
+            (MagicPotionModel*)bd1 : (MagicPotionModel*)bd2;
         magicPotion->pickUp(_theWorld->getWorldNode(), _theWorld->getDebugNode(), _theWorld->getWorld());
+        audio->playEffect(PICKUP_MAGIC);
         _panel->addMana(magicPotion->getPoints());
     }
     
