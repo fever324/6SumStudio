@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include "ToyaAnimationBoxModel.h"
+#define ANIMATIONSPEED  13
 
 using namespace std;
 using namespace cocos2d;

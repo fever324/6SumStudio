@@ -34,8 +34,8 @@ void MapReader::createRemovableBlocks() {
 }
 
 void MapReader::createTheBlocks(TMXLayer* layer) {
-    std::cout << layer->getProperty("texture").asString() << endl;
-    const Size size = *new Size((Vec2)BLOCK_SIZE);
+    Size size = *new Size((Vec2)BLOCK_SIZE);
+    
     if(layer != nullptr) {
         Size layerSize = layer->getLayerSize();
         for (int y = 0; y < layerSize.height; y++) {

@@ -24,15 +24,19 @@ protected:
     int _frameCount;
     int _rowCount;
     int _columnCount;
+    int _updatePerFrame;
     std::string _textureKey;
     
     AnimationNode* _animationNode;
     int _cycle;
     
+    bool isAnimating;
+    
+    
     
 public:
-    static AnimationBoxModel* create(int stateCount, int rowCount, int columnCount, std::string textureKey, const Vec2& pos, const Size& size, Vec2 scale);
-    virtual bool init(int stateCount, int rowCount, int columnCount, std::string textureKey, const Vec2& pos, const Size& size, Vec2 scale);
+    static AnimationBoxModel* create(int stateCount, int rowCount, int columnCount, std::string textureKey, const Vec2& pos, const Size& size, Vec2 scale, int updatesPerFrame);
+    virtual bool init(int stateCount, int rowCount, int columnCount, std::string textureKey, const Vec2& pos, const Size& size, Vec2 scale, int updatesPerFrame);
     
     virtual void update(float dt) override;
     
@@ -43,6 +47,8 @@ public:
     virtual void replaceAnimationTexture(int rowCount, int columnCount, std::string textureKey);
     
     virtual ~AnimationBoxModel(void);
+    
+    void setIsAnimating(bool animating) { isAnimating = animating; _cycle = 1;}
 };
 
 

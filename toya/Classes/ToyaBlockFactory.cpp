@@ -4,7 +4,7 @@
 using namespace cocos2d;
 
 RemovableBlockModel* BlockFactory::getRemovableBlock(const Vec2& pos, const Size& size, Vec2 scale, std::string textureKey) {
-    RemovableBlockModel* removableBlock = RemovableBlockModel::create(1, 2, 4, textureKey, pos, size, scale);
+    RemovableBlockModel* removableBlock = RemovableBlockModel::create(1, 1, 1, textureKey, pos, size, scale);
     return removableBlock;
 }
 

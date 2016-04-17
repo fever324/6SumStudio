@@ -1,8 +1,8 @@
 #include "ToyaAnimationBoxModel.h"
 
-AnimationBoxModel* AnimationBoxModel::create(int stateCount, int rowCount, int columnCount, std::string textureKey, const Vec2& pos, const Size& size, Vec2 scale) {
+AnimationBoxModel* AnimationBoxModel::create(int stateCount, int rowCount, int columnCount, std::string textureKey, const Vec2& pos, const Size& size, Vec2 scale, int updatesPerFrame) {
     AnimationBoxModel* animationBox = new (std::nothrow) AnimationBoxModel();
-    if (animationBox && animationBox->init(stateCount, rowCount, columnCount, textureKey, pos, size, scale)) {
+    if (animationBox && animationBox->init(stateCount, rowCount, columnCount, textureKey, pos, size, scale, updatesPerFrame)) {
         animationBox->autorelease();
         return animationBox;
     }
@@ -10,10 +10,11 @@ AnimationBoxModel* AnimationBoxModel::create(int stateCount, int rowCount, int c
     return nullptr;
 }
 
-bool AnimationBoxModel::init(int stateCount, int rowCount, int columnCount, std::string textureKey, const Vec2& pos, const Size& size, Vec2 scale) {
+bool AnimationBoxModel::init(int stateCount, int rowCount, int columnCount, std::string textureKey, const Vec2& pos, const Size& size, Vec2 scale, int updatesPerFrame) {
 
     if(BoxObstacle::init(pos, size)) {
         
+        _updatePerFrame = updatesPerFrame;
         _stateCount = stateCount;
         _currState = 0;
         _frameCount = 0;
@@ -51,6 +52,9 @@ bool AnimationBoxModel::init(int stateCount, int rowCount, int columnCount, std:
 }
 
 void AnimationBoxModel::animate() {
+    if(!isAnimating) {
+        return;
+    }
     if(_animationNode->getFrame() == 0) {
         _cycle = 1;
     } else if (_animationNode->getFrame() == _columnCount-1) {
@@ -59,10 +63,10 @@ void AnimationBoxModel::animate() {
     
     int base = _columnCount * _currState;
     
-    if(_frameCount++ % FRAME_PER_STEP == 0) {
+    if(++_frameCount % _updatePerFrame == 0) {
         _animationNode->setFrame(base + (_animationNode->getFrame()+_cycle) % _columnCount);
         
-        if(_frameCount == FRAME_PER_STEP * _columnCount + 1) {
+        if(_frameCount == _updatePerFrame * _columnCount + 1) {
             _frameCount = 0;
         }
     }
@@ -97,6 +101,8 @@ void AnimationBoxModel::resetSceneNode() {
         
         pnode->addChild(_animationNode);
         _animationNode->setPosition(pnode->getContentSize().width/2.0f,pnode->getContentSize().height/2.0f);
+        _animationNode->setFrame(0);
+        isAnimating = true;
     }
 }
 

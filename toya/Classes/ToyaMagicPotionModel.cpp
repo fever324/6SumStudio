@@ -17,7 +17,7 @@ MagicPotionModel* MagicPotionModel::create(int stateCount, int rowCount, int col
 }
 
 bool MagicPotionModel::init(int stateCount, int rowCount, int columnCount, std::string textureKey, const Vec2& pos, const Size& size, Vec2 scale, int points) {
-    if(AnimationBoxModel::init(stateCount, rowCount, columnCount, textureKey, pos, size, scale)) {
+    if(AnimationBoxModel::init(stateCount, rowCount, columnCount, textureKey, pos, size, scale, ANIMATIONSPEED)) {
         setName(REMOVABLE_OBJECT_NAME);
         setBodyType(b2_staticBody);
         setDrawScale(scale);
