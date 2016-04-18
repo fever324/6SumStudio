@@ -198,6 +198,29 @@ void MapReader::createMagicPotions() {
     }
 }
 
+void MapReader::createStars() {
+    if(map->getObjectGroup("Stars") == nullptr) return;
+    
+    Vec2 _scale = gameController->getScale();
+    
+    for(cocos2d::Value star : map->getObjectGroup("Stars")->getObjects()) {
+        cocos2d::ValueMap starMap = star.asValueMap();
+        string texture = starMap.at("texture").asString();
+        
+        float x_pos = starMap.at("x").asFloat()*cscale;
+        
+        float y_pos = starMap.at("y").asFloat()*cscale + 1.5*tileSize.height;
+        
+        
+        const Size size = *new Size((Vec2){64.0f*cscale/2/_scale.x, 64.0f*cscale/_scale.y/2});
+        
+        Vec2 starPos = (Vec2){x_pos/tileSize.width, y_pos/tileSize.height};
+        StarModel* starObj = StarModel::create(2, 2, 2, texture, starPos, size, _scale);
+        gameController->addObstacle(starObj, STAR_DRAW_LAYER);
+        starObj->setName("star");
+    }
+}
+
 void MapReader::createBackground() {
     
     TMXLayer* rootLayer = map->getLayer("rootLayer");
