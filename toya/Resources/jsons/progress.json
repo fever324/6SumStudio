@@ -1,7 +1,5 @@
 {
     "totalLevels": 10,
     "levelCompleted": 0,
-    "levels": {
-    	"1": 200
-    }
+    "levels": {}
 }

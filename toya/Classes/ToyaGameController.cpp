@@ -612,8 +612,12 @@ void GameController::beginContact(b2Contact* contact) {
         _avatar->setLinearVelocity(Vec2(0.0f, 0.0f));
         // TODO: pause it
         double time = _overview->getCurrentPlayTime();
-//        _theWorld->showTime(time);
         _winMenu->showTime(time);
+        _reset = true;
+        
+        // Store the score in the file
+        ProgressModel::getInstance()->writeData(_currentLevel, time*100);
+        
     }
     // See if we have hit a wall.
     else if ((_avatar->getLeftSensorName() == fd2 && _avatar != bd1) ||
