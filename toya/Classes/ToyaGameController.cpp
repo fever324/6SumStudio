@@ -418,7 +418,7 @@ void GameController::update(float dt) {
     }
     if(_input.didRotate()) {
         
-        float cRotation = _theWorld->getRotation() + _input.getTurning()*2;
+        float cRotation = _theWorld->getRotation() + _input.getTurning()*2.0f;
         
         if (cRotation > 360.0f) {
             cRotation -= 360.0f;

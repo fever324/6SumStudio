@@ -31,7 +31,7 @@ using namespace cocos2d;
 /** The factor to multiply by the input */
 #define AVATAR_FORCE    8.0f
 /** The amount to slow the character down */
-#define AVATAR_DAMPING    5.0f
+#define AVATAR_DAMPING    3.0f
 /** The maximum character speed */
 #define AVATAR_MAXSPEED    5.0f
 /** Identifier to allow us to track the sensor in ContactListener */

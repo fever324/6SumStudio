@@ -68,6 +68,9 @@ _touchListener(nullptr)
     
     _touch1.touchid = -1;
     _touch2.touchid = -1;
+    
+    _smoothedTurning = 0;
+    
 }
 
 /**
@@ -196,7 +199,8 @@ void InputController::update(float dt) {
 
     
     _turning = _keyTurning;
-    if ( fabs(_turning) > 0.5f) {
+    calculateNewSmoothedTurning(_turning);
+    if ( fabs(_turning) > 0.5f || fabs(_smoothedTurning) > 0f) {
         _keyRotate = true;
     }else{
         _keyRotate = false;
@@ -313,7 +317,7 @@ bool InputController::checkTap(timestamp_t current) {
 
 bool InputController::checkRotate(timestamp_t current) {
     // calculate the turning
-    CCLOG("touch count: %d", _touchCount);
+//    CCLOG("touch count: %d", _touchCount);
     if (_touchCount != 2) {
         _turning = 0.0f;
         return false;
@@ -350,11 +354,26 @@ bool InputController::checkRotate(timestamp_t current) {
     
     if(elapsed_millis(_rotateTime,current) <= EVENT_ROTATE_TIME){
         _turning = temp;
+        calculateNewSmoothedTurning(_turning);
         return true;
     }
     _rotateTime = current;
     _turning = 0.0f;
     return false;
+}
+
+void InputController::calculateNewSmoothedTurning(float newTurning) {
+    for(int i = HISTORY_LENGTH - 1 ; i >= 1; i--) {
+        inputHistory[i] = inputHistory[i-1];
+    }
+    
+    inputHistory[0] = newTurning;
+    
+    _smoothedTurning = 0.0f;
+    for(int i = 0; i < HISTORY_LENGTH; i++) {
+        _smoothedTurning += inputHistory[i] * inputHistoryWeights[i];
+    }
+    CCLOG("%f", _smoothedTurning);
 }
 
 /**

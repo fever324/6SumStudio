@@ -15,6 +15,8 @@
 #include <cornell/CUTouchListener.h>
 #include "base/CCEventListenerTouch.h"
 
+#define HISTORY_LENGTH 5
+
 using namespace cocos2d;
 using namespace std;
 
@@ -64,6 +66,10 @@ private:
     float _turning;
     // rotation angle for keyboard
     float _keyTurning;
+    
+    float inputHistory[HISTORY_LENGTH] = {0.0f, 0.0f, 0.0f, 0.0f, 0.0f};
+    float inputHistoryWeights[HISTORY_LENGTH] = {0.7f, 0.2f, 0.07f, 0.02f, 0.01f};
+    float _smoothedTurning;
     
 protected:
     // EVENT LISTENERS
@@ -183,7 +189,7 @@ public:
     bool didRotate() const { return _keyRotate; }
     
     /** return turning */
-    float getTurning() const { return _turning; }
+    float getTurning() const { return _smoothedTurning; }
     
     /** return gravity */
     Vec2 getGravity(Vec2& gravity, float rotation) const {
@@ -198,6 +204,8 @@ public:
         
         return newGravity;
     }
+    
+    void calculateNewSmoothedTurning(float newTurning);
     
     /**
      * Returns true if the player wants to go toggle the debug mode.

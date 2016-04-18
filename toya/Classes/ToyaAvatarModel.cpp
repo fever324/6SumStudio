@@ -142,7 +142,7 @@ bool AvatarModel::init(const Vec2& pos, const Vec2& scale) {
     if (CapsuleObstacle::init(pos, avatarSize)) {
         _animationFrameCount = 0;
         setDensity(AVATAR_DENSITY);
-        setFriction(0.0f);      // HE WILL STICK TO WALLS IF YOU FORGET
+        setFriction(0.3f);      // HE WILL STICK TO WALLS IF YOU FORGET
         setFixedRotation(true); // OTHERWISE, HE IS A WEEBLE WOBBLE
         
         // Gameplay attributes
