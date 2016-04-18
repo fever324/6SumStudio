@@ -16,7 +16,7 @@ using namespace cocos2d;
 #pragma mark -
 #pragma mark Physics Constants
 /** the amout to shrink the body in three dimensions. **/
-#define AVATAR_SHRINK 1.5
+#define AVATAR_SHRINK 1.5f
 /** The amount to shrink the sensor fixture (horizontally) relative to the image */
 #define AVATAR_SSHRINK  0.3f
 /** Height of the sensor attached to the player's feet */
@@ -131,13 +131,11 @@ AvatarModel* AvatarModel::create(const Vec2& pos, const Vec2& scale, const std::
  */
 bool AvatarModel::init(const Vec2& pos, const Vec2& scale) {
     float cscale = Director::getInstance()->getContentScaleFactor();
-    SceneManager* scene = AssetManager::getInstance()->getCurrent();
-    
-    Texture2D* image = scene->get<Texture2D>(_avatarTexture);
     
     // Multiply by the scaling factor so we can be resolution independent
 //    Size avatarSize = Size(64*cscale*AVATAR_SHRINK/scale.x,80*cscale*AVATAR_SHRINK/scale.y);
-    Size avatarSize = Size(64/cscale/scale.x/AVATAR_SHRINK,80/cscale/scale.y/AVATAR_SHRINK);
+    
+    Size avatarSize = Size(64/cscale/scale.x/AVATAR_SHRINK*0.8f,80/cscale/scale.y/AVATAR_SHRINK);
     
     if (CapsuleObstacle::init(pos, avatarSize)) {
         _animationFrameCount = 0;
@@ -152,7 +150,7 @@ bool AvatarModel::init(const Vec2& pos, const Vec2& scale) {
         setLinearVelocity(Vec2{AVATAR_INITIAL_SPEED,0});
         setRemovable(false);
         
-        PolygonNode* sprite = PolygonNode::create(Rect(0, 0, avatarSize.width, avatarSize.height));
+        PolygonNode* sprite = PolygonNode::create(Rect(0, 0, 0,0));
         sprite->setScale(1/AVATAR_SHRINK);
         setSceneNode(sprite);
         
