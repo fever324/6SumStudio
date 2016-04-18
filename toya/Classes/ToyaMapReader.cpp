@@ -214,7 +214,7 @@ void MapReader::createStars() {
         
         const Size size = *new Size((Vec2){64.0f*cscale/2/_scale.x, 64.0f*cscale/_scale.y/2});
         
-        Vec2 starPos = (Vec2){x_pos/tileSize.width, y_pos/tileSize.height};
+        Vec2 starPos = (Vec2){x_pos/tileSize.width+0.5f, y_pos/tileSize.height};
         StarModel* starObj = StarModel::create(2, 2, 2, texture, starPos, size, _scale);
         gameController->addObstacle(starObj, STAR_DRAW_LAYER);
         starObj->setName("star");

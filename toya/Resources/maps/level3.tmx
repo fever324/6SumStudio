@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="64" height="36" tilewidth="64" tileheight="64" nextobjectid="76">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="64" height="36" tilewidth="64" tileheight="64" nextobjectid="80">
  <tileset firstgid="1" name="texture" tilewidth="64" tileheight="64" tilecount="1" columns="1">
   <image source="../textures/texture.png" width="64" height="64"/>
  </tileset>
@@ -32,6 +32,9 @@
  </tileset>
  <tileset firstgid="23" name="lava_dirt" tilewidth="64" tileheight="64" tilecount="1" columns="1">
   <image source="../textures/lava_dirt.png" width="64" height="64"/>
+ </tileset>
+ <tileset firstgid="24" name="star" tilewidth="64" tileheight="64" tilecount="1" columns="1">
+  <image source="../textures/star.png" width="64" height="64"/>
  </tileset>
  <layer name="rootLayer" width="64" height="36">
   <properties>
@@ -160,6 +163,28 @@
    <properties>
     <property name="points" type="int" value="3"/>
     <property name="texture" value="potions"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup name="Stars">
+  <object id="76" gid="24" x="2110.42" y="389.576" width="64" height="64">
+   <properties>
+    <property name="texture" value="stars"/>
+   </properties>
+  </object>
+  <object id="77" gid="24" x="186.182" y="716.848" width="64" height="64">
+   <properties>
+    <property name="texture" value="stars"/>
+   </properties>
+  </object>
+  <object id="78" gid="24" x="2252.85" y="1471.39" width="64" height="64">
+   <properties>
+    <property name="texture" value="stars"/>
+   </properties>
+  </object>
+  <object id="79" gid="24" x="2625.58" y="1862.3" width="64" height="64">
+   <properties>
+    <property name="texture" value="stars"/>
    </properties>
   </object>
  </objectgroup>

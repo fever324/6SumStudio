@@ -337,11 +337,11 @@ void GameController::populate() {
     _mapReader->loadMap("maps/level"+std::to_string(_currentLevel)+".tmx");
     
     _mapReader->createBackground();
+    _mapReader->createStars();
     _mapReader->createRemovableBlocks();
     _mapReader->createNonRemovableBlocks();
     _mapReader->createMovingObstacles();
     _mapReader->createMagicPotions();
-    _mapReader->createStars();
     
     _mapReader->createLava();
     
