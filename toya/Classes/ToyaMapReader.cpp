@@ -33,6 +33,30 @@ void MapReader::createRemovableBlocks() {
     createTheBlocks(map->getLayer(SAND_DIRT_LAYER));
 }
 
+void MapReader::createLava() {
+    createLavaBlocks(map->getLayer(LAVA_LAYER));
+}
+
+void MapReader::createLavaBlocks(TMXLayer* layer) {
+    Size size = *new Size((Vec2)BLOCK_SIZE);
+    
+    if(layer != nullptr) {
+        Size layerSize = layer->getLayerSize();
+        for (int y = 0; y < layerSize.height; y++) {
+            for (int x = 0; x < layerSize.width; x++) {
+                auto tileSprite = layer->getTileAt(Point(x, y));
+                
+                if (tileSprite) {
+                    Obstacle* obj = BlockFactory::getRemovableBlock(Vec2(x+0.5,layerSize.height-y-0.5), size, gameController->getScale(),layer->getProperty("texture").asString());
+                    gameController->addObstacle(obj, REMOVABLE_DRAW_LAYER);
+                    obj->setName("lava");
+                }
+            }
+        }
+    }
+}
+
+
 void MapReader::createTheBlocks(TMXLayer* layer) {
     Size size = *new Size((Vec2)BLOCK_SIZE);
     
