@@ -24,6 +24,7 @@
 #include <Box2D/Collision/b2Collision.h>
 #include "ToyaBlockFactory.h"
 #include "ToyaMapReader.h"
+#include "ToyaProgressModel.h"
 
 // This is not part of cornell.h and SHOULD come last
 #include <cornell/CUGenericLoader.h>
