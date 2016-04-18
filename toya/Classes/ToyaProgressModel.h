@@ -18,6 +18,7 @@ public:
     static ProgressModel* getInstance();
     void writeData(int level, int score);
     int getScore(int level);
+    int getNextLevel();
 };
 
 #endif /* ToyaProgressModel_h */

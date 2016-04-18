@@ -85,5 +85,9 @@ void ProgressModel::writeData(int level, int score) {
 }
 
 int ProgressModel::getScore(int level) {
-    return _scores[level-1];
+    return _scores[level];
+}
+
+int ProgressModel::getNextLevel() {
+    return _levelsCompleted;
 }
