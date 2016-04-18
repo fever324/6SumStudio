@@ -125,6 +125,7 @@ _active(false),
 _complete(false),
 _selector(nullptr),
 _debug(false),
+_preload(false),
 _reset(false),
 _overview(nullptr),
 _mapReader(nullptr)
@@ -214,22 +215,8 @@ bool GameController::init(RootLayer* root, InputController* input, int playLevel
     WorldController* world = _theWorld->getWorld();
     _mapReader = new MapReader(this);
     
-    
-    // set text config ffor winnodw
-    // TODO: move this part to WorldModel too.
-    Label* winnode = _theWorld->getWinNode();
-    Label* failnode = _theWorld->getFailNode();
-    Label* timenode = _theWorld->getTimeNode();
-
-    winnode->setTTFConfig(_assets->get<TTFont>(PRIMARY_FONT)->getTTF());
-    failnode->setTTFConfig(_assets->get<TTFont>(PRIMARY_FONT)->getTTF());
-    timenode->setTTFConfig(_assets->get<TTFont>(PRIMARY_FONT)->getTTF());
-    
     root->addChild(_theWorld->getWorldNode(),1);
     root->addChild(_theWorld->getDebugNode(),2);
-    root->addChild(winnode,3);
-    root->addChild(failnode,3);
-    root->addChild(timenode,3);
 
     
     world->onBeginContact = [this](b2Contact* contact) {
@@ -261,7 +248,7 @@ bool GameController::init(RootLayer* root, InputController* input, int playLevel
     // overview panel
     _overview = OverviewModel::create(Vec2(root->getContentSize().width,root->getContentSize().height), inputscale);
     _overview->setGameController(this);
-    root->addChild(_overview,3);
+    root->addChild(_overview,2);
     
    
     
@@ -315,7 +302,9 @@ void GameController::reset() {
     populate();
 }
 
+
 void GameController::clear() {
+    // clear all objects, and no population
     _avatar->reset();
     _selector->deselect();
     _theWorld->clear();
@@ -433,6 +422,18 @@ void GameController::update(float dt) {
         reset();
     }
     
+    // if didPause
+    if (_overview->didPause()) {
+        togglePause(true);
+    } else {
+        togglePause(false);
+    }
+    
+    if (_pauseMenu->didGoMain()) {
+        togglePause(false);
+    }
+    
+    
     // no cooldown, only reset when finish or fail a level
     
     if (_reset == true || _overview->hasReseted()) {
@@ -497,8 +498,10 @@ void GameController::update(float dt) {
     Vec2 pos = _avatar->getPosition();
     _theWorld->setWorldPos(_avatar,pos);
     
-    // Turn the physics engine crank.
-    if(!_complete){
+    // don't update the world when
+    //   win or fail
+    //   pause pressed
+    if(!_complete && !_overview->didPause()){
         _theWorld->update(dt);
     }
     
@@ -562,7 +565,8 @@ void GameController::beginContact(b2Contact* contact) {
         if(!ghost->isFrozen()) {
             setFail(true);
             double time = _overview->getCurrentPlayTime();
-            _theWorld->showTime(time);
+//            _theWorld->showTime(time);
+            _failMenu->showTime(time);
         }
     }
     
@@ -581,7 +585,8 @@ void GameController::beginContact(b2Contact* contact) {
         _avatar->setLinearVelocity(Vec2(0.0f, 0.0f));
         // TODO: pause it
         double time = _overview->getCurrentPlayTime();
-        _theWorld->showTime(time);
+//        _theWorld->showTime(time);
+        _winMenu->showTime(time);
     } else {
         // See if we have hit a wall.
         if ((_avatar->getLeftSensorName() == fd2 && _avatar != bd1) ||
@@ -673,9 +678,11 @@ void GameController::preload() {
                 bool wrap = reader.getBool(TEXTURE_WRAP);
                 // Set wrap settings if appropriate
                 if (wrap) {
-                    tloader->loadAsync(key,value,params);
+//                    tloader->loadAsync(key,value,params);
+                    tloader->load(key,value,params);
                 } else {
-                    tloader->loadAsync(key,value);
+                    tloader->load(key,value);
+//                    tloader->loadAsync(key,value);
                 }
             }
             
@@ -731,6 +738,7 @@ void GameController::preload() {
     }
     reader.endObject();
     reader.endJSON();
+    _preload = true;
     
     // Finally, load the level
     //    _assets->loadAsync<LevelModel>(LEVEL_ONE_KEY,LEVEL_ONE_FILE);

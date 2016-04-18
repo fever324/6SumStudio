@@ -27,6 +27,8 @@ private:
     CheckBox* pauseButton; //pause button
     Button* startButton;
     
+    Label* _timenode;
+    
     
     // for level menu
 //    Button* replay;
@@ -43,6 +45,7 @@ private:
     bool _gomain;
     // replay
     bool _replay;
+    
     
     std::vector< int > _levelIndex;
     std::map<int, int> _levelMap;
@@ -141,6 +144,12 @@ CC_CONSTRUCTOR_ACCESS:
     void setGoMain(bool value){_gomain = value;}
     
     void resetStatus(){_replay = false;_gomain = false; _next = false;_start = false;}
+    
+    void showTime(double time){
+        std::ostringstream s;
+        s << "Time Cost  " << time;
+        _timenode->setString(s.str());
+    }
     
 };
 

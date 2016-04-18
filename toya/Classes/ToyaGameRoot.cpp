@@ -47,38 +47,21 @@ void ToyaRoot::start() {
     
     AssetManager::getInstance()->startScene(scene);
     
+    _gameplay.preload();
+    
+    
     AssetManager::getInstance()->getCurrent()->load<TTFont>(LOADING_FONT_NAME, "fonts/MarkerFelt.ttf");
     
-    Size size = getContentSize();
-    Vec2 center(size.width/2.0f,size.height/2.0f);
-
-    _loader = Label::create();
-    _loader->setTTFConfig(AssetManager::getInstance()->getCurrent()->get<TTFont>(LOADING_FONT_NAME)->getTTF());
-    _loader->setAnchorPoint(Vec2(0.5f,0.5f));
-    _loader->setPosition(center);
-    _loader->setString(LOADING_MESSAGE);
 
     // Create a "loading" screen
     _preloaded = false;
-    toggleLoader(true);
+    
     
     RootLayer::start(); // YOU MUST END with call to parent
     
     // initial input
     _input.init();
     _input.start();
-    
-    // initial the Welcome and Main menu
-    Vec2 inputscale = Vec2(this->getScaleX(),this->getScaleY());
-    _welcome = MenuModel::create("welcome",Vec2(this->getContentSize().width,this->getContentSize().height), inputscale);
-    _menu = MenuModel::create("main",Vec2(this->getContentSize().width,this->getContentSize().height), inputscale);
-    toggleWelcome(false);
-    toggleMenu(false);
-    
-    // add to rootlayer
-    this->addChild(_welcome);
-    this->addChild(_menu,3);
-    this->addChild(_loader);
     
     
     // intial the status
@@ -169,9 +152,33 @@ void ToyaRoot::update(float deltaTime) {
     }
     
     // preload all resources
-    if (!_preloaded) {
-        _gameplay.preload();
+    if (!_preloaded && _gameplay.finishPreload()) {
+//        _gameplay.preload();
         _preloaded = true;
+        
+        
+        Size size = getContentSize();
+        // initial the Welcome and Main menu
+        Vec2 inputscale = Vec2(this->getScaleX(),this->getScaleY());
+        _welcome = MenuModel::create("welcome",Vec2(this->getContentSize().width,this->getContentSize().height), inputscale);
+        _menu = MenuModel::create("main",Vec2(size.width,size.height), inputscale);
+        toggleWelcome(false);
+        toggleMenu(false);
+        
+        
+        Vec2 center(size.width/2.0f,size.height/2.0f);
+        
+        _loader = Label::create();
+        _loader->setTTFConfig(AssetManager::getInstance()->getCurrent()->get<TTFont>(LOADING_FONT_NAME)->getTTF());
+        _loader->setAnchorPoint(Vec2(0.5f,0.5f));
+        _loader->setPosition(center);
+        _loader->setString(LOADING_MESSAGE);
+        toggleLoader(true);
+        
+        // add to rootlayer
+        this->addChild(_welcome);
+        this->addChild(_menu,3);
+        this->addChild(_loader);
     }
     
     // show main menu

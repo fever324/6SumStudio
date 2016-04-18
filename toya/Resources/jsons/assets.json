@@ -29,27 +29,23 @@
             "wrap":     true
         },
         "level_one": {
-            "file":     "textures/level_one.png",
+            "file":     "textures/level1.png",
             "wrap":     true
         },
         "level_two": {
-            "file":     "textures/level_two.png",
+            "file":     "textures/level2.png",
             "wrap":     true
         },
         "level_three": {
-            "file":     "textures/level_three.png",
+            "file":     "textures/level3.png",
             "wrap":     true
         },
         "level_four": {
-            "file":     "textures/level_four.png",
+            "file":     "textures/level4.png",
             "wrap":     true
         },
         "level_five": {
-            "file":     "textures/level_five.png",
-            "wrap":     true
-        },
-        "level_six": {
-            "file":     "textures/level_six.png",
+            "file":     "textures/level5.png",
             "wrap":     true
         },
         "start": {
@@ -64,16 +60,24 @@
             "file":     "textures/background.png",
             "wrap":     true
         },
+        "menubg": {
+            "file":     "textures/menubg.png",
+            "wrap":     true
+        },
+        "winbg": {
+            "file":     "textures/winbg.png",
+            "wrap":     true
+        },
+        "failbg": {
+            "file":     "textures/failbg.png",
+            "wrap":     true
+        },
         "ghosts":    {
             "file":     "textures/ghosts.png",
             "wrap":     false
         },
         "goal-reached": {
             "file":     "textures/door_open.png",
-            "wrap":     false
-        },
-        "explosion": {
-            "file":     "textures/explosionSprite.png",
             "wrap":     false
         },
         "potions":    {

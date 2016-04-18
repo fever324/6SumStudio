@@ -119,7 +119,8 @@ double OverviewModel::getCurrentDuration() {
 
 void OverviewModel::pauseButtonPressed() {
     currentPlayTime += getCurrentDuration();
-    Director::getInstance()->pause();     // Stop the world
+    // Stop the world
+//    Director::getInstance()->pause();
 //    pauseButton->setSelected(true);
 
     paused = true;
@@ -129,7 +130,7 @@ void OverviewModel::pauseButtonPressed() {
 
 void OverviewModel::resumeFromPause() {
     startTime = current_time();
-    Director::getInstance()->resume();
+//    Director::getInstance()->resume();
     paused = false;
     gameController->setDebug(false);
 }
@@ -140,5 +141,6 @@ void OverviewModel::reset() {
     startTime = current_time();
     reseted = false;
     paused = false;
+    resumeFromPause();
 }
 

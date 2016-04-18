@@ -1,10 +1,20 @@
 #include "ToyaMenuModel.h"
 #include "ui/UIButton.h"
+#include <cornell.h>
+#include <cornell/CUAssetManager.h>
+#include <cornell/CUSceneManager.h>
+#include <cornell/CUGenericLoader.h>
 
 #define Level_BUTTON_NORMAL "textures/level.png"
 #define Level_BUTTON_PRESSED "textures/overviewResumeButton.png"
 
 #define START_BUTTON_IMAGE "textures/start_normal.png"
+
+#define DESIGN_RES_W    1024
+#define DESIGN_RES_H    576
+#include "Constants.h"
+
+
 
 using namespace cocos2d;
 using namespace ui;
@@ -24,11 +34,21 @@ bool MenuModel::init(std::string mtype, const Vec2& size, const Vec2& scale){
     // main menu
     if (mtype == "main") {
         // level selector page
-        createLevelButtons(4,scale,size);
         // default value for status
         _start = false;
         _gomain = false;
         _level = 0;
+        
+        Texture2D* image = AssetManager::getInstance()->getCurrent()->get<Texture2D>("menubg");
+        Sprite* bg = Sprite::createWithTexture(image,Rect(0,0,1024,1024));
+        bg->setScale(1);
+        bg->setAnchorPoint(Vec2(0,0));
+        
+        this->addChild(bg);
+        
+        createLevelButtons(4,scale,size);
+
+        
     } else if (mtype == "welcome") {
         // welcome page, only has one button as start button
         // _gomain default as false
@@ -37,6 +57,9 @@ bool MenuModel::init(std::string mtype, const Vec2& size, const Vec2& scale){
         Button* start = createButton(START_BUTTON_IMAGE, scale, Vec2(size.x/8, 100));
         // set _gomain to true, so we can go to main menu
         start->addTouchEventListener(CC_CALLBACK_2(MenuModel::startButtonTouchEvent, this));
+        
+        LayerColor* bg = LayerColor::create(Color4B(53, 53, 53, 255));
+        this->addChild(bg);
 
         this->addChild(start);
     } else if (mtype == "levelWin") {
@@ -54,9 +77,30 @@ bool MenuModel::init(std::string mtype, const Vec2& size, const Vec2& scale){
         replay->addTouchEventListener(CC_CALLBACK_2(MenuModel::replayButtonTouchEvent, this));
         gomain->addTouchEventListener(CC_CALLBACK_2(MenuModel::gomainButtonTouchEvent, this));
         next->addTouchEventListener(CC_CALLBACK_2(MenuModel::nextButtonTouchEvent, this));
+        
+        Label* winnode = Label::create();
+        _timenode = Label::create();
+        _timenode->setPosition(DESIGN_RES_W/2.0f,DESIGN_RES_H/2.0f-100);
+        _timenode->setTTFConfig(AssetManager::getInstance()->getCurrent()->get<TTFont>(PRIMARY_FONT)->getTTF());
+        
+        winnode->setString("VICTORY!");
+        winnode->setColor(DEBUG_COLOR);
+        winnode->setPosition(DESIGN_RES_W/2.0f,DESIGN_RES_H/2.0f);
+        
+        winnode->setTTFConfig(AssetManager::getInstance()->getCurrent()->get<TTFont>(PRIMARY_FONT)->getTTF());
+        
+        Texture2D* image = AssetManager::getInstance()->getCurrent()->get<Texture2D>("winbg");
+        Sprite* bg = Sprite::createWithTexture(image,Rect(0,0,1024,1024));
+        bg->setScale(1);
+        bg->setAnchorPoint(Vec2(0,0));
+        this->addChild(bg);
+        
         this->addChild(replay);
         this->addChild(gomain);
         this->addChild(next);
+        this->addChild(winnode);
+        this->addChild(_timenode);
+
     } else if (mtype == "levelFail") {
         /* create the fail page
          * two btns: replay, gomain
@@ -70,8 +114,27 @@ bool MenuModel::init(std::string mtype, const Vec2& size, const Vec2& scale){
         Button* gomain = createButton(START_BUTTON_IMAGE, scale, Vec2(6*size.x/8, 100));
         replay->addTouchEventListener(CC_CALLBACK_2(MenuModel::replayButtonTouchEvent, this));
         gomain->addTouchEventListener(CC_CALLBACK_2(MenuModel::gomainButtonTouchEvent, this));
+        
+        Label* failnode = Label::create();
+        _timenode = Label::create();
+        _timenode->setPosition(DESIGN_RES_W/2.0f,DESIGN_RES_H/2.0f-100);
+        _timenode->setTTFConfig(AssetManager::getInstance()->getCurrent()->get<TTFont>(PRIMARY_FONT)->getTTF());
+        failnode->setColor(DEBUG_COLOR);
+        
+        failnode->setString("GAME OVER");
+        failnode->setPosition(DESIGN_RES_W/2.0f,DESIGN_RES_H/2.0f);
+        failnode->setTTFConfig(AssetManager::getInstance()->getCurrent()->get<TTFont>(PRIMARY_FONT)->getTTF());
+        
+        Texture2D* image = AssetManager::getInstance()->getCurrent()->get<Texture2D>("failbg");
+        Sprite* bg = Sprite::createWithTexture(image,Rect(0,0,1024,1024));
+        bg->setScale(1);
+        bg->setAnchorPoint(Vec2(0,0));
+        this->addChild(bg);
+        
         this->addChild(replay);
         this->addChild(gomain);
+        this->addChild(failnode);
+        this->addChild(_timenode);
 
     } else if (mtype == "pause") {
         /* create the pause page

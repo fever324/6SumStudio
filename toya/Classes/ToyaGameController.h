@@ -109,6 +109,8 @@ protected:
     // indicate current level
     int _currentLevel;
     
+    bool _preload;
+    
     
 #pragma mark Internal Object Management
     /**
@@ -238,11 +240,12 @@ public:
     
     bool didGoMain(){return _failMenu->didGoMain() || _winMenu->didGoMain() || _pauseMenu->didGoMain();}
     
-    void setComplete(bool value) { _complete = value; _theWorld->setWin(value); toggleWin(value);}
+    void setComplete(bool value) { _complete = value; toggleWin(value);}
     
-    void setFail(bool value) { _complete = value; _theWorld->setFail(value); toggleFail(value);}
+    void setFail(bool value) { _complete = value; toggleFail(value);}
     
 //    void pause(){Director::getInstance()->pause(); }
+    bool finishPreload() { return _preload; }
     
     
     
