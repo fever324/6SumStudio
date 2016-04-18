@@ -623,7 +623,7 @@ void GameController::beginContact(b2Contact* contact) {
         // TODO: pause it
         double time = _overview->getCurrentPlayTime();
         _winMenu->showTime(time);
-        _reset = true;
+        // _reset = true;
         
         // Store the score in the file
         ProgressModel::getInstance()->writeData(_currentLevel, time*100);
