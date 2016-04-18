@@ -319,6 +319,9 @@ void GameController::populate() {
     _mapReader->createNonRemovableBlocks();
     _mapReader->createMovingObstacles();
     _mapReader->createMagicPotions();
+    
+    _mapReader->createLava();
+    
     _goalDoor = _mapReader->createGoalDoor();
     _avatar   = _mapReader->createAvatar();
     _panel    = _mapReader->createMagicPanel();
@@ -528,6 +531,16 @@ void GameController::beginContact(b2Contact* contact) {
             _theWorld->showTime(time);
             _reset = true;
         }
+    }
+    
+    if((bd1->getName() == "avatar" && bd2->getName() == "lava") ||
+       (bd1->getName() == "lava" && bd2->getName() == "avatar")) {
+        _audio->playDeathEffect();
+        _audio->audioTerminate();
+        setFail(true);
+        double time = _overview->getCurrentPlayTime();
+        _theWorld->showTime(time);
+        _reset = true;
     }
     
     else if((bd1->getName() == "avatar" && bd2->getName() == "potion") || (bd1->getName() == "potion" && bd2->getName() == "avatar")) {
