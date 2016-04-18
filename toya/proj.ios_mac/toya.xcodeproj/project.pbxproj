@@ -63,6 +63,8 @@
 		D6692C0F1C987D1F00DD9B2F /* ToyaLevelConstants.h in Sources */ = {isa = PBXBuildFile; fileRef = 2B47DADC1C9649AD003B2491 /* ToyaLevelConstants.h */; };
 		D6D155981CC31C5D00C5F407 /* audios in Resources */ = {isa = PBXBuildFile; fileRef = D6D155971CC31C5D00C5F407 /* audios */; };
 		D6D155991CC31C5D00C5F407 /* audios in Resources */ = {isa = PBXBuildFile; fileRef = D6D155971CC31C5D00C5F407 /* audios */; };
+		D6D2D4DF1CC44CA800703064 /* ToyaAudioController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D6D2D4DD1CC44CA800703064 /* ToyaAudioController.cpp */; };
+		D6D2D4E01CC44CA800703064 /* ToyaAudioController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D6D2D4DD1CC44CA800703064 /* ToyaAudioController.cpp */; };
 		EB24EB901C5B0EAB0069DBBE /* textures in Resources */ = {isa = PBXBuildFile; fileRef = EB24EB8F1C5B0EAB0069DBBE /* textures */; };
 		EB24EB911C5B10C60069DBBE /* textures in Resources */ = {isa = PBXBuildFile; fileRef = EB24EB8F1C5B0EAB0069DBBE /* textures */; };
 		EB2811401CB5F982003B4616 /* ToyaMovingObstacleModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB28113E1CB5F982003B4616 /* ToyaMovingObstacleModel.cpp */; };
@@ -231,6 +233,8 @@
 		D6692C021C987CB900DD9B2F /* ToyaFreezingSpellModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToyaFreezingSpellModel.h; sourceTree = "<group>"; };
 		D6692C031C987CB900DD9B2F /* ToyaDestructionSpellModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToyaDestructionSpellModel.h; sourceTree = "<group>"; };
 		D6D155971CC31C5D00C5F407 /* audios */ = {isa = PBXFileReference; lastKnownFileType = folder; path = audios; sourceTree = "<group>"; };
+		D6D2D4DD1CC44CA800703064 /* ToyaAudioController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ToyaAudioController.cpp; sourceTree = "<group>"; };
+		D6D2D4DE1CC44CA800703064 /* ToyaAudioController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToyaAudioController.h; sourceTree = "<group>"; };
 		EB24EB8F1C5B0EAB0069DBBE /* textures */ = {isa = PBXFileReference; lastKnownFileType = folder; path = textures; sourceTree = "<group>"; };
 		EB28113E1CB5F982003B4616 /* ToyaMovingObstacleModel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ToyaMovingObstacleModel.cpp; sourceTree = "<group>"; };
 		EB28113F1CB5F982003B4616 /* ToyaMovingObstacleModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToyaMovingObstacleModel.h; sourceTree = "<group>"; };
@@ -424,27 +428,35 @@
 				EBCF3C3E1CB355E4003DCF67 /* Constants.h */,
 				EBCF3C381CB3347B003DCF67 /* ToyaAnimationBoxModel.cpp */,
 				EBCF3C371CB3327C003DCF67 /* ToyaAnimationBoxModel.h */,
+				D6D2D4DD1CC44CA800703064 /* ToyaAudioController.cpp */,
+				D6D2D4DE1CC44CA800703064 /* ToyaAudioController.h */,
 				FB21ACDD1C82B52200613B39 /* ToyaAvatarModel.cpp */,
 				FB21ACDE1C82B52200613B39 /* ToyaAvatarModel.h */,
 				EBCF3C3F1CB35F27003DCF67 /* ToyaBlockFactory.cpp */,
 				2BBB8B901C9E020100E935DB /* ToyaBlockFactory.h */,
-				D6692C021C987CB900DD9B2F /* ToyaFreezingSpellModel.h */,
 				D6692C031C987CB900DD9B2F /* ToyaDestructionSpellModel.h */,
 				FB54E8BE1C95C8D6003A51B9 /* ToyaExitDoorModel.cpp */,
 				FB54E8BF1C95C8D6003A51B9 /* ToyaExitDoorModel.h */,
+				D6692C021C987CB900DD9B2F /* ToyaFreezingSpellModel.h */,
 				FB21ACE11C82B52200613B39 /* ToyaGameController.cpp */,
 				FB21ACE21C82B52200613B39 /* ToyaGameController.h */,
 				FB21ACE31C82B52200613B39 /* ToyaGameRoot.cpp */,
 				FB21ACE41C82B52200613B39 /* ToyaGameRoot.h */,
 				FB54E8C21C95C8D6003A51B9 /* ToyaGameView.cpp */,
-				FB54E8C71C95C8D6003A51B9 /* ToyaMenuView.h */,
 				FB54E8C31C95C8D6003A51B9 /* ToyaGameView.h */,
 				FB99ADF91C962A5B0074BBE9 /* ToyaInputController.cpp */,
 				FB99ADFA1C962A5B0074BBE9 /* ToyaInputController.h */,
 				2B47DADC1C9649AD003B2491 /* ToyaLevelConstants.h */,
+				EBCA80AD1CB74935002F20D5 /* ToyaMagicPotionModel.cpp */,
+				EBCA80AE1CB74935002F20D5 /* ToyaMagicPotionModel.h */,
+				FBD3E40F1CB611D300A261D5 /* ToyaMapReader.cpp */,
+				FBD3E40D1CB5EC8200A261D5 /* ToyaMapReader.h */,
 				FB54E8C41C95C8D6003A51B9 /* ToyaMenuModel.cpp */,
 				FB54E8C51C95C8D6003A51B9 /* ToyaMenuModel.h */,
 				FB54E8C61C95C8D6003A51B9 /* ToyaMenuView.cpp */,
+				FB54E8C71C95C8D6003A51B9 /* ToyaMenuView.h */,
+				EB28113E1CB5F982003B4616 /* ToyaMovingObstacleModel.cpp */,
+				EB28113F1CB5F982003B4616 /* ToyaMovingObstacleModel.h */,
 				FB54E8DE1C95F1BE003A51B9 /* ToyaOverviewModel.cpp */,
 				FB54E8DF1C95F1BE003A51B9 /* ToyaOverviewModel.h */,
 				FB54E8CA1C95C8D6003A51B9 /* ToyaPanelModel.cpp */,
@@ -456,12 +468,6 @@
 				FB99ADFE1C962A5B0074BBE9 /* ToyaSpellModel.h */,
 				FB54E8D01C95C8D6003A51B9 /* ToyaWorldModel.cpp */,
 				FB54E8D11C95C8D6003A51B9 /* ToyaWorldModel.h */,
-				EB28113E1CB5F982003B4616 /* ToyaMovingObstacleModel.cpp */,
-				EB28113F1CB5F982003B4616 /* ToyaMovingObstacleModel.h */,
-				FBD3E40D1CB5EC8200A261D5 /* ToyaMapReader.h */,
-				FBD3E40F1CB611D300A261D5 /* ToyaMapReader.cpp */,
-				EBCA80AD1CB74935002F20D5 /* ToyaMagicPotionModel.cpp */,
-				EBCA80AE1CB74935002F20D5 /* ToyaMagicPotionModel.h */,
 			);
 			name = Classes;
 			path = ../Classes;
@@ -717,6 +723,7 @@
 				FB54E8DA1C95C8D6003A51B9 /* ToyaProgressController.cpp in Sources */,
 				FB54E8E01C95F1BE003A51B9 /* ToyaOverviewModel.cpp in Sources */,
 				FB54E8D51C95C8D6003A51B9 /* ToyaGameView.cpp in Sources */,
+				D6D2D4DF1CC44CA800703064 /* ToyaAudioController.cpp in Sources */,
 				FB54E8DC1C95C8D6003A51B9 /* ToyaWorldModel.cpp in Sources */,
 				FB54E8D91C95C8D6003A51B9 /* ToyaPanelModel.cpp in Sources */,
 				FBD3E4101CB611D300A261D5 /* ToyaMapReader.cpp in Sources */,
@@ -737,6 +744,7 @@
 				2BBB8B931C9E022200E935DB /* ToyaBlockFactory.h in Sources */,
 				D6692C071C987D1000DD9B2F /* ToyaFreezingSpellModel.h in Sources */,
 				D6692C081C987D1000DD9B2F /* ToyaDestructionSpellModel.h in Sources */,
+				D6D2D4E01CC44CA800703064 /* ToyaAudioController.cpp in Sources */,
 				D6692C0B1C987D1000DD9B2F /* ToyaLevelConstants.h in Sources */,
 				FB99AE051C962A850074BBE9 /* ToyaInputController.cpp in Sources */,
 				FB99AE061C962A850074BBE9 /* ToyaInputController.h in Sources */,

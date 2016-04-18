@@ -13,18 +13,12 @@
 #include <Box2D/Collision/b2Collision.h>
 #include "ToyaPanelModel.h"
 #include "ToyaBlockFactory.h"
-// #include "ToyaMapEditor.h"
+#include "ToyaAudioController.h"
 
 
 #include <string>
 #include <iostream>
 #include <sstream>
-
-// This is not part of cornell.h and SHOULD come last
-#include <cornell/CUGenericLoader.h>
-#include <cornell/CUSoundEngine.h>
-#include <cornell/CUSound.h>
-#include <SimpleAudioEngine.h>
 
 using namespace cocos2d;
 using namespace std;
@@ -82,21 +76,7 @@ using namespace std;
 /** Opacity of the physics outlines */
 #define DEBUG_OPACITY   192
 
-#define COOL_DOWN   120
-
-
-// Audios
-/** The key for background music */
-#define BG_SOUND  "audios/XMAS Grains.wav"
-
-#define DESTROY_EFFECT  "audios/destroy.m4a"
-
-#define DEATH_SOUND "audios/death.m4a"
-
-#define PICKUP_MAGIC  "audios/pickup.m4a"
-
-#define FREEZE_EFFECT "audios/freeze.m4a"
-
+#define COOL_DOWN   150
 
 #pragma mark Physics Constants
 
@@ -140,12 +120,6 @@ _overview(nullptr),
 _mapReader(nullptr)
 {
 }
-
-//
-
-auto audio = CocosDenshion::SimpleAudioEngine::getInstance();
-
-// auto sound = SoundEngine::init();
 
 /**
  * Initializes the controller contents, and starts the game
@@ -354,21 +328,7 @@ void GameController::populate() {
     _theWorld->setFollow(_avatar);
     _avatar->setName("avatar");
     
-    // Audio Loader
-    // auto bg_sound = Sound::create(BG_SOUND);
-    // sound->queueMusic(bg_sound);
-    // sound->setMusicLoop(false);
-    // sound->playMusic(bg_sound);
-    
-    audio->preloadBackgroundMusic(BG_SOUND);
-    audio->preloadEffect(DESTROY_EFFECT);
-    audio->preloadEffect(DEATH_SOUND);
-    audio->preloadEffect(PICKUP_MAGIC);
-    audio->preloadEffect(FREEZE_EFFECT);
-    // Set bg_music volume
-    audio->setBackgroundMusicVolume(0.1);
-    audio->setEffectsVolume(0.5);
-    audio->playBackgroundMusic(BG_SOUND);
+    _audio->audioDeploy(0.1, 0.3);
 }
 
 /**
@@ -466,7 +426,7 @@ void GameController::update(float dt) {
             if (_selector->getObstacle()->getName() == "removable"){
                 RemovableBlockModel* rmb = (RemovableBlockModel*) _selector->getObstacle();
                 rmb->destroy(_theWorld->getWorldNode(), _theWorld->getDebugNode(), _theWorld->getWorld());
-                audio->playEffect(DESTROY_EFFECT);
+                _audio->playEffect(DESTROY_EFFECT);
                 _panel->deduceMana(DESTRUCTION_COST);
                 _selector->deselect();
                 
@@ -478,7 +438,7 @@ void GameController::update(float dt) {
                 MovingObstacleModel* movingObstacle = (MovingObstacleModel*) _selector->getObstacle();
                 movingObstacle->freeze(_theWorld->getWorldNode(), _theWorld->getDebugNode(),
                                        _theWorld->getWorld());
-                audio->playEffect(FREEZE_EFFECT);
+                _audio->playEffect(FREEZE_EFFECT);
                 _panel->deduceMana(FREEZE_COST);
                 _selector->deselect();
             }
@@ -558,12 +518,11 @@ void GameController::beginContact(b2Contact* contact) {
         MovingObstacleModel* ghost = bd1->getName() == "ghost" ? (MovingObstacleModel*)bd1 : (MovingObstacleModel*)bd2;
         
         if(!ghost->isFrozen()) {
-            audio->playEffect(DEATH_SOUND);
-            
+            _audio->playEffect(DEATH_SOUND);
+            _audio->audioTerminate();
             setFail(true);
             double time = _overview->getCurrentPlayTime();
             _theWorld->showTime(time);
-            audio->stopBackgroundMusic();
             _reset = true;
         }
     }
@@ -573,7 +532,7 @@ void GameController::beginContact(b2Contact* contact) {
         MagicPotionModel* magicPotion = bd1->getName() == "potion" ?
             (MagicPotionModel*)bd1 : (MagicPotionModel*)bd2;
         magicPotion->pickUp(_theWorld->getWorldNode(), _theWorld->getDebugNode(), _theWorld->getWorld());
-        audio->playEffect(PICKUP_MAGIC);
+        _audio->playEffect(PICKUP_MAGIC);
         _panel->addMana(magicPotion->getPoints());
     }
     
@@ -581,13 +540,13 @@ void GameController::beginContact(b2Contact* contact) {
     if((body1->GetUserData() == _avatar && body2->GetUserData() == _goalDoor) ||
        (body1->GetUserData() == _goalDoor && body2->GetUserData() == _avatar)) {
         _goalDoor->open();
-        
+        _audio->playEffect(WIN_EFFECT);
+        _audio->audioTerminate();
         setComplete(true);
         _avatar->setLinearVelocity(Vec2(0.0f, 0.0f));
         // TODO: pause it
         double time = _overview->getCurrentPlayTime();
         _theWorld->showTime(time);
-        audio->stopBackgroundMusic();
         _reset = true;
     } else {
         // See if we have hit a wall.
