@@ -79,4 +79,6 @@ void AudioController::playEffect(const char* effect) {
     audio->playEffect(effect);
 }
 
-
+void AudioController::playEffect(const char* effect, float gain) {
+    audio->playEffect(effect, false, 1.0f, 0.0f, gain);
+}
