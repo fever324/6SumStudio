@@ -76,7 +76,7 @@ void ProgressModel::writeData(int level, int score) {
     fclose(input);
     fclose(output);
     
-    if(level == _levelsCompleted) {
+    if(level >= _levelsCompleted) {
         _scores.push_back(score);
         _levelsCompleted++;
     } else {

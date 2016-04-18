@@ -199,6 +199,8 @@ void MapReader::createMagicPotions() {
 }
 
 void MapReader::createStars() {
+    if(map->getObjectGroup("Stars") == nullptr) return;
+    
     Vec2 _scale = gameController->getScale();
     
     for(cocos2d::Value star : map->getObjectGroup("Stars")->getObjects()) {
