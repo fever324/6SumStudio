@@ -84,13 +84,13 @@
   <properties>
    <property name="texture" value="goal"/>
   </properties>
-  <object id="56" name="Door" gid="6" x="1970.21" y="382.853" width="64" height="128"/>
+  <object id="56" name="Door" gid="6" x="3204.36" y="2046.06" width="64" height="128"/>
  </objectgroup>
  <objectgroup name="Avatar">
   <properties>
    <property name="texture" value="bear"/>
   </properties>
-  <object id="15" name="Avatar" gid="16" x="71.986" y="136.962" width="64" height="64">
+  <object id="15" name="Avatar" gid="16" x="2023.5" y="1685.45" width="64" height="64">
    <properties>
     <property name="texture" value="bear"/>
    </properties>

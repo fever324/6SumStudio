@@ -29,32 +29,28 @@
             "wrap":     true
         },
         "level_one": {
-            "file":     "textures/level_one.png",
-            "wrap":     true
+            "file":     "textures/level1.png",
+            "wrap":     false
         },
         "level_two": {
-            "file":     "textures/level_two.png",
-            "wrap":     true
+            "file":     "textures/level2.png",
+            "wrap":     false
         },
         "level_three": {
-            "file":     "textures/level_three.png",
-            "wrap":     true
+            "file":     "textures/level3.png",
+            "wrap":     false
         },
         "level_four": {
-            "file":     "textures/level_four.png",
-            "wrap":     true
+            "file":     "textures/level4.png",
+            "wrap":     false
         },
         "level_five": {
-            "file":     "textures/level_five.png",
-            "wrap":     true
-        },
-        "level_six": {
-            "file":     "textures/level_six.png",
-            "wrap":     true
+            "file":     "textures/level5.png",
+            "wrap":     false
         },
         "start": {
             "file":     "textures/start_normal.png",
-            "wrap":     true
+            "wrap":     false
         },
         "avatar": {
             "file":     "textures/bears.png",
@@ -62,6 +58,22 @@
         },
         "background": {
             "file":     "textures/background.png",
+            "wrap":     false
+        },
+        "background2": {
+            "file":     "textures/background2.png",
+            "wrap":     false
+        },
+        "menubg": {
+            "file":     "textures/menubg.png",
+            "wrap":     false
+        },
+        "winbg": {
+            "file":     "textures/winbg.png",
+            "wrap":     true
+        },
+        "failbg": {
+            "file":     "textures/failbg.png",
             "wrap":     true
         },
         "ghosts":    {
@@ -72,16 +84,16 @@
             "file":     "textures/door_open.png",
             "wrap":     false
         },
-        "explosion": {
-            "file":     "textures/explosionSprite.png",
-            "wrap":     false
-        },
         "potions":    {
             "file":     "textures/potions.png",
             "wrap":     false
         },
         "destroy_animation":    {
             "file":     "textures/destroy_animation.png",
+            "wrap":     false
+        },
+        "reset":    {
+            "file":     "textures/resetButton.png",
             "wrap":     false
         }
         

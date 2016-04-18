@@ -32,7 +32,7 @@
  </tileset>
  <layer name="rootLayer" width="22" height="14">
   <properties>
-   <property name="backgroundImage" value="background"/>
+   <property name="backgroundImage" value="background2"/>
    <property name="gravity" type="int" value="9"/>
    <property name="initialMagicPoints" type="int" value="1"/>
    <property name="maxMagicPoints" type="int" value="10"/>

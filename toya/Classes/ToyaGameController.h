@@ -19,6 +19,7 @@
 #include "ToyaOverviewModel.h"
 #include "ToyaPanelModel.h"
 #include "ToyaExitDoorModel.h"
+#include "ToyaMenuModel.h"
 #include "ToyaAudioController.h"
 
 #include <Box2D/Dynamics/Contacts/b2Contact.h>
@@ -91,8 +92,17 @@ protected:
     
     AudioController* _audio;
     
+    
+    
+    /** three menus: pause, win, fail **/
+    MenuModel* _pauseMenu;
+    MenuModel* _winMenu;
+    MenuModel* _failMenu;
+    
     /** Whether or note this game is still active */
     bool _active;
+    /** Mark set to handle more sophisticated collision callbacks */
+    unordered_set<b2Fixture*> _sensorFixtures;
     /** Whether we have completed this "game" */
     bool _complete;
     /** Whether or not debug mode is active */
@@ -100,9 +110,12 @@ protected:
     /** Whether or not reset mode is active */
     bool _reset;
     int _cooldown;
+    
+    // indicate current level
     int _currentLevel;
-    /** Mark set to handle more sophisticated collision callbacks */
-    unordered_set<b2Fixture*> _sensorFixtures;
+    
+    bool _preload;
+    
     
 #pragma mark Internal Object Management
     /**
@@ -193,6 +206,7 @@ public:
      * @return true if the gameplay controller is currently active
      */
     bool isActive() const { return _active; }
+    void setActive(bool value) { _active = value; }
     
     /**
      * Returns true if debug mode is active.
@@ -228,9 +242,15 @@ public:
      *
      * @param value whether the level is completed.
      */
-    void setComplete(bool value) { _complete = value; _theWorld->setWin(value); }
     
-    void setFail(bool value) { _complete = value; _theWorld->setFail(value); }
+    bool didGoMain(){return _failMenu->didGoMain() || _winMenu->didGoMain() || _pauseMenu->didGoMain();}
+    
+    void setComplete(bool value) { _complete = value; toggleWin(value);}
+    
+    void setFail(bool value) { _complete = value; toggleFail(value);}
+    
+//    void pause(){Director::getInstance()->pause(); }
+    bool finishPreload() { return _preload; }
     
     
     
@@ -271,6 +291,7 @@ public:
      * This method disposes of the world and creates a new one.
      */
     void reset() ;
+    void clear() ;
     
     /**
      * Executes the core gameplay loop of this world.
@@ -321,6 +342,13 @@ public:
      * @param  contact  The collision manifold before contact
      */
     void beforeSolve(b2Contact* contact, const b2Manifold* oldManifold);
+
+#pragma mark -
+#pragma mark helper
+    
+    void togglePause(bool showOrNot){_pauseMenu->setVisible(showOrNot);};
+    void toggleWin(bool showOrNot){_winMenu->setVisible(showOrNot);};
+    void toggleFail(bool showOrNot){_failMenu->setVisible(showOrNot);};
     
 };
 

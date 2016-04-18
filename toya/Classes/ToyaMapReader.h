@@ -35,7 +35,7 @@
 #define BARRIER_DRAW_LAYER       4
 #define POTION_DRAW_LAYER        5
 
-#define PANEL_Z_ORDER            3
+#define PANEL_Z_ORDER            2
 
 static float BLOCK_SIZE[] = {1, 1};
 
