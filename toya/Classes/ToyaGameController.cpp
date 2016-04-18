@@ -551,7 +551,7 @@ void GameController::beginContact(b2Contact* contact) {
         _reset = true;
         
         // Store the score in the file
-        ProgressModel::getInstance()->writeData(_currentLevel, 100);
+        ProgressModel::getInstance()->writeData(_currentLevel, time*100);
         
     } else {
         // See if we have hit a wall.
