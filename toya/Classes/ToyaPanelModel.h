@@ -32,6 +32,8 @@ private:
     ui::CheckBox* _destructionSpellCB;
     DestructionSpellModel* _destructionSpell;
     
+    AnimationNode* magicBar;
+    
     Label* manaLabel;
     
 protected:

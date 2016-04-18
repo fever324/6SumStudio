@@ -83,6 +83,10 @@
         "destroy_animation":    {
             "file":     "textures/destroy_animation.png",
             "wrap":     false
+        },
+        "magic_bar": {
+            "file":     "textures/magicBar.png",
+            "wrap":     false
         }
         
   	},

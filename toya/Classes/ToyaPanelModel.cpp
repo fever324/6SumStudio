@@ -64,6 +64,13 @@ bool PanelModel::init() {
         this->addChild(manaLabel);
     }
     
+    if(magicBar == nullptr) {
+        SceneManager* assets =  AssetManager::getInstance()->getCurrent();
+        Texture2D* image = assets->get<Texture2D>("magic_bar");
+        magicBar = AnimationNode::create(image, 11, 1);
+        this->addChild(magicBar);
+    }
+    
     return true;
 }
 
@@ -83,7 +90,7 @@ bool PanelModel::init(const Vec2& pos, const int initalMana, const int totalMana
     _destructionSpellCB->setPosition(Vec2(_destructionSpellCB->getContentSize().width/2.0f,0));
     
     x = actualPosition.x+_destructionSpellCB->getContentSize().width+manaLabel->getContentSize().width/3.0f;
-    
+    magicBar->setPosition(x,0);
     manaLabel->setPosition(x,0);
     manaLabel->setSystemFontSize(30.0f);
     updateLabelText();
@@ -162,6 +169,7 @@ void PanelModel::updateLabelText() {
     if(manaLabel != nullptr) {
         manaLabel->setString(std::to_string(_currentMana)+"/"+std::to_string(_totalMana));
         manaLabel->updateContent();
+        magicBar->setFrame(10-_currentMana);
     }
 }
 
