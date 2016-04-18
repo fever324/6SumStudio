@@ -28,6 +28,10 @@
             "file":     "textures/grass_dirt.png",
             "wrap":     true
         },
+        "lava_dirt": {
+            "file":     "textures/lava_dirt.png",
+            "wrap":     true
+        },
         "level_one": {
             "file":     "textures/level1.png",
             "wrap":     false

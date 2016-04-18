@@ -622,6 +622,7 @@ void GameController::beginContact(b2Contact* contact) {
         _avatar->setLinearVelocity(Vec2(0.0f, 0.0f));
         // TODO: pause it
         double time = _overview->getCurrentPlayTime();
+//        _theWorld->showTime(time);
         _winMenu->showTime(time);
         // _reset = true;
         

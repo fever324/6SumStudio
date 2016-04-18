@@ -97,7 +97,7 @@ bool MenuModel::init(std::string mtype, const Vec2& size, const Vec2& scale){
         Texture2D* image = AssetManager::getInstance()->getCurrent()->get<Texture2D>("winbg");
         Sprite* bg = Sprite::createWithTexture(image,Rect(0,0,1024,1024));
         bg->setScale(1);
-        bg->setAnchorPoint(Vec2(0,0));
+        bg->setAnchorPoint(Vec2(0,0.4));
         this->addChild(bg);
         
         this->addChild(replay);
@@ -133,7 +133,7 @@ bool MenuModel::init(std::string mtype, const Vec2& size, const Vec2& scale){
         Texture2D* image = AssetManager::getInstance()->getCurrent()->get<Texture2D>("failbg");
         Sprite* bg = Sprite::createWithTexture(image,Rect(0,0,1024,1024));
         bg->setScale(1);
-        bg->setAnchorPoint(Vec2(0,0));
+        bg->setAnchorPoint(Vec2(0,0.4));
         this->addChild(bg);
         
         this->addChild(replay);
