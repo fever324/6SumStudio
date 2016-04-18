@@ -220,7 +220,7 @@ AvatarModel* MapReader::createAvatar() {
     TMXObjectGroup* avatarGroup = map->getObjectGroup("Avatar");
     ValueMap avatar = avatarGroup->getObject("Avatar");
     string avatar_texture = avatar.at("texture").asString();
-    float avatar_x = avatar.at("x").asFloat()*cscale;
+    float avatar_x = avatar.at("x").asFloat()*cscale + tileSize.width/2.0f;
     float avatar_y = avatar.at("y").asFloat()*cscale + tileSize.height*2;
     Vec2 avatarPos = (Vec2){avatar_x/tileSize.width, avatar_y/tileSize.height};
     AvatarModel* _avatar = AvatarModel::create(avatarPos,_scale, avatar_texture);
