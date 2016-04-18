@@ -51,7 +51,7 @@ public:
     void setSpell(int i);
     
     bool init();
-    bool init(const Vec2& pos, const int totalMana);
+    bool init(const Vec2& pos, const int initalMana, const int totalMana);
     
     void reset();
     
@@ -59,7 +59,7 @@ public:
 #pragma mark Static Constructors
     
     static PanelModel* create();
-    static PanelModel* create(const Vec2& pos, const int totalMana);
+    static PanelModel* create(const Vec2& pos, const int initalMana, const int totalMana);
     
     void freezingTouchEvent(Ref *sender, ui::Widget::TouchEventType type);
     void destructionTouchEvent(Ref *sender, ui::Widget::TouchEventType type);

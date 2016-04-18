@@ -312,7 +312,7 @@ void GameController::populate() {
     // If you are using a device with a 3:2 aspect ratio, you will need to
     // completely redo the level layout.  We can help if this is an issue.
 
-    _mapReader->loadMap("maps/test"+std::to_string(_currentLevel)+".tmx");
+    _mapReader->loadMap("maps/level"+std::to_string(_currentLevel)+".tmx");
     
     _mapReader->createBackground();
     _mapReader->createRemovableBlocks();

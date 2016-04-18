@@ -194,7 +194,7 @@ ExitDoorModel* MapReader::createGoalDoor() {
     float goal_x = door.at("x").asFloat()*cscale + tileSize.width/2;
     
     // y need to be re-calculated
-    float goal_y = door.at("y").asFloat()*cscale + 3*tileSize.height;
+    float goal_y = door.at("y").asFloat()*cscale + 2*tileSize.height;
 
     Vec2 goalPos = (Vec2){goal_x/tileSize.width, goal_y/tileSize.height};
 //    CCLOG("%.2f",goal_x/64);
@@ -234,8 +234,9 @@ PanelModel* MapReader::createMagicPanel() {
     
     TMXLayer* rootLayer = map->getLayer("rootLayer");
     
-    int totalMana = rootLayer->getProperty("magicPoints").asInt();
-    PanelModel* _panel = PanelModel::create(Vec2(0,gameController->getRootNode()->getContentSize().height), totalMana);
+    int totalMana = rootLayer->getProperty("maxMagicPoints").asInt();
+    int initalMana = rootLayer->getProperty("initialMagicPoints").asInt();
+    PanelModel* _panel = PanelModel::create(Vec2(0,gameController->getRootNode()->getContentSize().height), initalMana, totalMana);
     gameController->getRootNode()->addChild(_panel, PANEL_Z_ORDER);
     
     return _panel;
