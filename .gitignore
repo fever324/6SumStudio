@@ -34,3 +34,6 @@ xcuserdata/
 *.xccheckout
 *.xcscmblueprint
 toya/proj.ios_mac/.idea/
+*UserInterfaceState.xcuserstate
+xcuserdata/
+

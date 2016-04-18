@@ -27,9 +27,9 @@ PanelModel* PanelModel::create() {
     return nullptr;
 }
 
-PanelModel* PanelModel::create(const Vec2& pos, const int totalMana) {
+PanelModel* PanelModel::create(const Vec2& pos, const int initalMana,const int totalMana) {
     PanelModel* panel = new (std::nothrow) PanelModel();
-    if (panel && panel->init(pos, totalMana)) {
+    if (panel && panel->init(pos, initalMana, totalMana)) {
         panel->autorelease();
         return panel;
     }
@@ -67,11 +67,11 @@ bool PanelModel::init() {
     return true;
 }
 
-bool PanelModel::init(const Vec2& pos, const int totalMana) {
+bool PanelModel::init(const Vec2& pos, const int initalMana, const int totalMana) {
     init();
     
     _totalMana = totalMana;
-    _currentMana = totalMana;
+    _currentMana = initalMana;
     
     Vec2 actualPosition = Vec2(pos);
     actualPosition.x += (_freezingSpellCB->getContentSize().width + _destructionSpellCB->getContentSize().width) / 2.0f;

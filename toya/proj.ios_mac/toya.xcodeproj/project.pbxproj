@@ -594,7 +594,7 @@
 						DevelopmentTeam = FUM3E9989D;
 					};
 					5087E73D17EB910900C73F5D = {
-						DevelopmentTeam = FUM3E9989D;
+						DevelopmentTeam = 8DGY69RX2V;
 					};
 				};
 			};
@@ -831,8 +831,8 @@
 					"$(_COCOS_LIB_IOS_BEGIN)",
 					"$(_COCOS_LIB_IOS_END)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = edu.cornell.gdiac.toya;
-				PROVISIONING_PROFILE = "";
+				PRODUCT_BUNDLE_IDENTIFIER = edu.cornell.gdiac.6sumstudio.toya;
+				PROVISIONING_PROFILE = "ea7d01b7-7edf-4859-a834-e1e66b9d60fb";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "$(_COCOS_HEADER_IOS_BEGIN) $(_COCOS_HEADER_IOS_END)";
@@ -845,7 +845,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Developer ID Application: Hongfei Li (9WEW4LG4VB)";
 				COMPRESS_PNG_FILES = NO;
 				ENABLE_BITCODE = NO;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
@@ -869,8 +869,8 @@
 					"$(_COCOS_LIB_IOS_BEGIN)",
 					"$(_COCOS_LIB_IOS_END)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = edu.cornell.gdiac.toya;
-				PROVISIONING_PROFILE = "";
+				PRODUCT_BUNDLE_IDENTIFIER = edu.cornell.gdiac.6sumstudio.toya;
+				PROVISIONING_PROFILE = "ea7d01b7-7edf-4859-a834-e1e66b9d60fb";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "$(_COCOS_HEADER_IOS_BEGIN) $(_COCOS_HEADER_IOS_END)";

@@ -334,7 +334,7 @@ void GameController::populate() {
     // If you are using a device with a 3:2 aspect ratio, you will need to
     // completely redo the level layout.  We can help if this is an issue.
 
-    _mapReader->loadMap("maps/test"+std::to_string(_currentLevel)+".tmx");
+    _mapReader->loadMap("maps/level"+std::to_string(_currentLevel)+".tmx");
     
     _mapReader->createBackground();
     _mapReader->createRemovableBlocks();
@@ -453,7 +453,7 @@ void GameController::update(float dt) {
     }
     if(_input->didRotate()) {
         
-        float cRotation = _theWorld->getRotation() + _input->getTurning()*2;
+        float cRotation = _theWorld->getRotation() + _input->getTurning()*2.0f;
         
         if (cRotation > 360.0f) {
             cRotation -= 360.0f;
@@ -485,7 +485,7 @@ void GameController::update(float dt) {
                 MovingObstacleModel* movingObstacle = (MovingObstacleModel*) _selector->getObstacle();
                 movingObstacle->freeze(_theWorld->getWorldNode(), _theWorld->getDebugNode(),
                                        _theWorld->getWorld());
-                _audio->playFreezeEffect();
+                _audio->playEffect(FREEZE_EFFECT, 0.2f);
                 _panel->deduceMana(FREEZE_COST);
                 _selector->deselect();
             }
@@ -536,7 +536,11 @@ void GameController::endContact(b2Contact* contact) {
     Obstacle* bd2 = (Obstacle*)body2->GetUserData();
     if ((_avatar->getBottomSensorName() == fd2 && _avatar != bd1)||
         (_avatar->getBottomSensorName() == fd1 && _avatar != bd2)) {
-        _avatar->setGrounded(false);
+        _sensorFixtures.erase(_avatar->getBottomSensorName() == fd1 ? fix2 : fix1);
+        if (_sensorFixtures.empty()) {
+            _avatar->setGrounded(false);
+        }
+        
     }
     
 }
@@ -578,17 +582,15 @@ void GameController::beginContact(b2Contact* contact) {
         }
     }
     
-    if((bd1->getName() == "avatar" && bd2->getName() == "potion") ||
-       (bd1->getName() == "potion" && bd2->getName() == "avatar")) {
-        MagicPotionModel* magicPotion = bd1->getName() == "potion" ?
-            (MagicPotionModel*)bd1 : (MagicPotionModel*)bd2;
+    else if((bd1->getName() == "avatar" && bd2->getName() == "potion") || (bd1->getName() == "potion" && bd2->getName() == "avatar")) {
+        MagicPotionModel* magicPotion = bd1->getName() == "potion" ? (MagicPotionModel*)bd1 : (MagicPotionModel*)bd2;
         magicPotion->pickUp(_theWorld->getWorldNode(), _theWorld->getDebugNode(), _theWorld->getWorld());
         _audio->playPickupPotion();
         _panel->addMana(magicPotion->getPoints());
     }
     
     // If we hit the "win" door, we are done
-    if((body1->GetUserData() == _avatar && body2->GetUserData() == _goalDoor) ||
+    else if((body1->GetUserData() == _avatar && body2->GetUserData() == _goalDoor) ||
        (body1->GetUserData() == _goalDoor && body2->GetUserData() == _avatar)) {
         _goalDoor->open();
         _audio->playEffect(WIN_EFFECT);
@@ -612,6 +614,20 @@ void GameController::beginContact(b2Contact* contact) {
             _avatar->setGrounded(true);
         }
     }
+    
+    // See if we have hit a wall.
+    else if ((_avatar->getLeftSensorName() == fd2 && _avatar != bd1) ||
+        (_avatar->getLeftSensorName() == fd1 && _avatar != bd2)) {
+        _avatar->setFacingRight(true);
+    } else if ((_avatar->getRightSensorName() == fd2 && _avatar != bd1) ||
+               (_avatar->getRightSensorName() == fd1 && _avatar != bd2)) {
+        _avatar->setFacingRight(false);
+    } else if ((_avatar->getBottomSensorName() == fd2 && _avatar != bd1)||
+               (_avatar->getBottomSensorName() == fd1 && _avatar != bd2)) {
+        _avatar->setGrounded(true);
+        _sensorFixtures.emplace(_avatar->getBottomSensorName() == fd1 ? fix2 : fix1);
+    }
+    
 }
 
 

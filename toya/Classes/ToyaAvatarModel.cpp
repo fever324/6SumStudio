@@ -16,13 +16,12 @@ using namespace cocos2d;
 #pragma mark -
 #pragma mark Physics Constants
 /** the amout to shrink the body in three dimensions. **/
-#define AVATAR_SHRINK 1.5
+#define AVATAR_SHRINK 1.5f
 /** The amount to shrink the sensor fixture (horizontally) relative to the image */
-#define AVATAR_SSHRINK  0.3f
+#define AVATAR_SSHRINK  0.2f
 /** Height of the sensor attached to the player's feet */
 #define SENSOR_HEIGHT   0.1f
-/** The density of the character */
-#define AVATAR_DENSITY    10.0f
+
 /** Debug color for the sensor */
 #define DEBUG_COLOR     Color3B::RED
 
@@ -131,19 +130,23 @@ AvatarModel* AvatarModel::create(const Vec2& pos, const Vec2& scale, const std::
  */
 bool AvatarModel::init(const Vec2& pos, const Vec2& scale) {
     float cscale = Director::getInstance()->getContentScaleFactor();
-    SceneManager* scene = AssetManager::getInstance()->getCurrent();
-    
-    Texture2D* image = scene->get<Texture2D>(_avatarTexture);
     
     // Multiply by the scaling factor so we can be resolution independent
 //    Size avatarSize = Size(64*cscale*AVATAR_SHRINK/scale.x,80*cscale*AVATAR_SHRINK/scale.y);
-    Size avatarSize = Size(64/cscale/scale.x/AVATAR_SHRINK,80/cscale/scale.y/AVATAR_SHRINK);
+    
+    Size avatarSize = Size(64/cscale/scale.x/AVATAR_SHRINK*0.8f,80/cscale/scale.y/AVATAR_SHRINK);
     
     if (CapsuleObstacle::init(pos, avatarSize)) {
         _animationFrameCount = 0;
+        _cycle = 1;
         setDensity(AVATAR_DENSITY);
-        setFriction(0.0f);      // HE WILL STICK TO WALLS IF YOU FORGET
+        setFriction(AVATAR_FRICTION);      // HE WILL STICK TO WALLS IF YOU FORGET
         setFixedRotation(true); // OTHERWISE, HE IS A WEEBLE WOBBLE
+        
+        _leftSensorName = "avatarLeftSensor";
+        _rightSensorName = "avatarRightSensor";
+        _bottomSensorName = "avatarBottomSensor";
+        _topSensorName = "avatarTopSensor";
         
         // Gameplay attributes
         _faceRight  = true;
@@ -152,7 +155,7 @@ bool AvatarModel::init(const Vec2& pos, const Vec2& scale) {
         setLinearVelocity(Vec2{AVATAR_INITIAL_SPEED,0});
         setRemovable(false);
         
-        PolygonNode* sprite = PolygonNode::create(Rect(0, 0, avatarSize.width, avatarSize.height));
+        PolygonNode* sprite = PolygonNode::create(Rect(0, 0, 0,0));
         sprite->setScale(1/AVATAR_SHRINK);
         setSceneNode(sprite);
         
@@ -306,9 +309,9 @@ void AvatarModel::releaseFixtures() {
  * This method should be called after the force attribute is set.
  */
 void AvatarModel::applyForce() {
-    if (!isActive() || !isGrounded()) {
-        return;
-    }
+//    if (!isActive() || !isGrounded()) {
+//        return;
+//    }
     if (!isGrounded()){
         return;
     }
@@ -323,6 +326,7 @@ void AvatarModel::applyForce() {
         setVX(SIGNUM(getVX())*getMaxSpeed());
     } else {
         float angle = getAngle();
+//        float 
         b2Vec2 force(getMovement()* cos(angle),getMovement() * sin(angle));
 
         _body->ApplyForce(force,_body->GetPosition(),true);
