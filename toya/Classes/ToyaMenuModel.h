@@ -152,9 +152,9 @@ CC_CONSTRUCTOR_ACCESS:
     
     void resetStatus(){_replay = false;_gomain = false; _next = false;_start = false;}
     
-    void showTime(double time){
+    void showTime(double time, int stars){
         std::ostringstream s;
-        s << "Time Cost  " << time;
+        s << "Time Cost  " << time << std::endl << "Stars: " + std::to_string(stars);
         _timenode->setString(s.str());
     }
     
