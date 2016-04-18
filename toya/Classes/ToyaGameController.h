@@ -101,7 +101,8 @@ protected:
     bool _reset;
     int _cooldown;
     int _currentLevel;
-    
+    /** Mark set to handle more sophisticated collision callbacks */
+    unordered_set<b2Fixture*> _sensorFixtures;
     
 #pragma mark Internal Object Management
     /**

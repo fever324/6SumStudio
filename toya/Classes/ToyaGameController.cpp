@@ -405,7 +405,7 @@ void GameController::update(float dt) {
     }
     if(_input->didRotate()) {
         
-        float cRotation = _theWorld->getRotation() + _input->getTurning()*2;
+        float cRotation = _theWorld->getRotation() + _input->getTurning()*2.0f;
         
         if (cRotation > 360.0f) {
             cRotation -= 360.0f;
@@ -530,10 +530,8 @@ void GameController::beginContact(b2Contact* contact) {
         }
     }
     
-    if((bd1->getName() == "avatar" && bd2->getName() == "potion") ||
-       (bd1->getName() == "potion" && bd2->getName() == "avatar")) {
-        MagicPotionModel* magicPotion = bd1->getName() == "potion" ?
-            (MagicPotionModel*)bd1 : (MagicPotionModel*)bd2;
+    else if((bd1->getName() == "avatar" && bd2->getName() == "potion") || (bd1->getName() == "potion" && bd2->getName() == "avatar")) {
+        MagicPotionModel* magicPotion = bd1->getName() == "potion" ? (MagicPotionModel*)bd1 : (MagicPotionModel*)bd2;
         magicPotion->pickUp(_theWorld->getWorldNode(), _theWorld->getDebugNode(), _theWorld->getWorld());
         _audio->playPickupPotion();
         _panel->addMana(magicPotion->getPoints());
