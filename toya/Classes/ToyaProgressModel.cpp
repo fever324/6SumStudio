@@ -8,8 +8,6 @@
 #include <json/filewritestream.h>
 #include <json/writer.h>
 
-#include <fstream>
-
 #define PROGRESS_DATA "jsons/progress.json"
 
 using namespace std;
@@ -23,8 +21,6 @@ ProgressModel* ProgressModel::getInstance() {
         _progress = new (std::nothrow) ProgressModel();
         _progress->readData();
     }
-    
-    cout << "hehe";
     
     return _progress;
 }
@@ -62,7 +58,13 @@ void ProgressModel::writeData(int level, int score) {
     const char* levelString = std::to_string(level).c_str();
     rapidjson::Value levelValue(levelString, document.GetAllocator());
     rapidjson::Value scoreValue(score);
-    levels.AddMember(levelValue, scoreValue, document.GetAllocator());
+    
+    if(levels.HasMember(levelString)) {
+        levels[levelString] = scoreValue;
+    } else {
+        levels.AddMember(levelValue, scoreValue, document.GetAllocator());
+        document["levelCompleted"].SetInt(level+1);
+    }
     
     FILE* output = fopen(PROGRESS_DATA, "w");
     char* writeBuffer = new char[65536]();
@@ -71,13 +73,10 @@ void ProgressModel::writeData(int level, int score) {
     Writer<FileWriteStream> writer(os);
     document.Accept(writer);
     
-    std::ofstream of (PROGRESS_DATA);
-    of << writeBuffer;
-    
     fclose(input);
     fclose(output);
     
-    if(level == _levelsCompleted) {
+    if(level >= _levelsCompleted) {
         _scores.push_back(score);
         _levelsCompleted++;
     } else {
@@ -86,5 +85,9 @@ void ProgressModel::writeData(int level, int score) {
 }
 
 int ProgressModel::getScore(int level) {
-    return _scores[level-1];
+    return _scores[level];
+}
+
+int ProgressModel::getNextLevel() {
+    return _levelsCompleted;
 }

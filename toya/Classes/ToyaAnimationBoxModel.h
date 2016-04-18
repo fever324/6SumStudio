@@ -14,8 +14,9 @@ using namespace cocos2d;
 
 class AnimationBoxModel : public BoxObstacle {
 private:
-    void animate();
 protected:
+    void animate();
+
     /* The total state count. */
     int _stateCount;
     /* Current state of the object. */

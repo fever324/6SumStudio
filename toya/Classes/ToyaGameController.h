@@ -115,6 +115,8 @@ protected:
     // indicate current level
     int _currentLevel;
     
+    int _bonusEarned;
+    
     bool _preload;
     
     

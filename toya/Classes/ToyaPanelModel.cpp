@@ -57,11 +57,11 @@ bool PanelModel::init() {
 
     }
     
-    if(manaLabel == nullptr) {
-        manaLabel = Label::create();
-        manaLabel->setColor(Color3B::RED);
-        manaLabel->setVisible(true);
-        this->addChild(manaLabel);
+    if(magicBar == nullptr) {
+        SceneManager* assets =  AssetManager::getInstance()->getCurrent();
+        Texture2D* image = assets->get<Texture2D>("magic_bar");
+        magicBar = AnimationNode::create(image, 11, 1);
+        this->addChild(magicBar);
     }
     
     return true;
@@ -82,11 +82,9 @@ bool PanelModel::init(const Vec2& pos, const int initalMana, const int totalMana
     _freezingSpellCB->setPosition(Vec2(x,0));
     _destructionSpellCB->setPosition(Vec2(_destructionSpellCB->getContentSize().width/2.0f,0));
     
-    x = actualPosition.x+_destructionSpellCB->getContentSize().width+manaLabel->getContentSize().width/3.0f;
-    
-    manaLabel->setPosition(x,0);
-    manaLabel->setSystemFontSize(30.0f);
-    updateLabelText();
+    x = actualPosition.x+_destructionSpellCB->getContentSize().width+magicBar->getContentSize().width/3.0f;
+    magicBar->setPosition(x,0);
+    updateMagicBar();
     updateButtons();
     
     
@@ -144,24 +142,23 @@ void PanelModel::addMana(int mana) {
     int result = mana + _currentMana;
     _currentMana =  result > _totalMana ?  _totalMana : result;
     
-    updateLabelText();
+    updateMagicBar();
     updateButtons();
 }
 
 bool PanelModel::deduceMana(int cost) {
     if(cost > _totalMana) return false;
     _currentMana -= cost;
-    updateLabelText();
+    updateMagicBar();
     updateButtons();
 
     return true;
 }
 
 
-void PanelModel::updateLabelText() {
-    if(manaLabel != nullptr) {
-        manaLabel->setString(std::to_string(_currentMana)+"/"+std::to_string(_totalMana));
-        manaLabel->updateContent();
+void PanelModel::updateMagicBar() {
+    if(magicBar != nullptr) {
+        magicBar->setFrame(10-_currentMana);
     }
 }
 
@@ -171,7 +168,6 @@ void PanelModel::updateButtons() {
 }
 
 void PanelModel::reset(){
-    manaLabel->setVisible(false);
     _currentMana = _totalMana;
 }
 

@@ -32,10 +32,10 @@ private:
     ui::CheckBox* _destructionSpellCB;
     DestructionSpellModel* _destructionSpell;
     
-    Label* manaLabel;
+    AnimationNode* magicBar;
     
 protected:
-    void updateLabelText();
+    void updateMagicBar();
     void updateButtons();
 
 public:
@@ -44,8 +44,8 @@ public:
     
     bool deduceMana(int cost);
     void addMana(int mana);
-    void setTotalMana(int mana){ _totalMana = mana; updateLabelText(); updateButtons();}
-    void setCurrentMana(int mana){ _currentMana = mana; updateLabelText(); updateButtons();}
+    void setTotalMana(int mana){ _totalMana = mana; updateMagicBar(); updateButtons();}
+    void setCurrentMana(int mana){ _currentMana = mana; updateMagicBar(); updateButtons();}
     
     int getSpell();
     void setSpell(int i);

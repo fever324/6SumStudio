@@ -341,12 +341,15 @@ void GameController::populate() {
     _mapReader->createNonRemovableBlocks();
     _mapReader->createMovingObstacles();
     _mapReader->createMagicPotions();
+    _mapReader->createStars();
     
     _mapReader->createLava();
     
     _goalDoor = _mapReader->createGoalDoor();
     _avatar   = _mapReader->createAvatar();
     _panel    = _mapReader->createMagicPanel();
+    
+    _bonusEarned = 0;
     
     _theWorld->setFollow(_avatar);
     _avatar->setName("avatar");
@@ -602,6 +605,13 @@ void GameController::beginContact(b2Contact* contact) {
         _panel->addMana(magicPotion->getPoints());
     }
     
+    else if((bd1->getName() == "avatar" && bd2->getName() == "star") || (bd1->getName() == "star" && bd2->getName() == "avatar")) {
+        StarModel* star = bd1->getName() == "star" ? (StarModel*)bd1 : (StarModel*)bd2;
+        star->pickUp(_theWorld->getWorldNode(), _theWorld->getDebugNode(), _theWorld->getWorld());
+        _audio->playPickupPotion();
+        _bonusEarned++;
+    }
+    
     // If we hit the "win" door, we are done
     else if((body1->GetUserData() == _avatar && body2->GetUserData() == _goalDoor) ||
        (body1->GetUserData() == _goalDoor && body2->GetUserData() == _avatar)) {
@@ -614,6 +624,11 @@ void GameController::beginContact(b2Contact* contact) {
         double time = _overview->getCurrentPlayTime();
 //        _theWorld->showTime(time);
         _winMenu->showTime(time);
+        // _reset = true;
+        
+        // Store the score in the file
+        ProgressModel::getInstance()->writeData(_currentLevel, time*100);
+        
     }
     // See if we have hit a wall.
     else if ((_avatar->getLeftSensorName() == fd2 && _avatar != bd1) ||
