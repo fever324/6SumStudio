@@ -484,7 +484,11 @@ void GameController::endContact(b2Contact* contact) {
     Obstacle* bd2 = (Obstacle*)body2->GetUserData();
     if ((_avatar->getBottomSensorName() == fd2 && _avatar != bd1)||
         (_avatar->getBottomSensorName() == fd1 && _avatar != bd2)) {
-        _avatar->setGrounded(false);
+        _sensorFixtures.erase(_avatar->getBottomSensorName() == fd1 ? fix2 : fix1);
+        if (_sensorFixtures.empty()) {
+            _avatar->setGrounded(false);
+        }
+        
     }
     
 }
@@ -536,7 +540,7 @@ void GameController::beginContact(b2Contact* contact) {
     }
     
     // If we hit the "win" door, we are done
-    if((body1->GetUserData() == _avatar && body2->GetUserData() == _goalDoor) ||
+    else if((body1->GetUserData() == _avatar && body2->GetUserData() == _goalDoor) ||
        (body1->GetUserData() == _goalDoor && body2->GetUserData() == _avatar)) {
         _goalDoor->open();
         _audio->playEffect(WIN_EFFECT);
@@ -547,19 +551,21 @@ void GameController::beginContact(b2Contact* contact) {
         double time = _overview->getCurrentPlayTime();
         _theWorld->showTime(time);
         _reset = true;
-    } else {
-        // See if we have hit a wall.
-        if ((_avatar->getLeftSensorName() == fd2 && _avatar != bd1) ||
-            (_avatar->getLeftSensorName() == fd1 && _avatar != bd2)) {
-            _avatar->setFacingRight(true);
-        } else if ((_avatar->getRightSensorName() == fd2 && _avatar != bd1) ||
-                   (_avatar->getRightSensorName() == fd1 && _avatar != bd2)) {
-            _avatar->setFacingRight(false);
-        } else if ((_avatar->getBottomSensorName() == fd2 && _avatar != bd1)||
-                   (_avatar->getBottomSensorName() == fd1 && _avatar != bd2)) {
-            _avatar->setGrounded(true);
-        }
     }
+    
+    // See if we have hit a wall.
+    else if ((_avatar->getLeftSensorName() == fd2 && _avatar != bd1) ||
+        (_avatar->getLeftSensorName() == fd1 && _avatar != bd2)) {
+        _avatar->setFacingRight(true);
+    } else if ((_avatar->getRightSensorName() == fd2 && _avatar != bd1) ||
+               (_avatar->getRightSensorName() == fd1 && _avatar != bd2)) {
+        _avatar->setFacingRight(false);
+    } else if ((_avatar->getBottomSensorName() == fd2 && _avatar != bd1)||
+               (_avatar->getBottomSensorName() == fd1 && _avatar != bd2)) {
+        _avatar->setGrounded(true);
+        _sensorFixtures.emplace(_avatar->getBottomSensorName() == fd1 ? fix2 : fix1);
+    }
+    
 }
 
 
