@@ -15,8 +15,8 @@
 
 // Audio Effects
 #define BG_SOUND  "audios/XMAS Grains.wav"
-#define DESTROY_EFFECT  "audios/destroy.m4a"
-#define DEATH_SOUND "audios/death.m4a"
+#define DESTROY_EFFECT  "audios/fire.m4a"
+#define DEATH_SOUND "audios/over.m4a"
 #define PICKUP_MAGIC  "audios/pickup.m4a"
 #define FREEZE_EFFECT "audios/freeze.m4a"
 #define WIN_EFFECT "audios/win.m4a"

@@ -16,8 +16,11 @@ void AudioController::preload() {
     audio->preloadEffect(FREEZE_EFFECT);
 }
 
-void AudioController::setVolume(float bg_vol, float effect_vol) {
+void AudioController::setBackgroundVolume(float bg_vol) {
     audio->setBackgroundMusicVolume(bg_vol);
+}
+
+void AudioController::setEffectVolume(float effect_vol) {
     audio->setEffectsVolume(effect_vol);
 }
 
@@ -25,9 +28,21 @@ void AudioController::play() {
     audio->playBackgroundMusic(BG_SOUND, true);
 }
 
+void AudioController::audioBackgroundDeploy(float bg_vol) {
+    preload();
+    setBackgroundVolume(bg_vol);
+    play();
+}
+
+void AudioController::audioEffectDeploy(float effect_vol) {
+    preload();
+    setEffectVolume(effect_vol);
+}
+
 void AudioController::audioDeploy(float bg_vol, float effect_vol) {
     preload();
-    setVolume(bg_vol, effect_vol);
+    setBackgroundVolume(bg_vol);
+    setEffectVolume(effect_vol);
     play();
 }
 
@@ -47,8 +62,17 @@ void AudioController::playDeathEffect() {
     audio->playEffect(DEATH_SOUND);
 }
 
-void AudioController::playPickupEffect() {
-    audio->playEffect(PICKUP_MAGIC);
+void AudioController::playWinEffect() {
+    playEffect(WIN_EFFECT);
+}
+
+//
+void AudioController::playPickupPotion() {
+    playEffect(PICKUP_MAGIC);
+}
+
+void AudioController::playPickupStar() {
+    playEffect(PICKUP_MAGIC);
 }
 
 void AudioController::playEffect(const char* effect) {

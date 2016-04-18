@@ -25,25 +25,39 @@ class AudioController {
 private:
     static void preload();
     
-    static void setVolume(float bg_vol, float effect_vol);
+    static void setBackgroundVolume(float bg_vol);
+    
+    static void setEffectVolume(float effect_vol);
     
     static void play();
     
 public:
+    /* A method to preload all required sound assets, set volume and deploy */
     static void audioDeploy(float bg_vol, float effect_vol);
     
+    static void audioBackgroundDeploy(float bg_vol);
+    
+    static void audioEffectDeploy(float effect_vol);
+    
     static void audioTerminate();
+    
+    // Effect 
+    static void playEffect(const char* effect);
     
     static void playDestroyEffect();
     
     static void playFreezeEffect();
     
+    // Death
     static void playDeathEffect();
     
-    static void playPickupEffect();
+    // Win
+    static void playWinEffect();
     
-    static void playEffect(const char* effect);
+    // Potion/Star
+    static void playPickupPotion();
     
+    static void playPickupStar();
 };
 
 #endif /* ToyaAudioController */

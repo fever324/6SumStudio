@@ -76,7 +76,7 @@ using namespace std;
 /** Opacity of the physics outlines */
 #define DEBUG_OPACITY   192
 
-#define COOL_DOWN   150
+#define COOL_DOWN   120
 
 #pragma mark Physics Constants
 
@@ -328,7 +328,8 @@ void GameController::populate() {
     _theWorld->setFollow(_avatar);
     _avatar->setName("avatar");
     
-    _audio->audioDeploy(0.1, 0.3);
+    _audio->audioBackgroundDeploy(0.1);
+    _audio->audioEffectDeploy(0.3);
 }
 
 /**
@@ -426,7 +427,7 @@ void GameController::update(float dt) {
             if (_selector->getObstacle()->getName() == "removable"){
                 RemovableBlockModel* rmb = (RemovableBlockModel*) _selector->getObstacle();
                 rmb->destroy(_theWorld->getWorldNode(), _theWorld->getDebugNode(), _theWorld->getWorld());
-                _audio->playEffect(DESTROY_EFFECT);
+                _audio->playDestroyEffect();
                 _panel->deduceMana(DESTRUCTION_COST);
                 _selector->deselect();
                 
@@ -438,7 +439,7 @@ void GameController::update(float dt) {
                 MovingObstacleModel* movingObstacle = (MovingObstacleModel*) _selector->getObstacle();
                 movingObstacle->freeze(_theWorld->getWorldNode(), _theWorld->getDebugNode(),
                                        _theWorld->getWorld());
-                _audio->playEffect(FREEZE_EFFECT);
+                _audio->playFreezeEffect();
                 _panel->deduceMana(FREEZE_COST);
                 _selector->deselect();
             }
@@ -518,7 +519,7 @@ void GameController::beginContact(b2Contact* contact) {
         MovingObstacleModel* ghost = bd1->getName() == "ghost" ? (MovingObstacleModel*)bd1 : (MovingObstacleModel*)bd2;
         
         if(!ghost->isFrozen()) {
-            _audio->playEffect(DEATH_SOUND);
+            _audio->playDeathEffect();
             _audio->audioTerminate();
             setFail(true);
             double time = _overview->getCurrentPlayTime();
@@ -532,7 +533,7 @@ void GameController::beginContact(b2Contact* contact) {
         MagicPotionModel* magicPotion = bd1->getName() == "potion" ?
             (MagicPotionModel*)bd1 : (MagicPotionModel*)bd2;
         magicPotion->pickUp(_theWorld->getWorldNode(), _theWorld->getDebugNode(), _theWorld->getWorld());
-        _audio->playEffect(PICKUP_MAGIC);
+        _audio->playPickupPotion();
         _panel->addMana(magicPotion->getPoints());
     }
     
