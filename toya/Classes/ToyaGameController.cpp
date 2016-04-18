@@ -584,7 +584,7 @@ void GameController::beginContact(b2Contact* contact) {
             setFail(true);
             double time = _overview->getCurrentPlayTime();
 //            _theWorld->showTime(time);
-            _failMenu->showTime(time);
+            _failMenu->showTime(time, _bonusEarned);
         }
     }
     
@@ -595,7 +595,7 @@ void GameController::beginContact(b2Contact* contact) {
         setFail(true);
         double time = _overview->getCurrentPlayTime();
         // _theWorld->showTime(time);
-        _failMenu->showTime(time);
+        _failMenu->showTime(time, _bonusEarned);
     }
     
     else if((bd1->getName() == "avatar" && bd2->getName() == "potion") || (bd1->getName() == "potion" && bd2->getName() == "avatar")) {
@@ -623,7 +623,7 @@ void GameController::beginContact(b2Contact* contact) {
         // TODO: pause it
         double time = _overview->getCurrentPlayTime();
 //        _theWorld->showTime(time);
-        _winMenu->showTime(time);
+        _winMenu->showTime(time, _bonusEarned);
         // _reset = true;
         
         // Store the score in the file

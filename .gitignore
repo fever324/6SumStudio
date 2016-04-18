@@ -34,6 +34,6 @@ xcuserdata/
 *.xccheckout
 *.xcscmblueprint
 toya/proj.ios_mac/.idea/
-*UserInterfaceState.xcuserstate
+UserInterfaceState.xcuserstate
 xcuserdata/
-
+.DS_Store
