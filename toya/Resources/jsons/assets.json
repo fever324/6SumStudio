@@ -95,6 +95,10 @@
         "magic_bar": {
             "file":     "textures/magicBar.png",
             "wrap":     false
+        },
+        "reset":    {
+            "file":     "textures/resetButton.png",
+            "wrap":     false
         }
         
   	},
