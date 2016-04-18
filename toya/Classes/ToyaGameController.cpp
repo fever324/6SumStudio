@@ -437,7 +437,7 @@ void GameController::update(float dt) {
                 MovingObstacleModel* movingObstacle = (MovingObstacleModel*) _selector->getObstacle();
                 movingObstacle->freeze(_theWorld->getWorldNode(), _theWorld->getDebugNode(),
                                        _theWorld->getWorld());
-                _audio->playFreezeEffect();
+                _audio->playEffect(FREEZE_EFFECT, 0.2f);
                 _panel->deduceMana(FREEZE_COST);
                 _selector->deselect();
             }

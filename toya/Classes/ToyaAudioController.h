@@ -44,6 +44,8 @@ public:
     // Effect 
     static void playEffect(const char* effect);
     
+    static void playEffect(const char* effect, float gain);
+    
     static void playDestroyEffect();
     
     static void playFreezeEffect();

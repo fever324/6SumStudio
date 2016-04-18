@@ -210,7 +210,7 @@ void InputController::update(float dt) {
     
     _turning = _keyTurning;
     calculateNewSmoothedTurning(_turning);
-    if ( fabs(_turning) > 0.5f || fabs(_smoothedTurning) > 0f) {
+    if ( fabs(_turning) > 0.5f || fabs(_smoothedTurning) > 0.0f) {
         _keyRotate = true;
     }else{
         _keyRotate = false;
