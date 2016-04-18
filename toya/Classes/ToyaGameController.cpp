@@ -13,15 +13,12 @@
 #include <Box2D/Collision/b2Collision.h>
 #include "ToyaPanelModel.h"
 #include "ToyaBlockFactory.h"
-// #include "ToyaMapEditor.h"
+#include "ToyaAudioController.h"
+
 
 #include <string>
 #include <iostream>
 #include <sstream>
-
-// This is not part of cornell.h and SHOULD come last
-#include <cornell/CUGenericLoader.h>
-
 
 using namespace cocos2d;
 using namespace std;
@@ -131,7 +128,6 @@ _overview(nullptr),
 _mapReader(nullptr)
 {
 }
-
 
 /**
  * Initializes the controller contents, and starts the game
@@ -351,6 +347,9 @@ void GameController::populate() {
     
     _theWorld->setFollow(_avatar);
     _avatar->setName("avatar");
+    
+    _audio->audioBackgroundDeploy(0.1);
+    _audio->audioEffectDeploy(0.3);
 }
 
 /**
@@ -470,6 +469,7 @@ void GameController::update(float dt) {
             if (_selector->getObstacle()->getName() == "removable"){
                 RemovableBlockModel* rmb = (RemovableBlockModel*) _selector->getObstacle();
                 rmb->destroy(_theWorld->getWorldNode(), _theWorld->getDebugNode(), _theWorld->getWorld());
+                _audio->playDestroyEffect();
                 _panel->deduceMana(DESTRUCTION_COST);
                 _selector->deselect();
                 
@@ -479,7 +479,9 @@ void GameController::update(float dt) {
             
             if(_selector->getObstacle()->getName() == "ghost") {
                 MovingObstacleModel* movingObstacle = (MovingObstacleModel*) _selector->getObstacle();
-                movingObstacle->freeze(_theWorld->getWorldNode(), _theWorld->getDebugNode(), _theWorld->getWorld());
+                movingObstacle->freeze(_theWorld->getWorldNode(), _theWorld->getDebugNode(),
+                                       _theWorld->getWorld());
+                _audio->playFreezeEffect();
                 _panel->deduceMana(FREEZE_COST);
                 _selector->deselect();
             }
@@ -563,6 +565,8 @@ void GameController::beginContact(b2Contact* contact) {
         MovingObstacleModel* ghost = bd1->getName() == "ghost" ? (MovingObstacleModel*)bd1 : (MovingObstacleModel*)bd2;
         
         if(!ghost->isFrozen()) {
+            _audio->playDeathEffect();
+            _audio->audioTerminate();
             setFail(true);
             double time = _overview->getCurrentPlayTime();
 //            _theWorld->showTime(time);
@@ -570,9 +574,12 @@ void GameController::beginContact(b2Contact* contact) {
         }
     }
     
-    if((bd1->getName() == "avatar" && bd2->getName() == "potion") || (bd1->getName() == "potion" && bd2->getName() == "avatar")) {
-        MagicPotionModel* magicPotion = bd1->getName() == "potion" ? (MagicPotionModel*)bd1 : (MagicPotionModel*)bd2;
+    if((bd1->getName() == "avatar" && bd2->getName() == "potion") ||
+       (bd1->getName() == "potion" && bd2->getName() == "avatar")) {
+        MagicPotionModel* magicPotion = bd1->getName() == "potion" ?
+            (MagicPotionModel*)bd1 : (MagicPotionModel*)bd2;
         magicPotion->pickUp(_theWorld->getWorldNode(), _theWorld->getDebugNode(), _theWorld->getWorld());
+        _audio->playPickupPotion();
         _panel->addMana(magicPotion->getPoints());
     }
     
@@ -580,7 +587,8 @@ void GameController::beginContact(b2Contact* contact) {
     if((body1->GetUserData() == _avatar && body2->GetUserData() == _goalDoor) ||
        (body1->GetUserData() == _goalDoor && body2->GetUserData() == _avatar)) {
         _goalDoor->open();
-        
+        _audio->playEffect(WIN_EFFECT);
+        _audio->audioTerminate();
         setComplete(true);
         _avatar->setLinearVelocity(Vec2(0.0f, 0.0f));
         // TODO: pause it
