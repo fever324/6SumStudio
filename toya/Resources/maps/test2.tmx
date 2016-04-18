@@ -84,7 +84,7 @@
   <properties>
    <property name="texture" value="goal"/>
   </properties>
-  <object id="56" name="Door" gid="6" x="3940.36" y="238.06" width="64" height="128"/>
+  <object id="56" name="Door" gid="6" x="1228.36" y="334.06" width="64" height="128"/>
  </objectgroup>
  <objectgroup name="Avatar">
   <properties>

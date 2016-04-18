@@ -79,8 +79,6 @@ using namespace std;
 /** Opacity of the physics outlines */
 #define DEBUG_OPACITY   192
 
-#define COOL_DOWN   120
-
 /** The key for collisions sounds */
 #define COLLISION_SOUND     "bump"
 /** The key for the main afterburner sound */
@@ -127,7 +125,6 @@ _active(false),
 _complete(false),
 _selector(nullptr),
 _debug(false),
-_cooldown(COOL_DOWN),
 _reset(false),
 _overview(nullptr),
 _mapReader(nullptr)
@@ -194,6 +191,19 @@ bool GameController::init(RootLayer* root, InputController* input, int playLevel
 bool GameController::init(RootLayer* root, InputController* input, int playLevel, const Rect& rect, const Vec2& gravity) {
     
     Vec2 inputscale = Vec2(root->getScaleX(),root->getScaleY());
+    
+    // initialize the menus
+    
+    _pauseMenu = MenuModel::create("pause",Vec2(root->getContentSize().width,root->getContentSize().height), inputscale);
+    _winMenu = MenuModel::create("levelWin",Vec2(root->getContentSize().width,root->getContentSize().height), inputscale);;
+    _failMenu = MenuModel::create("levelFail",Vec2(root->getContentSize().width,root->getContentSize().height), inputscale);;
+    togglePause(false);
+    toggleWin(false);
+    toggleFail(false);
+    root->addChild(_pauseMenu,3);
+    root->addChild(_winMenu,3);
+    root->addChild(_failMenu,3);
+    
     
     _input = input;
     _currentLevel = playLevel;
@@ -299,11 +309,24 @@ void GameController::reset() {
     setComplete(false);
     _overview->reset();
     _panel->reset();
-    
     setFail(false);
     _reset = false;
-    _cooldown = COOL_DOWN;
+    
     populate();
+}
+
+void GameController::clear() {
+    _avatar->reset();
+    _selector->deselect();
+    _theWorld->clear();
+    _input->clear();
+    _mapReader->reset();
+    setComplete(false);
+    _overview->reset();
+    _panel->reset();
+    setFail(false);
+    _reset = false;
+    _active = false;
 }
 
 
@@ -394,15 +417,25 @@ Vec2* GameController::getRelativePosition(const Vec2& physicalPosition, Vec2& ce
  * @param  delta    Number of seconds since last animation frame
  */
 void GameController::update(float dt) {
-    if( _overview->hasReseted()) {
+    
+    // if didReplay, then reset with current level
+    if (_failMenu->didReplay() || _winMenu->didReplay() || _pauseMenu->didReplay()){
+        _failMenu->resetStatus();
+        _winMenu->resetStatus();
+        _pauseMenu->resetStatus();
         reset();
     }
-    if (_reset == true && _cooldown != 0) {
-        _cooldown --;
-        return;
+    
+    // if didNext, increase the current level and reset
+    if (_winMenu->didNext()){
+        _winMenu->resetStatus();
+        _currentLevel ++;
+        reset();
     }
     
-    if ((_reset == true || _overview->hasReseted()) && _cooldown == 0 ) {
+    // no cooldown, only reset when finish or fail a level
+    
+    if (_reset == true || _overview->hasReseted()) {
         reset();
     }
     
@@ -465,7 +498,9 @@ void GameController::update(float dt) {
     _theWorld->setWorldPos(_avatar,pos);
     
     // Turn the physics engine crank.
-    _theWorld->update(dt);
+    if(!_complete){
+        _theWorld->update(dt);
+    }
     
 }
 
@@ -528,7 +563,6 @@ void GameController::beginContact(b2Contact* contact) {
             setFail(true);
             double time = _overview->getCurrentPlayTime();
             _theWorld->showTime(time);
-            _reset = true;
         }
     }
     
@@ -548,7 +582,6 @@ void GameController::beginContact(b2Contact* contact) {
         // TODO: pause it
         double time = _overview->getCurrentPlayTime();
         _theWorld->showTime(time);
-        _reset = true;
     } else {
         // See if we have hit a wall.
         if ((_avatar->getLeftSensorName() == fd2 && _avatar != bd1) ||

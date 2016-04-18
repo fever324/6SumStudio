@@ -8,7 +8,6 @@
 
 #include "ToyaGameRoot.h"
 #include "ui/CocosGUI.h"
-#include "ToyaMenuModel.h"
 
 // This is not part of cornell.h and should come last
 #include <cornell/CUGenericLoader.h>
@@ -43,8 +42,6 @@ void ToyaRoot::start() {
     AssetManager::getInstance()->at(scene)->attach<Texture2D>(TextureLoader::create());
     AssetManager::getInstance()->at(scene)->attach<Sound>(SoundLoader::create());
     
-    
-    
 //    GenericLoader<LevelModel>* levels = GenericLoader<LevelModel>::create();
 //    AssetManager::getInstance()->at(scene)->attach<LevelModel>(levels);
     
@@ -71,19 +68,23 @@ void ToyaRoot::start() {
     _input.init();
     _input.start();
     
-    // initial the menu
+    // initial the Welcome and Main menu
     Vec2 inputscale = Vec2(this->getScaleX(),this->getScaleY());
-    _menu = MenuModel::create(Vec2(this->getContentSize().width,this->getContentSize().height), inputscale);
-    
+    _welcome = MenuModel::create("welcome",Vec2(this->getContentSize().width,this->getContentSize().height), inputscale);
+    _menu = MenuModel::create("main",Vec2(this->getContentSize().width,this->getContentSize().height), inputscale);
+    toggleWelcome(false);
+    toggleMenu(false);
     
     // add to rootlayer
-    this->addChild(_menu);
+    this->addChild(_welcome);
+    this->addChild(_menu,3);
     this->addChild(_loader);
     
     
     // intial the status
     _showMenu = true;
     _silentMode = false;
+    _newStart = true;
     
     // should get from progressController
     _playLevel = 2;
@@ -134,27 +135,37 @@ void ToyaRoot::update(float deltaTime) {
      
      // if we have continue game setting
      4. continueOrNot: indicate whether the continue button should be visible or not, getting from progressController.
-     
-     
     */
-    if (_preloaded && complete && !_gameplay.isActive()) {
+    
+    if (_preloaded && complete && !_gameplay.isActive() && _newStart) {
         // initial status
         // after preload all assets and game haven't started
-        // show the menu
+        // show the welcome
         toggleLoader(false);
-        toggleMenu(true);
+        toggleWelcome(true);
     }
     
     if (!_showMenu && !_gameplay.isActive() && complete && _preloaded) {
         // hide the menu after entering the game
         // removeAllChildren();
+        CCLOG("hehe");
         _gameplay.init(this,&_input,_playLevel);
     }
     
+    if (_showMenu && !_gameplay.isActive() && !_newStart){
+        toggleMenu(true);
+    }
     
     // update the game status if we are in game mode
     if (_gameplay.isActive()) {
+        toggleMenu(false);
         _gameplay.update(deltaTime);
+        if (_gameplay.didGoMain()){
+            // stop the _gameplay
+            _gameplay.clear();
+            _showMenu = true;
+            _menu->resetStatus();
+        }
     }
     
     // preload all resources
@@ -163,32 +174,21 @@ void ToyaRoot::update(float deltaTime) {
         _preloaded = true;
     }
     
+    // show main menu
+    if (_welcome->didGoMain()){
+        toggleWelcome(false);
+        toggleMenu(true);
+        _newStart = false;
+        _welcome->setGoMain(false);
+    }
+    
+    
     // if use keyboard
     if (_input.didStart() || _menu->didStart()) {
         _showMenu = false;
         _playLevel = _menu->getLevel();
+        _menu->resetStatus();
     }
     
     _input.update(deltaTime);
-}
-
-void ToyaRoot::toggleMenu(bool showOrNot){
-    _menu->setVisible(showOrNot);
-}
-
-
-#pragma mark -
-#pragma mark Internal Helpers
-
-/**
- * Builds the scene graph for the loading screen.
- *
- * The loading screen is what we run while we are waiting for the asynchronous
- * loader for finish with the textures.  Right now, the loading screen is just
- * the word "Loading...".  We do this because the loading screen can only use
- * assets that have been loaded already, and the font is the only thing that
- * is guaranteed to be loaded at start.
- */
-void ToyaRoot::toggleLoader(bool showOrNot) {
-    _loader->setVisible(showOrNot);
 }

@@ -19,6 +19,7 @@
 #include "ToyaOverviewModel.h"
 #include "ToyaPanelModel.h"
 #include "ToyaExitDoorModel.h"
+#include "ToyaMenuModel.h"
 
 #include <Box2D/Dynamics/Contacts/b2Contact.h>
 #include <Box2D/Collision/b2Collision.h>
@@ -88,6 +89,13 @@ protected:
     
     ObstacleSelector* _selector;
     
+    
+    
+    /** three menus: pause, win, fail **/
+    MenuModel* _pauseMenu;
+    MenuModel* _winMenu;
+    MenuModel* _failMenu;
+    
     /** Whether or note this game is still active */
     bool _active;
     /** Whether we have completed this "game" */
@@ -97,6 +105,8 @@ protected:
     /** Whether or not reset mode is active */
     bool _reset;
     int _cooldown;
+    
+    // indicate current level
     int _currentLevel;
     
     
@@ -189,6 +199,7 @@ public:
      * @return true if the gameplay controller is currently active
      */
     bool isActive() const { return _active; }
+    void setActive(bool value) { _active = value; }
     
     /**
      * Returns true if debug mode is active.
@@ -224,9 +235,14 @@ public:
      *
      * @param value whether the level is completed.
      */
-    void setComplete(bool value) { _complete = value; _theWorld->setWin(value); }
     
-    void setFail(bool value) { _complete = value; _theWorld->setFail(value); }
+    bool didGoMain(){return _failMenu->didGoMain() || _winMenu->didGoMain() || _pauseMenu->didGoMain();}
+    
+    void setComplete(bool value) { _complete = value; _theWorld->setWin(value); toggleWin(value);}
+    
+    void setFail(bool value) { _complete = value; _theWorld->setFail(value); toggleFail(value);}
+    
+//    void pause(){Director::getInstance()->pause(); }
     
     
     
@@ -267,6 +283,7 @@ public:
      * This method disposes of the world and creates a new one.
      */
     void reset() ;
+    void clear() ;
     
     /**
      * Executes the core gameplay loop of this world.
@@ -317,6 +334,13 @@ public:
      * @param  contact  The collision manifold before contact
      */
     void beforeSolve(b2Contact* contact, const b2Manifold* oldManifold);
+
+#pragma mark -
+#pragma mark helper
+    
+    void togglePause(bool showOrNot){_pauseMenu->setVisible(showOrNot);};
+    void toggleWin(bool showOrNot){_winMenu->setVisible(showOrNot);};
+    void toggleFail(bool showOrNot){_failMenu->setVisible(showOrNot);};
     
 };
 

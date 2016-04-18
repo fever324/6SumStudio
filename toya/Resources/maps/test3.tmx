@@ -90,7 +90,7 @@
   <properties>
    <property name="texture" value="bear"/>
   </properties>
-  <object id="15" name="Avatar" gid="16" x="71.986" y="136.962" width="64" height="64">
+  <object id="15" name="Avatar" gid="16" x="3679.99" y="208.962" width="64" height="64">
    <properties>
     <property name="texture" value="bear"/>
    </properties>
