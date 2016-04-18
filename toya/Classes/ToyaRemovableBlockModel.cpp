@@ -6,8 +6,10 @@
 #include "ToyaRemovableBlockModel.h"
 #include <cornell/CUAssetManager.h>
 #include <cornell/CUSceneManager.h>
+#include <SimpleAudioEngine.h>
 
 #define DESTROY_STATE 1
+#define DESTROY_EFFECT "audios/destroy.wav"
 
 using namespace cocos2d;
 
@@ -62,6 +64,8 @@ void RemovableBlockModel::destroy(Node* parent, Node* parentDebugNode, WorldCont
     replaceAnimationTexture(1, 4, "destroy_animation");
     _animationNode->setFrame(0);
     getBody()->SetActive(false);
+    
+    // CocosDenshion::SimpleAudioEngine::getInstance()->playEffect(DESTROY_EFFECT);
 }
 
 void RemovableBlockModel::update(float dt) {

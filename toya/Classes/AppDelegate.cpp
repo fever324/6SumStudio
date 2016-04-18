@@ -127,7 +127,7 @@ void AppDelegate::applicationDidEnterBackground() {
     Director::getInstance()->stopAnimation();
 
     // if you use SoundEngine, it must be paused here
-    //SoundEngine::getInstance()->pauseAll();
+    SoundEngine::getInstance()->pauseAll();
 }
 
 /**
@@ -143,5 +143,5 @@ void AppDelegate::applicationWillEnterForeground() {
     Director::getInstance()->startAnimation();
 
     // if you use SoundEngine, it must resume here
-    //SoundEngine::getInstance()->resumeAll();
+    SoundEngine::getInstance()->resumeAll();
 }

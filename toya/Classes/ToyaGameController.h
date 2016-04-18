@@ -19,6 +19,7 @@
 #include "ToyaOverviewModel.h"
 #include "ToyaPanelModel.h"
 #include "ToyaExitDoorModel.h"
+#include "ToyaAudioController.h"
 
 #include <Box2D/Dynamics/Contacts/b2Contact.h>
 #include <Box2D/Collision/b2Collision.h>
@@ -87,6 +88,8 @@ protected:
     PanelModel* _panel;
     
     ObstacleSelector* _selector;
+    
+    AudioController* _audio;
     
     /** Whether or note this game is still active */
     bool _active;
