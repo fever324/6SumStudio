@@ -591,8 +591,8 @@ void GameController::beginContact(b2Contact* contact) {
         _audio->audioTerminate();
         setFail(true);
         double time = _overview->getCurrentPlayTime();
-        _theWorld->showTime(time);
-        _reset = true;
+        // _theWorld->showTime(time);
+        _failMenu->showTime(time);
     }
     
     else if((bd1->getName() == "avatar" && bd2->getName() == "potion") || (bd1->getName() == "potion" && bd2->getName() == "avatar")) {
