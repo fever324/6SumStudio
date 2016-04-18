@@ -93,6 +93,7 @@ protected:
     AudioController* _audio;
     
     
+    
     /** three menus: pause, win, fail **/
     MenuModel* _pauseMenu;
     MenuModel* _winMenu;
@@ -100,6 +101,8 @@ protected:
     
     /** Whether or note this game is still active */
     bool _active;
+    /** Mark set to handle more sophisticated collision callbacks */
+    unordered_set<b2Fixture*> _sensorFixtures;
     /** Whether we have completed this "game" */
     bool _complete;
     /** Whether or not debug mode is active */

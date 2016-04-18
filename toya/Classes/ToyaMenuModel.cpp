@@ -115,8 +115,8 @@ bool MenuModel::init(std::string mtype, const Vec2& size, const Vec2& scale){
         _replay = false;
         _gomain = false;
         _next = false;
-        Button* replay = createButton(REPLAY_BUTTON_IMAGE, scale, Vec2(2*size.x/8, 200));
-        Button* gomain = createButton(GOMAIN_BUTTON_IMAGE, scale, Vec2(6*size.x/8, 200));
+        Button* replay = createButton(REPLAY_BUTTON_IMAGE, scale, Vec2(4*size.x/8, 200));
+        Button* gomain = createButton(GOMAIN_BUTTON_IMAGE, scale, Vec2(4*size.x/8+100, 200));
         replay->addTouchEventListener(CC_CALLBACK_2(MenuModel::replayButtonTouchEvent, this));
         gomain->addTouchEventListener(CC_CALLBACK_2(MenuModel::gomainButtonTouchEvent, this));
         

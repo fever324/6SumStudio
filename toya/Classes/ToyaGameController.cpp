@@ -601,20 +601,7 @@ void GameController::beginContact(b2Contact* contact) {
         double time = _overview->getCurrentPlayTime();
 //        _theWorld->showTime(time);
         _winMenu->showTime(time);
-    } else {
-        // See if we have hit a wall.
-        if ((_avatar->getLeftSensorName() == fd2 && _avatar != bd1) ||
-            (_avatar->getLeftSensorName() == fd1 && _avatar != bd2)) {
-            _avatar->setFacingRight(true);
-        } else if ((_avatar->getRightSensorName() == fd2 && _avatar != bd1) ||
-                   (_avatar->getRightSensorName() == fd1 && _avatar != bd2)) {
-            _avatar->setFacingRight(false);
-        } else if ((_avatar->getBottomSensorName() == fd2 && _avatar != bd1)||
-                   (_avatar->getBottomSensorName() == fd1 && _avatar != bd2)) {
-            _avatar->setGrounded(true);
-        }
     }
-    
     // See if we have hit a wall.
     else if ((_avatar->getLeftSensorName() == fd2 && _avatar != bd1) ||
         (_avatar->getLeftSensorName() == fd1 && _avatar != bd2)) {
