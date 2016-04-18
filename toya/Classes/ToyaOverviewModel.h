@@ -122,6 +122,7 @@ CC_CONSTRUCTOR_ACCESS:
     
     bool hasReseted() {return this->reseted;}
     void reset();
+    bool didPause(){ return paused;}
 };
 
 #endif /* defined(__TOYA_OVERVIEW_MODEL_H__) */

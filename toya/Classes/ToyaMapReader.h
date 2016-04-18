@@ -20,6 +20,7 @@
 #define ICE_DIRT_LAYER "ice"
 #define SAND_DIRT_LAYER "sand"
 #define GRASS_DIRT_LAYER "grass"
+#define LAVA_LAYER "lava"
 
 #define DIRT_TEXTURE "dirt"
 #define ROCK_TEXTURE "rock"
@@ -34,7 +35,7 @@
 #define BARRIER_DRAW_LAYER       4
 #define POTION_DRAW_LAYER        5
 
-#define PANEL_Z_ORDER            3
+#define PANEL_Z_ORDER            2
 
 static float BLOCK_SIZE[] = {1, 1};
 
@@ -64,6 +65,10 @@ public:
     void createTheBlocks(TMXLayer* layer);
 
     void createNonRemovableBlocks();
+    
+    void createLavaBlocks(TMXLayer* layer);
+    
+    void createLava();
     
     void createBackground();
     

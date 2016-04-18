@@ -38,10 +38,6 @@ protected:
     WorldController* _world;
     /** Reference to the debug root of the scene graph */
     Node* _debugnode;
-    /** Reference to the win message label */
-    Label* _winnode;
-    Label* _failnode;
-    Label* _timenode;
     
     /** the size of the world **/
     Vec2 _size;
@@ -112,9 +108,6 @@ public:
      */
     WorldController* getWorld() const { return _world; }
     Node* getWorldNode() const { return _worldnode; }
-    Label* getWinNode() const { return _winnode; }
-    Label* getFailNode() const { return _failnode; }
-    Label* getTimeNode() const { return _timenode; }
     Node* getDebugNode() const { return _debugnode; }
     
     
@@ -197,8 +190,6 @@ public:
     void setWorldPos(Obstacle* obj,Vec2& pos);
     void setWorldPos(Vec2& pos);
     void setFollow(Obstacle* obj);
-    
-    void showTime(double time);
     
     
 CC_CONSTRUCTOR_ACCESS:

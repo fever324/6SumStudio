@@ -76,7 +76,15 @@ using namespace std;
 /** Opacity of the physics outlines */
 #define DEBUG_OPACITY   192
 
-#define COOL_DOWN   120
+/** The key for collisions sounds */
+#define COLLISION_SOUND     "bump"
+/** The key for the main afterburner sound */
+#define MAIN_FIRE_SOUND     "burn"
+/** The key for the right afterburner sound */
+#define RGHT_FIRE_SOUND     "sounds/sideburner-left.mp3"
+/** The key for the left afterburner sound */
+#define LEFT_FIRE_SOUND     "sounds/sideburner-right.mp3"
+
 
 #pragma mark Physics Constants
 
@@ -114,7 +122,7 @@ _active(false),
 _complete(false),
 _selector(nullptr),
 _debug(false),
-_cooldown(COOL_DOWN),
+_preload(false),
 _reset(false),
 _overview(nullptr),
 _mapReader(nullptr)
@@ -181,6 +189,19 @@ bool GameController::init(RootLayer* root, InputController* input, int playLevel
     
     Vec2 inputscale = Vec2(root->getScaleX(),root->getScaleY());
     
+    // initialize the menus
+    
+    _pauseMenu = MenuModel::create("pause",Vec2(root->getContentSize().width,root->getContentSize().height), inputscale);
+    _winMenu = MenuModel::create("levelWin",Vec2(root->getContentSize().width,root->getContentSize().height), inputscale);;
+    _failMenu = MenuModel::create("levelFail",Vec2(root->getContentSize().width,root->getContentSize().height), inputscale);;
+    togglePause(false);
+    toggleWin(false);
+    toggleFail(false);
+    root->addChild(_pauseMenu,3);
+    root->addChild(_winMenu,3);
+    root->addChild(_failMenu,3);
+    
+    
     _input = input;
     _currentLevel = playLevel;
     
@@ -190,22 +211,8 @@ bool GameController::init(RootLayer* root, InputController* input, int playLevel
     WorldController* world = _theWorld->getWorld();
     _mapReader = new MapReader(this);
     
-    
-    // set text config ffor winnodw
-    // TODO: move this part to WorldModel too.
-    Label* winnode = _theWorld->getWinNode();
-    Label* failnode = _theWorld->getFailNode();
-    Label* timenode = _theWorld->getTimeNode();
-
-    winnode->setTTFConfig(_assets->get<TTFont>(PRIMARY_FONT)->getTTF());
-    failnode->setTTFConfig(_assets->get<TTFont>(PRIMARY_FONT)->getTTF());
-    timenode->setTTFConfig(_assets->get<TTFont>(PRIMARY_FONT)->getTTF());
-    
     root->addChild(_theWorld->getWorldNode(),1);
     root->addChild(_theWorld->getDebugNode(),2);
-    root->addChild(winnode,3);
-    root->addChild(failnode,3);
-    root->addChild(timenode,3);
 
     
     world->onBeginContact = [this](b2Contact* contact) {
@@ -237,7 +244,7 @@ bool GameController::init(RootLayer* root, InputController* input, int playLevel
     // overview panel
     _overview = OverviewModel::create(Vec2(root->getContentSize().width,root->getContentSize().height), inputscale);
     _overview->setGameController(this);
-    root->addChild(_overview,3);
+    root->addChild(_overview,2);
     
    
     
@@ -285,11 +292,26 @@ void GameController::reset() {
     setComplete(false);
     _overview->reset();
     _panel->reset();
-    
     setFail(false);
     _reset = false;
-    _cooldown = COOL_DOWN;
+    
     populate();
+}
+
+
+void GameController::clear() {
+    // clear all objects, and no population
+    _avatar->reset();
+    _selector->deselect();
+    _theWorld->clear();
+    _input->clear();
+    _mapReader->reset();
+    setComplete(false);
+    _overview->reset();
+    _panel->reset();
+    setFail(false);
+    _reset = false;
+    _active = false;
 }
 
 
@@ -319,6 +341,9 @@ void GameController::populate() {
     _mapReader->createNonRemovableBlocks();
     _mapReader->createMovingObstacles();
     _mapReader->createMagicPotions();
+    
+    _mapReader->createLava();
+    
     _goalDoor = _mapReader->createGoalDoor();
     _avatar   = _mapReader->createAvatar();
     _panel    = _mapReader->createMagicPanel();
@@ -383,15 +408,41 @@ Vec2* GameController::getRelativePosition(const Vec2& physicalPosition, Vec2& ce
  * @param  delta    Number of seconds since last animation frame
  */
 void GameController::update(float dt) {
-    if( _overview->hasReseted()) {
+    
+    // if didReplay, then reset with current level
+    if (_failMenu->didReplay() || _winMenu->didReplay() || _pauseMenu->didReplay()){
+        _failMenu->resetStatus();
+        _winMenu->resetStatus();
+        _pauseMenu->resetStatus();
         reset();
     }
-    if (_reset == true && _cooldown != 0) {
-        _cooldown --;
-        return;
+    
+    // if didNext, increase the current level and reset
+    if (_winMenu->didNext()){
+        _winMenu->resetStatus();
+        _currentLevel ++;
+        reset();
     }
     
-    if ((_reset == true || _overview->hasReseted()) && _cooldown == 0 ) {
+    // if didPause
+    if (_overview->didPause()) {
+        togglePause(true);
+    } else {
+        togglePause(false);
+    }
+    
+    if (_pauseMenu->didGoMain()) {
+        togglePause(false);
+    }
+    
+    if (_pauseMenu->didResume()) {
+        _overview->resumeFromPause();
+        _pauseMenu->setResume(false);
+    }
+    
+    // no cooldown, only reset when finish or fail a level
+    
+    if (_reset == true || _overview->hasReseted()) {
         reset();
     }
     
@@ -456,8 +507,12 @@ void GameController::update(float dt) {
     Vec2 pos = _avatar->getPosition();
     _theWorld->setWorldPos(_avatar,pos);
     
-    // Turn the physics engine crank.
-    _theWorld->update(dt);
+    // don't update the world when
+    //   win or fail
+    //   pause pressed
+    if(!_complete && !_overview->didPause()){
+        _theWorld->update(dt);
+    }
     
 }
 
@@ -525,9 +580,19 @@ void GameController::beginContact(b2Contact* contact) {
             _audio->audioTerminate();
             setFail(true);
             double time = _overview->getCurrentPlayTime();
-            _theWorld->showTime(time);
-            _reset = true;
+//            _theWorld->showTime(time);
+            _failMenu->showTime(time);
         }
+    }
+    
+    if((bd1->getName() == "avatar" && bd2->getName() == "lava") ||
+       (bd1->getName() == "lava" && bd2->getName() == "avatar")) {
+        _audio->playDeathEffect();
+        _audio->audioTerminate();
+        setFail(true);
+        double time = _overview->getCurrentPlayTime();
+        // _theWorld->showTime(time);
+        _failMenu->showTime(time);
     }
     
     else if((bd1->getName() == "avatar" && bd2->getName() == "potion") || (bd1->getName() == "potion" && bd2->getName() == "avatar")) {
@@ -547,10 +612,9 @@ void GameController::beginContact(b2Contact* contact) {
         _avatar->setLinearVelocity(Vec2(0.0f, 0.0f));
         // TODO: pause it
         double time = _overview->getCurrentPlayTime();
-        _theWorld->showTime(time);
-        _reset = true;
+//        _theWorld->showTime(time);
+        _winMenu->showTime(time);
     }
-    
     // See if we have hit a wall.
     else if ((_avatar->getLeftSensorName() == fd2 && _avatar != bd1) ||
         (_avatar->getLeftSensorName() == fd1 && _avatar != bd2)) {
@@ -642,9 +706,11 @@ void GameController::preload() {
                 bool wrap = reader.getBool(TEXTURE_WRAP);
                 // Set wrap settings if appropriate
                 if (wrap) {
-                    tloader->loadAsync(key,value,params);
+//                    tloader->loadAsync(key,value,params);
+                    tloader->load(key,value,params);
                 } else {
-                    tloader->loadAsync(key,value);
+                    tloader->load(key,value);
+//                    tloader->loadAsync(key,value);
                 }
             }
             
@@ -690,7 +756,7 @@ void GameController::preload() {
             if (reader.startObject()) {
                 string value = reader.getString(FILE_KEY);
                 float size = reader.getNumber(FONT_SIZE);
-                floader->loadAsync(key, value, size);
+                floader->load(key, value, size);
             }
             
             reader.endObject();
@@ -700,6 +766,7 @@ void GameController::preload() {
     }
     reader.endObject();
     reader.endJSON();
+    _preload = true;
     
     // Finally, load the level
     //    _assets->loadAsync<LevelModel>(LEVEL_ONE_KEY,LEVEL_ONE_FILE);

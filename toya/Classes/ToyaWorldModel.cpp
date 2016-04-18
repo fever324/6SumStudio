@@ -140,25 +140,6 @@ bool WorldModel::init(const Vec2& size, const Vec2& gravity) {
     // Create the scene graph
     _worldnode = Node::create();
     _debugnode = Node::create();
-    _winnode = Label::create();
-    _failnode = Label::create();
-    
-    _timenode = Label::create();
-    _timenode->setPosition(DESIGN_RES_W/2.0f,DESIGN_RES_H/2.0f-100);
-
-    _winnode->setString("VICTORY!");
-    _failnode->setString("GAME OVER");
-    
-    _winnode->setColor(DEBUG_COLOR);
-    _failnode->setColor(DEBUG_COLOR);
-    
-    _timenode->setVisible(false);
-    _winnode->setVisible(false);
-    _failnode->setVisible(false);
-    
-    _winnode->setPosition(DESIGN_RES_W/2.0f,DESIGN_RES_H/2.0f);
-    
-    _failnode->setPosition(DESIGN_RES_W/2.0f,DESIGN_RES_H/2.0f);
     
     _worldnode->setContentSize(Size(DESIGN_RES_W,DESIGN_RES_H));
     _debugnode->setContentSize(Size(DESIGN_RES_W,DESIGN_RES_H));
@@ -233,14 +214,6 @@ void WorldModel::setDebug(bool value){
     _debugnode->setVisible(value);
 }
 
-void WorldModel::setWin(bool value){
-    _winnode->setVisible(value);
-}
-
-void WorldModel::setFail(bool value){
-    _failnode->setVisible(value);
-}
-
 void WorldModel::setAnchor(const Vec2& anchor){
     _worldnode->setAnchorPoint(anchor);
 }
@@ -266,28 +239,7 @@ void WorldModel::setWorldPos(Vec2& pos){
     pos.x = -(2.5 + pos.x - 16.0)*_scale.x;
     pos.y = (9.0f-WORLD_HEIGHT + 18.0*2-pos.y)*_scale.y;
     _worldnode->setPosition(pos);
-
-//    if ( pos.x / 32.0f > 0.5 || (18.0*2-pos.y) / 18.0f > 0.5){
-//        pos.x = pos.x*_scale.x > _rootnode->getContentSize().width / 2 ? pos.x*_scale.x : _rootnode->getContentSize().width / 2;
-//        pos.y = pos.y*_scale.y < _rootnode->getContentSize().height / 2 ? pos.y*_scale.y : _rootnode->getContentSize().height / 2;
-//        _worldnode->setAnchorPoint(Vec2(pos.x/64.0f, (36.0f-pos.y) / 36.0 ));
-//        
-//        CCLOG("Current Anchor point: %f,%f",_worldnode->getAnchorPoint().x,_worldnode->getAnchorPoint().y);
-//        
-//        pos.x = -(2.5 + pos.x - 16.0)*_scale.x < -2.5f*_scale.x ? -(2.5 + pos.x - 16.0)*_scale.x :  -2.5f*_scale.x;
-//        pos.y = (9.0f-WORLD_HEIGHT + 18.0*2-pos.y)*_scale.y > (18.0f-WORLD_HEIGHT+2.5f)*_scale.y ? (9.0f-WORLD_HEIGHT + 18.0*2-pos.y)*_scale.y : (18.0f-WORLD_HEIGHT+2.5f)*_scale.y;
-//        _worldnode->setPosition(pos);
-
-//    }
 }
-
-void WorldModel::showTime(double time){
-    std::ostringstream s;
-    s << "Time Cost  " << time;
-    _timenode->setString(s.str());
-    _timenode->setVisible(true);
-}
-
 
 void WorldModel::clear(){
     _world->clear();
@@ -301,7 +253,6 @@ void WorldModel::clear(){
     // change the scale to parameter
     bg->setContentSize(Size(DESIGN_RES_W*2,DESIGN_RES_H*2));
     _debugnode->addChild(bg);
-    _timenode->setVisible(false);
     
     _follow = nullptr;
 }

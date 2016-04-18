@@ -116,4 +116,12 @@
    </properties>
   </object>
  </objectgroup>
+ <layer name="lava" width="22" height="14">
+  <properties>
+   <property name="texture" value="ice_dirt"/>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eJxjYBhegBWKR8EoGAUjDwAALLwACw==
+  </data>
+ </layer>
 </map>

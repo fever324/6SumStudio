@@ -28,8 +28,9 @@ protected:
      GameController _gameplay;
     // init the game controller
     InputController _input;
-    // menu
+    // welcome and main menu
     MenuModel* _menu;
+    MenuModel* _welcome;
     
     Label* _loader;
     
@@ -40,6 +41,7 @@ protected:
     // status variables
     bool _showMenu;
     bool _silentMode;
+    bool _newStart;
     int _playLevel;
     
     /**
@@ -51,13 +53,15 @@ protected:
      * assets that have been loaded already, and the font is the only thing that
      * is guaranteed to be loaded at start.
      */
-    void toggleLoader(bool showOrNot);
+    void toggleLoader(bool showOrNot){_loader->setVisible(showOrNot);};
     
     /**
      * show menu node or not
      * 
     */
-    void toggleMenu(bool showOrNot);
+    void toggleMenu(bool showOrNot){_menu->setVisible(showOrNot);};
+    
+    void toggleWelcome(bool showOrNot){_welcome->setVisible(showOrNot);};
     
 public:
     /**
