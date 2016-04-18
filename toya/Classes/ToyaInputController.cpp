@@ -373,7 +373,6 @@ void InputController::calculateNewSmoothedTurning(float newTurning) {
     for(int i = 0; i < HISTORY_LENGTH; i++) {
         _smoothedTurning += inputHistory[i] * inputHistoryWeights[i];
     }
-    CCLOG("%f", _smoothedTurning);
 }
 
 /**

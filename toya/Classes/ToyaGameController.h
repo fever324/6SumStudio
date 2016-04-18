@@ -97,7 +97,8 @@ protected:
     /** Whether or not reset mode is active */
     bool _reset;
     int _cooldown;
-    
+    /** Mark set to handle more sophisticated collision callbacks */
+    unordered_set<b2Fixture*> _sensorFixtures;
     
 #pragma mark Internal Object Management
     /**

@@ -24,16 +24,20 @@ using namespace cocos2d;
 #define AVATAR_FRAMES 18
 #define AVATAR_CYCLE_PER_FRAME 30
 
+
 #pragma mark -
 #pragma mark Physics Constants
 /** The initial speed of avatar **/
-#define AVATAR_INITIAL_SPEED 3.0f
+#define AVATAR_INITIAL_SPEED 4.0f
 /** The factor to multiply by the input */
-#define AVATAR_FORCE    8.0f
+#define AVATAR_FORCE    15.0f
 /** The amount to slow the character down */
 #define AVATAR_DAMPING    3.0f
 /** The maximum character speed */
-#define AVATAR_MAXSPEED    5.0f
+#define AVATAR_MAXSPEED    2.5f
+#define AVATAR_FRICTION 0.2f
+/** The density of the character */
+#define AVATAR_DENSITY    5.0f
 /** Identifier to allow us to track the sensor in ContactListener */
 #define LEFT_SENSOR_NAME    "avatarLeftSensor"
 #define RIGHT_SENSOR_NAME    "avatarRightSensor"

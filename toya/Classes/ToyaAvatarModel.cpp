@@ -18,11 +18,10 @@ using namespace cocos2d;
 /** the amout to shrink the body in three dimensions. **/
 #define AVATAR_SHRINK 1.5f
 /** The amount to shrink the sensor fixture (horizontally) relative to the image */
-#define AVATAR_SSHRINK  0.3f
+#define AVATAR_SSHRINK  0.2f
 /** Height of the sensor attached to the player's feet */
 #define SENSOR_HEIGHT   0.1f
-/** The density of the character */
-#define AVATAR_DENSITY    10.0f
+
 /** Debug color for the sensor */
 #define DEBUG_COLOR     Color3B::RED
 
@@ -139,9 +138,15 @@ bool AvatarModel::init(const Vec2& pos, const Vec2& scale) {
     
     if (CapsuleObstacle::init(pos, avatarSize)) {
         _animationFrameCount = 0;
+        _cycle = 1;
         setDensity(AVATAR_DENSITY);
-        setFriction(0.3f);      // HE WILL STICK TO WALLS IF YOU FORGET
+        setFriction(AVATAR_FRICTION);      // HE WILL STICK TO WALLS IF YOU FORGET
         setFixedRotation(true); // OTHERWISE, HE IS A WEEBLE WOBBLE
+        
+        _leftSensorName = "avatarLeftSensor";
+        _rightSensorName = "avatarRightSensor";
+        _bottomSensorName = "avatarBottomSensor";
+        _topSensorName = "avatarTopSensor";
         
         // Gameplay attributes
         _faceRight  = true;
@@ -304,9 +309,9 @@ void AvatarModel::releaseFixtures() {
  * This method should be called after the force attribute is set.
  */
 void AvatarModel::applyForce() {
-    if (!isActive() || !isGrounded()) {
-        return;
-    }
+//    if (!isActive() || !isGrounded()) {
+//        return;
+//    }
     if (!isGrounded()){
         return;
     }
@@ -321,6 +326,7 @@ void AvatarModel::applyForce() {
         setVX(SIGNUM(getVX())*getMaxSpeed());
     } else {
         float angle = getAngle();
+//        float 
         b2Vec2 force(getMovement()* cos(angle),getMovement() * sin(angle));
 
         _body->ApplyForce(force,_body->GetPosition(),true);
