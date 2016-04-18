@@ -341,12 +341,15 @@ void GameController::populate() {
     _mapReader->createNonRemovableBlocks();
     _mapReader->createMovingObstacles();
     _mapReader->createMagicPotions();
+    _mapReader->createStars();
     
     _mapReader->createLava();
     
     _goalDoor = _mapReader->createGoalDoor();
     _avatar   = _mapReader->createAvatar();
     _panel    = _mapReader->createMagicPanel();
+    
+    _bonusEarned = 0;
     
     _theWorld->setFollow(_avatar);
     _avatar->setName("avatar");
@@ -600,6 +603,13 @@ void GameController::beginContact(b2Contact* contact) {
         magicPotion->pickUp(_theWorld->getWorldNode(), _theWorld->getDebugNode(), _theWorld->getWorld());
         _audio->playPickupPotion();
         _panel->addMana(magicPotion->getPoints());
+    }
+    
+    else if((bd1->getName() == "avatar" && bd2->getName() == "star") || (bd1->getName() == "star" && bd2->getName() == "avatar")) {
+        StarModel* star = bd1->getName() == "star" ? (StarModel*)bd1 : (StarModel*)bd2;
+        star->pickUp(_theWorld->getWorldNode(), _theWorld->getDebugNode(), _theWorld->getWorld());
+        _audio->playPickupPotion();
+        _bonusEarned++;
     }
     
     // If we hit the "win" door, we are done

@@ -17,3 +17,8 @@ MagicPotionModel* BlockFactory::getMagicPotion(int stateCount, int rowCount, int
     MagicPotionModel* magicPotion = MagicPotionModel::create(stateCount, rowCount, columnCount, textureKey, pos, size, scale, points);
     return magicPotion;
 }
+
+StarModel* BlockFactory::getStar(int stateCount, int rowCount, int columnCount, std::string textureKey, const cocos2d::Vec2 &pos, const cocos2d::Size &size, cocos2d::Vec2 scale) {
+    StarModel* star = StarModel::create(stateCount, rowCount, columnCount, textureKey, pos, size, scale);
+    return star;
+}

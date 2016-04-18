@@ -76,6 +76,8 @@
 		EB4A350A1C516F1900F5FF0F /* libcurl.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = EB4A35091C516F1900F5FF0F /* libcurl.tbd */; };
 		EB4A64721CC4C5AC0030ED80 /* ToyaProgressModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB4A64701CC4C5AC0030ED80 /* ToyaProgressModel.cpp */; };
 		EB4A64731CC4C5AC0030ED80 /* ToyaProgressModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB4A64701CC4C5AC0030ED80 /* ToyaProgressModel.cpp */; };
+		EB4A64761CC4CA3E0030ED80 /* ToyaStarModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB4A64741CC4CA3E0030ED80 /* ToyaStarModel.cpp */; };
+		EB4A64771CC4CA3E0030ED80 /* ToyaStarModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB4A64741CC4CA3E0030ED80 /* ToyaStarModel.cpp */; };
 		EBCA80AF1CB74935002F20D5 /* ToyaMagicPotionModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EBCA80AD1CB74935002F20D5 /* ToyaMagicPotionModel.cpp */; };
 		EBCA80B01CB74935002F20D5 /* ToyaMagicPotionModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EBCA80AD1CB74935002F20D5 /* ToyaMagicPotionModel.cpp */; };
 		EBCF3C391CB3347B003DCF67 /* ToyaAnimationBoxModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EBCF3C381CB3347B003DCF67 /* ToyaAnimationBoxModel.cpp */; };
@@ -243,6 +245,8 @@
 		EB4A35091C516F1900F5FF0F /* libcurl.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libcurl.tbd; path = usr/lib/libcurl.tbd; sourceTree = SDKROOT; };
 		EB4A64701CC4C5AC0030ED80 /* ToyaProgressModel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ToyaProgressModel.cpp; sourceTree = "<group>"; };
 		EB4A64711CC4C5AC0030ED80 /* ToyaProgressModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToyaProgressModel.h; sourceTree = "<group>"; };
+		EB4A64741CC4CA3E0030ED80 /* ToyaStarModel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ToyaStarModel.cpp; sourceTree = "<group>"; };
+		EB4A64751CC4CA3E0030ED80 /* ToyaStarModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToyaStarModel.h; sourceTree = "<group>"; };
 		EBCA80AD1CB74935002F20D5 /* ToyaMagicPotionModel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ToyaMagicPotionModel.cpp; sourceTree = "<group>"; };
 		EBCA80AE1CB74935002F20D5 /* ToyaMagicPotionModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToyaMagicPotionModel.h; sourceTree = "<group>"; };
 		EBCF3C371CB3327C003DCF67 /* ToyaAnimationBoxModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToyaAnimationBoxModel.h; sourceTree = "<group>"; };
@@ -466,6 +470,8 @@
 				FB99ADFE1C962A5B0074BBE9 /* ToyaSpellModel.h */,
 				FB54E8D01C95C8D6003A51B9 /* ToyaWorldModel.cpp */,
 				FB54E8D11C95C8D6003A51B9 /* ToyaWorldModel.h */,
+				EB4A64741CC4CA3E0030ED80 /* ToyaStarModel.cpp */,
+				EB4A64751CC4CA3E0030ED80 /* ToyaStarModel.h */,
 			);
 			name = Classes;
 			path = ../Classes;
@@ -702,6 +708,7 @@
 				FB54E9061C95F46D003A51B9 /* ToyaGameView.h in Sources */,
 				EBCA80AF1CB74935002F20D5 /* ToyaMagicPotionModel.cpp in Sources */,
 				FB99ADFF1C962A5B0074BBE9 /* ToyaInputController.cpp in Sources */,
+				EB4A64761CC4CA3E0030ED80 /* ToyaStarModel.cpp in Sources */,
 				FB54E9071C95F46D003A51B9 /* ToyaMenuModel.h in Sources */,
 				EB4A64721CC4C5AC0030ED80 /* ToyaProgressModel.cpp in Sources */,
 				FB54E9081C95F46D003A51B9 /* ToyaMenuView.h in Sources */,
@@ -756,6 +763,7 @@
 				FBD3E4111CB611D300A261D5 /* ToyaMapReader.cpp in Sources */,
 				FB54E8E91C95F1E4003A51B9 /* ToyaGameView.cpp in Sources */,
 				FB54E8EA1C95F1E4003A51B9 /* ToyaGameView.h in Sources */,
+				EB4A64771CC4CA3E0030ED80 /* ToyaStarModel.cpp in Sources */,
 				FB54E8EB1C95F1E4003A51B9 /* ToyaMenuModel.cpp in Sources */,
 				FB54E8EC1C95F1E4003A51B9 /* ToyaMenuModel.h in Sources */,
 				FB54E8ED1C95F1E4003A51B9 /* ToyaMenuView.cpp in Sources */,

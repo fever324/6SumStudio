@@ -1,5 +1,5 @@
-#ifndef Toya_PROGRESS_MODEL_h
-#define Toya_PROGRESS_MODEL_h
+#ifndef TOYA_PROGRESS_MODEL_h
+#define TOYA_PROGRESS_MODEL_h
 
 #include <vector>
 

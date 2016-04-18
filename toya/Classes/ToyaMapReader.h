@@ -34,6 +34,7 @@
 #define AVATAR_DRAW_LAYER        4
 #define BARRIER_DRAW_LAYER       4
 #define POTION_DRAW_LAYER        5
+#define STAR_DRAW_LAYER          6
 
 #define PANEL_Z_ORDER            2
 
@@ -75,6 +76,8 @@ public:
     void createMovingObstacles();
     
     void createMagicPotions();
+    
+    void createStars();
     
     PanelModel* createMagicPanel();
     
