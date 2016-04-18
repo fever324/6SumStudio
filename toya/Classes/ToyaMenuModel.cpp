@@ -9,9 +9,11 @@
 #define Level_BUTTON_PRESSED "textures/overviewResumeButton.png"
 
 #define START_BUTTON_IMAGE "textures/start_normal.png"
+#define REPLAY_BUTTON_IMAGE "textures/resetButton.png"
+#define NEXT_BUTTON_IMAGE "textures/nextLevel.png"
+#define GOMAIN_BUTTON_IMAGE "textures/back.png"
+#define RESUME_BUTTON_IMAGE "textures/resumeButton.png"
 
-#define DESIGN_RES_W    1024
-#define DESIGN_RES_H    576
 #include "Constants.h"
 
 
@@ -39,11 +41,7 @@ bool MenuModel::init(std::string mtype, const Vec2& size, const Vec2& scale){
         _gomain = false;
         _level = 0;
         
-        Texture2D* image = AssetManager::getInstance()->getCurrent()->get<Texture2D>("menubg");
-        Sprite* bg = Sprite::createWithTexture(image,Rect(0,0,1024,1024));
-        bg->setScale(1);
-        bg->setAnchorPoint(Vec2(0,0));
-        
+        LayerColor* bg = LayerColor::create(Color4B(175, 211, 102, 255));
         this->addChild(bg);
         
         createLevelButtons(4,scale,size);
@@ -54,13 +52,20 @@ bool MenuModel::init(std::string mtype, const Vec2& size, const Vec2& scale){
         // _gomain default as false
         _gomain = false;
         
-        Button* start = createButton(START_BUTTON_IMAGE, scale, Vec2(size.x/8, 100));
+        Button* start = createButton(START_BUTTON_IMAGE, scale, Vec2(size.x/2, 100));
         // set _gomain to true, so we can go to main menu
         start->addTouchEventListener(CC_CALLBACK_2(MenuModel::startButtonTouchEvent, this));
         
-        LayerColor* bg = LayerColor::create(Color4B(53, 53, 53, 255));
-        this->addChild(bg);
+//        LayerColor* bg = LayerColor::create(Color4B(53, 53, 53, 255));
+//        this->addChild(bg);
 
+        Texture2D* image = AssetManager::getInstance()->getCurrent()->get<Texture2D>("menubg");
+        Sprite* bg = Sprite::createWithTexture(image,Rect(0,0,1024,1024));
+        bg->setScale(1);
+        bg->setAnchorPoint(Vec2(0,0.4));
+        
+        this->addChild(bg);
+        
         this->addChild(start);
     } else if (mtype == "levelWin") {
         /* create the win page
@@ -71,21 +76,21 @@ bool MenuModel::init(std::string mtype, const Vec2& size, const Vec2& scale){
         _replay = false;
         _gomain = false;
         _next = false;
-        Button* replay = createButton(START_BUTTON_IMAGE, scale, Vec2(2*size.x/8, 100));
-        Button* gomain = createButton(START_BUTTON_IMAGE, scale, Vec2(4*size.x/8, 100));
-        Button* next = createButton(START_BUTTON_IMAGE, scale, Vec2(6*size.x/8, 100));
+        Button* replay = createButton(REPLAY_BUTTON_IMAGE, scale, Vec2(2*size.x/8, 200));
+        Button* gomain = createButton(GOMAIN_BUTTON_IMAGE, scale, Vec2(4*size.x/8, 200));
+        Button* next = createButton(NEXT_BUTTON_IMAGE, scale, Vec2(6*size.x/8, 200));
         replay->addTouchEventListener(CC_CALLBACK_2(MenuModel::replayButtonTouchEvent, this));
         gomain->addTouchEventListener(CC_CALLBACK_2(MenuModel::gomainButtonTouchEvent, this));
         next->addTouchEventListener(CC_CALLBACK_2(MenuModel::nextButtonTouchEvent, this));
         
         Label* winnode = Label::create();
         _timenode = Label::create();
-        _timenode->setPosition(DESIGN_RES_W/2.0f,DESIGN_RES_H/2.0f-100);
+        _timenode->setPosition(size.x/2.0f,size.y-300);
         _timenode->setTTFConfig(AssetManager::getInstance()->getCurrent()->get<TTFont>(PRIMARY_FONT)->getTTF());
         
         winnode->setString("VICTORY!");
         winnode->setColor(DEBUG_COLOR);
-        winnode->setPosition(DESIGN_RES_W/2.0f,DESIGN_RES_H/2.0f);
+        winnode->setPosition(size.x/2.0f,size.y-200);
         
         winnode->setTTFConfig(AssetManager::getInstance()->getCurrent()->get<TTFont>(PRIMARY_FONT)->getTTF());
         
@@ -110,19 +115,19 @@ bool MenuModel::init(std::string mtype, const Vec2& size, const Vec2& scale){
         _replay = false;
         _gomain = false;
         _next = false;
-        Button* replay = createButton(START_BUTTON_IMAGE, scale, Vec2(2*size.x/8, 100));
-        Button* gomain = createButton(START_BUTTON_IMAGE, scale, Vec2(6*size.x/8, 100));
+        Button* replay = createButton(REPLAY_BUTTON_IMAGE, scale, Vec2(2*size.x/8, 200));
+        Button* gomain = createButton(GOMAIN_BUTTON_IMAGE, scale, Vec2(6*size.x/8, 200));
         replay->addTouchEventListener(CC_CALLBACK_2(MenuModel::replayButtonTouchEvent, this));
         gomain->addTouchEventListener(CC_CALLBACK_2(MenuModel::gomainButtonTouchEvent, this));
         
         Label* failnode = Label::create();
         _timenode = Label::create();
-        _timenode->setPosition(DESIGN_RES_W/2.0f,DESIGN_RES_H/2.0f-100);
+        _timenode->setPosition(size.x/2.0f,size.y-300);
         _timenode->setTTFConfig(AssetManager::getInstance()->getCurrent()->get<TTFont>(PRIMARY_FONT)->getTTF());
         failnode->setColor(DEBUG_COLOR);
         
         failnode->setString("GAME OVER");
-        failnode->setPosition(DESIGN_RES_W/2.0f,DESIGN_RES_H/2.0f);
+        failnode->setPosition(size.x/2.0f,size.y-200);
         failnode->setTTFConfig(AssetManager::getInstance()->getCurrent()->get<TTFont>(PRIMARY_FONT)->getTTF());
         
         Texture2D* image = AssetManager::getInstance()->getCurrent()->get<Texture2D>("failbg");
@@ -143,11 +148,15 @@ bool MenuModel::init(std::string mtype, const Vec2& size, const Vec2& scale){
          */
         _gomain = false;
         _next = false;
-        Button* replay = createButton(START_BUTTON_IMAGE, scale, Vec2(2*size.x/8, 100));
-        Button* gomain = createButton(START_BUTTON_IMAGE, scale, Vec2(6*size.x/8, 100));
+        _resume = false;
+        Button* replay = createButton(REPLAY_BUTTON_IMAGE, scale, Vec2(2*size.x/8, 100));
+        Button* resume = createButton(RESUME_BUTTON_IMAGE, scale, Vec2(4*size.x/8, 100));
+        Button* gomain = createButton(GOMAIN_BUTTON_IMAGE, scale, Vec2(6*size.x/8, 100));
         replay->addTouchEventListener(CC_CALLBACK_2(MenuModel::replayButtonTouchEvent, this));
         gomain->addTouchEventListener(CC_CALLBACK_2(MenuModel::gomainButtonTouchEvent, this));
+        resume->addTouchEventListener(CC_CALLBACK_2(MenuModel::resumeButtonTouchEvent, this));
         this->addChild(replay);
+        this->addChild(resume);
         this->addChild(gomain);
 
     }
@@ -170,7 +179,7 @@ void MenuModel::createLevelButtons(int count, const Vec2& scale,const Vec2& pos)
     int i = 0;
     for (; i < count; i++) {
         
-        Button* levelButton = createButton("textures/level"+std::to_string(i)+".png", scale, Vec2(pos.x/8+i*100, pos.y-100));
+        Button* levelButton = createButton("textures/level"+std::to_string(i)+".png", scale, Vec2(pos.x/8+i*200, pos.y-100));
         
         levelButton->addTouchEventListener(CC_CALLBACK_2(MenuModel::levelButtonTouchEvent, this));
         
@@ -243,6 +252,16 @@ void MenuModel::replayButtonTouchEvent(cocos2d::Ref *sender, ui::Widget::TouchEv
             break;
     }
 }
+void MenuModel::resumeButtonTouchEvent(cocos2d::Ref *sender, ui::Widget::TouchEventType type) {
+    switch (type) {
+        case ui::Widget::TouchEventType::BEGAN:
+            _resume = true;
+            break;
+        default:
+            break;
+    }
+}
+
 void MenuModel::gomainButtonTouchEvent(cocos2d::Ref *sender, ui::Widget::TouchEventType type) {
     switch (type) {
         case ui::Widget::TouchEventType::BEGAN:

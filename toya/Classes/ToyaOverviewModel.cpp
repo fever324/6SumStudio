@@ -1,8 +1,8 @@
 #include "ToyaOverviewModel.h"
 
 
-#define OVERVIEW_BUTTON_NORMAL "textures/overviewButton.png"
-#define OVERVIEW_BUTTON_PRESSED "textures/overviewResumeButton.png"
+#define OVERVIEW_BUTTON_NORMAL "textures/pauseButton.png"
+#define OVERVIEW_BUTTON_PRESSED "textures/pauseButton.png"
 
 #define RESET_BUTTON_IMAGE "textures/resetButton.png"
 
@@ -22,13 +22,12 @@ bool OverviewModel::init(const Vec2& pos, const Vec2& scale){
 
     pauseButton = ui::CheckBox::create(OVERVIEW_BUTTON_NORMAL, OVERVIEW_BUTTON_PRESSED, OVERVIEW_BUTTON_PRESSED, OVERVIEW_BUTTON_PRESSED, OVERVIEW_BUTTON_NORMAL);
     
-    resetButton = ui::Button::create(RESET_BUTTON_IMAGE);
+//    resetButton = ui::Button::create(RESET_BUTTON_IMAGE);
     
     
-
     
     pauseButton->setScale(scale.x, scale.y);
-    resetButton->setScale(scale.x, scale.y);
+//    resetButton->setScale(scale.x, scale.y);
     
     
     Vec2 pauseButtonPosition = Vec2(pos);
@@ -36,16 +35,16 @@ bool OverviewModel::init(const Vec2& pos, const Vec2& scale){
     pauseButtonPosition.y -= pauseButton->getContentSize().height / 2.0f;
     
     Vec2 resetButtonPosition = Vec2(pauseButtonPosition);
-    resetButtonPosition.x -= pauseButton->getContentSize().width / 2.0f+ resetButton->getContentSize().width / 2.0f;
+//    resetButtonPosition.x -= pauseButton->getContentSize().width / 2.0f+ resetButton->getContentSize().width / 2.0f;
     
     pauseButton->setPosition(pauseButtonPosition);
-    resetButton->setPosition(resetButtonPosition);
+//    resetButton->setPosition(resetButtonPosition);
     
     pauseButton->addTouchEventListener(CC_CALLBACK_2(OverviewModel::pauseButtonTouchEvent, this));
-    resetButton->addTouchEventListener(CC_CALLBACK_2(OverviewModel::resetButtonTouchEvent, this));
+//    resetButton->addTouchEventListener(CC_CALLBACK_2(OverviewModel::resetButtonTouchEvent, this));
     
     
-    this->addChild(resetButton);
+//    this->addChild(resetButton);
     this->addChild(pauseButton);
     
     paused = false;
@@ -141,6 +140,7 @@ void OverviewModel::reset() {
     startTime = current_time();
     reseted = false;
     paused = false;
+//    pauseButton->setBright(false);
     resumeFromPause();
 }
 

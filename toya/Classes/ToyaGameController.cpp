@@ -432,6 +432,10 @@ void GameController::update(float dt) {
         togglePause(false);
     }
     
+    if (_pauseMenu->didResume()) {
+        _overview->resumeFromPause();
+        _pauseMenu->setResume(false);
+    }
     
     // no cooldown, only reset when finish or fail a level
     
@@ -736,7 +740,7 @@ void GameController::preload() {
             if (reader.startObject()) {
                 string value = reader.getString(FILE_KEY);
                 float size = reader.getNumber(FONT_SIZE);
-                floader->loadAsync(key, value, size);
+                floader->load(key, value, size);
             }
             
             reader.endObject();

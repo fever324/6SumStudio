@@ -30,27 +30,27 @@
         },
         "level_one": {
             "file":     "textures/level1.png",
-            "wrap":     true
+            "wrap":     false
         },
         "level_two": {
             "file":     "textures/level2.png",
-            "wrap":     true
+            "wrap":     false
         },
         "level_three": {
             "file":     "textures/level3.png",
-            "wrap":     true
+            "wrap":     false
         },
         "level_four": {
             "file":     "textures/level4.png",
-            "wrap":     true
+            "wrap":     false
         },
         "level_five": {
             "file":     "textures/level5.png",
-            "wrap":     true
+            "wrap":     false
         },
         "start": {
             "file":     "textures/start_normal.png",
-            "wrap":     true
+            "wrap":     false
         },
         "avatar": {
             "file":     "textures/bears.png",
@@ -58,11 +58,15 @@
         },
         "background": {
             "file":     "textures/background.png",
-            "wrap":     true
+            "wrap":     false
+        },
+        "background2": {
+            "file":     "textures/background2.png",
+            "wrap":     false
         },
         "menubg": {
             "file":     "textures/menubg.png",
-            "wrap":     true
+            "wrap":     false
         },
         "winbg": {
             "file":     "textures/winbg.png",
@@ -86,6 +90,10 @@
         },
         "destroy_animation":    {
             "file":     "textures/destroy_animation.png",
+            "wrap":     false
+        },
+        "reset":    {
+            "file":     "textures/resetButton.png",
             "wrap":     false
         }
         

@@ -46,6 +46,8 @@ private:
     // replay
     bool _replay;
     
+    bool _resume;
+    
     
     std::vector< int > _levelIndex;
     std::map<int, int> _levelMap;
@@ -124,6 +126,7 @@ CC_CONSTRUCTOR_ACCESS:
     void startButtonTouchEvent(Ref *sender, ui::Widget::TouchEventType type);
     void levelButtonTouchEvent(Ref *sender, ui::Widget::TouchEventType type);
     void replayButtonTouchEvent(Ref *sender, ui::Widget::TouchEventType type);
+    void resumeButtonTouchEvent(Ref *sender, ui::Widget::TouchEventType type);
     void gomainButtonTouchEvent(Ref *sender, ui::Widget::TouchEventType type);
     void nextButtonTouchEvent(Ref *sender, ui::Widget::TouchEventType type);
     
@@ -137,11 +140,15 @@ CC_CONSTRUCTOR_ACCESS:
     
     bool didReplay(){return _replay;}
     
+    bool didResume(){return _resume;}
+    
     bool didGoMain(){return _gomain;}
     
     bool didNext(){return _next;}
     
     void setGoMain(bool value){_gomain = value;}
+    
+    void setResume(bool value) {_resume = value;}
     
     void resetStatus(){_replay = false;_gomain = false; _next = false;_start = false;}
     

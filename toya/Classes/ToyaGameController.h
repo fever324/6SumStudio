@@ -20,6 +20,7 @@
 #include "ToyaPanelModel.h"
 #include "ToyaExitDoorModel.h"
 #include "ToyaMenuModel.h"
+#include "ToyaAudioController.h"
 
 #include <Box2D/Dynamics/Contacts/b2Contact.h>
 #include <Box2D/Collision/b2Collision.h>
@@ -89,6 +90,7 @@ protected:
     
     ObstacleSelector* _selector;
     
+    AudioController* _audio;
     
     
     /** three menus: pause, win, fail **/
