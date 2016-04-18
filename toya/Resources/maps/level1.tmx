@@ -116,7 +116,7 @@
    </properties>
   </object>
  </objectgroup>
- <layer name="lava" width="22" height="14">
+ <layer name="lava" width="22" height="14" visible="0">
   <properties>
    <property name="texture" value="ice_dirt"/>
   </properties>
