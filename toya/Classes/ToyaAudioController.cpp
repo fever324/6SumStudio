@@ -9,7 +9,7 @@
 auto audio = CocosDenshion::SimpleAudioEngine::getInstance();
 
 void AudioController::preload() {
-    audio->preloadBackgroundMusic(BG_SOUND);
+    audio->preloadBackgroundMusic(PFZ_SOUND);
     audio->preloadEffect(DESTROY_EFFECT);
     audio->preloadEffect(DEATH_SOUND);
     audio->preloadEffect(PICKUP_MAGIC);
@@ -25,7 +25,7 @@ void AudioController::setEffectVolume(float effect_vol) {
 }
 
 void AudioController::play() {
-    audio->playBackgroundMusic(BG_SOUND, true);
+    audio->playBackgroundMusic(PFZ_SOUND, true);
 }
 
 void AudioController::audioBackgroundDeploy(float bg_vol) {
@@ -48,6 +48,17 @@ void AudioController::audioDeploy(float bg_vol, float effect_vol) {
 
 void AudioController::audioTerminate() {
     audio->stopBackgroundMusic();
+    audio->stopAllEffects();
+}
+
+void AudioController::audioPauseAll() {
+    audio->pauseAllEffects();
+    audio->pauseBackgroundMusic();
+}
+
+void AudioController::audioResumeAll() {
+    audio->resumeAllEffects();
+    audio->resumeBackgroundMusic();
 }
 
 void AudioController::playDestroyEffect() {
