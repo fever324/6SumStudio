@@ -51,6 +51,7 @@ private:
     /** Whether the exit key is down */
     bool  _keyExit;
     
+    int swipe;
     
     // whether the start key is down
     bool _keyStart;
@@ -119,6 +120,7 @@ protected:
     /** check whether it is a rotation or not **/
     bool checkRotate(timestamp_t current);
     bool checkTap(timestamp_t current);
+    int  checkSwipe(const Vec2& start, const Vec2& stop, timestamp_t current);
     void resetTouch(TouchInstance* t);
     
     
@@ -197,7 +199,9 @@ public:
     // return status of start
     bool didStart() const { return _keyStart; }
     
+    bool didSwipe() const {return swipe != 0; }
     
+    int getSwipeDirection() {int temp = swipe; swipe = 0; return temp;}
     /** return turning */
     float getTurning() const { return _smoothedTurning; }
     

@@ -67,6 +67,8 @@ _touchListener(nullptr)
     _keyExit  = false;
     _keyRotate = false;
     
+    swipe = 0;
+    
     // ready to remove
     _keyStart = false;
     
@@ -392,23 +394,22 @@ void InputController::calculateNewSmoothedTurning(float newTurning) {
  * @param event The associated event
  */
 void InputController::touchMovedCB(Touch* t, timestamp_t current) {
-    if (t->getID() == _touch1.touchid) {
-        _touch1.stop = t->getLocation();
-        _keyRotate = checkRotate(current);
-//        if ( _count % 10 == 1) {
-//            _count = _count % 10 + 1;
-//            _touch1.start = _touch1.stop;
-//        }
-    } else if (t->getID() == _touch2.touchid) {
-        _touch2.stop = t->getLocation();
-        _keyRotate = checkRotate(current);
-//        if ( _count % 10 == 1) {
-//            _count = _count % 10 + 1;
-//            _touch2.start = _touch2.stop;
-//        }
-    } else {
-        return;
+    if(_touchCount > 1) {
+        if (t->getID() == _touch1.touchid) {
+            _touch1.stop = t->getLocation();
+            _keyRotate = checkRotate(current);
+        } else if (t->getID() == _touch2.touchid) {
+            _touch2.stop = t->getLocation();
+            _keyRotate = checkRotate(current);
+        } else {
+            return;
+        }
+    } else if(_touchCount == 1) {
+        if(t->getID() == _touch1.touchid) {
+            swipe = checkSwipe(_touch1.start, t->getLocation(), current);
+        }
     }
+    
 }
 
 /**
@@ -451,4 +452,18 @@ void InputController::resetTouch(TouchInstance* t) {
     t->start.y = 0;
     t->stop.x = 0;
     t->stop.y = 0;
+}
+
+int InputController::checkSwipe(const Vec2& start, const Vec2& stop, timestamp_t current) {
+    // Look for swipes up that are "long enough"
+    float xdiff = (stop.x-start.x);
+    if (elapsed_millis(_rotateTime,current) < EVENT_SWIPE_TIME) {
+        float thresh = EVENT_SWIPE_LENGTH;
+        if (xdiff > thresh) {
+            return 1;
+        } else if (xdiff < thresh) {
+            return -1;
+        }
+    }
+    return 0;
 }

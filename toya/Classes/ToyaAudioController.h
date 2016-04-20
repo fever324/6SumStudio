@@ -41,6 +41,10 @@ public:
     
     static void audioTerminate();
     
+    static void audioPauseAll();
+    
+    static void audioResumeAll();
+    
     // Effect 
     static void playEffect(const char* effect);
     

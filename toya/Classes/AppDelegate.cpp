@@ -128,6 +128,8 @@ void AppDelegate::applicationDidEnterBackground() {
 
     // if you use SoundEngine, it must be paused here
     SoundEngine::getInstance()->pauseAll();
+    AudioController::audioPauseAll();
+    
 }
 
 /**
@@ -144,4 +146,5 @@ void AppDelegate::applicationWillEnterForeground() {
 
     // if you use SoundEngine, it must resume here
     SoundEngine::getInstance()->resumeAll();
+    AudioController::audioResumeAll();
 }

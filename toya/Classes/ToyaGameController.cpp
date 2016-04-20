@@ -487,6 +487,11 @@ void GameController::update(float dt) {
         _theWorld->setGravity(newGravity);
     }
     
+    if(_input->didSwipe()) {
+        int direction = _input->getSwipeDirection();
+        _avatar->setFacingRight(direction == 1);
+    }
+    
     if (_input->didSelect() && _selector->isSelected()) {
         if(_panel->getSpell() == DESTRUCTION_SPELL_SELECTED) {
             _panel->setSpell(0);
@@ -642,8 +647,8 @@ void GameController::beginContact(b2Contact* contact) {
     else if((body1->GetUserData() == _avatar && body2->GetUserData() == _goalDoor) ||
        (body1->GetUserData() == _goalDoor && body2->GetUserData() == _avatar)) {
         _goalDoor->open();
-        _audio->playEffect(WIN_EFFECT);
         _audio->audioTerminate();
+        _audio->playEffect(WIN_EFFECT);
         setComplete(true);
         _avatar->setLinearVelocity(Vec2(0.0f, 0.0f));
         // TODO: pause it
@@ -813,8 +818,9 @@ void GameController::preload() {
 }
 
 void GameController::displayDeathPanel() {
-    _audio->playDeathEffect();
     _audio->audioTerminate();
+    _audio->playDeathEffect();
+    
     setFail(true);
     double time = _overview->getCurrentPlayTime();
     int n = getOverallStarCount(false, time, _starsFound);
