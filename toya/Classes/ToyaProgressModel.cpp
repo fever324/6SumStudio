@@ -57,12 +57,20 @@ void ProgressModel::writeData(int level, int score, float completeTime, int star
     rapidjson::Value& levels = document["levels"];
     const char* levelString = std::to_string(level).c_str();
     rapidjson::Value levelValue(levelString, document.GetAllocator());
+    
     rapidjson::Value scoreValue(score);
+    rapidjson::Value timeValue(completeTime);
+    rapidjson::Value starValue(star);
+    
+    rapidjson::Value result(kObjectType);
+    result.AddMember("score", scoreValue, document.GetAllocator());
+    result.AddMember("completeTime", timeValue, document.GetAllocator());
+    result.AddMember("star", starValue, document.GetAllocator());
     
     if(levels.HasMember(levelString)) {
-        levels[levelString] = scoreValue;
+        levels[levelString] = result;
     } else {
-        levels.AddMember(levelValue, scoreValue, document.GetAllocator());
+        levels.AddMember(levelValue, result, document.GetAllocator());
         document["levelCompleted"].SetInt(level+1);
     }
     
