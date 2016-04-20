@@ -336,11 +336,10 @@ void GameController::populate() {
         beforeSolve(contact,oldManifold);
     };
     
-    
+    _maxStarCount = _mapReader->createStars();
     _goalDoor = _mapReader->createGoalDoor();
     _avatar   = _mapReader->createAvatar();
     _panel    = _mapReader->createMagicPanel();
-    _maxStarCount = _mapReader->createStars();
     _expectedPlayTime = _mapReader->getExpectedPlayTime();
     
     _rootnode->addChild(_theWorld->getWorldNode(),GAME_WORLD_ORDER);
@@ -543,10 +542,12 @@ void GameController::update(float dt) {
     if (_complete && _cooldown == 0) {
         if (_youWin) {
             toggleWin(true);
+            togglePause(false);
             _overview->disableButton();
             _panel->disableButton();
         }else{
             toggleFail(true);
+            togglePause(false);
             _overview->disableButton();
             _panel->disableButton();
         }
