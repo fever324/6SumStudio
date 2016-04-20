@@ -531,7 +531,7 @@ void GameController::update(float dt) {
         _cooldown --;
     }
     
-    if((!_complete && !_overview->didPause()) || _cooldown > 0){
+    if((!_complete && !_overview->didPause()) || (!_overview->didPause() && _cooldown > 0)){
         _theWorld->update(dt);
     }
     
