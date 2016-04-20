@@ -65,7 +65,6 @@ public:
     
     void createTheMap(){
         createBackground();
-        createStars();
         createRemovableBlocks();
         createNonRemovableBlocks();
         createMovingObstacles();
@@ -81,8 +80,13 @@ public:
     void createBackground();
     void createMovingObstacles();
     void createMagicPotions();
-    void createStars();
     
+    int getExpectedPlayTime();
+    
+    /**
+     Returns number of stars in this level.
+     */
+    int createStars();
     
     WorldModel* createTheWorld();
     

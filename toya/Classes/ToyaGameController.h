@@ -252,9 +252,9 @@ public:
     
     bool didGoMain(){return _failMenu->didGoMain() || _winMenu->didGoMain() || _pauseMenu->didGoMain();}
     
-    void setComplete(bool value) { _complete = true; _youWin = value;}
+    void setComplete(bool value) { _complete = value; _youWin = value;}
     
-    void setFail(bool value) { _complete = true; _youWin = false;}
+    void setFail(bool value) { _complete = value; _youWin = false;}
     
     bool finishPreload() { return _preload; }
     

@@ -275,6 +275,8 @@ void GameController::reset() {
     setFail(false);
     _reset = false;
     _cooldown = COOLDOWN;
+    toggleFail(false);
+    toggleWin(false);
     
     populate();
 }
@@ -292,6 +294,8 @@ void GameController::clear() {
     _panel->reset();
     setFail(false);
     _reset = false;
+    toggleFail(false);
+    toggleWin(false);
     _active = false;
     _cooldown = COOLDOWN;
 }
@@ -346,8 +350,6 @@ void GameController::populate() {
     _maxStarCount = _mapReader->createStars();
     _expectedPlayTime = _mapReader->getExpectedPlayTime();
     
-    _starsFound = 0;
-    
     _rootnode->addChild(_theWorld->getWorldNode(),GAME_WORLD_ORDER);
     _rootnode->addChild(_theWorld->getDebugNode(),DEBUG_NODE_ORDER);
     _rootnode->addChild(_panel,PANEL_VIEW_ORDER);
@@ -358,7 +360,8 @@ void GameController::populate() {
     _selector = ObstacleSelector::create(world);
     _selector->retain();
     
-    _bonusEarned = 0;
+    _starsFound = 0;
+    
     
     _theWorld->setFollow(_avatar);
     _avatar->setName("avatar");
@@ -605,12 +608,14 @@ void GameController::beginContact(b2Contact* contact) {
         
         if(!ghost->isFrozen()) {
             displayDeathPanel();
+            _avatar->setDead();
         }
     }
     
     if((bd1->getName() == "avatar" && bd2->getName() == "lava") ||
        (bd1->getName() == "lava" && bd2->getName() == "avatar")) {
         displayDeathPanel();
+        _avatar->setDead();
     }
     
     else if((bd1->getName() == "avatar" && bd2->getName() == "potion") || (bd1->getName() == "potion" && bd2->getName() == "avatar")) {
