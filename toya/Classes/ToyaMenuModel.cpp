@@ -76,6 +76,10 @@ bool MenuModel::init(std::string mtype, const Vec2& size, const Vec2& scale){
         _replay = false;
         _gomain = false;
         _next = false;
+        
+        LayerColor* bgColor = LayerColor::create(Color4B(0, 0, 0, 100));
+        this->addChild(bgColor);
+        
         Button* replay = createButton(REPLAY_BUTTON_IMAGE, scale, Vec2(2*size.x/8, 200));
         Button* gomain = createButton(GOMAIN_BUTTON_IMAGE, scale, Vec2(4*size.x/8, 200));
         Button* next = createButton(NEXT_BUTTON_IMAGE, scale, Vec2(6*size.x/8, 200));
@@ -95,9 +99,12 @@ bool MenuModel::init(std::string mtype, const Vec2& size, const Vec2& scale){
         winnode->setTTFConfig(AssetManager::getInstance()->getCurrent()->get<TTFont>(PRIMARY_FONT)->getTTF());
         
         Texture2D* image = AssetManager::getInstance()->getCurrent()->get<Texture2D>("winbg");
-        Sprite* bg = Sprite::createWithTexture(image,Rect(0,0,1024,1024));
-        bg->setScale(1);
-        bg->setAnchorPoint(Vec2(0,0.4));
+        Sprite* bg = Sprite::createWithTexture(image,Rect(0,0,1024,576));
+        bg->setScale(0.5);
+        bg->setPosition(Vec2(size.x/2.0f,size.y/2.0f));
+        bg->ignoreAnchorPointForPosition(true);
+        bg->setAnchorPoint(Vec2(-0.5,-0.5));
+        
         this->addChild(bg);
         
         this->addChild(replay);
@@ -115,25 +122,34 @@ bool MenuModel::init(std::string mtype, const Vec2& size, const Vec2& scale){
         _replay = false;
         _gomain = false;
         _next = false;
+        
+        LayerColor* bgColor = LayerColor::create(Color4B(0, 0, 0, 100));
+        this->addChild(bgColor);
+        
         Button* replay = createButton(REPLAY_BUTTON_IMAGE, scale, Vec2(4*size.x/8, 200));
         Button* gomain = createButton(GOMAIN_BUTTON_IMAGE, scale, Vec2(4*size.x/8+100, 200));
         replay->addTouchEventListener(CC_CALLBACK_2(MenuModel::replayButtonTouchEvent, this));
         gomain->addTouchEventListener(CC_CALLBACK_2(MenuModel::gomainButtonTouchEvent, this));
         
-        Label* failnode = Label::create();
         _timenode = Label::create();
         _timenode->setPosition(size.x/2.0f,size.y-300);
         _timenode->setTTFConfig(AssetManager::getInstance()->getCurrent()->get<TTFont>(PRIMARY_FONT)->getTTF());
-        failnode->setColor(DEBUG_COLOR);
+        _timenode->setScale(0.5);
         
+        Label* failnode = Label::create();
+        failnode->setColor(DEBUG_COLOR);
         failnode->setString("GAME OVER");
         failnode->setPosition(size.x/2.0f,size.y-200);
         failnode->setTTFConfig(AssetManager::getInstance()->getCurrent()->get<TTFont>(PRIMARY_FONT)->getTTF());
+        failnode->setScale(0.5);
         
         Texture2D* image = AssetManager::getInstance()->getCurrent()->get<Texture2D>("failbg");
-        Sprite* bg = Sprite::createWithTexture(image,Rect(0,0,1024,1024));
-        bg->setScale(1);
-        bg->setAnchorPoint(Vec2(0,0.4));
+        Sprite* bg = Sprite::createWithTexture(image,Rect(0,0,1024,576));
+        bg->setScale(0.5);
+        bg->setPosition(Vec2(size.x/2.0f,size.y/2.0f));
+        bg->ignoreAnchorPointForPosition(true);
+        bg->setAnchorPoint(Vec2(-0.5,-0.5));
+        
         this->addChild(bg);
         
         this->addChild(replay);
@@ -149,6 +165,11 @@ bool MenuModel::init(std::string mtype, const Vec2& size, const Vec2& scale){
         _gomain = false;
         _next = false;
         _resume = false;
+        
+        
+        LayerColor* bgColor = LayerColor::create(Color4B(0, 0, 0, 100));
+        this->addChild(bgColor);
+        
         Button* replay = createButton(REPLAY_BUTTON_IMAGE, scale, Vec2(2*size.x/8, 100));
         Button* resume = createButton(RESUME_BUTTON_IMAGE, scale, Vec2(4*size.x/8, 100));
         Button* gomain = createButton(GOMAIN_BUTTON_IMAGE, scale, Vec2(6*size.x/8, 100));
@@ -158,7 +179,16 @@ bool MenuModel::init(std::string mtype, const Vec2& size, const Vec2& scale){
         this->addChild(replay);
         this->addChild(resume);
         this->addChild(gomain);
+        
+//        Texture2D* image = AssetManager::getInstance()->getCurrent()->get<Texture2D>("failbg");
+//        Sprite* bg = Sprite::createWithTexture(image,Rect(0,0,1024,576));
+        LayerColor* bg = LayerColor::create(Color4B(0, 0, 0, 255));
+        bg->setScale(0.5);
+        bg->setPosition(Vec2(size.x/2.0f,size.y/2.0f));
+        bg->ignoreAnchorPointForPosition(true);
+        bg->setAnchorPoint(Vec2(-0.5,-0.5));
 
+        this->addChild(bg);
     }
     
     return true;

@@ -607,10 +607,10 @@
 				LastUpgradeCheck = 0720;
 				TargetAttributes = {
 					1D6058900D05DD3D006BFB54 = {
-						DevelopmentTeam = 9WEW4LG4VB;
+						DevelopmentTeam = FUM3E9989D;
 					};
 					5087E73D17EB910900C73F5D = {
-						DevelopmentTeam = 9WEW4LG4VB;
+						DevelopmentTeam = FUM3E9989D;
 					};
 				};
 			};
@@ -859,7 +859,7 @@
 					"$(_COCOS_LIB_IOS_BEGIN)",
 					"$(_COCOS_LIB_IOS_END)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = edu.cornell.gdiac.6sumstudio.toya;
+				PRODUCT_BUNDLE_IDENTIFIER = edu.cornell.gdiac.6sumstudio.test.toya;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -897,7 +897,7 @@
 					"$(_COCOS_LIB_IOS_BEGIN)",
 					"$(_COCOS_LIB_IOS_END)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = edu.cornell.gdiac.6sumstudio.toya;
+				PRODUCT_BUNDLE_IDENTIFIER = edu.cornell.gdiac.6sumstudio.test.toya;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";

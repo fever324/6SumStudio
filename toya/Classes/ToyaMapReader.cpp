@@ -25,7 +25,6 @@ void MapReader::loadMap(const std::string &mapFile) {
     mapSize = map->getMapSize();
 
 }
-
 void MapReader::createRemovableBlocks() {
     createTheBlocks(map->getLayer(DIRT_LAYER));
     createTheBlocks(map->getLayer(ICE_DIRT_LAYER));
@@ -283,9 +282,15 @@ PanelModel* MapReader::createMagicPanel() {
     int totalMana = rootLayer->getProperty("maxMagicPoints").asInt();
     int initalMana = rootLayer->getProperty("initialMagicPoints").asInt();
     PanelModel* _panel = PanelModel::create(Vec2(0,gameController->getRootNode()->getContentSize().height), initalMana, totalMana);
-    gameController->getRootNode()->addChild(_panel, PANEL_Z_ORDER);
     
     return _panel;
+}
+
+
+
+WorldModel* MapReader::createTheWorld(){
+    WorldModel* world = WorldModel::create(mapSize);
+    return world;
 }
 
 

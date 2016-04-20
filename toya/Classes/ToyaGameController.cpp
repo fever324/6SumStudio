@@ -14,6 +14,7 @@
 #include "ToyaPanelModel.h"
 #include "ToyaBlockFactory.h"
 #include "ToyaAudioController.h"
+#include "Constants.h"
 
 
 #include <string>
@@ -187,6 +188,7 @@ bool GameController::init(RootLayer* root, InputController* input, int playLevel
  */
 bool GameController::init(RootLayer* root, InputController* input, int playLevel, const Rect& rect, const Vec2& gravity) {
     
+    _rootnode = root;
     Vec2 inputscale = Vec2(root->getScaleX(),root->getScaleY());
     
     // initialize the menus
@@ -197,54 +199,31 @@ bool GameController::init(RootLayer* root, InputController* input, int playLevel
     togglePause(false);
     toggleWin(false);
     toggleFail(false);
-    root->addChild(_pauseMenu,3);
-    root->addChild(_winMenu,3);
-    root->addChild(_failMenu,3);
+    root->addChild(_pauseMenu,PAUSE_MENU_ORDER);
+    root->addChild(_winMenu,WIN_MENU_ORDER);
+    root->addChild(_failMenu,FAIL_MENU_ORDER);
     
     
     _input = input;
     _currentLevel = playLevel;
     
-    _theWorld = WorldModel::create();
-    
-    // Create the scene graph
-    WorldController* world = _theWorld->getWorld();
     _mapReader = new MapReader(this);
-    
-    root->addChild(_theWorld->getWorldNode(),1);
-    root->addChild(_theWorld->getDebugNode(),2);
-
-    
-    world->onBeginContact = [this](b2Contact* contact) {
-        beginContact(contact);
-    };
-    
-    world->onEndContact = [this] (b2Contact * contact) {
-        endContact(contact);
-    };
-    world->beforeSolve = [this](b2Contact* contact, const b2Manifold* oldManifold) {
-        beforeSolve(contact,oldManifold);
-    };
     
     _scale.set(root->getContentSize().width/32.0f,
                root->getContentSize().height/18.0f);
     
-    _rootnode = root;
     
     populate();
     
     _active = true;
     _complete = false;
-    setDebug(false);
     
-    _selector = ObstacleSelector::create(world);
-    _selector->retain();
     
     
     // overview panel
     _overview = OverviewModel::create(Vec2(root->getContentSize().width,root->getContentSize().height), inputscale);
     _overview->setGameController(this);
-    root->addChild(_overview,2);
+    root->addChild(_overview,PAUSE_BUTTON_ORDER);
     
    
     
@@ -336,18 +315,41 @@ void GameController::populate() {
 
     _mapReader->loadMap("maps/level"+std::to_string(_currentLevel)+".tmx");
     
-    _mapReader->createBackground();
-    _mapReader->createStars();
-    _mapReader->createRemovableBlocks();
-    _mapReader->createNonRemovableBlocks();
-    _mapReader->createMovingObstacles();
-    _mapReader->createMagicPotions();
+    _theWorld = _mapReader->createTheWorld();
     
-    _mapReader->createLava();
+    // just create the map, no need to return
+    // will create the removable blocks, non-removable blocks, deadly blocks, ghosts
+    _mapReader->createTheMap();
+    
+    // need return objects
+    
+    WorldController* world = _theWorld->getWorld();
+    
+    world->onBeginContact = [this](b2Contact* contact) {
+        beginContact(contact);
+    };
+    
+    world->onEndContact = [this] (b2Contact * contact) {
+        endContact(contact);
+    };
+    world->beforeSolve = [this](b2Contact* contact, const b2Manifold* oldManifold) {
+        beforeSolve(contact,oldManifold);
+    };
+    
     
     _goalDoor = _mapReader->createGoalDoor();
     _avatar   = _mapReader->createAvatar();
     _panel    = _mapReader->createMagicPanel();
+    
+    _rootnode->addChild(_theWorld->getWorldNode(),GAME_WORLD_ORDER);
+    _rootnode->addChild(_theWorld->getDebugNode(),DEBUG_NODE_ORDER);
+    _rootnode->addChild(_panel,PANEL_VIEW_ORDER);
+    
+    
+    setDebug(false);
+    
+    _selector = ObstacleSelector::create(world);
+    _selector->retain();
     
     _bonusEarned = 0;
     

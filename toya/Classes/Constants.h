@@ -23,4 +23,17 @@
 // End of Audio Effects
 
 
+// define the layer order
+
+#define LAUCH_MENU_ORDER  1
+#define LEVEL_MENU_ORDER  1
+#define GAME_WORLD_ORDER  2
+#define PANEL_VIEW_ORDER  2
+#define PAUSE_BUTTON_ORDER  2
+#define PAUSE_MENU_ORDER  3
+#define WIN_MENU_ORDER    3
+#define FAIL_MENU_ORDER   3
+#define DEBUG_NODE_ORDER  4
+
+
 #endif /* Constants_h */

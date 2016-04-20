@@ -72,7 +72,7 @@ WorldModel* WorldModel::create() {
  * @return  An autoreleased physics object
  */
 
-WorldModel* WorldModel::create(const Vec2& size) {
+WorldModel* WorldModel::create(const Size& size) {
     WorldModel* world = new (std::nothrow) WorldModel();
     if (world && world->init(size)) {
 //        world->autorelease();
@@ -86,14 +86,14 @@ WorldModel* WorldModel::create(const Vec2& size) {
  * Creates a world with the given size and anchor point
  *
  * @param  size       The dimensions of the world.
- * @param  anchor     The anchor point of the world.
+ * @param  gravity     The gravity of the world.
  *
  * @return  An autoreleased physics object
  */
 
-WorldModel* WorldModel::create(const Vec2& size, const Vec2& anchor) {
+WorldModel* WorldModel::create(const Size& size, const Vec2& gravity) {
     WorldModel* world = new (std::nothrow) WorldModel();
-    if (world && world->init(size,anchor)) {
+    if (world && world->init(size,gravity)) {
 //        world->autorelease();
         return world;
     }
@@ -111,10 +111,10 @@ WorldModel* WorldModel::create(const Vec2& size, const Vec2& anchor) {
  * @return  true if the obstacle is initialized properly, false otherwise.
  */
 bool WorldModel::init() {
-    return init(Vec2(WORLD_WIDTH,WORLD_HEIGHT),Vec2(0,WORLD_GRAVITY));
+    return init(Size(WORLD_WIDTH,WORLD_HEIGHT),Vec2(0,WORLD_GRAVITY));
 }
 
-bool WorldModel::init(const Vec2& size) {
+bool WorldModel::init(const Size& size) {
     return init(size,Vec2(0,WORLD_GRAVITY));
 }
 
@@ -128,13 +128,12 @@ bool WorldModel::init(const Vec2& size) {
  */
 
 
-bool WorldModel::init(const Vec2& size, const Vec2& gravity) {
+bool WorldModel::init(const Size& size, const Vec2& gravity) {
 
     // define the scale
-    _scale.set(DESIGN_RES_W/WORLD_SCALE_X,DESIGN_RES_H/WORLD_SCALE_Y);
     _follow = new Follow();
     
-    _world = WorldController::create(Rect(0, 0, size.x, size.y), gravity);
+    _world = WorldController::create(Rect(0, 0, size.width, size.height), gravity);
     _world->retain();
     _world->activateCollisionCallbacks(true);
     // Create the scene graph
@@ -148,17 +147,11 @@ bool WorldModel::init(const Vec2& size, const Vec2& gravity) {
     _worldnode->ignoreAnchorPointForPosition(true);
     _debugnode->ignoreAnchorPointForPosition(true);
     
-    _debugnode->setPosition(Vec2(DESIGN_RES_W/4.0f,DESIGN_RES_H/4.0f));
     
-    // set the overview bg color
-    LayerColor* bg = LayerColor::create(Color4B(53, 53, 53, 255));
-
-    // change the scale to parameter
-    bg->setContentSize(Size(DESIGN_RES_W*2,DESIGN_RES_H*2));
-    _debugnode->addChild(bg);
-    
+    float scale = MIN(0.5f / (size.width / WORLD_SCALE_X), 0.5f / (size.height / WORLD_SCALE_Y));
     // scale the debugnode to half size of the screen
-    _debugnode->setScale(0.5f / (WORLD_WIDTH / WORLD_SCALE_X));
+    _debugnode->setScale(scale);
+    _debugnode->setPosition(Vec2(DESIGN_RES_W/4.0f,DESIGN_RES_H/4.0f));
     
     _debugnode->setAnchorPoint(Vec2(0, 0));
 
@@ -233,14 +226,6 @@ void WorldModel::setFollow(Obstacle* obj){
     _worldnode->runAction(_follow);
 }
 
-void WorldModel::setWorldPos(Vec2& pos){
-    // calulate the position based on the avatar position
-    // maybe useless after we choose to use follow
-    pos.x = -(2.5 + pos.x - 16.0)*_scale.x;
-    pos.y = (9.0f-WORLD_HEIGHT + 18.0*2-pos.y)*_scale.y;
-    _worldnode->setPosition(pos);
-}
-
 void WorldModel::clear(){
     _world->clear();
     _worldnode->removeAllChildren();
@@ -249,10 +234,6 @@ void WorldModel::clear(){
     
     _world->setGravity(Vec2(0, WORLD_GRAVITY));
     // Reset the debug background
-    LayerColor* bg = LayerColor::create(Color4B(53, 53, 53, 255));
-    // change the scale to parameter
-    bg->setContentSize(Size(DESIGN_RES_W*2,DESIGN_RES_H*2));
-    _debugnode->addChild(bg);
     
     _follow = nullptr;
 }

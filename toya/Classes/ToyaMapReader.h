@@ -36,8 +36,6 @@
 #define POTION_DRAW_LAYER        5
 #define STAR_DRAW_LAYER          1
 
-#define PANEL_Z_ORDER            2
-
 static float BLOCK_SIZE[] = {1, 1};
 
 
@@ -62,22 +60,28 @@ public:
     
     void loadMap(const std::string& mapFile);
     
+    void createTheMap(){
+        createBackground();
+        createStars();
+        createRemovableBlocks();
+        createNonRemovableBlocks();
+        createMovingObstacles();
+        createMagicPotions();
+        createLava();
+    }
+    
     void createRemovableBlocks();
     void createTheBlocks(TMXLayer* layer);
-
     void createNonRemovableBlocks();
-    
     void createLavaBlocks(TMXLayer* layer);
-    
     void createLava();
-    
     void createBackground();
-    
     void createMovingObstacles();
-    
     void createMagicPotions();
-    
     void createStars();
+    
+    
+    WorldModel* createTheWorld();
     
     PanelModel* createMagicPanel();
     

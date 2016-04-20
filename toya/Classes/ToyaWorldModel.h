@@ -87,7 +87,7 @@ public:
      *
      * @return  An autoreleased physics object
      */
-    static WorldModel* create(const Vec2& size);
+    static WorldModel* create(const Size& size);
     
     /**
      * Creates a world with the given size and anchor point
@@ -97,7 +97,7 @@ public:
      *
      * @return  An autoreleased physics object
      */
-    static WorldModel* create(const Vec2& size, const Vec2& anchor);
+    static WorldModel* create(const Size& size, const Vec2& anchor);
     
 #pragma mark Attribute Properties
     
@@ -188,7 +188,7 @@ public:
     void setFail(bool value);
     
     void setWorldPos(Obstacle* obj,Vec2& pos);
-    void setWorldPos(Vec2& pos);
+    
     void setFollow(Obstacle* obj);
     
     
@@ -218,7 +218,7 @@ CC_CONSTRUCTOR_ACCESS:
      *
      * @return  true if the obstacle is initialized properly, false otherwise.
      */
-    bool init(const Vec2& size);
+    bool init(const Size& size);
     
     /**
      * Initializes a new avatar at the given size and anchor.
@@ -229,7 +229,7 @@ CC_CONSTRUCTOR_ACCESS:
      * @return  true if the obstacle is initialized properly, false otherwise.
      */
 
-    bool init(const Vec2& size, const Vec2& anchor);
+    bool init(const Size& size, const Vec2& anchor);
     
 #pragma mark -
 #pragma mark Animation
