@@ -111,6 +111,7 @@ protected:
     /** Whether or not reset mode is active */
     bool _reset;
     int _cooldown;
+    bool _youWin;
     
     // indicate current level
     int _currentLevel;
@@ -248,9 +249,9 @@ public:
     
     bool didGoMain(){return _failMenu->didGoMain() || _winMenu->didGoMain() || _pauseMenu->didGoMain();}
     
-    void setComplete(bool value) { _complete = value; toggleWin(value);}
+    void setComplete(bool value) { _complete = true; _youWin = value;}
     
-    void setFail(bool value) { _complete = value; toggleFail(value);}
+    void setFail(bool value) { _complete = true; _youWin = false;}
     
 //    void pause(){Director::getInstance()->pause(); }
     bool finishPreload() { return _preload; }

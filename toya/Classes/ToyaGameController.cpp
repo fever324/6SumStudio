@@ -217,6 +217,7 @@ bool GameController::init(RootLayer* root, InputController* input, int playLevel
     
     _active = true;
     _complete = false;
+    _cooldown = COOLDOWN;
     
     
     
@@ -273,6 +274,7 @@ void GameController::reset() {
     _panel->reset();
     setFail(false);
     _reset = false;
+    _cooldown = COOLDOWN;
     
     populate();
 }
@@ -291,6 +293,7 @@ void GameController::clear() {
     setFail(false);
     _reset = false;
     _active = false;
+    _cooldown = COOLDOWN;
 }
 
 
@@ -445,7 +448,7 @@ void GameController::update(float dt) {
         _pauseMenu->setResume(false);
     }
     
-    // no cooldown, only reset when finish or fail a level
+    // add cooldown to show deathe animation
     
     if (_reset == true || _overview->hasReseted()) {
         reset();
@@ -515,9 +518,25 @@ void GameController::update(float dt) {
     // don't update the world when
     //   win or fail
     //   pause pressed
-    if(!_complete && !_overview->didPause()){
+    
+    // if complete the game,either win or lose, start decrese cooldown
+    if (_complete && _cooldown > 0){
+        _cooldown --;
+    }
+    
+    if((!_complete && !_overview->didPause()) || _cooldown > 0){
         _theWorld->update(dt);
     }
+    
+    // show win menu only when _cooldown is 0 and complete the game
+    if (_complete && _cooldown == 0) {
+        if (_youWin) {
+            toggleWin(true);
+        }else{
+            toggleFail(true);
+        }
+    }
+    
     
 }
 

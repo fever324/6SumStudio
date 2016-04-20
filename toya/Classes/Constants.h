@@ -36,4 +36,7 @@
 #define DEBUG_NODE_ORDER  4
 
 
+#define COOLDOWN    60
+
+
 #endif /* Constants_h */
