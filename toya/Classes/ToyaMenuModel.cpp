@@ -107,6 +107,18 @@ bool MenuModel::init(std::string mtype, const Vec2& size, const Vec2& scale){
         
         this->addChild(bg);
         
+        
+        
+        Texture2D* star1 = AssetManager::getInstance()->getCurrent()->get<Texture2D>("dirt");
+        Sprite* star = Sprite::createWithTexture(star1,Rect(0,0,64,64));
+        star->setScale(1);
+        star->setPosition(Vec2(size.x/2.0f,size.y/2.0f));
+        star->ignoreAnchorPointForPosition(true);
+        star->setAnchorPoint(Vec2(0,0));
+        
+        this->addChild(star);
+
+        
         this->addChild(replay);
         this->addChild(gomain);
         this->addChild(next);
@@ -151,6 +163,9 @@ bool MenuModel::init(std::string mtype, const Vec2& size, const Vec2& scale){
         bg->setAnchorPoint(Vec2(-0.5,-0.5));
         
         this->addChild(bg);
+        
+        
+        createLevelStars(6,scale,size);
         
         this->addChild(replay);
         this->addChild(gomain);
@@ -204,6 +219,22 @@ MenuModel* MenuModel::create(std::string mtype,const Vec2& size){
     CC_SAFE_DELETE(menu);
     return nullptr;
 }
+
+void MenuModel::createLevelStars(int count, const Vec2& scale,const Vec2& pos){
+    int i = 0;
+    for (; i < count; i++) {
+        Texture2D* starIMG = AssetManager::getInstance()->getCurrent()->get<Texture2D>("dirt");
+        Sprite* star = Sprite::createWithTexture(starIMG,Rect(0,0,64,64));
+        star->setScale(1);
+        star->setPosition(Vec2(pos.x/2.0f+i*80,pos.y/2.0f));
+        star->ignoreAnchorPointForPosition(true);
+        star->setAnchorPoint(Vec2(0,0));
+        star->setVisible(false);
+        _levelStarMap[i] = star;
+        this->addChild(star);
+    }
+}
+
 
 void MenuModel::createLevelButtons(int count, const Vec2& scale,const Vec2& pos){
     int i = 0;

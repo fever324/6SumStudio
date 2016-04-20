@@ -51,6 +51,7 @@ private:
     
     std::vector< int > _levelIndex;
     std::map<int, int> _levelMap;
+    std::map<int, Sprite*> _levelStarMap;
     
     
 protected:
@@ -112,6 +113,8 @@ CC_CONSTRUCTOR_ACCESS:
     static MenuModel* create(std::string mtype, const Vec2& size, const Vec2& scale);
     
     void createLevelButtons(int count,const Vec2& scale, const Vec2& pos);
+    
+    void createLevelStars(int count,const Vec2& scale, const Vec2& pos);
     Button* createButton(const std::string& texture,const Vec2& scale,const Vec2& pos);
     
 #pragma mark -
@@ -156,6 +159,7 @@ CC_CONSTRUCTOR_ACCESS:
         std::ostringstream s;
         s << "Time Cost  " << time << std::endl << "Stars: " + std::to_string(stars);
         _timenode->setString(s.str());
+        _levelStarMap[stars]->setVisible(true);
     }
     
 };
