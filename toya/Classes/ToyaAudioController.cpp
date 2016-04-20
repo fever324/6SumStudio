@@ -14,6 +14,9 @@ void AudioController::preload() {
     audio->preloadEffect(DEATH_SOUND);
     audio->preloadEffect(PICKUP_MAGIC);
     audio->preloadEffect(FREEZE_EFFECT);
+    
+    
+    setBackgroundVolume(0.1);
 }
 
 void AudioController::setBackgroundVolume(float bg_vol) {

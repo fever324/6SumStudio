@@ -131,7 +131,6 @@ void ToyaRoot::update(float deltaTime) {
     if (!_showMenu && !_gameplay.isActive() && complete && _preloaded) {
         // hide the menu after entering the game
         // removeAllChildren();
-        CCLOG("hehe");
         _gameplay.init(this,&_input,_playLevel);
     }
     
