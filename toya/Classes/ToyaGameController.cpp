@@ -337,7 +337,6 @@ void GameController::populate() {
     _mapReader->loadMap("maps/level"+std::to_string(_currentLevel)+".tmx");
     
     _mapReader->createBackground();
-    _mapReader->createStars();
     _mapReader->createRemovableBlocks();
     _mapReader->createNonRemovableBlocks();
     _mapReader->createMovingObstacles();
@@ -348,8 +347,11 @@ void GameController::populate() {
     _goalDoor = _mapReader->createGoalDoor();
     _avatar   = _mapReader->createAvatar();
     _panel    = _mapReader->createMagicPanel();
+    _maxStarCount = _mapReader->createStars();
+    _expectedPlayTime = _mapReader->getExpectedPlayTime();
     
-    _bonusEarned = 0;
+    _starsFound = 0;
+    
     
     _theWorld->setFollow(_avatar);
     _avatar->setName("avatar");
@@ -579,23 +581,13 @@ void GameController::beginContact(b2Contact* contact) {
         MovingObstacleModel* ghost = bd1->getName() == "ghost" ? (MovingObstacleModel*)bd1 : (MovingObstacleModel*)bd2;
         
         if(!ghost->isFrozen()) {
-            _audio->playDeathEffect();
-            _audio->audioTerminate();
-            setFail(true);
-            double time = _overview->getCurrentPlayTime();
-//            _theWorld->showTime(time);
-            _failMenu->showTime(time, _bonusEarned);
+            displayDeathPanel();
         }
     }
     
     if((bd1->getName() == "avatar" && bd2->getName() == "lava") ||
        (bd1->getName() == "lava" && bd2->getName() == "avatar")) {
-        _audio->playDeathEffect();
-        _audio->audioTerminate();
-        setFail(true);
-        double time = _overview->getCurrentPlayTime();
-        // _theWorld->showTime(time);
-        _failMenu->showTime(time, _bonusEarned);
+        displayDeathPanel();
     }
     
     else if((bd1->getName() == "avatar" && bd2->getName() == "potion") || (bd1->getName() == "potion" && bd2->getName() == "avatar")) {
@@ -609,7 +601,7 @@ void GameController::beginContact(b2Contact* contact) {
         StarModel* star = bd1->getName() == "star" ? (StarModel*)bd1 : (StarModel*)bd2;
         star->pickUp(_theWorld->getWorldNode(), _theWorld->getDebugNode(), _theWorld->getWorld());
         _audio->playPickupPotion();
-        _bonusEarned++;
+        _starsFound++;
     }
     
     // If we hit the "win" door, we are done
@@ -622,12 +614,11 @@ void GameController::beginContact(b2Contact* contact) {
         _avatar->setLinearVelocity(Vec2(0.0f, 0.0f));
         // TODO: pause it
         double time = _overview->getCurrentPlayTime();
-//        _theWorld->showTime(time);
-        _winMenu->showTime(time, _bonusEarned);
-        // _reset = true;
+        int overallStar = getOverallStarCount(true, time, _starsFound);
+        _winMenu->showTime(time, overallStar);
         
         // Store the score in the file
-        ProgressModel::getInstance()->writeData(_currentLevel, time*100);
+        ProgressModel::getInstance()->writeData(_currentLevel, 222, time, overallStar);
         
     }
     // See if we have hit a wall.
@@ -785,4 +776,32 @@ void GameController::preload() {
     
     // Finally, load the level
     //    _assets->loadAsync<LevelModel>(LEVEL_ONE_KEY,LEVEL_ONE_FILE);
+}
+
+void GameController::displayDeathPanel() {
+    _audio->playDeathEffect();
+    _audio->audioTerminate();
+    setFail(true);
+    double time = _overview->getCurrentPlayTime();
+    int n = getOverallStarCount(false, time, _starsFound);
+    _failMenu->showTime(time, n);
+    
+}
+
+int GameController::getOverallStarCount(bool levelCompleted,float time, int starsFound) {
+    int n = 0;
+    
+    if(levelCompleted) {
+        n++;
+    }
+    
+    if(time < _expectedPlayTime) {
+        n++;
+    }
+    
+    if(starsFound == _maxStarCount) {
+        n++;
+    }
+    
+    return n;
 }

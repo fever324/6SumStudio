@@ -115,7 +115,10 @@ protected:
     // indicate current level
     int _currentLevel;
     
-    int _bonusEarned;
+    int _starsFound;
+    int _maxStarCount;
+    
+    int _expectedPlayTime;
     
     bool _preload;
     
@@ -255,6 +258,9 @@ public:
 //    void pause(){Director::getInstance()->pause(); }
     bool finishPreload() { return _preload; }
     
+    int getOverallStarCount(bool levelCompleted, float time, int starsFound);
+    
+    void displayDeathPanel();
     
     
 #pragma mark -

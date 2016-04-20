@@ -42,6 +42,7 @@
    <property name="gravity" type="int" value="9"/>
    <property name="initialMagicPoints" type="int" value="10"/>
    <property name="maxMagicPoints" type="int" value="10"/>
+   <property name="time" type="int" value="500"/>
   </properties>
   <data encoding="base64" compression="zlib">
    eJztzgEJAAAMA6Dx/qEfYww0gQkAAAAAAAAAAOuuHaDmASf4AAM=

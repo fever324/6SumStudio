@@ -60,6 +60,9 @@ protected:
 public:
     MapReader(GameController* gameController);
     
+    /**
+     Returns the expected level play time
+     */
     void loadMap(const std::string& mapFile);
     
     void createRemovableBlocks();
@@ -77,7 +80,12 @@ public:
     
     void createMagicPotions();
     
-    void createStars();
+    int getExpectedPlayTime();
+    
+    /**
+     Returns number of stars in this level.
+     */
+    int createStars();
     
     PanelModel* createMagicPanel();
     
