@@ -255,7 +255,6 @@ public:
     
     void setFail(bool value) { _complete = value; toggleFail(value);}
     
-//    void pause(){Director::getInstance()->pause(); }
     bool finishPreload() { return _preload; }
     
     int getOverallStarCount(bool levelCompleted, float time, int starsFound);

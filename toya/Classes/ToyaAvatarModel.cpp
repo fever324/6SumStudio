@@ -151,6 +151,8 @@ bool AvatarModel::init(const Vec2& pos, const Vec2& scale) {
         // Gameplay attributes
         _faceRight  = true;
         _isGrounded = false;
+        _isDead = false;
+        _isWin = false;
         setDrawScale(scale);
         setLinearVelocity(Vec2{AVATAR_INITIAL_SPEED,0});
         setRemovable(false);
@@ -346,6 +348,8 @@ void AvatarModel::animateAvatar() {
     }
     
     int state = isGrounded() ? 0 : 2 * AVATAR_ANIMATION_COLS;
+    state = _isDead ? 12 : state;
+    state = _isWin  ? 12 : state;
     int base = isFacingRight() ? state : state + AVATAR_ANIMATION_COLS;
     
     if(_animationFrameCount++ % AVATAR_CYCLE_PER_FRAME == 0) {
