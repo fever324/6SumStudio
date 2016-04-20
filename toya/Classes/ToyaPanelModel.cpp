@@ -131,12 +131,19 @@ void PanelModel::destructionTouchEvent(Ref *sender, ui::Widget::TouchEventType t
 int PanelModel::getSpell() {
     return _selection;
 }
-void PanelModel::setSpell(int i){
-    if(i == 0) {
+void PanelModel::setSpell(int magic){
+    if(magic == 0) {
         _freezingSpellCB->setSelected(false);
         _destructionSpellCB->setSelected(false);
     }
-    _selection = i;
+    
+    if( magic == FREEZING_SPELL_SELECTED && _currentMana > FREEZE_COST) {
+        _selection = FREEZING_SPELL_SELECTED;
+    } else if(magic == DESTRUCTION_SPELL_SELECTED && _currentMana > DESTRUCTION_COST) {
+        _selection = DESTRUCTION_SPELL_SELECTED;
+    } else {
+        _selection = 0;
+    }
 }
 void PanelModel::addMana(int mana) {
     int result = mana + _currentMana;
@@ -147,7 +154,7 @@ void PanelModel::addMana(int mana) {
 }
 
 bool PanelModel::deduceMana(int cost) {
-    if(cost > _totalMana) return false;
+    if(cost > _currentMana) return false;
     _currentMana -= cost;
     updateMagicBar();
     updateButtons();

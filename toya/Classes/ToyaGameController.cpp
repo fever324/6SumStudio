@@ -490,7 +490,7 @@ void GameController::update(float dt) {
     
     if (_input->didSelect() && _selector->isSelected()) {
         if(_panel->getSpell() == DESTRUCTION_SPELL_SELECTED) {
-            _panel->setSpell(0);
+            _panel->setSpell(DESTRUCTION_SPELL_SELECTED);
             if (_selector->getObstacle()->getName() == "removable"){
                 RemovableBlockModel* rmb = (RemovableBlockModel*) _selector->getObstacle();
                 rmb->destroy(_theWorld->getWorldNode(), _theWorld->getDebugNode(), _theWorld->getWorld());
@@ -500,7 +500,7 @@ void GameController::update(float dt) {
                 
             }
         } else if (_panel->getSpell() == FREEZING_SPELL_SELECTED) {
-            _panel->setSpell(0);
+            _panel->setSpell(FREEZING_SPELL_SELECTED);
             
             if(_selector->getObstacle()->getName() == "ghost") {
                 MovingObstacleModel* movingObstacle = (MovingObstacleModel*) _selector->getObstacle();
@@ -655,7 +655,7 @@ void GameController::beginContact(b2Contact* contact) {
         _winMenu->showTime(time, overallStar);
         
         // Store the score in the file
-        ProgressModel::getInstance()->writeData(_currentLevel, 222, time, overallStar);
+//        ProgressModel::getInstance()->writeData(_currentLevel, 222, time, overallStar);
         
     }
     // See if we have hit a wall.
