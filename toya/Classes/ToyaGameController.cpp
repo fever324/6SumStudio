@@ -485,6 +485,11 @@ void GameController::update(float dt) {
         _theWorld->setGravity(newGravity);
     }
     
+    if(_input->didSwipe()) {
+        int direction = _input->getSwipeDirection();
+        _avatar->setFacingRight(direction == 1);
+    }
+    
     if (_input->didSelect() && _selector->isSelected()) {
         if(_panel->getSpell() == DESTRUCTION_SPELL_SELECTED) {
             _panel->setSpell(0);
