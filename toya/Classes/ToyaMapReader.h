@@ -58,6 +58,9 @@ protected:
 public:
     MapReader(GameController* gameController);
     
+    /**
+     Returns the expected level play time
+     */
     void loadMap(const std::string& mapFile);
     
     void createTheMap(){

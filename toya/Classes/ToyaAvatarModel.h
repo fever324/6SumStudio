@@ -72,6 +72,8 @@ protected:
     bool _faceRight;
     /** Whether our feet are on the ground */
     bool _isGrounded;
+    bool _isDead;
+    bool _isWin;
     /** Reference to the sensor name (since a constant cannot have a pointer) */
     std::string _leftSensorName;
     std::string _rightSensorName;
@@ -378,6 +380,9 @@ CC_CONSTRUCTOR_ACCESS:
     void setAvatarTexture(std::string strip) { _avatarTexture = strip; }
 
     void reset();
+    
+    void setDead(){ _isDead = true;}
+    void setWin(){ _isWin = true;}
     
 private:
     void createSensor(b2Fixture* sensorFixture, b2Vec2 corners[], std::string* sensorName);

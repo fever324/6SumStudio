@@ -16,7 +16,7 @@ private:
     
 public:
     static ProgressModel* getInstance();
-    void writeData(int level, int score);
+    void writeData(int level, int score, float completeTime, int star);
     int getScore(int level);
     int getNextLevel();
 };

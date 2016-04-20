@@ -46,7 +46,7 @@ void ProgressModel::readData() {
     reader.endJSON();
 }
 
-void ProgressModel::writeData(int level, int score) {
+void ProgressModel::writeData(int level, int score, float completeTime, int star){
     FILE* input = fopen(PROGRESS_DATA, "r");
     char* readBuffer = new char[65536]();
     FileReadStream is(input, readBuffer, sizeof(readBuffer));

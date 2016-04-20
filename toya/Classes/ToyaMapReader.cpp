@@ -197,8 +197,13 @@ void MapReader::createMagicPotions() {
     }
 }
 
-void MapReader::createStars() {
-    if(map->getObjectGroup("Stars") == nullptr) return;
+
+/**
+ Returns number of stars in this level.
+ */
+int MapReader::createStars() {
+    int starCount = 0;
+    if(map->getObjectGroup("Stars") == nullptr) return starCount;
     
     Vec2 _scale = gameController->getScale();
     
@@ -217,7 +222,10 @@ void MapReader::createStars() {
         StarModel* starObj = StarModel::create(2, 2, 2, texture, starPos, size, _scale);
         gameController->addObstacle(starObj, STAR_DRAW_LAYER);
         starObj->setName("star");
+        starCount++;
     }
+    
+    return starCount;
 }
 
 void MapReader::createBackground() {
@@ -238,13 +246,10 @@ ExitDoorModel* MapReader::createGoalDoor() {
     ValueMap door = goalDoorGroup->getObject("Door");
     float goal_x = door.at("x").asFloat()*cscale + tileSize.width/2;
     
-    // y need to be re-calculated
     float goal_y = door.at("y").asFloat()*cscale + 2*tileSize.height;
 
     Vec2 goalPos = (Vec2){goal_x/tileSize.width, goal_y/tileSize.height};
-//    CCLOG("%.2f",goal_x/64);
     Texture2D* image = gameController->getAssets()->get<Texture2D>(goalDoorGroup->getProperty("texture").asString());
-    
     
     Size goalSize = Size(image->getContentSize().width/_scale.x, image->getContentSize().height/_scale.y);
     ExitDoorModel* _goalDoor = ExitDoorModel::create(goalPos, goalSize/4);
@@ -285,6 +290,13 @@ PanelModel* MapReader::createMagicPanel() {
     
     return _panel;
 }
+
+int MapReader::getExpectedPlayTime() {
+    TMXLayer* rootLayer = map->getLayer("rootLayer");
+    int expectedPlayTime = rootLayer->getProperty("time").asInt();
+    return expectedPlayTime;
+}
+
 
 
 
