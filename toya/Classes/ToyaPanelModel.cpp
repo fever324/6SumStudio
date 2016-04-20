@@ -169,5 +169,7 @@ void PanelModel::updateButtons() {
 
 void PanelModel::reset(){
     _currentMana = _totalMana;
+    _freezingSpellCB->setEnabled(true);
+    _freezingSpellCB->setEnabled(true);
 }
 

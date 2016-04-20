@@ -63,6 +63,13 @@ public:
     
     void freezingTouchEvent(Ref *sender, ui::Widget::TouchEventType type);
     void destructionTouchEvent(Ref *sender, ui::Widget::TouchEventType type);
+    void disableButton(){
+        _freezingSpellCB->setEnabled(false);
+        _destructionSpellCB->setEnabled(false);
+    };
+    void enableButton(){
+        updateButtons();
+    };
 };
 
 #endif

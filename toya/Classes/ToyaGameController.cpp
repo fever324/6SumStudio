@@ -442,8 +442,10 @@ void GameController::update(float dt) {
     // if didPause
     if (_overview->didPause()) {
         togglePause(true);
+        _panel->disableButton();
     } else {
         togglePause(false);
+        _panel->enableButton();
     }
     
     if (_pauseMenu->didGoMain()) {
@@ -539,8 +541,12 @@ void GameController::update(float dt) {
     if (_complete && _cooldown == 0) {
         if (_youWin) {
             toggleWin(true);
+            _overview->disableButton();
+            _panel->disableButton();
         }else{
             toggleFail(true);
+            _overview->disableButton();
+            _panel->disableButton();
         }
     }
     

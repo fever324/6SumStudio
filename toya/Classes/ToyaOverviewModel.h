@@ -26,8 +26,7 @@ private:
     CC_DISALLOW_COPY_AND_ASSIGN(OverviewModel);
     
     
-    ui::CheckBox* pauseButton; //pause button
-    ui::Button* resetButton;
+    ui::Button* pauseButton; //pause button
     bool paused;
     bool reseted;
 
@@ -119,6 +118,7 @@ CC_CONSTRUCTOR_ACCESS:
 #pragma mark Helper Functions
     void pauseButtonPressed();
     void resumeFromPause();
+    void disableButton();
     
     bool hasReseted() {return this->reseted;}
     void reset();
