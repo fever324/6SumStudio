@@ -157,9 +157,11 @@ CC_CONSTRUCTOR_ACCESS:
     
     void showTime(double time, int stars){
         std::ostringstream s;
-        s << "Time Cost  " << time << std::endl << "Stars: " + std::to_string(stars);
+        s << "Time Cost  " << time << std::endl;
         _timenode->setString(s.str());
-        _levelStarMap[stars]->setVisible(true);
+        if (stars>=0){
+            _levelStarMap[stars]->setVisible(true);
+        }
     }
     
 };

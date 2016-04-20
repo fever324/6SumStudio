@@ -108,16 +108,7 @@ bool MenuModel::init(std::string mtype, const Vec2& size, const Vec2& scale){
         this->addChild(bg);
         
         
-        
-        Texture2D* star1 = AssetManager::getInstance()->getCurrent()->get<Texture2D>("dirt");
-        Sprite* star = Sprite::createWithTexture(star1,Rect(0,0,64,64));
-        star->setScale(1);
-        star->setPosition(Vec2(size.x/2.0f,size.y/2.0f));
-        star->ignoreAnchorPointForPosition(true);
-        star->setAnchorPoint(Vec2(0,0));
-        
-        this->addChild(star);
-
+        createLevelStars(6,scale,size);
         
         this->addChild(replay);
         this->addChild(gomain);
@@ -165,7 +156,7 @@ bool MenuModel::init(std::string mtype, const Vec2& size, const Vec2& scale){
         this->addChild(bg);
         
         
-        createLevelStars(6,scale,size);
+//        createLevelStars(6,scale,size);
         
         this->addChild(replay);
         this->addChild(gomain);

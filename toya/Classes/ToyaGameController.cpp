@@ -219,13 +219,6 @@ bool GameController::init(RootLayer* root, InputController* input, int playLevel
     _complete = false;
     _cooldown = COOLDOWN;
     
-    
-    
-    // overview panel
-    _overview = OverviewModel::create(Vec2(root->getContentSize().width,root->getContentSize().height), inputscale);
-    _overview->setGameController(this);
-    root->addChild(_overview,PAUSE_BUTTON_ORDER);
-    
    
     
     return true;
@@ -354,6 +347,10 @@ void GameController::populate() {
     _rootnode->addChild(_theWorld->getDebugNode(),DEBUG_NODE_ORDER);
     _rootnode->addChild(_panel,PANEL_VIEW_ORDER);
     
+    // overview panel
+    _overview = OverviewModel::create(Vec2(_rootnode->getContentSize().width,_rootnode->getContentSize().height), Vec2(_rootnode->getScaleX(),_rootnode->getScaleY()));
+    _overview->setGameController(this);
+    _rootnode->addChild(_overview,PAUSE_BUTTON_ORDER);
     
     setDebug(false);
     
@@ -823,8 +820,7 @@ void GameController::displayDeathPanel() {
     
     setFail(true);
     double time = _overview->getCurrentPlayTime();
-    int n = getOverallStarCount(false, time, _starsFound);
-    _failMenu->showTime(time, n);
+    _failMenu->showTime(time, -1);
     
 }
 
