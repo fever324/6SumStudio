@@ -23,8 +23,8 @@
 		2B06EC2A1CC4E1A4004913D1 /* ToyaMagicPotionModel.h in Sources */ = {isa = PBXBuildFile; fileRef = EBCA80AE1CB74935002F20D5 /* ToyaMagicPotionModel.h */; };
 		2B06EC2B1CC4E1A4004913D1 /* ToyaMapReader.h in Sources */ = {isa = PBXBuildFile; fileRef = FBD3E40D1CB5EC8200A261D5 /* ToyaMapReader.h */; };
 		2B06EC2C1CC4E1A4004913D1 /* ToyaMovingObstacleModel.h in Sources */ = {isa = PBXBuildFile; fileRef = EB28113F1CB5F982003B4616 /* ToyaMovingObstacleModel.h */; };
-		2B06EC2F1CC4E1BF004913D1 /* ToyaProgressModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2B06EC2D1CC4E1BF004913D1 /* ToyaProgressModel.cpp */; };
-		2B06EC301CC4E1BF004913D1 /* ToyaProgressModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2B06EC2D1CC4E1BF004913D1 /* ToyaProgressModel.cpp */; };
+		2B06EC2F1CC4E1BF004913D1 /* ToyaProgressModel.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2B06EC2D1CC4E1BF004913D1 /* ToyaProgressModel.mm */; };
+		2B06EC301CC4E1BF004913D1 /* ToyaProgressModel.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2B06EC2D1CC4E1BF004913D1 /* ToyaProgressModel.mm */; };
 		2B47DADA1C964191003B2491 /* jsons in Resources */ = {isa = PBXBuildFile; fileRef = 2B47DAD91C964191003B2491 /* jsons */; };
 		2B8310371C99236700CDC935 /* jsons in Resources */ = {isa = PBXBuildFile; fileRef = 2B47DAD91C964191003B2491 /* jsons */; };
 		2BBB8B931C9E022200E935DB /* ToyaBlockFactory.h in Sources */ = {isa = PBXBuildFile; fileRef = 2BBB8B901C9E020100E935DB /* ToyaBlockFactory.h */; };
@@ -198,7 +198,7 @@
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D6058910D05DD3D006BFB54 /* toya-mobile.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "toya-mobile.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		288765A40DF7441C002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		2B06EC2D1CC4E1BF004913D1 /* ToyaProgressModel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ToyaProgressModel.cpp; sourceTree = "<group>"; };
+		2B06EC2D1CC4E1BF004913D1 /* ToyaProgressModel.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ToyaProgressModel.mm; sourceTree = "<group>"; };
 		2B06EC2E1CC4E1BF004913D1 /* ToyaProgressModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToyaProgressModel.h; sourceTree = "<group>"; };
 		2B47DAD91C964191003B2491 /* jsons */ = {isa = PBXFileReference; lastKnownFileType = folder; path = jsons; sourceTree = "<group>"; };
 		2B47DADC1C9649AD003B2491 /* ToyaLevelConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToyaLevelConstants.h; sourceTree = "<group>"; };
@@ -458,7 +458,7 @@
 				FB21ACE41C82B52200613B39 /* ToyaGameRoot.h */,
 				FB54E8C21C95C8D6003A51B9 /* ToyaGameView.cpp */,
 				FB54E8C31C95C8D6003A51B9 /* ToyaGameView.h */,
-				2B06EC2D1CC4E1BF004913D1 /* ToyaProgressModel.cpp */,
+				2B06EC2D1CC4E1BF004913D1 /* ToyaProgressModel.mm */,
 				2B06EC2E1CC4E1BF004913D1 /* ToyaProgressModel.h */,
 				FB99ADF91C962A5B0074BBE9 /* ToyaInputController.cpp */,
 				FB99ADFA1C962A5B0074BBE9 /* ToyaInputController.h */,
@@ -610,7 +610,7 @@
 						DevelopmentTeam = 9WEW4LG4VB;
 					};
 					5087E73D17EB910900C73F5D = {
-						DevelopmentTeam = FUM3E9989D;
+						DevelopmentTeam = DD9LU872HK;
 					};
 				};
 			};
@@ -709,7 +709,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2B06EC271CC4E1A4004913D1 /* Constants.h in Sources */,
-				2B06EC2F1CC4E1BF004913D1 /* ToyaProgressModel.cpp in Sources */,
+				2B06EC2F1CC4E1BF004913D1 /* ToyaProgressModel.mm in Sources */,
 				2B06EC281CC4E1A4004913D1 /* ToyaAnimationBoxModel.h in Sources */,
 				2B06EC291CC4E1A4004913D1 /* ToyaAudioController.h in Sources */,
 				2B06EC2A1CC4E1A4004913D1 /* ToyaMagicPotionModel.h in Sources */,
@@ -776,7 +776,7 @@
 				D6692C0B1C987D1000DD9B2F /* ToyaLevelConstants.h in Sources */,
 				FB99AE051C962A850074BBE9 /* ToyaInputController.cpp in Sources */,
 				FB99AE061C962A850074BBE9 /* ToyaInputController.h in Sources */,
-				2B06EC301CC4E1BF004913D1 /* ToyaProgressModel.cpp in Sources */,
+				2B06EC301CC4E1BF004913D1 /* ToyaProgressModel.mm in Sources */,
 				FB99AE081C962A850074BBE9 /* ToyaRemovableBlockModel.cpp in Sources */,
 				FB99AE091C962A850074BBE9 /* ToyaRemovableBlockModel.h in Sources */,
 				FB99AE0A1C962A850074BBE9 /* ToyaSpellModel.h in Sources */,
@@ -859,7 +859,7 @@
 					"$(_COCOS_LIB_IOS_BEGIN)",
 					"$(_COCOS_LIB_IOS_END)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = edu.cornell.gdiac.6sumstudio.test.toya;
+				PRODUCT_BUNDLE_IDENTIFIER = edu.cornell.gdiac.6sumstudio.toya;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -897,7 +897,7 @@
 					"$(_COCOS_LIB_IOS_BEGIN)",
 					"$(_COCOS_LIB_IOS_END)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = edu.cornell.gdiac.6sumstudio.test.toya;
+				PRODUCT_BUNDLE_IDENTIFIER = edu.cornell.gdiac.6sumstudio.toya;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";

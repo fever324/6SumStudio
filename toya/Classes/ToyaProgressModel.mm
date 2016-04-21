@@ -16,6 +16,19 @@ using namespace rapidjson;
 
 static ProgressModel* _progress = nullptr;
 
+void ProgressModel::init() {
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSError *error;
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *filePath = [documentsDirectory stringByAppendingPathComponent:@"progress.json"];
+    
+    if([fileManager fileExistsAtPath:filePath] == NO) {
+        NSString *resourcePath = [[NSBundle mainBundle] pathForResource:@"jsons/progress" ofType:@".json"];
+        [fileManager copyItemAtPath:resourcePath toPath:filePath error:&error];
+    }
+}
+
 ProgressModel* ProgressModel::getInstance() {
     if(_progress == nullptr) {
         _progress = new (std::nothrow) ProgressModel();
@@ -26,9 +39,12 @@ ProgressModel* ProgressModel::getInstance() {
 }
 
 void ProgressModel::readData() {
-    JSONReader reader;
+    NSArray * paths(NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES));
+    const char* const path([[paths objectAtIndex:0] fileSystemRepresentation]);
+    const std::string documentPath(path);
     
-    reader.initWithFile(PROGRESS_DATA);
+    JSONReader reader;
+    reader.initWithFile(documentPath + "/progress.json");
     if (!reader.startJSON()) {
         CCASSERT(false, "Failed to load asset directory");
         return;
@@ -47,7 +63,11 @@ void ProgressModel::readData() {
 }
 
 void ProgressModel::writeData(int level, int score, float completeTime, int star){
-    FILE* input = fopen(PROGRESS_DATA, "r");
+    NSArray * paths(NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES));
+    const char* const path([[paths objectAtIndex:0] fileSystemRepresentation]);
+    const std::string documentPath(path);
+    
+    FILE* input = fopen((documentPath+"/progress.json").c_str(), "r");
     char* readBuffer = new char[65536]();
     FileReadStream is(input, readBuffer, sizeof(readBuffer));
     
@@ -74,14 +94,15 @@ void ProgressModel::writeData(int level, int score, float completeTime, int star
         document["levelCompleted"].SetInt(level+1);
     }
     
-    FILE* output = fopen(PROGRESS_DATA, "w");
+    fclose(input);
+    
+    FILE* output = fopen((documentPath+"/progress.json").c_str(), "w");
     char* writeBuffer = new char[65536]();
     FileWriteStream os(output, writeBuffer, sizeof(writeBuffer));
     
     Writer<FileWriteStream> writer(os);
     document.Accept(writer);
     
-    fclose(input);
     fclose(output);
     
     if(level >= _levelsCompleted) {

@@ -219,7 +219,7 @@ bool GameController::init(RootLayer* root, InputController* input, int playLevel
     _complete = false;
     _cooldown = COOLDOWN;
     
-   
+    ProgressModel::init();
     
     return true;
 }
@@ -655,7 +655,7 @@ void GameController::beginContact(b2Contact* contact) {
         _winMenu->showTime(time, overallStar);
         
         // Store the score in the file
-//        ProgressModel::getInstance()->writeData(_currentLevel, 222, time, overallStar);
+        ProgressModel::getInstance()->writeData(_currentLevel, 222, time, overallStar);
         
     }
     // See if we have hit a wall.
