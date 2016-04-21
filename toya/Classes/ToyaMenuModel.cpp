@@ -44,7 +44,7 @@ bool MenuModel::init(std::string mtype, const Vec2& size, const Vec2& scale){
         LayerColor* bg = LayerColor::create(Color4B(175, 211, 102, 255));
         this->addChild(bg);
         
-        createLevelButtons(4,scale,size);
+        createLevelButtons(10,scale,size);
 
         
     } else if (mtype == "welcome") {
@@ -227,11 +227,11 @@ void MenuModel::createLevelStars(int count, const Vec2& scale,const Vec2& pos){
 }
 
 
-void MenuModel::createLevelButtons(int count, const Vec2& scale,const Vec2& pos){
+void MenuModel::createLevelButtons(int count, const Vec2& scale,const Vec2& size){
     int i = 0;
     for (; i < count; i++) {
         
-        Button* levelButton = createButton("textures/level"+std::to_string(i)+".png", scale, Vec2(pos.x/8+i*200, pos.y-100));
+        Button* levelButton = createButton("textures/level"+std::to_string(i)+".png", scale, Vec2(size.x/8+i%4*200, size.y- 50 - i/4*200));
         
         levelButton->addTouchEventListener(CC_CALLBACK_2(MenuModel::levelButtonTouchEvent, this));
         
