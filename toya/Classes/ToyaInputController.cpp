@@ -310,6 +310,7 @@ void InputController::touchEndedCB(Touch* t, timestamp_t current) {
     _keyRotate = false;
     
     _select = false;
+    _released = true;
 }
 
 bool InputController::checkTap(timestamp_t current) {

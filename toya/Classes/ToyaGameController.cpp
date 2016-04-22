@@ -383,7 +383,7 @@ void GameController::addObstacle(Obstacle* obj, int zOrder) {
 #pragma mark -
 #pragma mark Physics Handling
 
-Vec2* GameController::getRelativePosition(const Vec2& physicalPosition, Vec2& centerPosition, float turningAngel) {
+Vec2* GameController::getRelativePosition(const Vec2& physicalPosition, Vec2& centerPosition, float turningAngle) {
     
     Vec2 centerPosition_p = Vec2{512.0f, 288.0f};
     float dist = physicalPosition.getDistance(centerPosition_p);
@@ -488,7 +488,7 @@ void GameController::update(float dt) {
         _avatar->setFacingRight(direction == 1);
     }
     
-    if (_input->didSelect() && _selector->isSelected()) {
+    if (_input->didRelease() && _selector->isSelected()) {
         if(_panel->getSpell() == DESTRUCTION_SPELL_SELECTED) {
             _panel->setSpell(DESTRUCTION_SPELL_SELECTED);
             if (_selector->getObstacle()->getName() == "removable"){
@@ -496,8 +496,7 @@ void GameController::update(float dt) {
                 rmb->destroy(_theWorld->getWorldNode(), _theWorld->getDebugNode(), _theWorld->getWorld());
                 _audio->playDestroyEffect();
                 _panel->deduceMana(DESTRUCTION_COST);
-                _selector->deselect();
-                
+                _selector->deselect();                
             }
         } else if (_panel->getSpell() == FREEZING_SPELL_SELECTED) {
             _panel->setSpell(FREEZING_SPELL_SELECTED);
@@ -510,6 +509,8 @@ void GameController::update(float dt) {
                 _panel->deduceMana(FREEZE_COST);
                 _selector->deselect();
             }
+            _input->setRelease(false);
+
         }
     } else if (_input->didSelect()) {
         Vec2 centerPosition = _avatar->getPosition();
