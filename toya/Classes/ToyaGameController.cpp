@@ -455,7 +455,7 @@ void GameController::update(float dt) {
     
     if (_pauseMenu->isMute()) {
         _audio->audioPauseAll();
-    } else if (!_pauseMenu->isMute()) {
+    } else {
         _audio->audioResumeAll();
     }
     

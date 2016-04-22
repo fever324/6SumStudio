@@ -173,9 +173,6 @@ bool MenuModel::init(std::string mtype, const Vec2& size, const Vec2& scale){
         _gomain = false;
         _next = false;
         _resume = false;
-        
-        auto audio = CocosDenshion::SimpleAudioEngine::getInstance();
-        audio->stopBackgroundMusic();
         _mute = false;
         
         Button* replay = createButton(REPLAY_BUTTON_IMAGE, scale, Vec2(2*size.x/10, 100));
@@ -192,7 +189,6 @@ bool MenuModel::init(std::string mtype, const Vec2& size, const Vec2& scale){
         this->addChild(resume);
         this->addChild(gomain);
         this->addChild(mute);
-        
         
         LayerColor* bgColor = LayerColor::create(Color4B(0, 0, 0, 100));
         this->addChild(bgColor);
