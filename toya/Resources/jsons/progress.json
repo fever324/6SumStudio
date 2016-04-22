@@ -1,5 +1,55 @@
 {
     "totalLevels": 10,
-    "levelCompleted": 0,
-    "levels": {}
+    "levels": {
+       "0": {
+           "overallStar": 0,
+           "time": 0,
+           "locked": false
+       },
+       "1": {
+           "overallStar": 0,
+           "time": 0,
+           "locked": true
+       },
+       "2": {
+           "overallStar": 0,
+           "time": 0,
+           "locked": true
+       },
+       "3": {
+           "overallStar": 0,
+           "time": 0,
+           "locked": true
+       },
+       "4": {
+           "overallStar": 0,
+           "time": 0,
+           "locked": true
+       },
+       "5": {
+           "overallStar": 0,
+           "time": 0,
+           "locked": true
+       },
+       "6": {
+           "overallStar": 0,
+           "time": 0,
+           "locked": true
+       },
+       "7": {
+           "overallStar": 0,
+           "time": 0,
+           "locked": true
+       },
+       "8": {
+           "overallStar": 0,
+           "time": 0,
+           "locked": true
+       },
+       "9": {
+           "overallStar": 0,
+           "time": 0,
+           "locked": true
+       }
+    }
 }

@@ -52,17 +52,29 @@ void ProgressModel::readData() {
     
     _totalLevels = (int) reader.getNumber("totalLevels");
     _levelsCompleted = (int) reader.getNumber("levelCompleted");
-    
+
     if(reader.startObject("levels")) {
-        for(int i=0; i < reader.getSize(); i++)
-            _scores.push_back(reader.getNumber(std::to_string(i)));
+        int ssize = reader.startArray();
+        
+        for(int i=0; i < ssize; i++) {
+            int level = std::stoi(reader.getKey());
+            
+            if(reader.startObject()) {
+                _levels[level] = new LevelInfo(level, reader.getNumber("overallStar"), reader.getNumber("time"), reader.getBool("locked"));
+            }
+            
+            reader.endObject();
+            reader.advance();
+        }
+        
+        reader.endArray();
     }
     
     reader.endObject();
     reader.endJSON();
 }
 
-void ProgressModel::writeData(int level, int score, float completeTime, int star){
+void ProgressModel::writeData(int level, float completeTime, int star){
     NSArray * paths(NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES));
     const char* const path([[paths objectAtIndex:0] fileSystemRepresentation]);
     const std::string documentPath(path);
@@ -76,23 +88,11 @@ void ProgressModel::writeData(int level, int score, float completeTime, int star
     
     rapidjson::Value& levels = document["levels"];
     const char* levelString = std::to_string(level).c_str();
-    rapidjson::Value levelValue(levelString, document.GetAllocator());
     
-    rapidjson::Value scoreValue(score);
-    rapidjson::Value timeValue(completeTime);
-    rapidjson::Value starValue(star);
-    
-    rapidjson::Value result(kObjectType);
-    result.AddMember("score", scoreValue, document.GetAllocator());
-    result.AddMember("completeTime", timeValue, document.GetAllocator());
-    result.AddMember("star", starValue, document.GetAllocator());
-    
-    if(levels.HasMember(levelString)) {
-        levels[levelString] = result;
-    } else {
-        levels.AddMember(levelValue, result, document.GetAllocator());
-        document["levelCompleted"].SetInt(level+1);
-    }
+    rapidjson::Value* currLevel = &levels.FindMember(levelString)->value;
+    currLevel->FindMember("time")->value.SetDouble(completeTime);
+    currLevel->FindMember("overallStar")->value.SetInt(star);
+    currLevel->FindMember("locked")->value.SetBool(true);
     
     fclose(input);
     
@@ -105,18 +105,23 @@ void ProgressModel::writeData(int level, int score, float completeTime, int star
     
     fclose(output);
     
-    if(level >= _levelsCompleted) {
-        _scores.push_back(score);
-        _levelsCompleted++;
-    } else {
-        _scores[level] = score;
-    }
+    _levels[level]->setStar(star);
+    _levels[level]->setTime(completeTime);
+    _levels[level]->unlock();
 }
 
-int ProgressModel::getScore(int level) {
-    return _scores[level];
+int ProgressModel::getTotalLevels() {
+    return _totalLevels;
 }
 
-int ProgressModel::getNextLevel() {
-    return _levelsCompleted;
+int ProgressModel::getStars(int level) {
+    return _levels[level]->getStar();
+}
+
+double ProgressModel::getCompleteTime(int level) {
+    return _levels[level]->getTime();
+}
+
+bool ProgressModel::isLocked(int level) {
+    return _levels[level]->isLocked();
 }

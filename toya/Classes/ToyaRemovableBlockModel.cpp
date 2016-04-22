@@ -54,7 +54,6 @@ bool RemovableBlockModel::init(int stateCount, int rowCount, int columnCount, st
 }
 
 void RemovableBlockModel::destroy(Node* parent, Node* parentDebugNode, WorldController* world) {
-//    _currState = DESTROY_STATE;
     setIsAnimating(true);
     _parent = parent;
     _parentDebugNode = parentDebugNode;

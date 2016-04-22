@@ -655,8 +655,7 @@ void GameController::beginContact(b2Contact* contact) {
         _winMenu->showTime(time, overallStar);
         
         // Store the score in the file
-        ProgressModel::getInstance()->writeData(_currentLevel, 222, time, overallStar);
-        
+        ProgressModel::getInstance()->writeData(_currentLevel, time, overallStar);
     }
     // See if we have hit a wall.
     else if ((_avatar->getLeftSensorName() == fd2 && _avatar != bd1) ||
