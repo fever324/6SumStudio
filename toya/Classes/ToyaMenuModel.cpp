@@ -4,6 +4,7 @@
 #include <cornell/CUAssetManager.h>
 #include <cornell/CUSceneManager.h>
 #include <cornell/CUGenericLoader.h>
+#include <SimpleAudioEngine.h>
 
 #define Level_BUTTON_NORMAL "textures/level.png"
 #define Level_BUTTON_PRESSED "textures/overviewResumeButton.png"
@@ -13,6 +14,7 @@
 #define NEXT_BUTTON_IMAGE "textures/nextLevel.png"
 #define GOMAIN_BUTTON_IMAGE "textures/back.png"
 #define RESUME_BUTTON_IMAGE "textures/resumeButton.png"
+#define MUTE_BUTTON_IMAGE "textures/overviewResumeButton.png"
 
 #include "Constants.h"
 
@@ -172,19 +174,28 @@ bool MenuModel::init(std::string mtype, const Vec2& size, const Vec2& scale){
         _next = false;
         _resume = false;
         
+        auto audio = CocosDenshion::SimpleAudioEngine::getInstance();
+        audio->stopBackgroundMusic();
+        _mute = false;
         
-        LayerColor* bgColor = LayerColor::create(Color4B(0, 0, 0, 100));
-        this->addChild(bgColor);
+        Button* replay = createButton(REPLAY_BUTTON_IMAGE, scale, Vec2(2*size.x/10, 100));
+        Button* resume = createButton(RESUME_BUTTON_IMAGE, scale, Vec2(4*size.x/10, 100));
+        Button* gomain = createButton(GOMAIN_BUTTON_IMAGE, scale, Vec2(6*size.x/10, 100));
+        Button* mute = createButton(MUTE_BUTTON_IMAGE, scale, Vec2(8*size.x/10, 100));
         
-        Button* replay = createButton(REPLAY_BUTTON_IMAGE, scale, Vec2(2*size.x/8, 100));
-        Button* resume = createButton(RESUME_BUTTON_IMAGE, scale, Vec2(4*size.x/8, 100));
-        Button* gomain = createButton(GOMAIN_BUTTON_IMAGE, scale, Vec2(6*size.x/8, 100));
         replay->addTouchEventListener(CC_CALLBACK_2(MenuModel::replayButtonTouchEvent, this));
         gomain->addTouchEventListener(CC_CALLBACK_2(MenuModel::gomainButtonTouchEvent, this));
         resume->addTouchEventListener(CC_CALLBACK_2(MenuModel::resumeButtonTouchEvent, this));
+        mute->addTouchEventListener(CC_CALLBACK_2(MenuModel::muteButtonTouchEvent,this));
+        
         this->addChild(replay);
         this->addChild(resume);
         this->addChild(gomain);
+        this->addChild(mute);
+        
+        
+        LayerColor* bgColor = LayerColor::create(Color4B(0, 0, 0, 100));
+        this->addChild(bgColor);
         
 //        Texture2D* image = AssetManager::getInstance()->getCurrent()->get<Texture2D>("failbg");
 //        Sprite* bg = Sprite::createWithTexture(image,Rect(0,0,1024,576));
@@ -333,7 +344,15 @@ void MenuModel::nextButtonTouchEvent(cocos2d::Ref *sender, ui::Widget::TouchEven
     }
 }
 
-
+void MenuModel::muteButtonTouchEvent(cocos2d::Ref* sender, ui::Widget::TouchEventType type) {
+    switch (type) {
+        case ui::Widget::TouchEventType::BEGAN:
+            _mute = !_mute;
+            break;
+        default:
+            break;
+    }
+}
 
 void MenuModel::reset() {
 
