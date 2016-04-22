@@ -48,6 +48,9 @@ private:
     
     bool _resume;
     
+    // mute
+    bool _mute;
+    
     
     std::vector< int > _levelIndex;
     std::map<int, int> _levelMap;
@@ -133,6 +136,9 @@ CC_CONSTRUCTOR_ACCESS:
     void gomainButtonTouchEvent(Ref *sender, ui::Widget::TouchEventType type);
     void nextButtonTouchEvent(Ref *sender, ui::Widget::TouchEventType type);
     
+    //
+    void muteButtonTouchEvent(Ref* sender, ui::Widget::TouchEventType type);
+    
 #pragma mark -
 #pragma mark Helper Functions
     void reset();
@@ -148,6 +154,10 @@ CC_CONSTRUCTOR_ACCESS:
     bool didGoMain(){return _gomain;}
     
     bool didNext(){return _next;}
+    
+    bool isMute() { return _mute; }
+    
+    bool setMute(bool flag) { _mute = flag; }
     
     void setGoMain(bool value){_gomain = value;}
     
