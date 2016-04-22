@@ -4,6 +4,21 @@
 // define the constants for world
 #define WORLD_WIDTH 64.0f
 #define WORLD_HEIGHT 36.0f
+
+//#define WORLD_SCALE_X 32.0f
+//#define WORLD_SCALE_Y 18.0f
+//
+///** the amout to shrink the body in three dimensions. **/
+//// 32 -- 1.5
+//// 16 -- 1.0
+//#define AVATAR_SHRINK 1.5
+//// 32 -- 1.0
+//// 16 -- 1.5
+//#define GHOST_SHRINK 1.0
+//// 32 -- 4
+//// 16 -- 2
+//#define DOOR_SHRINK 4
+
 #define WORLD_SCALE_X 16.0f
 #define WORLD_SCALE_Y 9.0f
 
@@ -14,7 +29,6 @@
 // 32 -- 1.0
 // 16 -- 1.5
 #define GHOST_SHRINK 1.5
-
 // 32 -- 4
 // 16 -- 2
 #define DOOR_SHRINK 2

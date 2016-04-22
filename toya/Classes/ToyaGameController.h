@@ -314,7 +314,7 @@ public:
      */
     void update(float dt);
     
-    Vec2* getRelativePosition(const Vec2& physicalPosition, Vec2& centerPosition, float turningAngel);
+    Vec2 getRelativePosition(const Vec2& physicalPosition, Vec2& centerPosition, float turningAngel);
     
     
 #pragma mark -

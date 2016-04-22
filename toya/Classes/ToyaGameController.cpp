@@ -383,7 +383,9 @@ void GameController::addObstacle(Obstacle* obj, int zOrder) {
 #pragma mark -
 #pragma mark Physics Handling
 
-Vec2* GameController::getRelativePosition(const Vec2& physicalPosition, Vec2& centerPosition, float turningAngle) {
+Vec2 GameController::getRelativePosition(const Vec2& physicalPosition, Vec2& centerPosition, float turningAngle) {
+    
+    CCLOG("%f,%f",physicalPosition.x,physicalPosition.y);
     
     Vec2 centerPosition_p = Vec2{512.0f, 288.0f};
     float dist = physicalPosition.getDistance(centerPosition_p);
@@ -401,9 +403,11 @@ Vec2* GameController::getRelativePosition(const Vec2& physicalPosition, Vec2& ce
     float originalX = centerPosition_p.x + cos(theta * M_PI / 180.0f) * dist;
     float originalY = centerPosition_p.y + sin(theta * M_PI / 180.0f) * dist;
     
-    float relativeX = centerPosition.x - 16.0f + originalX / 1024.0f * 32.0f;
-    float relativeY = centerPosition.y - 9.0f + originalY / 576.0f * 18.0f;
-    Vec2* relativePosition = new Vec2(relativeX, relativeY);
+    float relativeX = centerPosition.x - WORLD_SCALE_X/2 + originalX / 1024.0f * WORLD_SCALE_X;
+    float relativeY = centerPosition.y - WORLD_SCALE_Y/2 + originalY / 576.0f * WORLD_SCALE_Y;
+    Vec2 relativePosition = *new Vec2(relativeX, relativeY);
+    
+    CCLOG("%f,%f",relativePosition.x,relativePosition.y);
     
     return relativePosition;
 }
@@ -487,7 +491,8 @@ void GameController::update(float dt) {
         int direction = _input->getSwipeDirection();
         _avatar->setFacingRight(direction == 1);
     }
-    
+    if (_panel->getSpell() == DESTRUCTION_SPELL_SELECTED || _panel->getSpell() == FREEZING_SPELL_SELECTED) {
+        // to fix the bug that release magic after touch
     if (_input->didRelease() && _selector->isSelected()) {
         if(_panel->getSpell() == DESTRUCTION_SPELL_SELECTED) {
             _panel->setSpell(DESTRUCTION_SPELL_SELECTED);
@@ -514,12 +519,14 @@ void GameController::update(float dt) {
         }
     } else if (_input->didSelect()) {
         Vec2 centerPosition = _avatar->getPosition();
-        Vec2 relativePosition = *getRelativePosition(_input->getSelection(), centerPosition, 0.0f);
+        Vec2 relativePosition = getRelativePosition(_input->getSelection(), centerPosition, 0.0f);
         _selector->select(relativePosition);
         if(_avatar == _selector->getObstacle())
             _selector->deselect();
     } else if (_selector->isSelected()) {
         _selector->deselect();
+    }
+        
     }
     
     //    update world position
