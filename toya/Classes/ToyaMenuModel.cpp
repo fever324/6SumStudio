@@ -240,9 +240,14 @@ void MenuModel::createLevelStars(int count, const Vec2& scale,const Vec2& pos){
 
 void MenuModel::createLevelButtons(int count, const Vec2& scale,const Vec2& size){
     int i = 0;
+    auto pm = ProgressModel::getInstance();
+
     for (; i < count; i++) {
-        
         Button* levelButton = createButton("textures/level"+std::to_string(i)+".png", scale, Vec2(size.x/8+i%4*200, size.y- 50 - i/4*200));
+        
+        if(pm->isLocked(i)){
+            levelButton->setEnabled(false);
+        }
         
         levelButton->addTouchEventListener(CC_CALLBACK_2(MenuModel::levelButtonTouchEvent, this));
         
