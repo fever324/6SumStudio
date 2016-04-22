@@ -7,6 +7,7 @@
 //
 
 #include "ToyaMapReader.h"
+#include "Constants.h"
 
 MapReader::MapReader(GameController* gameController){
     this->gameController = gameController;
@@ -246,7 +247,7 @@ ExitDoorModel* MapReader::createGoalDoor() {
     Texture2D* image = gameController->getAssets()->get<Texture2D>(goalDoorGroup->getProperty("texture").asString());
     
     Size goalSize = Size(image->getContentSize().width/_scale.x, image->getContentSize().height/_scale.y);
-    ExitDoorModel* _goalDoor = ExitDoorModel::create(goalPos, goalSize/4);
+    ExitDoorModel* _goalDoor = ExitDoorModel::create(goalPos, goalSize/DOOR_SHRINK);
     _goalDoor->setDrawScale(_scale.x, _scale.y);
     
     WireNode* draw = WireNode::create();

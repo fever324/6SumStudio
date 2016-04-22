@@ -15,6 +15,10 @@
 // 16 -- 1.5
 #define GHOST_SHRINK 1.5
 
+// 32 -- 4
+// 16 -- 2
+#define DOOR_SHRINK 2
+
 #define REMOVABLE_OBJECT_NAME "removable"
 #define REMOVABLE_BLOCK_TEXTURE "removable"
 
