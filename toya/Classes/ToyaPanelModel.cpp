@@ -137,9 +137,9 @@ void PanelModel::setSpell(int magic){
         _destructionSpellCB->setSelected(false);
     }
     
-    if( magic == FREEZING_SPELL_SELECTED && _currentMana > FREEZE_COST) {
+    if( magic == FREEZING_SPELL_SELECTED && _currentMana >= FREEZE_COST) {
         _selection = FREEZING_SPELL_SELECTED;
-    } else if(magic == DESTRUCTION_SPELL_SELECTED && _currentMana > DESTRUCTION_COST) {
+    } else if(magic == DESTRUCTION_SPELL_SELECTED && _currentMana >= DESTRUCTION_COST) {
         _selection = DESTRUCTION_SPELL_SELECTED;
     } else {
         _selection = 0;
