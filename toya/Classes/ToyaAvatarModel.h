@@ -28,9 +28,9 @@ using namespace cocos2d;
 #pragma mark -
 #pragma mark Physics Constants
 /** The initial speed of avatar **/
-#define AVATAR_INITIAL_SPEED 4.0f
+#define AVATAR_INITIAL_SPEED 0.5f
 /** The factor to multiply by the input */
-#define AVATAR_FORCE    15.0f
+#define AVATAR_FORCE    10.0f
 /** The amount to slow the character down */
 #define AVATAR_DAMPING    3.0f
 /** The maximum character speed */

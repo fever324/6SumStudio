@@ -209,8 +209,8 @@ bool GameController::init(RootLayer* root, InputController* input, int playLevel
     
     _mapReader = new MapReader(this);
     
-    _scale.set(root->getContentSize().width/32.0f,
-               root->getContentSize().height/18.0f);
+    _scale.set(root->getContentSize().width/WORLD_SCALE_X,
+               root->getContentSize().height/WORLD_SCALE_Y);
     
     
     populate();

@@ -1,6 +1,7 @@
 #include "ToyaMovingObstacleModel.h"
 #include <cornell/CUAssetManager.h>
 #include <cornell/CUSceneManager.h>
+#include "Constants.h"
 
 #define NORMAL_STATE_RIGHT 0
 #define NORMAL_STATE_LEFT 1
@@ -67,15 +68,16 @@ bool MovingObstacleModel::init(int stateCount, int rowCount, int columnCount, st
         if(_routes[1].y < 0) _angle = 180.0f - _angle;
         
         setDrawScale(scale);
-        
-        PolygonNode* sprite = PolygonNode::create(Rect(0, 0, size.width, size.height));
-        //        sprite->setScale(AVATAR_SHRINK);
-        setSceneNode(sprite);
-        
         WireNode* draw = WireNode::create();
         draw->setColor(Color3B::RED);
         draw->setOpacity(193);
         setDebugNode(draw);
+        
+        PolygonNode* sprite = PolygonNode::create(Rect(0, 0, size.width, size.height));
+        float cscale = Director::getInstance()->getContentScaleFactor();
+        sprite->setScale(GHOST_SHRINK*cscale);
+        setSceneNode(sprite);
+
         return true;
     }
     

@@ -13,6 +13,7 @@
 #include <cornell/CUSceneManager.h>
 #include <Box2D/Dynamics/Contacts/b2Contact.h>
 #include <Box2D/Collision/b2Collision.h>
+#include "Constants.h"
 
 using namespace cocos2d;
 
@@ -27,11 +28,8 @@ using namespace cocos2d;
 /** The default texture for the the world background */
 #define WORLD_TEXTURE    "sky"
 
-/** The default size of the world **/
-#define WORLD_WIDTH 64.0f
-#define WORLD_SCALE_X 32.0f
-#define WORLD_HEIGHT 36.0f
-#define WORLD_SCALE_Y 18.0f
+
+
 /** The default initial anchor point of the world, center of the camera view **/
 #define ANCHOR_POINT 0.5
 /** Debug color for the sensor */

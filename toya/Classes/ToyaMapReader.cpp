@@ -165,12 +165,11 @@ void MapReader::createMovingObstacles() {
         float y_pos = ghostMap.at("y").asFloat()*cscale + 1.5*tileSize.height;
         
         
-        const Size size = *new Size((Vec2){64.0f*cscale/2/_scale.x, 64.0f*cscale/_scale.y/2});
         
         vector<Vec2> routes = {(Vec2){x_pos, y_pos}, (Vec2){ghostMap.at("point1X").asFloat(), ghostMap.at("point1Y").asFloat()}};
         
         Vec2 ghostPos = (Vec2){x_pos/tileSize.width, y_pos/tileSize.height};
-        MovingObstacleModel* ghostObj = MovingObstacleModel::create(2, 4, 4, texture, ghostPos, size, _scale, routes, ghostMap.at("speed").asFloat());
+        MovingObstacleModel* ghostObj = MovingObstacleModel::create(2, 4, 4, texture, ghostPos, Size(1, 1), _scale, routes, ghostMap.at("speed").asFloat());
         gameController->addObstacle(ghostObj, BARRIER_DRAW_LAYER);
         ghostObj->setName("ghost");
     }
@@ -188,10 +187,8 @@ void MapReader::createMagicPotions() {
         float y_pos = potionMap.at("y").asFloat()*cscale + 1.5*tileSize.height;
         
         
-        const Size size = *new Size((Vec2){64.0f*cscale/2/_scale.x, 64.0f*cscale/_scale.y/2});
-        
         Vec2 potionPos = (Vec2){x_pos/tileSize.width, y_pos/tileSize.height};
-        MagicPotionModel* potionObj = MagicPotionModel::create(2, 2, 3, texture, potionPos, size, _scale, potionMap.at("points").asInt());
+        MagicPotionModel* potionObj = MagicPotionModel::create(2, 2, 3, texture, potionPos, Size(1, 1), _scale, potionMap.at("points").asInt());
         gameController->addObstacle(potionObj, POTION_DRAW_LAYER);
         potionObj->setName("potion");
     }
@@ -215,11 +212,8 @@ int MapReader::createStars() {
         
         float y_pos = starMap.at("y").asFloat()*cscale + 1.5*tileSize.height;
         
-        
-        const Size size = *new Size((Vec2){64.0f*cscale/2/_scale.x, 64.0f*cscale/_scale.y/2});
-        
         Vec2 starPos = (Vec2){x_pos/tileSize.width+0.5f, y_pos/tileSize.height};
-        StarModel* starObj = StarModel::create(2, 2, 2, texture, starPos, size, _scale);
+        StarModel* starObj = StarModel::create(2, 2, 2, texture, starPos, Size(1, 1), _scale);
         gameController->addObstacle(starObj, STAR_DRAW_LAYER);
         starObj->setName("star");
         starCount++;
