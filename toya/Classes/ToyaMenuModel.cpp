@@ -344,6 +344,11 @@ void MenuModel::muteButtonTouchEvent(cocos2d::Ref* sender, ui::Widget::TouchEven
     switch (type) {
         case ui::Widget::TouchEventType::BEGAN:
             _mute = !_mute;
+            if(_mute) {
+                AudioController::audioPauseAll();
+            } else {
+                AudioController::audioResumeAll();
+            }
             break;
         default:
             break;

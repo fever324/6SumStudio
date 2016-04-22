@@ -452,13 +452,7 @@ void GameController::update(float dt) {
         _overview->resumeFromPause();
         _pauseMenu->setResume(false);
     }
-    
-    if (_pauseMenu->isMute()) {
-        _audio->audioPauseAll();
-    } else {
-        _audio->audioResumeAll();
-    }
-    
+
     // add cooldown to show deathe animation
     
     if (_reset == true || _overview->hasReseted()) {
