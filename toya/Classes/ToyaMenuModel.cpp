@@ -49,19 +49,10 @@ bool MenuModel::init(std::string mtype, const Vec2& size, const Vec2& scale){
         // _gomain default as false
         _gomain = false;
         
-        Button* start = createButton(START_BUTTON_IMAGE, scale, Vec2(size.x/2, 100));
+        Button* start = createButton("textures/menubg.png", scale, Vec2(1024, 576));
+    
         // set _gomain to true, so we can go to main menu
         start->addTouchEventListener(CC_CALLBACK_2(MenuModel::startButtonTouchEvent, this));
-        
-//        LayerColor* bg = LayerColor::create(Color4B(53, 53, 53, 255));
-//        this->addChild(bg);
-
-        Texture2D* image = AssetManager::getInstance()->getCurrent()->get<Texture2D>("menubg");
-        Sprite* bg = Sprite::createWithTexture(image,Rect(0,0,1024,1024));
-        bg->setScale(1);
-        bg->setAnchorPoint(Vec2(0,0.4));
-        
-        this->addChild(bg);
         
         this->addChild(start);
     } else if (mtype == "levelWin") {
