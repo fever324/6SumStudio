@@ -111,6 +111,22 @@
         "select_level_background":    {
             "file":     "textures/selectLevels-backgroud2.png",
             "wrap":     false
+        },
+        "1star": {
+            "file":     "textures/onestar.png",
+            "wrap":     false
+        },
+        "0star": {
+            "file":     "textures/nostar.png",
+            "wrap":     false
+        },
+        "2star": {
+            "file":     "textures/twostar.png",
+            "wrap":     false
+        },
+        "3star": {
+            "file":     "textures/threestar.png",
+            "wrap":     false
         }
         
   	},

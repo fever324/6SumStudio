@@ -15,8 +15,8 @@
 #define NEXT_BUTTON_IMAGE "textures/nextLevel.png"
 #define GOMAIN_BUTTON_IMAGE "textures/back.png"
 #define RESUME_BUTTON_IMAGE "textures/resumeButton.png"
-#define MUTE_BUTTON_NORMAL "textures/overviewResumeButton.png"
-#define MUTE_BUTTON_SELECTED "textures/resumeButton.png"
+#define MUTE_BUTTON_NORMAL "textures/sound.png"
+#define MUTE_BUTTON_SELECTED "textures/mute-sound.png"
 
 #include "Constants.h"
 
@@ -46,7 +46,7 @@ bool MenuModel::init(std::string mtype, const Vec2& size, const Vec2& scale){
         bg->setAnchorPoint(Vec2(0,0));
         this->addChild(bg,0);
         
-        createLevelButtons(6,scale,size);
+        createLevelButtons(10,scale,size);
 
         
     } else if (mtype == "welcome") {
@@ -230,7 +230,8 @@ void MenuModel::createLevelButtons(int count, const Vec2& scale,const Vec2& size
     auto pm = ProgressModel::getInstance();
 
     for (; i < count; i++) {
-        Button* levelButton = createButton("textures/level"+std::to_string(i)+".png", scale, Vec2(size.x/8+60+i%4*size.x/4.0f, size.y-150- i/4*200));
+        Vec2 buttonPos = Vec2(size.x/8+60+i%4*size.x/4.0f, size.y-80- i/4*170);
+        Button* levelButton = createButton("textures/level"+std::to_string(i)+".png", scale, buttonPos);
         
         if(pm->isLocked(i)){
             levelButton->setEnabled(false);
@@ -240,7 +241,12 @@ void MenuModel::createLevelButtons(int count, const Vec2& scale,const Vec2& size
         
         _levelMap[levelButton->_ID] = i;
         _levelButtonMap[i] = levelButton;
+        int stars = pm->getStars(i);
+        Texture2D* starIMG = AssetManager::getInstance()->getCurrent()->get<Texture2D>(std::to_string(stars)+"star");
+        Sprite* star = Sprite::createWithTexture(starIMG);
+        star->setAnchorPoint(Vec2(0,1));
         
+        levelButton->addChild(star);
         this->addChild(levelButton);
     }
 }
