@@ -88,11 +88,16 @@ void ProgressModel::writeData(int level, float completeTime, int star){
     
     rapidjson::Value& levels = document["levels"];
     const char* levelString = std::to_string(level).c_str();
+    const char* nextLevelString = std::to_string(level+1).c_str();
+    
     
     rapidjson::Value* currLevel = &levels.FindMember(levelString)->value;
+    rapidjson::Value* nextLevel = &levels.FindMember(nextLevelString)->value;
     currLevel->FindMember("time")->value.SetDouble(completeTime);
     currLevel->FindMember("overallStar")->value.SetInt(star);
-    currLevel->FindMember("locked")->value.SetBool(true);
+    currLevel->FindMember("locked")->value.SetBool(false);
+    
+    nextLevel->FindMember("locked")->value.SetBool(false);
     
     fclose(input);
     
