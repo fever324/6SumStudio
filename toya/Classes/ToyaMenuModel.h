@@ -178,8 +178,13 @@ CC_CONSTRUCTOR_ACCESS:
         }
     }
     
-    void updateLevelButton(int level, std::string texture){
-        _levelButtonMap[level]->loadTextureNormal(texture);
+    void updateLevelButton(int level, std::string texture, std::string action){
+        if (action == "update"){
+            _levelButtonMap[level]->loadTextureNormal(texture);
+        }else if (action == "unlock"){
+            _levelButtonMap[level]->loadTextureNormal(texture);
+            _levelButtonMap[level]->setEnabled(true);
+        }
     }
     
 };

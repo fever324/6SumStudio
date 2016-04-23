@@ -144,6 +144,9 @@ void ToyaRoot::update(float deltaTime) {
         _gameplay.update(deltaTime);
         if (_gameplay.didGoMain()){
             // stop the _gameplay
+            if (_gameplay.didWin()){
+                _gameplay.updateMenu(_menu);
+            }
             _gameplay.clear();
             _showMenu = true;
             _menu->resetStatus();

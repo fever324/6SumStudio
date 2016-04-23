@@ -41,7 +41,7 @@ bool MenuModel::init(std::string mtype, const Vec2& size, const Vec2& scale){
         LayerColor* bg = LayerColor::create(Color4B(175, 211, 102, 255));
         this->addChild(bg);
         
-        createLevelButtons(10,scale,size);
+        createLevelButtons(6,scale,size);
 
         
     } else if (mtype == "welcome") {
