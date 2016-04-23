@@ -5,6 +5,7 @@
 #include <cornell/CUSceneManager.h>
 #include <cornell/CUGenericLoader.h>
 #include <SimpleAudioEngine.h>
+#include "ToyaProgressModel.h"
 
 #define Level_BUTTON_NORMAL "textures/level.png"
 #define Level_BUTTON_PRESSED "textures/overviewResumeButton.png"
