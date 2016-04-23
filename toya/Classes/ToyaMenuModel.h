@@ -160,7 +160,7 @@ CC_CONSTRUCTOR_ACCESS:
     
     bool isMute() { return _mute; }
     
-    bool setMute(bool flag) { _mute = flag; }
+    void setMute(bool flag) { _mute = flag; }
     
     void setGoMain(bool value){_gomain = value;}
     
