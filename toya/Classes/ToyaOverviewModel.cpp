@@ -115,7 +115,6 @@ void OverviewModel::pauseButtonPressed() {
 
 void OverviewModel::resumeFromPause() {
     startTime = current_time();
-//    Director::getInstance()->resume();
     paused = false;
     gameController->setMap(false);
 }
