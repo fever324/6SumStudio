@@ -50,7 +50,9 @@ private:
     bool _mute;
     
     std::vector<int> _levelIndex;
+    // store the button id with level index
     std::map<int, int> _levelMap;
+    // store the number of stars and which sprite we should show
     std::map<int, Sprite*> _levelStarMap;
     
 protected:
