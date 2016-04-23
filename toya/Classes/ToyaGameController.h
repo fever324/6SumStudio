@@ -407,10 +407,10 @@ public:
         // unlock next level if next level is locked
         if (ProgressModel::getInstance()->isLocked(_currentLevel+1)){
             menu->updateLevelButton(_currentLevel+1, "textures/level.png", "unlock");
-        }else{
-            // here we need to update the texture with latest or highest score
-            menu->updateLevelButton(_currentLevel+1, "textures/level.png", "update");
         }
+        // here we need to update the texture of current level with latest or highest score
+        // texture will be consisted of textures/level.png and ProgressModel::getInstance()->getStar()
+        menu->updateLevelButton(_currentLevel, "textures/level.png", "update");
     }
     
 };
