@@ -310,16 +310,16 @@ void GameController::populate() {
     // THIS DOES NOT FIX ASPECT RATIO PROBLEMS
     // If you are using a device with a 3:2 aspect ratio, you will need to
     // completely redo the level layout.  We can help if this is an issue.
-
+    
     _mapReader->loadMap("maps/level"+std::to_string(_currentLevel)+".tmx");
     
     _theWorld = _mapReader->createTheWorld();
     _bgNode = Node::create();
     LayerColor* bg1 = LayerColor::create(Color4B(0, 0, 0, 100));
-//    LayerColor* bg2 = LayerColor::create(Color4B(0, 0, 0, 255));
-//    bg2->setScale(0.5);
+    //    LayerColor* bg2 = LayerColor::create(Color4B(0, 0, 0, 255));
+    //    bg2->setScale(0.5);
     _bgNode->addChild(bg1);
-//    _bgNode->addChild(bg2);
+    //    _bgNode->addChild(bg2);
     _bgNode->setVisible(false);
     _rootnode->addChild(_bgNode,1);
     
@@ -468,14 +468,14 @@ void GameController::update(float dt) {
     } else {
         _audio->audioResumeAll();
     }
-
+    
     // add cooldown to show deathe animation
     
     if (_reset == true || _overview->hasReseted()) {
         reset();
     }
-
-
+    
+    
     // Process the toggled key commands
     if (_input->didReset()) { reset(); }
     if (_input->didExit())  {
@@ -504,43 +504,43 @@ void GameController::update(float dt) {
     }
     if (_panel->getSpell() == DESTRUCTION_SPELL_SELECTED || _panel->getSpell() == FREEZING_SPELL_SELECTED) {
         // to fix the bug that release magic after touch
-    if (_input->didRelease() && _selector->isSelected()) {
-        if(_panel->getSpell() == DESTRUCTION_SPELL_SELECTED) {
-            _panel->setSpell(DESTRUCTION_SPELL_SELECTED);
-            if (_selector->getObstacle()->getName() == "removable"){
-                RemovableBlockModel* rmb = (RemovableBlockModel*) _selector->getObstacle();
-                rmb->destroy(_theWorld->getWorldNode(), _theWorld->getDebugNode(), _theWorld->getWorld());
-                _audio->playDestroyEffect();
-                _panel->deduceMana(DESTRUCTION_COST);
-                _selector->deselect();                
+        if (_input->didRelease() && _selector->isSelected()) {
+            if(_panel->getSpell() == DESTRUCTION_SPELL_SELECTED) {
+                _panel->setSpell(DESTRUCTION_SPELL_SELECTED);
+                if (_selector->getObstacle()->getName() == "removable"){
+                    RemovableBlockModel* rmb = (RemovableBlockModel*) _selector->getObstacle();
+                    rmb->destroy(_theWorld->getWorldNode(), _theWorld->getDebugNode(), _theWorld->getWorld());
+                    _audio->playDestroyEffect();
+                    _panel->deduceMana(DESTRUCTION_COST);
+                    _selector->deselect();
+                }
+            } else if (_panel->getSpell() == FREEZING_SPELL_SELECTED) {
+                _panel->setSpell(FREEZING_SPELL_SELECTED);
+                
+                if(_selector->getObstacle()->getName() == "ghost") {
+                    MovingObstacleModel* movingObstacle = (MovingObstacleModel*) _selector->getObstacle();
+                    movingObstacle->freeze(_theWorld->getWorldNode(), _theWorld->getDebugNode(),
+                                           _theWorld->getWorld());
+                    _audio->playEffect(FREEZE_EFFECT, 0.2f);
+                    _panel->deduceMana(FREEZE_COST);
+                    _selector->deselect();
+                }
+                _input->setRelease(false);
+                
             }
-        } else if (_panel->getSpell() == FREEZING_SPELL_SELECTED) {
-            _panel->setSpell(FREEZING_SPELL_SELECTED);
-            
-            if(_selector->getObstacle()->getName() == "ghost") {
-                MovingObstacleModel* movingObstacle = (MovingObstacleModel*) _selector->getObstacle();
-                movingObstacle->freeze(_theWorld->getWorldNode(), _theWorld->getDebugNode(),
-                                       _theWorld->getWorld());
-                _audio->playEffect(FREEZE_EFFECT, 0.2f);
-                _panel->deduceMana(FREEZE_COST);
+        } else if (_input->didSelect()) {
+            Vec2 centerPosition = _avatar->getPosition();
+            Vec2 relativePosition = getRelativePosition(_input->getSelection(), centerPosition, 0.0f);
+            _selector->select(relativePosition);
+            if(_avatar == _selector->getObstacle())
                 _selector->deselect();
-            }
-            _input->setRelease(false);
-
-        }
-    } else if (_input->didSelect()) {
-        Vec2 centerPosition = _avatar->getPosition();
-        Vec2 relativePosition = getRelativePosition(_input->getSelection(), centerPosition, 0.0f);
-        _selector->select(relativePosition);
-        if(_avatar == _selector->getObstacle())
+        } else if (_selector->isSelected()) {
             _selector->deselect();
-    } else if (_selector->isSelected()) {
-        _selector->deselect();
-    }
+        }
         
     }
     
-
+    
     
     // don't update the world when
     //   win or fail
@@ -551,7 +551,7 @@ void GameController::update(float dt) {
         _cooldown --;
     }
     
-
+    
     _input->update(dt);
     //    update world position
     Vec2 pos = _avatar->getPosition();
@@ -666,7 +666,7 @@ void GameController::beginContact(b2Contact* contact) {
     
     // If we hit the "win" door, we are done
     else if((body1->GetUserData() == _avatar && body2->GetUserData() == _goalDoor) ||
-       (body1->GetUserData() == _goalDoor && body2->GetUserData() == _avatar)) {
+            (body1->GetUserData() == _goalDoor && body2->GetUserData() == _avatar)) {
         _goalDoor->open();
         _audio->audioTerminate();
         _audio->playEffect(WIN_EFFECT);
@@ -682,7 +682,7 @@ void GameController::beginContact(b2Contact* contact) {
     }
     // See if we have hit a wall.
     else if ((_avatar->getLeftSensorName() == fd2 && _avatar != bd1) ||
-        (_avatar->getLeftSensorName() == fd1 && _avatar != bd2)) {
+             (_avatar->getLeftSensorName() == fd1 && _avatar != bd2)) {
         _avatar->setFacingRight(true);
     } else if ((_avatar->getRightSensorName() == fd2 && _avatar != bd1) ||
                (_avatar->getRightSensorName() == fd1 && _avatar != bd2)) {
@@ -771,11 +771,11 @@ void GameController::preload() {
                 bool wrap = reader.getBool(TEXTURE_WRAP);
                 // Set wrap settings if appropriate
                 if (wrap) {
-//                    tloader->loadAsync(key,value,params);
+                    //                    tloader->loadAsync(key,value,params);
                     tloader->load(key,value,params);
                 } else {
                     tloader->load(key,value);
-//                    tloader->loadAsync(key,value);
+                    //                    tloader->loadAsync(key,value);
                 }
             }
             
