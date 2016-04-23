@@ -109,17 +109,15 @@ void OverviewModel::disableButton() {
 
 void OverviewModel::pauseButtonPressed() {
     currentPlayTime += getCurrentDuration();
-
     paused = true;
-    gameController->setDebug(true);
-
+    gameController->setMap(true);
 }
 
 void OverviewModel::resumeFromPause() {
     startTime = current_time();
 //    Director::getInstance()->resume();
     paused = false;
-    gameController->setDebug(false);
+    gameController->setMap(false);
 }
 
 

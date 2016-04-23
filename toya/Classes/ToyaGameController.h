@@ -123,6 +123,12 @@ protected:
     
     bool _preload;
     
+    Node* _bgNode;
+    float _lastScale;
+    Vec2 _lastPos;
+    Vec2 _lastAnchor;
+    float _lastAngle;
+    bool _paused;
     
 #pragma mark Internal Object Management
     /**
@@ -231,7 +237,44 @@ public:
      *
      * @param value whether debug mode is active.
      */
+    bool getPause(){return _paused;}
     void setDebug(bool value) { _debug = value; _theWorld->setDebug(value); }
+    void setMap(bool value) {
+        _paused = value;
+        float _tscale = _theWorld->getTScale();
+        if (value) {
+            // reset the worldnode
+            _lastScale = _theWorld->getWorldNode()->getScale();
+            _lastPos = _theWorld->getWorldNode()->getPosition();
+            _lastAnchor = _theWorld->getWorldNode()->getAnchorPoint();
+            _lastAngle = _theWorld->getRotation();
+            // no follow
+            _theWorld->stopFollow();
+            _theWorld->getWorldNode()->setScale(_tscale);
+            
+//            Vec2 centerPosition_p = Vec2{512.0f, 288.0f};
+//            float dist = _lastPos.getDistance(centerPosition_p);
+//            float angle = _theWorld->getRotation();
+//            _theWorld->setRotation(0);
+//            _lastPos.x+dist*cos(angle * M_PI / 180.0f),_lastPos.y+sin(angle * M_PI / 180.0f) * dist)
+//            _theWorld->getWorldNode()->setPosition(Vec2(_lastPos.x,_lastPos.y));
+            
+            // show the background for pause
+            _bgNode->setVisible(true);
+            // deactive the input
+            _input->setActive(false);
+        } else {
+            _theWorld->runFollow();
+            _theWorld->getWorldNode()->setScale(_lastScale);
+            _theWorld->getWorldNode()->setPosition(_lastPos);
+            _theWorld->getWorldNode()->setAnchorPoint(_lastAnchor);
+            _theWorld->setRotation(_lastAngle);
+            // hide the background for pause
+            _bgNode->setVisible(false);
+            // active the input
+            _input->setActive(true);
+        }
+    }
     
     /**
      * Returns true if the level is completed.

@@ -17,6 +17,8 @@
 
 using namespace cocos2d;
 
+#define DESIGN_RES_W    1024
+#define DESIGN_RES_H    576
 
 #pragma mark -
 #pragma mark World Model
@@ -34,6 +36,7 @@ private:
 protected:
     /** The world node */
     Node* _worldnode;
+    
     /** The Box2D world */
     WorldController* _world;
     /** Reference to the debug root of the scene graph */
@@ -55,6 +58,9 @@ protected:
     
     /** gravity of the world **/
     Vec2 _gravity;
+    
+    float _tscale;
+    
     
 #pragma mark -
 #pragma mark Scene Graph Management
@@ -109,6 +115,7 @@ public:
     WorldController* getWorld() const { return _world; }
     Node* getWorldNode() const { return _worldnode; }
     Node* getDebugNode() const { return _debugnode; }
+    float getTScale() {return _tscale;}
     
     
     /**
@@ -181,7 +188,7 @@ public:
     
     void addToWorldNode(PolygonNode* node, int priority);
     
-    void setDebug(bool value);
+    void setDebug(bool value){_debugnode->setVisible(value);}
     
     void setWin(bool value);
 
@@ -190,6 +197,15 @@ public:
     void setWorldPos(Obstacle* obj,Vec2& pos);
     
     void setFollow(Obstacle* obj);
+    
+    void stopFollow(){
+        if (_follow == nullptr ) return;
+        _worldnode->stopAction(_follow);
+    }
+    void runFollow(){
+        if (_follow == nullptr ) return;
+        _worldnode->runAction(_follow);
+    }
     
     
 CC_CONSTRUCTOR_ACCESS:

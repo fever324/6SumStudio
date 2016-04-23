@@ -231,7 +231,7 @@ void MapReader::createBackground() {
     Sprite* bg = Sprite::createWithTexture(image,Rect(0,0,1024,1024));
     bg->setScale(1);
     bg->setAnchorPoint(Vec2(0,0.3));
-    gameController->getRootNode()->addChild(bg);
+    gameController->getRootNode()->addChild(bg,0);
 }
 
 ExitDoorModel* MapReader::createGoalDoor() {

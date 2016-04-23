@@ -175,8 +175,6 @@ bool MenuModel::init(std::string mtype, const Vec2& size, const Vec2& scale){
         _resume = false;
         _mute = false;
         
-        LayerColor* bgColor = LayerColor::create(Color4B(0, 0, 0, 100));
-        this->addChild(bgColor);
         
         Button* replay = createButton(REPLAY_BUTTON_IMAGE, scale, Vec2(2*size.x/10, 100));
         Button* resume = createButton(RESUME_BUTTON_IMAGE, scale, Vec2(4*size.x/10, 100));
@@ -195,13 +193,13 @@ bool MenuModel::init(std::string mtype, const Vec2& size, const Vec2& scale){
 
 //        Texture2D* image = AssetManager::getInstance()->getCurrent()->get<Texture2D>("failbg");
 //        Sprite* bg = Sprite::createWithTexture(image,Rect(0,0,1024,576));
-        LayerColor* bg = LayerColor::create(Color4B(0, 0, 0, 255));
-        bg->setScale(0.5);
-        bg->setPosition(Vec2(size.x/2.0f,size.y/2.0f));
-        bg->ignoreAnchorPointForPosition(true);
-        bg->setAnchorPoint(Vec2(-0.5,-0.5));
-
-        this->addChild(bg);
+//        LayerColor* bg = LayerColor::create(Color4B(0, 0, 0, 255));
+//        bg->setScale(0.5);
+//        bg->setPosition(Vec2(size.x/2.0f,size.y/2.0f));
+//        bg->ignoreAnchorPointForPosition(true);
+//        bg->setAnchorPoint(Vec2(-0.5,-0.5));
+//
+//        this->addChild(bg);
     }
     
     return true;

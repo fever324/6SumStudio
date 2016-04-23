@@ -316,6 +316,14 @@ void GameController::populate() {
     _mapReader->loadMap("maps/level"+std::to_string(_currentLevel)+".tmx");
     
     _theWorld = _mapReader->createTheWorld();
+    _bgNode = Node::create();
+    LayerColor* bg1 = LayerColor::create(Color4B(0, 0, 0, 100));
+//    LayerColor* bg2 = LayerColor::create(Color4B(0, 0, 0, 255));
+//    bg2->setScale(0.5);
+    _bgNode->addChild(bg1);
+//    _bgNode->addChild(bg2);
+    _bgNode->setVisible(false);
+    _rootnode->addChild(_bgNode,1);
     
     // just create the map, no need to return
     // will create the removable blocks, non-removable blocks, deadly blocks, ghosts
@@ -462,8 +470,7 @@ void GameController::update(float dt) {
     if (_reset == true || _overview->hasReseted()) {
         reset();
     }
-    
-    _input->update(dt);
+
 
     // Process the toggled key commands
     if (_input->didReset()) { reset(); }
@@ -529,9 +536,7 @@ void GameController::update(float dt) {
         
     }
     
-    //    update world position
-    Vec2 pos = _avatar->getPosition();
-    _theWorld->setWorldPos(_avatar,pos);
+
     
     // don't update the world when
     //   win or fail
@@ -541,6 +546,12 @@ void GameController::update(float dt) {
     if (_complete && _cooldown > 0){
         _cooldown --;
     }
+    
+
+    _input->update(dt);
+    //    update world position
+    Vec2 pos = _avatar->getPosition();
+    _theWorld->setWorldPos(_avatar,pos);
     
     if((!_complete && !_overview->didPause()) || (!_overview->didPause() && _cooldown > 0)){
         _theWorld->update(dt);

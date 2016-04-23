@@ -240,6 +240,7 @@ public:
     bool didSelect() const { return _select; }
     bool didRelease() const {return _released; }
     bool setRelease(bool r) {_released = r;}
+    bool setActive(bool value) {_active = value;}
     const Vec2& getSelection() const { return _ctouch; }
     
     
