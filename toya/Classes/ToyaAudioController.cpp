@@ -55,13 +55,13 @@ void AudioController::audioTerminate() {
 }
 
 void AudioController::audioPauseAll() {
-    audio->pauseAllEffects();
     audio->pauseBackgroundMusic();
+    audio->pauseAllEffects();
 }
 
 void AudioController::audioResumeAll() {
-    audio->resumeAllEffects();
     audio->resumeBackgroundMusic();
+    audio->resumeAllEffects();
 }
 
 void AudioController::playDestroyEffect() {
