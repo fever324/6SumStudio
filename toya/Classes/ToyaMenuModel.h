@@ -52,7 +52,9 @@ private:
     std::vector<int> _levelIndex;
     // store the button id with level index
     std::map<int, int> _levelMap;
-    // store the number of stars and which sprite we should show
+    // store the button
+    std::map<int, Button*> _levelButtonMap;
+    // store the star sprite with number of stars we need to show
     std::map<int, Sprite*> _levelStarMap;
     
 protected:
@@ -138,7 +140,6 @@ CC_CONSTRUCTOR_ACCESS:
     
     void nextButtonTouchEvent(Ref *sender, ui::Widget::TouchEventType type);
     
-    //
     void muteButtonTouchEvent(Ref* sender, ui::Widget::TouchEventType type);
     
 #pragma mark -
@@ -174,6 +175,10 @@ CC_CONSTRUCTOR_ACCESS:
         if (stars>=0){
             _levelStarMap[stars]->setVisible(true);
         }
+    }
+    
+    void updateLevelButton(int level, std::string texture){
+        _levelButtonMap[level]->loadTextureNormal(texture);
     }
     
 };

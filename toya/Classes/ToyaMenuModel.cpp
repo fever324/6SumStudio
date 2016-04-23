@@ -211,6 +211,7 @@ MenuModel* MenuModel::create(std::string mtype,const Vec2& size){
 }
 
 void MenuModel::createLevelStars(int count, const Vec2& scale,const Vec2& pos){
+    // create the stars after you finish the level successful
     int i = 0;
     for (; i < count; i++) {
         Texture2D* starIMG = AssetManager::getInstance()->getCurrent()->get<Texture2D>("dirt");
@@ -227,6 +228,7 @@ void MenuModel::createLevelStars(int count, const Vec2& scale,const Vec2& pos){
 
 
 void MenuModel::createLevelButtons(int count, const Vec2& scale,const Vec2& size){
+    // create the level buttons for level selectors
     int i = 0;
     for (; i < count; i++) {
         
@@ -235,6 +237,7 @@ void MenuModel::createLevelButtons(int count, const Vec2& scale,const Vec2& size
         levelButton->addTouchEventListener(CC_CALLBACK_2(MenuModel::levelButtonTouchEvent, this));
         
         _levelMap[levelButton->_ID] = i;
+        _levelButtonMap[i] = levelButton;
         
         this->addChild(levelButton);
     }
@@ -242,6 +245,7 @@ void MenuModel::createLevelButtons(int count, const Vec2& scale,const Vec2& size
 
 
 Button* MenuModel::createButton(const std::string &texture,const Vec2& scale,const Vec2& pos){
+    // create a single button with texture and position
     Button* button = Button::create(texture);
     button->setScale(scale.x, scale.y);
     Vec2 bPos = Vec2(pos.x, pos.y);
