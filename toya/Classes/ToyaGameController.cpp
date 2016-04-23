@@ -209,8 +209,8 @@ bool GameController::init(RootLayer* root, InputController* input, int playLevel
     
     _mapReader = new MapReader(this);
     
-    _scale.set(root->getContentSize().width/32.0f,
-               root->getContentSize().height/18.0f);
+    _scale.set(root->getContentSize().width/WORLD_SCALE_X,
+               root->getContentSize().height/WORLD_SCALE_Y);
     
     
     populate();
@@ -218,8 +218,6 @@ bool GameController::init(RootLayer* root, InputController* input, int playLevel
     _active = true;
     _complete = false;
     _cooldown = COOLDOWN;
-    
-    ProgressModel::init();
     
     return true;
 }
@@ -316,6 +314,14 @@ void GameController::populate() {
     _mapReader->loadMap("maps/level"+std::to_string(_currentLevel)+".tmx");
     
     _theWorld = _mapReader->createTheWorld();
+    _bgNode = Node::create();
+    LayerColor* bg1 = LayerColor::create(Color4B(0, 0, 0, 100));
+//    LayerColor* bg2 = LayerColor::create(Color4B(0, 0, 0, 255));
+//    bg2->setScale(0.5);
+    _bgNode->addChild(bg1);
+//    _bgNode->addChild(bg2);
+    _bgNode->setVisible(false);
+    _rootnode->addChild(_bgNode,1);
     
     // just create the map, no need to return
     // will create the removable blocks, non-removable blocks, deadly blocks, ghosts
@@ -383,7 +389,9 @@ void GameController::addObstacle(Obstacle* obj, int zOrder) {
 #pragma mark -
 #pragma mark Physics Handling
 
-Vec2* GameController::getRelativePosition(const Vec2& physicalPosition, Vec2& centerPosition, float turningAngel) {
+Vec2 GameController::getRelativePosition(const Vec2& physicalPosition, Vec2& centerPosition, float turningAngle) {
+    
+    CCLOG("%f,%f",physicalPosition.x,physicalPosition.y);
     
     Vec2 centerPosition_p = Vec2{512.0f, 288.0f};
     float dist = physicalPosition.getDistance(centerPosition_p);
@@ -401,9 +409,11 @@ Vec2* GameController::getRelativePosition(const Vec2& physicalPosition, Vec2& ce
     float originalX = centerPosition_p.x + cos(theta * M_PI / 180.0f) * dist;
     float originalY = centerPosition_p.y + sin(theta * M_PI / 180.0f) * dist;
     
-    float relativeX = centerPosition.x - 16.0f + originalX / 1024.0f * 32.0f;
-    float relativeY = centerPosition.y - 9.0f + originalY / 576.0f * 18.0f;
-    Vec2* relativePosition = new Vec2(relativeX, relativeY);
+    float relativeX = centerPosition.x - WORLD_SCALE_X/2 + originalX / 1024.0f * WORLD_SCALE_X;
+    float relativeY = centerPosition.y - WORLD_SCALE_Y/2 + originalY / 576.0f * WORLD_SCALE_Y;
+    Vec2 relativePosition = *new Vec2(relativeX, relativeY);
+    
+    CCLOG("%f,%f",relativePosition.x,relativePosition.y);
     
     return relativePosition;
 }
@@ -455,17 +465,16 @@ void GameController::update(float dt) {
     
     if (_pauseMenu->isMute()) {
         _audio->audioPauseAll();
-    } else if (!_pauseMenu->isMute()) {
+    } else {
         _audio->audioResumeAll();
     }
-    
+
     // add cooldown to show deathe animation
     
     if (_reset == true || _overview->hasReseted()) {
         reset();
     }
-    
-    _input->update(dt);
+
 
     // Process the toggled key commands
     if (_input->didReset()) { reset(); }
@@ -493,8 +502,9 @@ void GameController::update(float dt) {
         int direction = _input->getSwipeDirection();
         _avatar->setFacingRight(direction == 1);
     }
-    
-    if (_input->didSelect() && _selector->isSelected()) {
+    if (_panel->getSpell() == DESTRUCTION_SPELL_SELECTED || _panel->getSpell() == FREEZING_SPELL_SELECTED) {
+        // to fix the bug that release magic after touch
+    if (_input->didRelease() && _selector->isSelected()) {
         if(_panel->getSpell() == DESTRUCTION_SPELL_SELECTED) {
             _panel->setSpell(DESTRUCTION_SPELL_SELECTED);
             if (_selector->getObstacle()->getName() == "removable"){
@@ -502,8 +512,7 @@ void GameController::update(float dt) {
                 rmb->destroy(_theWorld->getWorldNode(), _theWorld->getDebugNode(), _theWorld->getWorld());
                 _audio->playDestroyEffect();
                 _panel->deduceMana(DESTRUCTION_COST);
-                _selector->deselect();
-                
+                _selector->deselect();                
             }
         } else if (_panel->getSpell() == FREEZING_SPELL_SELECTED) {
             _panel->setSpell(FREEZING_SPELL_SELECTED);
@@ -516,20 +525,22 @@ void GameController::update(float dt) {
                 _panel->deduceMana(FREEZE_COST);
                 _selector->deselect();
             }
+            _input->setRelease(false);
+
         }
     } else if (_input->didSelect()) {
         Vec2 centerPosition = _avatar->getPosition();
-        Vec2 relativePosition = *getRelativePosition(_input->getSelection(), centerPosition, 0.0f);
+        Vec2 relativePosition = getRelativePosition(_input->getSelection(), centerPosition, 0.0f);
         _selector->select(relativePosition);
         if(_avatar == _selector->getObstacle())
             _selector->deselect();
     } else if (_selector->isSelected()) {
         _selector->deselect();
     }
+        
+    }
     
-    //    update world position
-    Vec2 pos = _avatar->getPosition();
-    _theWorld->setWorldPos(_avatar,pos);
+
     
     // don't update the world when
     //   win or fail
@@ -539,6 +550,12 @@ void GameController::update(float dt) {
     if (_complete && _cooldown > 0){
         _cooldown --;
     }
+    
+
+    _input->update(dt);
+    //    update world position
+    Vec2 pos = _avatar->getPosition();
+    _theWorld->setWorldPos(_avatar,pos);
     
     if((!_complete && !_overview->didPause()) || (!_overview->didPause() && _cooldown > 0)){
         _theWorld->update(dt);

@@ -13,6 +13,7 @@
 #include <cornell/CUSceneManager.h>
 #include <Box2D/Dynamics/Contacts/b2Contact.h>
 #include <Box2D/Collision/b2Collision.h>
+#include "Constants.h"
 
 using namespace cocos2d;
 
@@ -21,17 +22,11 @@ using namespace cocos2d;
 #pragma mark -
 #pragma mark Drawing Constants
 
-#define DESIGN_RES_W    1024
-#define DESIGN_RES_H    576
-
 /** The default texture for the the world background */
 #define WORLD_TEXTURE    "sky"
 
-/** The default size of the world **/
-#define WORLD_WIDTH 64.0f
-#define WORLD_SCALE_X 32.0f
-#define WORLD_HEIGHT 36.0f
-#define WORLD_SCALE_Y 18.0f
+
+
 /** The default initial anchor point of the world, center of the camera view **/
 #define ANCHOR_POINT 0.5
 /** Debug color for the sensor */
@@ -148,12 +143,11 @@ bool WorldModel::init(const Size& size, const Vec2& gravity) {
     _debugnode->ignoreAnchorPointForPosition(true);
     
     
-    float scale = MIN(0.5f / (size.width / WORLD_SCALE_X), 0.5f / (size.height / WORLD_SCALE_Y));
+    _tscale = MIN(0.5f / (size.width / WORLD_SCALE_X), 0.5f / (size.height / WORLD_SCALE_Y));
     // scale the debugnode to half size of the screen
-    _debugnode->setScale(scale);
-    _debugnode->setPosition(Vec2(DESIGN_RES_W/4.0f,DESIGN_RES_H/4.0f));
-    
-    _debugnode->setAnchorPoint(Vec2(0, 0));
+//    _debugnode->setScale(_tscale);
+//    _debugnode->setPosition(Vec2(DESIGN_RES_W/4.0f,DESIGN_RES_H/4.0f));
+//    _debugnode->setAnchorPoint(Vec2(0, 0));
 
     return true;
 }
@@ -183,28 +177,8 @@ void WorldModel::addObstacle(Obstacle* obj, int zOrder){
     _world->addObstacle(obj);
     if (obj->getSceneNode() != nullptr) {
         _worldnode->addChild(obj->getSceneNode(),zOrder);
-    }
-    if (obj->getDebugNode() != nullptr) {
         _debugnode->addChild(obj->getDebugNode(),zOrder);
     }
-}
-//
-//void WorldModel::removeObstacle(BlockModel** objPtr){
-//    Obstacle* obj = *objPtr;
-//    if (obj->getSceneNode() != nullptr) {
-//        _worldnode->removeChild(obj->getSceneNode());
-//    }
-//    if (obj->getDebugNode() != nullptr) {
-//         _debugnode->removeChild(obj->getDebugNode());
-//    }
-//    _world->removeObstacle(obj);
-////    obj->reset();
-////    delete obj;
-//    *objPtr = nullptr;
-//}
-
-void WorldModel::setDebug(bool value){
-    _debugnode->setVisible(value);
 }
 
 void WorldModel::setAnchor(const Vec2& anchor){

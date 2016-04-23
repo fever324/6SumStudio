@@ -155,6 +155,7 @@ void ToyaRoot::update(float deltaTime) {
 //        _gameplay.preload();
         _preloaded = true;
         
+        ProgressModel::init();
         
         Size size = getContentSize();
         // initial the Welcome and Main menu

@@ -6,12 +6,12 @@
 #include <ctime>
 #include "ui/CocosGUI.h"
 
+#include "ToyaAudioController.h"
 #include "ToyaProgressModel.h"
 
-
+using namespace std;
 using namespace cocos2d;
 using namespace ui;
-
 
 #pragma mark -
 #pragma mark Menu Model
@@ -20,22 +20,20 @@ using namespace ui;
  * The game world.
  */
 
-class MenuModel : public Node{
+class MenuModel: public Node {
 private:
     /** This macro disables the copy constructor (not allowed on scene graphs) */
     CC_DISALLOW_COPY_AND_ASSIGN(MenuModel);
     
-    
     CheckBox* pauseButton; //pause button
     Button* startButton;
-    
     Label* _timenode;
     
     
     // for level menu
-//    Button* replay;
-//    Button* goMain;
-//    Button* next;
+    // Button* replay;
+    // Button* goMain;
+    // Button* next;
     
     // start status
     bool _start;
@@ -49,20 +47,19 @@ private:
     bool _replay;
     
     bool _resume;
-    
     // mute
     bool _mute;
     
-    
-    std::vector< int > _levelIndex;
+    std::vector<int> _levelIndex;
+    // store the button id with level index
     std::map<int, int> _levelMap;
+    // store the button
+    std::map<int, Button*> _levelButtonMap;
+    // store the star sprite with number of stars we need to show
     std::map<int, Sprite*> _levelStarMap;
     
-    
 protected:
-    
-    
-    
+
 public:
     
 CC_CONSTRUCTOR_ACCESS:
@@ -73,7 +70,7 @@ CC_CONSTRUCTOR_ACCESS:
      * This constructor does not initialize any of the dude values beyond
      * the defaults.  To use a DudeModel, you must call init().
      */
-    MenuModel() : Node(){ }
+    MenuModel(): Node() {}
     
     
 #pragma mark -
@@ -92,12 +89,9 @@ CC_CONSTRUCTOR_ACCESS:
     virtual bool init() override { return init("main",Vec2::ZERO, Vec2::ONE); }
     virtual bool init(std::string mtype, const Vec2& size, const Vec2& scale);
     virtual bool init(std::string mtype, const Vec2& size);
-    
-    
+
 #pragma mark -
 #pragma mark Static Constructors
-    
-    
     
     /**
      * Creates a new overview panel with the given position and size.
@@ -120,7 +114,10 @@ CC_CONSTRUCTOR_ACCESS:
     void createLevelButtons(int count,const Vec2& scale, const Vec2& pos);
     
     void createLevelStars(int count,const Vec2& scale, const Vec2& pos);
+    
     Button* createButton(const std::string& texture,const Vec2& scale,const Vec2& pos);
+    
+    CheckBox* createButton(const string& normal, const string& selected, const Vec2& scale, const Vec2& pos);
     
 #pragma mark -
 #pragma mark Destructors
@@ -131,14 +128,19 @@ CC_CONSTRUCTOR_ACCESS:
 #pragma mark -
 #pragma mark Event Listeners
     void pauseButtonTouchEvent(Ref *sender, ui::Widget::TouchEventType type);
+    
     void startButtonTouchEvent(Ref *sender, ui::Widget::TouchEventType type);
+    
     void levelButtonTouchEvent(Ref *sender, ui::Widget::TouchEventType type);
+    
     void replayButtonTouchEvent(Ref *sender, ui::Widget::TouchEventType type);
+    
     void resumeButtonTouchEvent(Ref *sender, ui::Widget::TouchEventType type);
+    
     void gomainButtonTouchEvent(Ref *sender, ui::Widget::TouchEventType type);
+    
     void nextButtonTouchEvent(Ref *sender, ui::Widget::TouchEventType type);
     
-    //
     void muteButtonTouchEvent(Ref* sender, ui::Widget::TouchEventType type);
     
 #pragma mark -
@@ -174,6 +176,10 @@ CC_CONSTRUCTOR_ACCESS:
         if (stars>=0){
             _levelStarMap[stars]->setVisible(true);
         }
+    }
+    
+    void updateLevelButton(int level, std::string texture){
+        _levelButtonMap[level]->loadTextureNormal(texture);
     }
     
 };

@@ -14,16 +14,10 @@
 #define NEXT_BUTTON_IMAGE "textures/nextLevel.png"
 #define GOMAIN_BUTTON_IMAGE "textures/back.png"
 #define RESUME_BUTTON_IMAGE "textures/resumeButton.png"
-#define MUTE_BUTTON_IMAGE "textures/overviewResumeButton.png"
+#define MUTE_BUTTON_NORMAL "textures/overviewResumeButton.png"
+#define MUTE_BUTTON_SELECTED "textures/resumeButton.png"
 
 #include "Constants.h"
-
-
-
-using namespace cocos2d;
-using namespace ui;
-
-
 
 bool MenuModel::init(std::string mtype,const Vec2& size) {
     return init(mtype, size, Vec2::ZERO);
@@ -173,15 +167,13 @@ bool MenuModel::init(std::string mtype, const Vec2& size, const Vec2& scale){
         _gomain = false;
         _next = false;
         _resume = false;
-        
-        auto audio = CocosDenshion::SimpleAudioEngine::getInstance();
-        audio->stopBackgroundMusic();
         _mute = false;
+        
         
         Button* replay = createButton(REPLAY_BUTTON_IMAGE, scale, Vec2(2*size.x/10, 100));
         Button* resume = createButton(RESUME_BUTTON_IMAGE, scale, Vec2(4*size.x/10, 100));
         Button* gomain = createButton(GOMAIN_BUTTON_IMAGE, scale, Vec2(6*size.x/10, 100));
-        Button* mute = createButton(MUTE_BUTTON_IMAGE, scale, Vec2(8*size.x/10, 100));
+        CheckBox* mute = createButton(MUTE_BUTTON_NORMAL, MUTE_BUTTON_SELECTED, scale, Vec2(8*size.x/10, 100));
         
         replay->addTouchEventListener(CC_CALLBACK_2(MenuModel::replayButtonTouchEvent, this));
         gomain->addTouchEventListener(CC_CALLBACK_2(MenuModel::gomainButtonTouchEvent, this));
@@ -192,20 +184,16 @@ bool MenuModel::init(std::string mtype, const Vec2& size, const Vec2& scale){
         this->addChild(resume);
         this->addChild(gomain);
         this->addChild(mute);
-        
-        
-        LayerColor* bgColor = LayerColor::create(Color4B(0, 0, 0, 100));
-        this->addChild(bgColor);
-        
+
 //        Texture2D* image = AssetManager::getInstance()->getCurrent()->get<Texture2D>("failbg");
 //        Sprite* bg = Sprite::createWithTexture(image,Rect(0,0,1024,576));
-        LayerColor* bg = LayerColor::create(Color4B(0, 0, 0, 255));
-        bg->setScale(0.5);
-        bg->setPosition(Vec2(size.x/2.0f,size.y/2.0f));
-        bg->ignoreAnchorPointForPosition(true);
-        bg->setAnchorPoint(Vec2(-0.5,-0.5));
-
-        this->addChild(bg);
+//        LayerColor* bg = LayerColor::create(Color4B(0, 0, 0, 255));
+//        bg->setScale(0.5);
+//        bg->setPosition(Vec2(size.x/2.0f,size.y/2.0f));
+//        bg->ignoreAnchorPointForPosition(true);
+//        bg->setAnchorPoint(Vec2(-0.5,-0.5));
+//
+//        this->addChild(bg);
     }
     
     return true;
@@ -223,6 +211,7 @@ MenuModel* MenuModel::create(std::string mtype,const Vec2& size){
 }
 
 void MenuModel::createLevelStars(int count, const Vec2& scale,const Vec2& pos){
+    // create the stars after you finish the level successful
     int i = 0;
     for (; i < count; i++) {
         Texture2D* starIMG = AssetManager::getInstance()->getCurrent()->get<Texture2D>("dirt");
@@ -239,6 +228,7 @@ void MenuModel::createLevelStars(int count, const Vec2& scale,const Vec2& pos){
 
 
 void MenuModel::createLevelButtons(int count, const Vec2& scale,const Vec2& size){
+    // create the level buttons for level selectors
     int i = 0;
     auto pm = ProgressModel::getInstance();
 
@@ -252,6 +242,7 @@ void MenuModel::createLevelButtons(int count, const Vec2& scale,const Vec2& size
         levelButton->addTouchEventListener(CC_CALLBACK_2(MenuModel::levelButtonTouchEvent, this));
         
         _levelMap[levelButton->_ID] = i;
+        _levelButtonMap[i] = levelButton;
         
         this->addChild(levelButton);
     }
@@ -259,7 +250,19 @@ void MenuModel::createLevelButtons(int count, const Vec2& scale,const Vec2& size
 
 
 Button* MenuModel::createButton(const std::string &texture,const Vec2& scale,const Vec2& pos){
+    // create a single button with texture and position
     Button* button = Button::create(texture);
+    button->setScale(scale.x, scale.y);
+    Vec2 bPos = Vec2(pos.x, pos.y);
+    bPos.x -= button->getContentSize().width / 2.0f;
+    bPos.y -= button->getContentSize().height / 2.0f;
+    button->setPosition(bPos);
+    return button;
+}
+
+// The create method for mute button
+CheckBox* MenuModel::createButton(const string& normal, const string& selected, const Vec2& scale, const Vec2& pos) {
+    CheckBox* button = CheckBox::create(normal, selected);
     button->setScale(scale.x, scale.y);
     Vec2 bPos = Vec2(pos.x, pos.y);
     bPos.x -= button->getContentSize().width / 2.0f;

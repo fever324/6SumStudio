@@ -94,6 +94,8 @@ protected:
     /** Whether the exit action was chosen. */
     bool _exitPressed;
     
+    bool _released;
+    
     bool _select;
     Vec2 _ctouch;
 
@@ -236,6 +238,9 @@ public:
     bool didExit() const { return _exitPressed; }
     
     bool didSelect() const { return _select; }
+    bool didRelease() const {return _released; }
+    void setRelease(bool r) {_released = r;}
+    void setActive(bool value) {_active = value;}
     const Vec2& getSelection() const { return _ctouch; }
     
     

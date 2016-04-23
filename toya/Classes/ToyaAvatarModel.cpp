@@ -9,14 +9,13 @@
 #include <cornell/CUPolygonNode.h>
 #include <cornell/CUAssetManager.h>
 #include <cornell/CUSceneManager.h>
+#include "Constants.h"
 
 using namespace cocos2d;
 #define SIGNUM(x)  ((x > 0) - (x < 0))
 
 #pragma mark -
 #pragma mark Physics Constants
-/** the amout to shrink the body in three dimensions. **/
-#define AVATAR_SHRINK 1.5f
 /** The amount to shrink the sensor fixture (horizontally) relative to the image */
 #define AVATAR_SSHRINK  0.2f
 /** Height of the sensor attached to the player's feet */
@@ -135,6 +134,7 @@ bool AvatarModel::init(const Vec2& pos, const Vec2& scale) {
 //    Size avatarSize = Size(64*cscale*AVATAR_SHRINK/scale.x,80*cscale*AVATAR_SHRINK/scale.y);
     
     Size avatarSize = Size(64/cscale/scale.x/AVATAR_SHRINK*0.65f,80/cscale/scale.y/AVATAR_SHRINK);
+//    Size avatarSize = Size(64/cscale/WORLD_SCALE_X/(scale.x/32)/AVATAR_SHRINK*0.65f,80/cscale/WORLD_SCALE_Y/(scale.y/32)/AVATAR_SHRINK);
     
     if (CapsuleObstacle::init(pos, avatarSize)) {
         _animationFrameCount = 0;

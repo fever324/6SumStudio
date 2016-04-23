@@ -7,6 +7,8 @@
 #include "ToyaExitDoorModel.h"
 #include <cornell/CUAssetManager.h>
 #include <cornell/CUSceneManager.h>
+#include "Constants.h"
+
 
 #define DOOR_OPEN   0
 #define DOOR_CLOSED 1
@@ -66,7 +68,7 @@ bool ExitDoorModel::init(const Vec2 &pos, const Size &size) {
         
         float cscale = Director::getInstance()->getContentScaleFactor();
         Sprite* sprite = Sprite::createWithTexture(image);
-        sprite->setScale(cscale/4);
+        sprite->setScale(cscale/DOOR_SHRINK);
         setSceneNode(sprite);
         
         return true;

@@ -1,4 +1,5 @@
 #include "ToyaAnimationBoxModel.h"
+#include "Constants.h"
 
 AnimationBoxModel* AnimationBoxModel::create(int stateCount, int rowCount, int columnCount, std::string textureKey, const Vec2& pos, const Size& size, Vec2 scale, int updatesPerFrame) {
     AnimationBoxModel* animationBox = new (std::nothrow) AnimationBoxModel();
@@ -30,7 +31,7 @@ bool AnimationBoxModel::init(int stateCount, int rowCount, int columnCount, std:
         
         float cscale = Director::getInstance()->getContentScaleFactor();
 
-        pnode->setScale(0.5*cscale);
+        pnode->setScale(scale.x/64*cscale);
         
         setSceneNode(pnode);
 
