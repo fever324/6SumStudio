@@ -7,6 +7,7 @@
 #include "ui/CocosGUI.h"
 
 #include "ToyaAudioController.h"
+#include "ToyaProgressModel.h"
 
 using namespace std;
 using namespace cocos2d;
