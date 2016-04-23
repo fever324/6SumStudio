@@ -219,8 +219,6 @@ bool GameController::init(RootLayer* root, InputController* input, int playLevel
     _complete = false;
     _cooldown = COOLDOWN;
     
-    ProgressModel::init();
-    
     return true;
 }
 
