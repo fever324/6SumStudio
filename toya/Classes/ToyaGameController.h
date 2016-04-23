@@ -292,6 +292,7 @@ public:
      *
      * @param value whether the level is completed.
      */
+    bool didWin(){return _youWin;}
     
     bool didGoMain(){return _failMenu->didGoMain() || _winMenu->didGoMain() || _pauseMenu->didGoMain();}
     
@@ -401,6 +402,16 @@ public:
     void togglePause(bool showOrNot){_pauseMenu->setVisible(showOrNot);};
     void toggleWin(bool showOrNot){_winMenu->setVisible(showOrNot);};
     void toggleFail(bool showOrNot){_failMenu->setVisible(showOrNot);};
+    
+    void updateMenu(MenuModel* menu){
+        // unlock next level if next level is locked
+        if (ProgressModel::getInstance()->isLocked(_currentLevel+1)){
+            menu->updateLevelButton(_currentLevel+1, "textures/level.png", "unlock");
+        }else{
+            // here we need to update the texture with latest or highest score
+            menu->updateLevelButton(_currentLevel+1, "textures/level.png", "update");
+        }
+    }
     
 };
 
