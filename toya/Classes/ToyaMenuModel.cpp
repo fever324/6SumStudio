@@ -40,9 +40,9 @@ bool MenuModel::init(std::string mtype, const Vec2& size, const Vec2& scale){
         
         
         auto image = AssetManager::getInstance()->getCurrent()->get<Texture2D>("select_level_background");
-        Sprite* bg = Sprite::createWithTexture(image,Rect(0,0,size.x, size.y));
-//        bg->setScale(1);
-        bg->setScale(scale.x, scale.y);
+        Sprite* bg = Sprite::createWithTexture(image,Rect(0,0,1024, 576));
+        float cscale = Director::getInstance()->getContentScaleFactor();
+        bg->setScale(cscale);
         bg->setAnchorPoint(Vec2(0,0));
         this->addChild(bg,0);
         
@@ -247,13 +247,16 @@ void MenuModel::createLevelButtons(int count, const Vec2& scale,const Vec2& size
 
 
 Button* MenuModel::createButton(const std::string &texture,const Vec2& scale,const Vec2& pos){
-    // create a single button with texture and position
+    // create a single button with texture and positionon
     Button* button = Button::create(texture);
-    button->setScale(scale.x, scale.y);
-    Vec2 bPos = Vec2(pos.x, pos.y);
-    bPos.x -= button->getContentSize().width / 2.0f;
-    bPos.y -= button->getContentSize().height / 2.0f;
+    float cscale = Director::getInstance()->getContentScaleFactor();
+    Vec2 bPos = Vec2(pos.x/cscale, pos.y/cscale);
+    button->setScale(cscale);
+    bPos.x -= (button->getContentSize().width / 2.0f)/cscale;
+    bPos.y -= (button->getContentSize().height / 2.0f)/cscale;
     button->setPosition(bPos);
+    cout << texture << endl;
+    CCLOG("%f,%f",bPos.x,bPos.y);
     return button;
 }
 
