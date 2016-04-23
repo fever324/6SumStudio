@@ -15,8 +15,8 @@
 #define NEXT_BUTTON_IMAGE "textures/nextLevel.png"
 #define GOMAIN_BUTTON_IMAGE "textures/back.png"
 #define RESUME_BUTTON_IMAGE "textures/resumeButton.png"
-#define MUTE_BUTTON_NORMAL "textures/overviewResumeButton.png"
-#define MUTE_BUTTON_SELECTED "textures/resumeButton.png"
+#define MUTE_BUTTON_NORMAL "textures/mute-sound.png"
+#define MUTE_BUTTON_SELECTED "textures/sound.png"
 
 #include "Constants.h"
 
@@ -232,7 +232,7 @@ void MenuModel::createLevelButtons(int count, const Vec2& scale,const Vec2& size
     for (; i < count; i++) {
         Button* levelButton = createButton("textures/level"+std::to_string(i)+".png", scale, Vec2(size.x/8+60+i%4*size.x/4.0f, size.y-150- i/4*200));
         
-        if(pm->isLocked(i)){
+        if(pm->isLocked(i) && i > 0){
             levelButton->setEnabled(false);
         }
         
@@ -261,10 +261,11 @@ Button* MenuModel::createButton(const std::string &texture,const Vec2& scale,con
 // The create method for mute button
 CheckBox* MenuModel::createButton(const string& normal, const string& selected, const Vec2& scale, const Vec2& pos) {
     CheckBox* button = CheckBox::create(normal, selected);
-    button->setScale(scale.x, scale.y);
-    Vec2 bPos = Vec2(pos.x, pos.y);
-    bPos.x -= button->getContentSize().width / 2.0f;
-    bPos.y -= button->getContentSize().height / 2.0f;
+    float cscale = Director::getInstance()->getContentScaleFactor();
+    Vec2 bPos = Vec2(pos.x/cscale, pos.y/cscale);
+    button->setScale(cscale*1.01);
+    bPos.x -= (button->getContentSize().width / 2.0f)/cscale;
+    bPos.y -= (button->getContentSize().height / 2.0f)/cscale;
     button->setPosition(bPos);
     return button;
 }
