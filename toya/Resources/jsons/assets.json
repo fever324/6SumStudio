@@ -107,6 +107,10 @@
         "reset":    {
             "file":     "textures/resetButton.png",
             "wrap":     false
+        },
+        "select_level_background":    {
+            "file":     "textures/selectLevels-backgroud2.png",
+            "wrap":     false
         }
         
   	},
