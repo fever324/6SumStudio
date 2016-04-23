@@ -251,12 +251,10 @@ Button* MenuModel::createButton(const std::string &texture,const Vec2& scale,con
     Button* button = Button::create(texture);
     float cscale = Director::getInstance()->getContentScaleFactor();
     Vec2 bPos = Vec2(pos.x/cscale, pos.y/cscale);
-    button->setScale(cscale);
+    button->setScale(cscale*1.01);
     bPos.x -= (button->getContentSize().width / 2.0f)/cscale;
     bPos.y -= (button->getContentSize().height / 2.0f)/cscale;
     button->setPosition(bPos);
-    cout << texture << endl;
-    CCLOG("%f,%f",bPos.x,bPos.y);
     return button;
 }
 
