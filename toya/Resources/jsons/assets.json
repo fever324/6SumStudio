@@ -109,7 +109,7 @@
             "wrap":     false
         },
         "select_level_background":    {
-            "file":     "textures/selectLevels-backgroud2.png",
+            "file":     "textures/background-select-levels.png",
             "wrap":     false
         },
         "1star": {
@@ -126,6 +126,14 @@
         },
         "3star": {
             "file":     "textures/threestar.png",
+            "wrap":     false
+        },
+        "locked_level": {
+            "file":     "textures/lockedLevel.png",
+            "wrap":     false
+        },
+        "select_level": {
+            "file":     "textures/select_level.png",
             "wrap":     false
         }
         

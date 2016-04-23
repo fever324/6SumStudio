@@ -111,11 +111,11 @@ CC_CONSTRUCTOR_ACCESS:
     static MenuModel* create(std::string mtype, const Vec2& size);
     static MenuModel* create(std::string mtype, const Vec2& size, const Vec2& scale);
     
-    void createLevelButtons(int count,const Vec2& scale, const Vec2& pos);
+    void createLevelButtons(int count, const Vec2& pos);
     
     void createLevelStars(int count,const Vec2& scale, const Vec2& pos);
     
-    Button* createButton(const std::string& texture,const Vec2& scale,const Vec2& pos);
+    Button* createButton(const std::string& texture, const Vec2& pos);
     
     CheckBox* createButton(const string& normal, const string& selected, const Vec2& scale, const Vec2& pos);
     
@@ -167,7 +167,7 @@ CC_CONSTRUCTOR_ACCESS:
     
     void setResume(bool value) {_resume = value;}
     
-    void resetStatus(){_replay = false;_gomain = false; _next = false;_start = false;}
+    void resetStatus(){_replay = false;_gomain = false; _next = false;_start = false; resetLevelButtons();}
     
     void showTime(double time, int stars){
         std::ostringstream s;
@@ -177,6 +177,9 @@ CC_CONSTRUCTOR_ACCESS:
             _levelStarMap[stars]->setVisible(true);
         }
     }
+    
+    void resetLevelButtons();
+    
     
     void updateLevelButton(int level, std::string texture, std::string action){
         if (action == "update"){

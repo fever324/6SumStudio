@@ -32,8 +32,9 @@ void ProgressModel::init() {
 ProgressModel* ProgressModel::getInstance() {
     if(_progress == nullptr) {
         _progress = new (std::nothrow) ProgressModel();
-        _progress->readData();
     }
+    
+    _progress->readData();
     
     return _progress;
 }

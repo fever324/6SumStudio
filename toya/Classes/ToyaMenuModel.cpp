@@ -41,13 +41,22 @@ bool MenuModel::init(std::string mtype, const Vec2& size, const Vec2& scale){
         
         
         auto image = AssetManager::getInstance()->getCurrent()->get<Texture2D>("select_level_background");
-        Sprite* bg = Sprite::createWithTexture(image,Rect(0,0,1024, 576));
+        auto select = AssetManager::getInstance()->getCurrent()->get<Texture2D>("select_level");
+        
+        Sprite* bg = Sprite::createWithTexture(image);
+        Sprite* words= Sprite::createWithTexture(select);
         float cscale = Director::getInstance()->getContentScaleFactor();
         bg->setScale(cscale);
-        bg->setAnchorPoint(Vec2(0,0));
-        this->addChild(bg,0);
+        words->setScale(cscale);
         
-        createLevelButtons(10,scale,size);
+        bg->setAnchorPoint(Vec2(0,0));
+        words->setAnchorPoint(Vec2(0,1));
+        
+        words->setPosition(size.x / 2 - words->getContentSize().width/2, size.y-25);
+        this->addChild(bg,0);
+        this->addChild(words,1);
+        
+        createLevelButtons(10,size);
 
         
     } else if (mtype == "welcome") {
@@ -55,7 +64,7 @@ bool MenuModel::init(std::string mtype, const Vec2& size, const Vec2& scale){
         // _gomain default as false
         _gomain = false;
         
-        Button* start = createButton("textures/menubg.png", scale, Vec2(1024, 576));
+        Button* start = createButton("textures/menubg.png", Vec2(1024, 576));
     
         // set _gomain to true, so we can go to main menu
         start->addTouchEventListener(CC_CALLBACK_2(MenuModel::startButtonTouchEvent, this));
@@ -74,9 +83,9 @@ bool MenuModel::init(std::string mtype, const Vec2& size, const Vec2& scale){
         LayerColor* bgColor = LayerColor::create(Color4B(0, 0, 0, 100));
         this->addChild(bgColor);
         
-        Button* replay = createButton(REPLAY_BUTTON_IMAGE, scale, Vec2(2*size.x/8, 200));
-        Button* gomain = createButton(GOMAIN_BUTTON_IMAGE, scale, Vec2(4*size.x/8, 200));
-        Button* next = createButton(NEXT_BUTTON_IMAGE, scale, Vec2(6*size.x/8, 200));
+        Button* replay = createButton(REPLAY_BUTTON_IMAGE, Vec2(2*size.x/8, 200));
+        Button* gomain = createButton(GOMAIN_BUTTON_IMAGE, Vec2(4*size.x/8, 200));
+        Button* next = createButton(NEXT_BUTTON_IMAGE, Vec2(6*size.x/8, 200));
         replay->addTouchEventListener(CC_CALLBACK_2(MenuModel::replayButtonTouchEvent, this));
         gomain->addTouchEventListener(CC_CALLBACK_2(MenuModel::gomainButtonTouchEvent, this));
         next->addTouchEventListener(CC_CALLBACK_2(MenuModel::nextButtonTouchEvent, this));
@@ -123,8 +132,8 @@ bool MenuModel::init(std::string mtype, const Vec2& size, const Vec2& scale){
         LayerColor* bgColor = LayerColor::create(Color4B(0, 0, 0, 100));
         this->addChild(bgColor);
         
-        Button* replay = createButton(REPLAY_BUTTON_IMAGE, scale, Vec2(4*size.x/8, 200));
-        Button* gomain = createButton(GOMAIN_BUTTON_IMAGE, scale, Vec2(4*size.x/8+100, 200));
+        Button* replay = createButton(REPLAY_BUTTON_IMAGE, Vec2(4*size.x/8, 200));
+        Button* gomain = createButton(GOMAIN_BUTTON_IMAGE, Vec2(4*size.x/8+100, 200));
         replay->addTouchEventListener(CC_CALLBACK_2(MenuModel::replayButtonTouchEvent, this));
         gomain->addTouchEventListener(CC_CALLBACK_2(MenuModel::gomainButtonTouchEvent, this));
         
@@ -168,9 +177,9 @@ bool MenuModel::init(std::string mtype, const Vec2& size, const Vec2& scale){
         _mute = false;
         
         
-        Button* replay = createButton(REPLAY_BUTTON_IMAGE, scale, Vec2(2*size.x/10, 100));
-        Button* resume = createButton(RESUME_BUTTON_IMAGE, scale, Vec2(4*size.x/10, 100));
-        Button* gomain = createButton(GOMAIN_BUTTON_IMAGE, scale, Vec2(6*size.x/10, 100));
+        Button* replay = createButton(REPLAY_BUTTON_IMAGE, Vec2(2*size.x/10, 100));
+        Button* resume = createButton(RESUME_BUTTON_IMAGE, Vec2(4*size.x/10, 100));
+        Button* gomain = createButton(GOMAIN_BUTTON_IMAGE, Vec2(6*size.x/10, 100));
         CheckBox* mute = createButton(MUTE_BUTTON_NORMAL, MUTE_BUTTON_SELECTED, scale, Vec2(8*size.x/10, 100));
         
         replay->addTouchEventListener(CC_CALLBACK_2(MenuModel::replayButtonTouchEvent, this));
@@ -208,14 +217,14 @@ MenuModel* MenuModel::create(std::string mtype,const Vec2& size){
     return nullptr;
 }
 
-void MenuModel::createLevelStars(int count, const Vec2& scale,const Vec2& pos){
+void MenuModel::createLevelStars(int count, const Vec2& scale,const Vec2& screenSize){
     // create the stars after you finish the level successful
     int i = 0;
     for (; i < count; i++) {
         Texture2D* starIMG = AssetManager::getInstance()->getCurrent()->get<Texture2D>("dirt");
         Sprite* star = Sprite::createWithTexture(starIMG,Rect(0,0,64,64));
         star->setScale(1);
-        star->setPosition(Vec2(pos.x/2.0f+i*80,pos.y/2.0f));
+        star->setPosition(Vec2(screenSize.x/2.0f+i*80,screenSize.y/2.0f));
         star->ignoreAnchorPointForPosition(true);
         star->setAnchorPoint(Vec2(0,0));
         star->setVisible(false);
@@ -225,35 +234,38 @@ void MenuModel::createLevelStars(int count, const Vec2& scale,const Vec2& pos){
 }
 
 
-void MenuModel::createLevelButtons(int count, const Vec2& scale,const Vec2& size){
+void MenuModel::createLevelButtons(int count,const Vec2& size){
     // create the level buttons for level selectors
     int i = 0;
     auto pm = ProgressModel::getInstance();
 
     for (; i < count; i++) {
         Vec2 buttonPos = Vec2(size.x/8+60+i%4*size.x/4.0f, size.y-80- i/4*170);
-        Button* levelButton = createButton("textures/level"+std::to_string(i)+".png", scale, buttonPos);
+        Button* levelButton = nullptr;
         
-        if(pm->isLocked(i) && i > 0){
-            levelButton->setEnabled(false);
+        if(!pm->isLocked(i)){
+            levelButton = createButton("textures/level"+std::to_string(i)+".png", buttonPos);
+            levelButton->addTouchEventListener(CC_CALLBACK_2(MenuModel::levelButtonTouchEvent, this));
+            
+            int stars = pm->getStars(i);
+            Texture2D* starIMG = AssetManager::getInstance()->getCurrent()->get<Texture2D>(std::to_string(stars)+"star");
+            Sprite* star = Sprite::createWithTexture(starIMG);
+            star->setAnchorPoint(Vec2(0,1));
+            
+            levelButton->addChild(star);
+        } else {
+            levelButton = createButton("textures/lockedLevel.png", buttonPos);
         }
         
-        levelButton->addTouchEventListener(CC_CALLBACK_2(MenuModel::levelButtonTouchEvent, this));
         
         _levelMap[levelButton->_ID] = i;
         _levelButtonMap[i] = levelButton;
-        int stars = pm->getStars(i);
-        Texture2D* starIMG = AssetManager::getInstance()->getCurrent()->get<Texture2D>(std::to_string(stars)+"star");
-        Sprite* star = Sprite::createWithTexture(starIMG);
-        star->setAnchorPoint(Vec2(0,1));
-        
-        levelButton->addChild(star);
-        this->addChild(levelButton);
+        this->addChild(levelButton,1);
     }
 }
 
 
-Button* MenuModel::createButton(const std::string &texture,const Vec2& scale,const Vec2& pos){
+Button* MenuModel::createButton(const std::string &texture,const Vec2& pos){
     // create a single button with texture and positionon
     Button* button = Button::create(texture);
     float cscale = Director::getInstance()->getContentScaleFactor();
@@ -370,6 +382,30 @@ void MenuModel::muteButtonTouchEvent(cocos2d::Ref* sender, ui::Widget::TouchEven
             break;
         default:
             break;
+    }
+}
+
+void MenuModel::resetLevelButtons() {
+    
+    auto pm = ProgressModel::getInstance();
+    
+    //Remove current level buttons on screen
+    for (auto const& x : _levelButtonMap) {
+        
+        int i = x.first;
+        Button* button = x.second;
+        
+        if(!pm->isLocked(i)) {
+            button->loadTextureNormal("textures/level"+std::to_string(i)+".png");
+            button->addTouchEventListener(CC_CALLBACK_2(MenuModel::levelButtonTouchEvent, this));
+            button->removeAllChildren();
+            int stars = pm->getStars(i);
+            Texture2D* starIMG = AssetManager::getInstance()->getCurrent()->get<Texture2D>(std::to_string(stars)+"star");
+            Sprite* star = Sprite::createWithTexture(starIMG);
+            star->setAnchorPoint(Vec2(0,1));
+            button->addChild(star);
+
+        }
     }
 }
 
