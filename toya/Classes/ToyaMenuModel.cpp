@@ -38,8 +38,13 @@ bool MenuModel::init(std::string mtype, const Vec2& size, const Vec2& scale){
         _gomain = false;
         _level = 0;
         
-        LayerColor* bg = LayerColor::create(Color4B(175, 211, 102, 255));
-        this->addChild(bg);
+        
+        auto image = AssetManager::getInstance()->getCurrent()->get<Texture2D>("select_level_background");
+        Sprite* bg = Sprite::createWithTexture(image,Rect(0,0,size.x, size.y));
+//        bg->setScale(1);
+        bg->setScale(scale.x, scale.y);
+        bg->setAnchorPoint(Vec2(0,0));
+        this->addChild(bg,0);
         
         createLevelButtons(6,scale,size);
 
@@ -234,7 +239,7 @@ void MenuModel::createLevelButtons(int count, const Vec2& scale,const Vec2& size
     auto pm = ProgressModel::getInstance();
 
     for (; i < count; i++) {
-        Button* levelButton = createButton("textures/level"+std::to_string(i)+".png", scale, Vec2(size.x/8+i%4*200, size.y- 50 - i/4*200));
+        Button* levelButton = createButton("textures/level"+std::to_string(i)+".png", scale, Vec2(size.x/8+60+i%4*size.x/4.0f, size.y-150- i/4*200));
         
         if(pm->isLocked(i)){
             levelButton->setEnabled(false);
