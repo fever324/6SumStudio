@@ -75,6 +75,14 @@ void ProgressModel::readData() {
 }
 
 void ProgressModel::writeData(int level, float completeTime, int star){
+    int oldTime = _levels[level]->getTime();
+    int oldStar = _levels[level]->getStar();
+    
+    if(completeTime >= oldTime && star <= oldStar) return;
+    
+    if(completeTime > oldTime) completeTime = oldTime;
+    if(star < oldStar) star = oldStar;
+    
     NSArray * paths(NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES));
     const char* const path([[paths objectAtIndex:0] fileSystemRepresentation]);
     const std::string documentPath(path);
