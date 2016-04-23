@@ -39,6 +39,7 @@ PanelModel* PanelModel::create(const Vec2& pos, const int initalMana,const int t
 
 bool PanelModel::init() {
     _selection = NO_SPELL_SELECTED;
+    _magicCoolDown = MAGIC_COOLDOWN;
     
     auto windowSize = Director::getInstance()->getWinSize();
 
@@ -159,8 +160,12 @@ void PanelModel::addMana(int mana) {
 }
 
 bool PanelModel::deduceMana(int cost) {
+    if (_currentMana == 0) {
+        return false;
+    }
+    
     if(cost > _currentMana) return false;
-    _currentMana -= cost;
+    _currentMana = _currentMana - cost;
     updateMagicBar();
     updateButtons();
 

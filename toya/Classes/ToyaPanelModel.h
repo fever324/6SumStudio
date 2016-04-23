@@ -15,6 +15,8 @@ using namespace cocos2d;
 #pragma mark -
 #pragma mark Panel Model
 
+// define the cooldown for magic releasing
+#define MAGIC_COOLDOWN 40
 #define NO_SPELL_SELECTED 0
 #define FREEZING_SPELL_SELECTED 1
 #define DESTRUCTION_SPELL_SELECTED 2
@@ -25,6 +27,8 @@ private:
     int _totalMana;
     int _currentMana;
     int _selection;
+    
+    int _magicCoolDown;
     
     ui::CheckBox* _freezingSpellCB;
     FreezingSpellModel* _freezingSpell;
@@ -54,6 +58,22 @@ public:
     bool init(const Vec2& pos, const int initalMana, const int totalMana);
     
     void reset();
+    
+    // reset the magic cooldown time to default
+    void resetMagicCoolDown() {
+        _magicCoolDown = MAGIC_COOLDOWN;
+    }
+    
+    // get if it is in magic cooldown time or not
+    bool isMagicCoolDown() {
+        return _magicCoolDown == 0;
+    }
+    
+    void update(float dt) {
+        if (_magicCoolDown > 0) {
+            _magicCoolDown --;
+        }
+    }
     
 #pragma mark -
 #pragma mark Static Constructors
