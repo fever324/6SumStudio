@@ -76,9 +76,9 @@ bool MenuModel::init(std::string mtype, const Vec2& size, const Vec2& scale){
         // _gomain default as false
         _resume = false;
         
-//        LayerColor* bgColor = LayerColor::create(Color4B(0, 0, 0, 100));
-//        this->addChild(bgColor);
-//        
+        LayerColor* bgColor = LayerColor::create(Color4B(0, 0, 0, 100));
+        this->addChild(bgColor);
+//
 //        auto image = AssetManager::getInstance()->getCurrent()->get<Texture2D>("select_level_background");
 //        Sprite* bg = Sprite::createWithTexture(image);
 //        float cscale = Director::getInstance()->getContentScaleFactor();
