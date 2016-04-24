@@ -87,7 +87,7 @@ bool MenuModel::init(std::string mtype, const Vec2& size, const Vec2& scale){
 //        bg->setAnchorPoint(Vec2(-0.1*cscale,-0.1*cscale));
 //        this->addChild(bg,0);
         
-        Button* resume = createButton("textures/menubg.png", Vec2(1024,576));
+        Button* resume = createButton("textures/help.png", Vec2(1024,576));
         resume->setScale(0.8);
         
         // set _gomain to true, so we can go to main menu
@@ -107,9 +107,9 @@ bool MenuModel::init(std::string mtype, const Vec2& size, const Vec2& scale){
         LayerColor* bgColor = LayerColor::create(Color4B(0, 0, 0, 100));
         this->addChild(bgColor);
         
-        Button* replay = createButton(REPLAY_BUTTON_IMAGE, Vec2(2*size.x/8, 200));
-        Button* gomain = createButton(GOMAIN_BUTTON_IMAGE, Vec2(4*size.x/8, 200));
-        Button* next = createButton(NEXT_BUTTON_IMAGE, Vec2(6*size.x/8, 200));
+        Button* replay = createButton(REPLAY_BUTTON_IMAGE, Vec2(4*size.x/8-50, 200));
+        Button* gomain = createButton(GOMAIN_BUTTON_IMAGE, Vec2(4*size.x/8+50, 200));
+        Button* next = createButton(NEXT_BUTTON_IMAGE, Vec2(4*size.x/8+150, 200));
         replay->addTouchEventListener(CC_CALLBACK_2(MenuModel::replayButtonTouchEvent, this));
         gomain->addTouchEventListener(CC_CALLBACK_2(MenuModel::gomainButtonTouchEvent, this));
         next->addTouchEventListener(CC_CALLBACK_2(MenuModel::nextButtonTouchEvent, this));

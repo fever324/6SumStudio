@@ -74,11 +74,11 @@
         },
         "winbg": {
             "file":     "textures/winbg.png",
-            "wrap":     true
+            "wrap":     false
         },
         "failbg": {
             "file":     "textures/failbg.png",
-            "wrap":     true
+            "wrap":     false
         },
         "ghosts":    {
             "file":     "textures/ghosts.png",
