@@ -5,7 +5,7 @@
 #define OVERVIEW_BUTTON_PRESSED "textures/pauseButton.png"
 
 #define RESET_BUTTON_IMAGE "textures/resetButton.png"
-#define HELP_BUTTON_NORMAL "textures/pauseButton.png"
+#define HELP_BUTTON_NORMAL "textures/helpButton.png"
 using namespace cocos2d;
 
 
