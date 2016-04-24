@@ -184,12 +184,15 @@ bool GameController::init(RootLayer* root, InputController* input, int playLevel
     // initialize the menus
     
     _pauseMenu = MenuModel::create("pause",Vec2(root->getContentSize().width,root->getContentSize().height), inputscale);
+    _helpMenu = MenuModel::create("tutorial",Vec2(root->getContentSize().width,root->getContentSize().height), inputscale);
     _winMenu = MenuModel::create("levelWin",Vec2(root->getContentSize().width,root->getContentSize().height), inputscale);;
     _failMenu = MenuModel::create("levelFail",Vec2(root->getContentSize().width,root->getContentSize().height), inputscale);;
     togglePause(false);
     toggleWin(false);
     toggleFail(false);
+    toggleHelp(false);
     root->addChild(_pauseMenu,PAUSE_MENU_ORDER);
+    root->addChild(_helpMenu,PAUSE_MENU_ORDER);
     root->addChild(_winMenu,WIN_MENU_ORDER);
     root->addChild(_failMenu,FAIL_MENU_ORDER);
     
@@ -436,7 +439,7 @@ void GameController::update(float dt) {
     }
     
     // if didPause
-    if (_overview->didPause()) {
+    if (_overview->didPause() && !_overview->didHelp()) {
         togglePause(true);
         _panel->disableButton();
     } else {
@@ -444,13 +447,27 @@ void GameController::update(float dt) {
         _panel->enableButton();
     }
     
+    // if show help
+    if (_overview->didHelp()){
+        toggleHelp(true);
+        _input->setActive(false);
+        _panel->disableButton();
+    } else {
+        toggleHelp(false);
+        _input->setActive(true);
+        _panel->enableButton();
+    }
+    
     if (_pauseMenu->didGoMain()) {
         togglePause(false);
     }
     
-    if (_pauseMenu->didResume()) {
+    // resume from pause or help
+    if (_pauseMenu->didResume() || _helpMenu->didResume()) {
         _overview->resumeFromPause();
+        toggleHelp(false);
         _pauseMenu->setResume(false);
+        _helpMenu->setResume(false);
     }
     
     

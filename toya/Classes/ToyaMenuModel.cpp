@@ -63,13 +63,36 @@ bool MenuModel::init(std::string mtype, const Vec2& size, const Vec2& scale){
         // welcome page, only has one button as start button
         // _gomain default as false
         _gomain = false;
-        
+
         Button* start = createButton("textures/menubg.png", Vec2(1024, 576));
     
         // set _gomain to true, so we can go to main menu
         start->addTouchEventListener(CC_CALLBACK_2(MenuModel::startButtonTouchEvent, this));
         
         this->addChild(start);
+        
+    } else if (mtype == "tutorial") {
+        // welcome page, only has one button as start button
+        // _gomain default as false
+        _resume = false;
+        
+        LayerColor* bgColor = LayerColor::create(Color4B(0, 0, 0, 100));
+        this->addChild(bgColor);
+        
+        auto image = AssetManager::getInstance()->getCurrent()->get<Texture2D>("select_level_background");
+        Sprite* bg = Sprite::createWithTexture(image);
+        float cscale = Director::getInstance()->getContentScaleFactor();
+        bg->setScale(cscale*0.8);
+//        bg->ignoreAnchorPointForPosition(true);
+        bg->setAnchorPoint(Vec2(-0.1*cscale,-0.1*cscale));
+        this->addChild(bg,0);
+        
+        Button* resume = createButton(RESUME_BUTTON_IMAGE, Vec2(5*size.x/10, 100));
+        
+        // set _gomain to true, so we can go to main menu
+        resume->addTouchEventListener(CC_CALLBACK_2(MenuModel::resumeButtonTouchEvent, this));
+        
+        this->addChild(resume);
     } else if (mtype == "levelWin") {
         /* create the win page
          * three btns: replay, gomain, next
