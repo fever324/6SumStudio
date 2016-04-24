@@ -78,16 +78,17 @@ bool MenuModel::init(std::string mtype, const Vec2& size, const Vec2& scale){
         
         LayerColor* bgColor = LayerColor::create(Color4B(0, 0, 0, 100));
         this->addChild(bgColor);
+//
+//        auto image = AssetManager::getInstance()->getCurrent()->get<Texture2D>("select_level_background");
+//        Sprite* bg = Sprite::createWithTexture(image);
+//        float cscale = Director::getInstance()->getContentScaleFactor();
+//        bg->setScale(cscale*0.8);
+////        bg->ignoreAnchorPointForPosition(true);
+//        bg->setAnchorPoint(Vec2(-0.1*cscale,-0.1*cscale));
+//        this->addChild(bg,0);
         
-        auto image = AssetManager::getInstance()->getCurrent()->get<Texture2D>("select_level_background");
-        Sprite* bg = Sprite::createWithTexture(image);
-        float cscale = Director::getInstance()->getContentScaleFactor();
-        bg->setScale(cscale*0.8);
-//        bg->ignoreAnchorPointForPosition(true);
-        bg->setAnchorPoint(Vec2(-0.1*cscale,-0.1*cscale));
-        this->addChild(bg,0);
-        
-        Button* resume = createButton(RESUME_BUTTON_IMAGE, Vec2(5*size.x/10, 100));
+        Button* resume = createButton("textures/menubg.png", Vec2(1024,576));
+        resume->setScale(0.8);
         
         // set _gomain to true, so we can go to main menu
         resume->addTouchEventListener(CC_CALLBACK_2(MenuModel::resumeButtonTouchEvent, this));
