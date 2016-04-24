@@ -395,6 +395,8 @@ void InputController::calculateNewSmoothedTurning(float newTurning) {
  * @param event The associated event
  */
 void InputController::touchMovedCB(Touch* t, timestamp_t current) {
+    if(!_active) return;
+    
     if(_touchCount > 1) {
         if (t->getID() == _touch1.touchid) {
             _touch1.stop = t->getLocation();
