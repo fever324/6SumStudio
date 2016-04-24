@@ -156,8 +156,16 @@ bool MenuModel::init(std::string mtype, const Vec2& size, const Vec2& scale){
         LayerColor* bgColor = LayerColor::create(Color4B(0, 0, 0, 100));
         this->addChild(bgColor);
         
-        Button* replay = createButton(REPLAY_BUTTON_IMAGE, Vec2(4*size.x/8, 200));
-        Button* gomain = createButton(GOMAIN_BUTTON_IMAGE, Vec2(4*size.x/8+100, 200));
+        
+        Button* replay = Button::create(REPLAY_BUTTON_IMAGE);
+        Button* gomain = Button::create(GOMAIN_BUTTON_IMAGE);
+        
+        replay->setAnchorPoint(Vec2(0.5,0.5));
+        gomain->setAnchorPoint(Vec2(0.5,0.5));
+        
+        replay->setPosition(Vec2(415, 150));
+        gomain->setPosition(Vec2(605, 150));
+        
         replay->addTouchEventListener(CC_CALLBACK_2(MenuModel::replayButtonTouchEvent, this));
         gomain->addTouchEventListener(CC_CALLBACK_2(MenuModel::gomainButtonTouchEvent, this));
         
@@ -199,12 +207,23 @@ bool MenuModel::init(std::string mtype, const Vec2& size, const Vec2& scale){
         _next = false;
         _resume = false;
         _mute = false;
+
+
+        Button* replay = Button::create(REPLAY_BUTTON_IMAGE);
+        Button* resume = Button::create(RESUME_BUTTON_IMAGE);
+        Button* gomain = Button::create(GOMAIN_BUTTON_IMAGE);
+        CheckBox* mute = CheckBox::create(MUTE_BUTTON_NORMAL, MUTE_BUTTON_SELECTED);
         
+        replay->setAnchorPoint(Vec2(0.5,0.5));
+        resume->setAnchorPoint(Vec2(0.5,0.5));
+        gomain->setAnchorPoint(Vec2(0.5,0.5));
+        mute->setAnchorPoint(Vec2(0.5,0.5));
         
-        Button* replay = createButton(REPLAY_BUTTON_IMAGE, Vec2(2*size.x/10, 100));
-        Button* resume = createButton(RESUME_BUTTON_IMAGE, Vec2(4*size.x/10, 100));
-        Button* gomain = createButton(GOMAIN_BUTTON_IMAGE, Vec2(6*size.x/10, 100));
-        CheckBox* mute = createButton(MUTE_BUTTON_NORMAL, MUTE_BUTTON_SELECTED, scale, Vec2(8*size.x/10, 100));
+        replay->setPosition(Vec2(225, 100));
+        resume->setPosition(Vec2(415, 100));
+        gomain->setPosition(Vec2(605, 100));
+        mute->setPosition(Vec2(795, 100));
+
         
         replay->addTouchEventListener(CC_CALLBACK_2(MenuModel::replayButtonTouchEvent, this));
         gomain->addTouchEventListener(CC_CALLBACK_2(MenuModel::gomainButtonTouchEvent, this));
