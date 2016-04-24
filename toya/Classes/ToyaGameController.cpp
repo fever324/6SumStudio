@@ -491,28 +491,26 @@ void GameController::update(float dt) {
         // to fix the bug that release magic after touch
         if (_input->didRelease() && _selector->isSelected()) {
             if (_panel->getSpell() == DESTRUCTION_SPELL_SELECTED) {
-                _panel->setSpell(DESTRUCTION_SPELL_SELECTED);
+//                _panel->setSpell(DESTRUCTION_SPELL_SELECTED);
                 if (_selector->getObstacle()->getName() == "removable" && _panel->getCurrentMana() > 0 && _panel->isMagicCoolDown()) {
                     RemovableBlockModel* rmb = (RemovableBlockModel*) _selector->getObstacle();
                     rmb->destroy(_theWorld->getWorldNode(), _theWorld->getDebugNode(), _theWorld->getWorld());
                     _audio->playDestroyEffect();
                     _panel->deduceMana(DESTRUCTION_COST);
                     _panel->resetMagicCoolDown();
-                    _selector->deselect();
                 }
             } else if (_panel->getSpell() == FREEZING_SPELL_SELECTED) {
-                _panel->setSpell(FREEZING_SPELL_SELECTED);
+//                _panel->setSpell(FREEZING_SPELL_SELECTED);
                 if(_selector->getObstacle()->getName() == "ghost" && _panel->getCurrentMana() > 0 && _panel->isMagicCoolDown()) {
                     MovingObstacleModel* movingObstacle = (MovingObstacleModel*) _selector->getObstacle();
                     movingObstacle->freeze(_theWorld->getWorldNode(), _theWorld->getDebugNode(), _theWorld->getWorld());
                     _audio->playEffect(FREEZE_EFFECT, 0.2f);
                     _panel->deduceMana(FREEZE_COST);
                     _panel->resetMagicCoolDown();
-                    _selector->deselect();
                 }
                 _input->setRelease(false);
-                
             }
+            _selector->deselect();
             // only select the obstacle when we are not in magic's cooldown time and we have magic left
         } else if (_panel->getCurrentMana() > 0 && _panel->isMagicCoolDown() && _input->didSelect()) {
             Vec2 centerPosition = _avatar->getPosition();
