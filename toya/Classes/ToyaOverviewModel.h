@@ -27,6 +27,8 @@ private:
     
     
     ui::Button* pauseButton; //pause button
+    ui::Button* helpButton; //help button
+    bool showhelp;
     bool paused;
     bool reseted;
 
@@ -112,7 +114,7 @@ CC_CONSTRUCTOR_ACCESS:
 #pragma mark - 
 #pragma mark Event Listeners
     void pauseButtonTouchEvent(Ref *sender, ui::Widget::TouchEventType type);
-    void resetButtonTouchEvent(Ref *sender, ui::Widget::TouchEventType type);
+    void helpButtonTouchEvent(Ref *sender, ui::Widget::TouchEventType type);
     
 #pragma mark -
 #pragma mark Helper Functions
@@ -123,6 +125,7 @@ CC_CONSTRUCTOR_ACCESS:
     bool hasReseted() {return this->reseted;}
     void reset();
     bool didPause(){ return paused;}
+    bool didHelp(){ return showhelp;}
 };
 
 #endif /* defined(__TOYA_OVERVIEW_MODEL_H__) */

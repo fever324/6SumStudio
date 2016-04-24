@@ -99,6 +99,7 @@ protected:
     MenuModel* _pauseMenu;
     MenuModel* _winMenu;
     MenuModel* _failMenu;
+    MenuModel* _helpMenu;
     
     /** Whether or note this game is still active */
     bool _active;
@@ -402,6 +403,7 @@ public:
     void togglePause(bool showOrNot){_pauseMenu->setVisible(showOrNot);};
     void toggleWin(bool showOrNot){_winMenu->setVisible(showOrNot);};
     void toggleFail(bool showOrNot){_failMenu->setVisible(showOrNot);};
+    void toggleHelp(bool showOrNot){_helpMenu->setVisible(showOrNot);};
     
     void updateMenu(MenuModel* menu){
         // unlock next level if next level is locked

@@ -204,6 +204,7 @@ public:
     }
     void runFollow(){
         if (_follow == nullptr ) return;
+        _worldnode->stopAction(_follow);
         _worldnode->runAction(_follow);
     }
     
