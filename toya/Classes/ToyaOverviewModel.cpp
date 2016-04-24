@@ -105,8 +105,9 @@ double OverviewModel::getCurrentDuration() {
     return elapsed_millis(startTime, current_time()) / 1000.0f;
 }
 
-void OverviewModel::disableButton() {
-    pauseButton->setTouchEnabled(false);
+void OverviewModel::enableButton(bool value) {
+    pauseButton->setEnabled(value);
+    helpButton->setEnabled(value);
 }
 
 void OverviewModel::pauseButtonPressed() {
@@ -131,7 +132,8 @@ void OverviewModel::reset() {
     startTime = current_time();
     reseted = false;
     paused = false;
-    pauseButton->setTouchEnabled(true);
+    pauseButton->setEnabled(true);
+    helpButton->setEnabled(true);
     resumeFromPause();
 }
 

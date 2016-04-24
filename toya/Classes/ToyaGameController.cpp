@@ -438,26 +438,31 @@ void GameController::update(float dt) {
         reset();
     }
     
-    // if didPause
-    if (_overview->didPause() && !_overview->didHelp()) {
-        togglePause(true);
-        _panel->disableButton();
-    } else {
-        togglePause(false);
-        _panel->enableButton();
-    }
-    
-    // if show help
-    if (_overview->didHelp()){
-        toggleHelp(true);
+    // when pause or help shows, set input inactive, disable panel buttons
+    if (_overview->didPause() || _overview->didHelp()) {
         _input->setActive(false);
         _panel->disableButton();
-    } else {
+        _overview->enableButton(false);
+        // if pause only
+        if (_overview->didPause() && !_overview->didHelp()) {
+            togglePause(true);
+        }else{
+            togglePause(false);
+        }
+        // if help
+        if (_overview->didHelp()){
+            toggleHelp(true);
+        }else{
+            toggleHelp(false);
+        }
+    }else{
+        togglePause(false);
         toggleHelp(false);
         _input->setActive(true);
         _panel->enableButton();
+        _overview->enableButton(true);
     }
-    
+
     if (_pauseMenu->didGoMain()) {
         togglePause(false);
     }
@@ -568,12 +573,12 @@ void GameController::update(float dt) {
         if (_youWin) {
             toggleWin(true);
             togglePause(false);
-            _overview->disableButton();
+            _overview->enableButton(false);
             _panel->disableButton();
         }else{
             toggleFail(true);
             togglePause(false);
-            _overview->disableButton();
+            _overview->enableButton(false);
             _panel->disableButton();
         }
     }

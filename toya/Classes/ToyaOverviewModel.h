@@ -120,7 +120,7 @@ CC_CONSTRUCTOR_ACCESS:
 #pragma mark Helper Functions
     void pauseButtonPressed();
     void resumeFromPause();
-    void disableButton();
+    void enableButton(bool value);
     
     bool hasReseted() {return this->reseted;}
     void reset();
