@@ -77,16 +77,6 @@ using namespace std;
 /** Opacity of the physics outlines */
 #define DEBUG_OPACITY   192
 
-/** The key for collisions sounds */
-#define COLLISION_SOUND     "bump"
-/** The key for the main afterburner sound */
-#define MAIN_FIRE_SOUND     "burn"
-/** The key for the right afterburner sound */
-#define RGHT_FIRE_SOUND     "sounds/sideburner-left.mp3"
-/** The key for the left afterburner sound */
-#define LEFT_FIRE_SOUND     "sounds/sideburner-right.mp3"
-
-
 #pragma mark Physics Constants
 
 // Physics constants for initialization
