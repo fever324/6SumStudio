@@ -5,7 +5,7 @@
 #define OVERVIEW_BUTTON_PRESSED "textures/pauseButton.png"
 
 #define RESET_BUTTON_IMAGE "textures/resetButton.png"
-#define HELP_BUTTON_NORMAL "textures/pauseButton.png"
+#define HELP_BUTTON_NORMAL "textures/helpButton.png"
 using namespace cocos2d;
 
 
@@ -22,9 +22,9 @@ bool OverviewModel::init(const Vec2& pos, const Vec2& scale){
 
     pauseButton = ui::Button::create(OVERVIEW_BUTTON_NORMAL);
     helpButton = ui::Button::create(HELP_BUTTON_NORMAL);
-    float cscale = Director::getInstance()->getContentScaleFactor();
-    pauseButton->setScale(cscale);
-    helpButton->setScale(cscale);
+//    float cscale = Director::getInstance()->getContentScaleFactor();
+//    pauseButton->setScale(cscale);
+//    helpButton->setScale(cscale);
     
     
     Vec2 pauseButtonPosition = Vec2(pos);
