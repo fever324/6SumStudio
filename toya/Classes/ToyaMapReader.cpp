@@ -59,22 +59,29 @@ void MapReader::createLavaBlocks(TMXLayer* layer) {
 /* volcano */
 void MapReader::createVolcanoBaseBlocks(TMXLayer* layer) {
     Size size = *new Size((Vec2)BLOCK_SIZE);
+    Vec2 _scale = gameController->getScale();
+    
     if (layer != nullptr) {
         Size layerSize = layer->getLayerSize();
         for (int y = 0; y < layerSize.height; y++) {
             for (int x = 0; x < layerSize.width; x++) {
                 auto tileSprite = layer->getTileAt(Point(x, y));
                 if (tileSprite) {
-                    vector<Vec2> vertices(4);
-                    vertices.push_back(Vec2(x, layerSize.height - y));
-                    vertices.push_back(Vec2(x + 1, layerSize.height - y));
+                    vector<Vec2> vertices(0);
+                    vertices.push_back(Vec2(x+0.2, layerSize.height - y));
+                    vertices.push_back(Vec2(x + 0.8, layerSize.height - y));
+                    vertices.push_back(Vec2(x + 1.5, layerSize.height - y - 1));
                     vertices.push_back(Vec2(x - 0.5, layerSize.height - y - 1));
-                    vertices.push_back(Vec2(x + 1.5, layerSize.height - y));
                     Poly2 poly = Poly2(vertices);
                     poly.triangulate();
-                    Obstacle* obj = BlockFactory::getNonRemovableBlock(poly, size, layer->getProperty("texture").asString());
-                    gameController->addObstacle(obj, VOCALNO_DRAW_LAYER);
-                    obj->setName("vBase");
+//                    layer->getProperty("texture").asString()
+                    Obstacle* obj = BlockFactory::getNonRemovableBlock(poly, _scale, "vbase_pure");
+//                    Obstacle* obj = BlockFactory::getNonRemovableBlock(poly, _scale, "rock");
+                    Obstacle* obj2 = BlockFactory::getRemovableBlock(Vec2(x+0.5,layerSize.height-y-0.35), size, gameController->getScale(),"vbase_fire");
+                    gameController->addObstacle(obj, VOCALNO_BASE_DRAW_LAYER);
+                    gameController->addObstacle(obj2, VOCALNO_BASE_DRAW_LAYER);
+                    obj->setName("lava");
+                    obj2->setName("lava");
                 }
             }
         }
