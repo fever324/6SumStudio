@@ -21,6 +21,7 @@
 #define SAND_DIRT_LAYER "sand"
 #define GRASS_DIRT_LAYER "grass"
 #define LAVA_LAYER "lava"
+#define V_BASE_LAYER "vBase"
 
 #define DIRT_TEXTURE "dirt"
 #define ROCK_TEXTURE "rock"
@@ -35,6 +36,7 @@
 #define BARRIER_DRAW_LAYER       4
 #define POTION_DRAW_LAYER        5
 #define STAR_DRAW_LAYER          1
+#define VOCALNO_DRAW_LAYER       6
 
 static float BLOCK_SIZE[] = {1, 1};
 
@@ -70,13 +72,20 @@ public:
         createMovingObstacles();
         createMagicPotions();
         createLava();
+        createVolcanoBase();
     }
     
     void createRemovableBlocks();
     void createTheBlocks(TMXLayer* layer);
     void createNonRemovableBlocks();
+    
     void createLavaBlocks(TMXLayer* layer);
     void createLava();
+    
+    /* volcano*/
+    void createVolcanoBaseBlocks(TMXLayer* layer);
+    void createVolcanoBase();
+    
     void createBackground();
     void createMovingObstacles();
     void createMagicPotions();
