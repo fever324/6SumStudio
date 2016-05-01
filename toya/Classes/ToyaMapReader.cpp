@@ -82,7 +82,7 @@ void MapReader::createVolcanoBlocks(TMXLayer* layer) {
 }
 
 void MapReader::createVolcano() {
-    createVolcanoBaseBlocks(map->getLayer(V_BASE_LAYER));
+    createVolcanoBlocks(map->getLayer(V_BASE_LAYER));
 }
 
 
