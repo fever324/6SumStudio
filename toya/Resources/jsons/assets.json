@@ -80,6 +80,10 @@
             "file":     "textures/failbg.png",
             "wrap":     false
         },
+        "projector": {
+            "file":     "textures/projector.png",
+            "wrap":     true
+        },
         "vbase_fire": {
             "file":     "textures/vbase_fire.png",
             "wrap":     true

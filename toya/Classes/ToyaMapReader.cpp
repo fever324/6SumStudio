@@ -76,6 +76,24 @@ void MapReader::createVolcanoBlocks(TMXLayer* layer) {
                     vertices.push_back(Vec2(x + 1.5, layerSize.height - y - 1));
                     vertices.push_back(Vec2(x - 0.5, layerSize.height - y - 1));
                     vertices.push_back(Vec2(x + 0.1, layerSize.height - y - 0.3));
+                    
+                    string texture = "projector";
+
+                    
+//                    float x_pos = x + 0.5;
+//                    
+//                    float y_pos = layerSize.height - y - 0.5;
+                    
+                    float x_pos = (x+0.5) * tileSize.width;
+                    float y_pos = (layerSize.height - y - 0.5)*tileSize.height;
+                    
+                    vector<Vec2> routes = {(Vec2){x_pos, y_pos}, (Vec2){0.0f, 1.0f}};
+                    
+                    Vec2 Pos = (Vec2){x_pos/tileSize.width, y_pos/tileSize.height};
+                    MovingObstacleModel* projector = MovingObstacleModel::create(2, 4, 4, texture, Pos, Size(1, 1), _scale, routes, 1.0f);
+                    gameController->addObstacle(projector, VOCALNO_PROJECT_DRAW_LAYER);
+                    projector->setName("lava");
+                
                     Poly2 poly = Poly2(vertices);
                     poly.triangulate();
 //                    layer->getProperty("texture").asString()
@@ -201,6 +219,8 @@ void MapReader::createMovingObstacles() {
         float x_pos = ghostMap.at("x").asFloat()*cscale;
 
         float y_pos = ghostMap.at("y").asFloat()*cscale + 1.5*tileSize.height;
+        
+//        CCLOG("%f,%f", x_pos,y_pos);
         
         vector<Vec2> routes = {(Vec2){x_pos, y_pos}, (Vec2){ghostMap.at("point1X").asFloat(), ghostMap.at("point1Y").asFloat()}};
         

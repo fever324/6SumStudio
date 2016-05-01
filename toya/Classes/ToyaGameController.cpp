@@ -350,7 +350,7 @@ void GameController::populate() {
     _overview->setGameController(this);
     _rootnode->addChild(_overview,PAUSE_BUTTON_ORDER);
     
-    setDebug(true);
+    setDebug(false);
     
     _selector = ObstacleSelector::create(world);
     _selector->retain();
