@@ -145,7 +145,7 @@ bool WorldModel::init(const Size& size, const Vec2& gravity) {
     
     _tscale = MIN(0.5f / (size.width / WORLD_SCALE_X), 0.5f / (size.height / WORLD_SCALE_Y));
     // scale the debugnode to half size of the screen
-//    _debugnode->setScale(_tscale);
+    _debugnode->setScale(_tscale);
 //    _debugnode->setPosition(Vec2(DESIGN_RES_W/4.0f,DESIGN_RES_H/4.0f));
 //    _debugnode->setAnchorPoint(Vec2(0, 0));
 

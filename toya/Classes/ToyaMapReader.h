@@ -37,6 +37,7 @@
 #define POTION_DRAW_LAYER        5
 #define STAR_DRAW_LAYER          1
 #define VOCALNO_DRAW_LAYER       6
+#define PROJECTOR_DRAW_LAYER     7
 
 static float BLOCK_SIZE[] = {1, 1};
 

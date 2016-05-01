@@ -9,6 +9,8 @@
 #include "ToyaMapReader.h"
 #include "Constants.h"
 
+#define EARTH_TEXTURE       "rock"
+
 MapReader::MapReader(GameController* gameController){
     this->gameController = gameController;
 }
@@ -59,12 +61,24 @@ void MapReader::createLavaBlocks(TMXLayer* layer) {
 /* volcano */
 void MapReader::createVolcanoBlocks(TMXLayer* layer) {
     Size size = *new Size((Vec2)BLOCK_SIZE);
+    Vec2 _scale = gameController->getScale();
     if (layer != nullptr) {
         Size layerSize = layer->getLayerSize();
         for (int y = 0; y < layerSize.height; y++) {
             for (int x = 0; x < layerSize.width; x++) {
                 auto tileSprite = layer->getTileAt(Point(x, y));
                 if (tileSprite) {
+                    string texture = "dirt";
+                    float x_pos = x + 0.5;
+                    float y_pos = layerSize.height - y - 0.5;
+                    CCLOG("%f", y_pos);
+                    CCLOG("%f", x_pos);
+                    vector<Vec2> routes = {(Vec2){x_pos, y_pos}, (Vec2){0.0, 0.1}};
+                    Vec2 Pos = (Vec2){x_pos, y_pos};
+                    MovingObstacleModel* projector = MovingObstacleModel::create(2, 3, 3, texture, Pos, Size(1, 1), _scale, routes, 1.0);
+                    gameController->addObstacle(projector, PROJECTOR_DRAW_LAYER);
+                    projector->setName("projector");
+                
                     vector<Vec2> vertices(4);
                     vertices.push_back(Vec2(x, layerSize.height - y));
                     vertices.push_back(Vec2(x + 1, layerSize.height - y));
@@ -188,11 +202,8 @@ void MapReader::createMovingObstacles() {
         string texture = ghostMap.at("texture").asString();
         
         float x_pos = ghostMap.at("x").asFloat()*cscale;
-        
 
         float y_pos = ghostMap.at("y").asFloat()*cscale + 1.5*tileSize.height;
-        
-        
         
         vector<Vec2> routes = {(Vec2){x_pos, y_pos}, (Vec2){ghostMap.at("point1X").asFloat(), ghostMap.at("point1Y").asFloat()}};
         
