@@ -350,7 +350,7 @@ void GameController::populate() {
     _overview->setGameController(this);
     _rootnode->addChild(_overview,PAUSE_BUTTON_ORDER);
     
-    setDebug(false);
+    setDebug(true);
     
     _selector = ObstacleSelector::create(world);
     _selector->retain();
@@ -640,7 +640,7 @@ void GameController::beginContact(b2Contact* contact) {
     
     Obstacle* bd1 = (Obstacle*)body1->GetUserData();
     Obstacle* bd2 = (Obstacle*)body2->GetUserData();
-    
+
     if((bd1->getName() == "avatar" && bd2->getName() == "ghost") ||
        (bd1->getName() == "ghost" && bd2->getName() == "avatar")) {
         MovingObstacleModel* ghost = bd1->getName() == "ghost" ? (MovingObstacleModel*)bd1 : (MovingObstacleModel*)bd2;

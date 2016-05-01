@@ -9,6 +9,8 @@
 #include "ToyaMapReader.h"
 #include "Constants.h"
 
+#define EARTH_TEXTURE       "rock"
+
 MapReader::MapReader(GameController* gameController){
     this->gameController = gameController;
 }
@@ -197,11 +199,8 @@ void MapReader::createMovingObstacles() {
         string texture = ghostMap.at("texture").asString();
         
         float x_pos = ghostMap.at("x").asFloat()*cscale;
-        
 
         float y_pos = ghostMap.at("y").asFloat()*cscale + 1.5*tileSize.height;
-        
-        
         
         vector<Vec2> routes = {(Vec2){x_pos, y_pos}, (Vec2){ghostMap.at("point1X").asFloat(), ghostMap.at("point1Y").asFloat()}};
         
