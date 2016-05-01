@@ -21,7 +21,7 @@
 #define SAND_DIRT_LAYER "sand"
 #define GRASS_DIRT_LAYER "grass"
 #define LAVA_LAYER "lava"
-#define V_BASE_LAYER "vBase"
+#define V_BASE_LAYER "volcano"
 
 #define DIRT_TEXTURE "dirt"
 #define ROCK_TEXTURE "rock"

@@ -59,16 +59,26 @@ void MapReader::createLavaBlocks(TMXLayer* layer) {
 /* volcano */
 void MapReader::createVolcanoBaseBlocks(TMXLayer* layer) {
     Size size = *new Size((Vec2)BLOCK_SIZE);
-    vector<Vec2> vertices(4);
-    vertices.push_back(Vec2(0.5, 0));
-    vertices.push_back(Vec2(1.5, 0));
-    vertices.push_back(Vec2(0, 1));
-    vertices.push_back(Vec2(2, 1));
-    Poly2 poly = Poly2(vertices);
-    poly.triangulate();
-    Obstacle* obj = BlockFactory::getNonRemovableBlock(poly, size, layer->getProperty("texture").asString());
-    gameController->addObstacle(obj, VOCALNO_DRAW_LAYER);
-    obj->setName("vBase");
+    if (layer != nullptr) {
+        Size layerSize = layer->getLayerSize();
+        for (int y = 0; y < layerSize.height; y++) {
+            for (int x = 0; x < layerSize.width; x++) {
+                auto tileSprite = layer->getTileAt(Point(x, y));
+                if (tileSprite) {
+                    vector<Vec2> vertices(4);
+                    vertices.push_back(Vec2(x, layerSize.height - y));
+                    vertices.push_back(Vec2(x + 1, layerSize.height - y));
+                    vertices.push_back(Vec2(x - 0.5, layerSize.height - y - 1));
+                    vertices.push_back(Vec2(x + 1.5, layerSize.height - y));
+                    Poly2 poly = Poly2(vertices);
+                    poly.triangulate();
+                    Obstacle* obj = BlockFactory::getNonRemovableBlock(poly, size, layer->getProperty("texture").asString());
+                    gameController->addObstacle(obj, VOCALNO_DRAW_LAYER);
+                    obj->setName("vBase");
+                }
+            }
+        }
+    }
 }
 
 void MapReader::createVolcanoBase() {
