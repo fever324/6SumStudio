@@ -57,7 +57,7 @@ void MapReader::createLavaBlocks(TMXLayer* layer) {
 }
 
 /* volcano */
-void MapReader::createVolcanoBaseBlocks(TMXLayer* layer) {
+void MapReader::createVolcanoBlocks(TMXLayer* layer) {
     Size size = *new Size((Vec2)BLOCK_SIZE);
     if (layer != nullptr) {
         Size layerSize = layer->getLayerSize();
@@ -81,7 +81,7 @@ void MapReader::createVolcanoBaseBlocks(TMXLayer* layer) {
     }
 }
 
-void MapReader::createVolcanoBase() {
+void MapReader::createVolcano() {
     createVolcanoBaseBlocks(map->getLayer(V_BASE_LAYER));
 }
 
