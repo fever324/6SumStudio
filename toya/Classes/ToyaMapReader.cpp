@@ -83,12 +83,16 @@ void MapReader::createVolcanoBlocks(TMXLayer* layer) {
                     vertices.push_back(Vec2(x, layerSize.height - y));
                     vertices.push_back(Vec2(x + 1, layerSize.height - y));
                     vertices.push_back(Vec2(x - 0.5, layerSize.height - y - 1));
-                    vertices.push_back(Vec2(x + 1.5, layerSize.height - y));
                     Poly2 poly = Poly2(vertices);
                     poly.triangulate();
-                    Obstacle* obj = BlockFactory::getNonRemovableBlock(poly, size, layer->getProperty("texture").asString());
-                    gameController->addObstacle(obj, VOCALNO_DRAW_LAYER);
-                    obj->setName("vBase");
+//                    layer->getProperty("texture").asString()
+                    Obstacle* obj = BlockFactory::getNonRemovableBlock(poly, _scale, "vbase_pure");
+//                    Obstacle* obj = BlockFactory::getNonRemovableBlock(poly, _scale, "rock");
+                    Obstacle* obj2 = BlockFactory::getRemovableBlock(Vec2(x+0.5,layerSize.height-y-0.35), size, gameController->getScale(),"vbase_fire");
+                    gameController->addObstacle(obj, VOCALNO_BASE_DRAW_LAYER);
+                    gameController->addObstacle(obj2, VOCALNO_BASE_DRAW_LAYER);
+                    obj->setName("lava");
+                    obj2->setName("lava");
                 }
             }
         }
