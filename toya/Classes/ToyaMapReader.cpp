@@ -57,7 +57,7 @@ void MapReader::createLavaBlocks(TMXLayer* layer) {
 }
 
 /* volcano */
-void MapReader::createVolcanoBaseBlocks(TMXLayer* layer) {
+void MapReader::createVolcanoBlocks(TMXLayer* layer) {
     Size size = *new Size((Vec2)BLOCK_SIZE);
     Vec2 _scale = gameController->getScale();
     
@@ -88,8 +88,8 @@ void MapReader::createVolcanoBaseBlocks(TMXLayer* layer) {
     }
 }
 
-void MapReader::createVolcanoBase() {
-    createVolcanoBaseBlocks(map->getLayer(V_BASE_LAYER));
+void MapReader::createVolcano() {
+    createVolcanoBlocks(map->getLayer(V_BASE_LAYER));
 }
 
 

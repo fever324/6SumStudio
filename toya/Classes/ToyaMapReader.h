@@ -73,7 +73,7 @@ public:
         createMovingObstacles();
         createMagicPotions();
         createLava();
-        createVolcanoBase();
+        createVolcano();
     }
     
     void createRemovableBlocks();
@@ -84,8 +84,8 @@ public:
     void createLava();
     
     /* volcano*/
-    void createVolcanoBaseBlocks(TMXLayer* layer);
-    void createVolcanoBase();
+    void createVolcanoBlocks(TMXLayer* layer);
+    void createVolcano();
     
     void createBackground();
     void createMovingObstacles();
