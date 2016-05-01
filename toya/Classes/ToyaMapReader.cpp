@@ -62,12 +62,17 @@ void MapReader::createLavaBlocks(TMXLayer* layer) {
 void MapReader::createVolcanoBlocks(TMXLayer* layer) {
     Size size = *new Size((Vec2)BLOCK_SIZE);
     Vec2 _scale = gameController->getScale();
+    
     if (layer != nullptr) {
         Size layerSize = layer->getLayerSize();
         for (int y = 0; y < layerSize.height; y++) {
             for (int x = 0; x < layerSize.width; x++) {
                 auto tileSprite = layer->getTileAt(Point(x, y));
                 if (tileSprite) {
+                    vector<Vec2> vertices(0);
+                    vertices.push_back(Vec2(x+0.2, layerSize.height - y));
+                    vertices.push_back(Vec2(x + 0.8, layerSize.height - y));
+                    vertices.push_back(Vec2(x + 1.5, layerSize.height - y - 1));
                     string texture = "dirt";
                     float x_pos = x + 0.5;
                     float y_pos = layerSize.height - y - 0.5;
@@ -76,13 +81,9 @@ void MapReader::createVolcanoBlocks(TMXLayer* layer) {
                     vector<Vec2> routes = {(Vec2){x_pos, y_pos}, (Vec2){0.0, 0.1}};
                     Vec2 Pos = (Vec2){x_pos, y_pos};
                     MovingObstacleModel* projector = MovingObstacleModel::create(2, 3, 3, texture, Pos, Size(1, 1), _scale, routes, 1.0);
-                    gameController->addObstacle(projector, PROJECTOR_DRAW_LAYER);
+                    gameController->addObstacle(projector, VOCALNO_PROJECT_DRAW_LAYER);
                     projector->setName("projector");
                 
-                    vector<Vec2> vertices(4);
-                    vertices.push_back(Vec2(x, layerSize.height - y));
-                    vertices.push_back(Vec2(x + 1, layerSize.height - y));
-                    vertices.push_back(Vec2(x - 0.5, layerSize.height - y - 1));
                     Poly2 poly = Poly2(vertices);
                     poly.triangulate();
 //                    layer->getProperty("texture").asString()

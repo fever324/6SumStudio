@@ -36,8 +36,8 @@
 #define BARRIER_DRAW_LAYER       4
 #define POTION_DRAW_LAYER        5
 #define STAR_DRAW_LAYER          1
-#define VOCALNO_DRAW_LAYER       6
-#define PROJECTOR_DRAW_LAYER     7
+#define VOCALNO_BASE_DRAW_LAYER       6
+#define VOCALNO_PROJECT_DRAW_LAYER       5
 
 static float BLOCK_SIZE[] = {1, 1};
 
