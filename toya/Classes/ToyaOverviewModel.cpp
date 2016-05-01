@@ -3,9 +3,11 @@
 
 #define OVERVIEW_BUTTON_NORMAL "textures/pauseButton.png"
 #define OVERVIEW_BUTTON_PRESSED "textures/pauseButton.png"
+#define OVERVIEW_BUTTON_DISABLE "textures/pauseButton_disable.png"
 
 #define RESET_BUTTON_IMAGE "textures/resetButton.png"
 #define HELP_BUTTON_NORMAL "textures/helpButton.png"
+#define HELP_BUTTON_DISABLE "textures/helpButton_disable.png"
 using namespace cocos2d;
 
 
@@ -20,8 +22,8 @@ bool OverviewModel::init(const Vec2& pos) {
  */
 bool OverviewModel::init(const Vec2& pos, const Vec2& scale){
 
-    pauseButton = ui::Button::create(OVERVIEW_BUTTON_NORMAL);
-    helpButton = ui::Button::create(HELP_BUTTON_NORMAL);
+    pauseButton = ui::Button::create(OVERVIEW_BUTTON_NORMAL,OVERVIEW_BUTTON_NORMAL,OVERVIEW_BUTTON_DISABLE);
+    helpButton = ui::Button::create(HELP_BUTTON_NORMAL,HELP_BUTTON_NORMAL,HELP_BUTTON_DISABLE);
 //    float cscale = Director::getInstance()->getContentScaleFactor();
 //    pauseButton->setScale(cscale);
 //    helpButton->setScale(cscale);
@@ -108,6 +110,8 @@ double OverviewModel::getCurrentDuration() {
 void OverviewModel::enableButton(bool value) {
     pauseButton->setEnabled(value);
     helpButton->setEnabled(value);
+    pauseButton->setTouchEnabled(value);
+    helpButton->setTouchEnabled(value);
 }
 
 void OverviewModel::pauseButtonPressed() {
