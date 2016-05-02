@@ -77,6 +77,9 @@ using namespace std;
 /** Opacity of the physics outlines */
 #define DEBUG_OPACITY   192
 
+
+#define PRE_TIME   120
+
 #pragma mark Physics Constants
 
 // Physics constants for initialization
@@ -114,6 +117,7 @@ _complete(false),
 _selector(nullptr),
 _debug(false),
 _paused(false),
+_pretime(PRE_TIME),
 _preload(false),
 _reset(false),
 _overview(nullptr),
@@ -280,6 +284,7 @@ void GameController::clear() {
     setFail(false);
     _reset = false;
     toggleFail(false);
+    _pretime = PRE_TIME;
     toggleWin(false);
     _active = false;
     _cooldown = COOLDOWN;
@@ -351,7 +356,7 @@ void GameController::populate() {
     _overview->setGameController(this);
     _rootnode->addChild(_overview,PAUSE_BUTTON_ORDER);
     
-    setDebug(true);
+    setDebug(false);
     
     _selector = ObstacleSelector::create(world);
     _selector->retain();
@@ -423,6 +428,33 @@ Vec2 GameController::getRelativePosition(const Vec2& physicalPosition, Vec2& cen
  * @param  delta    Number of seconds since last animation frame
  */
 void GameController::update(float dt) {
+
+    Size mapSize = _mapReader->getMapSize();
+    Vec2 goal_pos = _goalDoor->getPosition();
+    
+    if (_pretime > PRE_TIME - 2) {
+        CCLOG("%f,%f",_theWorld->getWorldNode()->getPosition().x,_theWorld->getWorldNode()->getPosition().y);
+        _oPos = _theWorld->getWorldNode()->getPosition();
+        _pretime --;
+        return;
+    }
+    if (_pretime == PRE_TIME - 2){
+        _theWorld->stopFollow();
+        _nPos = goal_pos;
+    }
+    if (_pretime > 0) {
+        _pretime --;
+        // move the world from the goal door to avatar
+        // stop the follow
+        _nPos = Vec2(_nPos.x+(-_oPos.x/mapSize.width-goal_pos.x)/PRE_TIME,_nPos.y+(-_oPos.y/mapSize.height/2-goal_pos.y)/PRE_TIME);
+        _theWorld->getWorldNode()->setPosition(Vec2(-_nPos.x*mapSize.width,-_nPos.y*mapSize.height*2));
+        
+        return;
+    }
+    if (_pretime == 0) {
+        _theWorld->runFollow();
+    }
+    
     
     // if didReplay, then reset with current level
     if (_failMenu->didReplay() || _winMenu->didReplay() || _pauseMenu->didReplay()){
@@ -638,9 +670,9 @@ void GameController::setMap(bool value){
             }
         }
         
-        Vec2 hehe = _theWorld->getWorldNode()->getPosition();
-        CCLOG("########");
-        CCLOG("%f,%f", hehe.x, hehe.y);
+//        Vec2 hehe = _theWorld->getWorldNode()->getPosition();
+//        CCLOG("########");
+//        CCLOG("%f,%f", hehe.x, hehe.y);
 
     
 
