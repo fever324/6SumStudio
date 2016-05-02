@@ -240,7 +240,7 @@ public:
     bool didSelect() const { return _select; }
     bool didRelease() const {return _released; }
     void setRelease(bool r) {_released = r;}
-    void setActive(bool value) {_active = value;}
+    void setActive(bool value) {_active = value; if(!value){_smoothedTurning = 0;};}
     const Vec2& getSelection() const { return _ctouch; }
     
     
