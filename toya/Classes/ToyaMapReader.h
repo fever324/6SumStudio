@@ -29,8 +29,8 @@
 #define SAND_DIRT_TEXTURE "sand"
 #define GRASS_DIRT_TEXTURE "grass"
 
-#define REMOVABLE_DRAW_LAYER     1
-#define NONREMOVABLE_DRAW_LAYER  2
+#define REMOVABLE_DRAW_LAYER     3
+#define NONREMOVABLE_DRAW_LAYER  1
 #define GOAL_DRAW_LAYER          3
 #define AVATAR_DRAW_LAYER        4
 #define BARRIER_DRAW_LAYER       4

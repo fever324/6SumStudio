@@ -262,7 +262,8 @@ int MapReader::createStars() {
     
     for(cocos2d::Value star : map->getObjectGroup("Stars")->getObjects()) {
         cocos2d::ValueMap starMap = star.asValueMap();
-        string texture = starMap.at("texture").asString();
+//        string texture = starMap.at("texture").asString();
+        string texture = "stars";
         
         float x_pos = starMap.at("x").asFloat()*cscale;
         
