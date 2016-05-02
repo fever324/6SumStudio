@@ -113,6 +113,7 @@ _active(false),
 _complete(false),
 _selector(nullptr),
 _debug(false),
+_paused(false),
 _preload(false),
 _reset(false),
 _overview(nullptr),
@@ -584,6 +585,47 @@ void GameController::update(float dt) {
     }
     
     
+}
+
+
+void GameController::setMap(bool value){
+    if ((_overview->didPause() || _overview->didHelp()) && _paused) {
+        return;
+    }
+    _paused = value;
+    float _tscale = _theWorld->getTScale();
+    if (value) {
+        // reset the worldnode
+        _lastScale = _theWorld->getWorldNode()->getScale();
+        _lastPos = _theWorld->getWorldNode()->getPosition();
+        _lastAnchor = _theWorld->getWorldNode()->getAnchorPoint();
+        _lastAngle = _theWorld->getRotation();
+        // no follow
+        _theWorld->stopFollow();
+        _theWorld->getWorldNode()->setScale(_tscale);
+        
+        //            Vec2 centerPosition_p = Vec2{512.0f, 288.0f};
+        //            float dist = _lastPos.getDistance(centerPosition_p);
+        //            float angle = _theWorld->getRotation();
+        //            _theWorld->setRotation(0);
+        //            _lastPos.x+dist*cos(angle * M_PI / 180.0f),_lastPos.y+sin(angle * M_PI / 180.0f) * dist)
+        //            _theWorld->getWorldNode()->setPosition(Vec2(_lastPos.x,_lastPos.y));
+        
+        // show the background for pause
+        _bgNode->setVisible(true);
+        // deactive the input
+        _input->setActive(false);
+    } else {
+        _theWorld->runFollow();
+        _theWorld->getWorldNode()->setScale(_lastScale);
+        _theWorld->getWorldNode()->setPosition(_lastPos);
+        _theWorld->getWorldNode()->setAnchorPoint(_lastAnchor);
+        _theWorld->setRotation(_lastAngle);
+        // hide the background for pause
+        _bgNode->setVisible(false);
+        // active the input
+        _input->setActive(true);
+    }
 }
 
 /**
