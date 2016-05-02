@@ -125,7 +125,7 @@ void MapReader::createTheBlocks(TMXLayer* layer) {
 
 
 void MapReader::createNonRemovableBlocks() {
-
+    
     auto layer = map->getLayer(ROCK_LAYER);
     if (layer != nullptr) {
         Obstacle* obj;
@@ -180,7 +180,7 @@ void MapReader::createNonRemovableBlocks() {
                 }
                 
                 // if no continuous blocks (only one block)
-                if (!tileSprite && x - start.x == 1) {
+                if (!tileSprite && x - start.x == 1 && onRoad) {
                     stop.x = x;
                     stop.y = y;
                     makeIt = true;
