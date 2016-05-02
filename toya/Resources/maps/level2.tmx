@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="22" height="14" tilewidth="64" tileheight="64" nextobjectid="81">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="22" height="14" tilewidth="64" tileheight="64" nextobjectid="82">
  <tileset firstgid="1" name="texture" tilewidth="64" tileheight="64" tilecount="1" columns="1">
   <image source="../textures/texture.png" width="64" height="64"/>
  </tileset>
@@ -30,22 +30,16 @@
  <tileset firstgid="22" name="portion" tilewidth="64" tileheight="64" tilecount="1" columns="1">
   <image source="../textures/potion.png" width="64" height="64"/>
  </tileset>
- <tileset firstgid="23" name="lava_dirt" tilewidth="64" tileheight="64" tilecount="1" columns="1">
-  <image source="../textures/lava_dirt.png" width="64" height="64"/>
- </tileset>
- <tileset firstgid="24" name="volcano" tilewidth="64" tileheight="64" tilecount="2" columns="2">
-  <image source="../textures/volcano.png" width="128" height="64"/>
- </tileset>
- <tileset firstgid="26" name="star" tilewidth="64" tileheight="64" tilecount="1" columns="1">
+ <tileset firstgid="23" name="star" tilewidth="64" tileheight="64" tilecount="1" columns="1">
   <image source="../textures/star.png" width="64" height="64"/>
  </tileset>
  <layer name="rootLayer" width="22" height="14">
   <properties>
    <property name="backgroundImage" value="background"/>
    <property name="gravity" type="int" value="9"/>
-   <property name="initialMagicPoints" type="int" value="5"/>
+   <property name="initialMagicPoints" type="int" value="3"/>
    <property name="maxMagicPoints" type="int" value="10"/>
-   <property name="time" type="int" value="60"/>
+   <property name="time" type="int" value="35"/>
   </properties>
   <data encoding="base64" compression="zlib">
    eJxjYBgFo2AUjAL6ASYamg0ABYgAAw==
@@ -56,15 +50,15 @@
    <property name="texture" value="rock"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJxjYmBgYBqCmFqA3uYyUYEe6uGAiybGLHzmUuLGoWQuLjNpaS42swe6DMCGAbqeARk=
+   eJxjYmBgYKIRpjbAZS4+u4lxFz5xUtw2ai7h+CFkFz5zccUrMW7AZy4hu+hhLiX5ipSwpCTMqW0uLTAAFq4A3Q==
   </data>
  </layer>
- <layer name="grass" width="22" height="14" visible="0">
+ <layer name="grass" width="22" height="14">
   <properties>
    <property name="texture" value="grass_dirt"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2BwA0YoRmePglGADgANYAAF
+   eJxjYBiegBGKR8EoGAUjBwAADLwAAw==
   </data>
  </layer>
  <layer name="sand" width="22" height="14">
@@ -72,7 +66,7 @@
    <property name="texture" value="sand_dirt"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJxjYBg+QGSA7cZnP7I8pfRQBoT8JIIDj4JRQAwAAAg7Abk=
+   eJxjYBgFo2AUjILhAQAE0AAB
   </data>
  </layer>
  <layer name="dirt" width="22" height="14">
@@ -80,7 +74,7 @@
    <property name="texture" value="dirt"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2BkAmEoRmfjU0sKJsZcSuwgFpCqHp85gx0AAIGxAoc=
+   eJxjYBh6QBgHm1L9Q8VcYRzig91cSoEwGiYkToq5uNhDydxRwMAAAEGwA1g=
   </data>
  </layer>
  <layer name="volcano" width="22" height="14">
@@ -88,10 +82,10 @@
    <property name="texture" value="volcano"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2DggcRAO2AUDAsAADuQABk=
+   eJxjYBgFo2AUjILhAQAE0AAB
   </data>
  </layer>
- <layer name="ice" width="22" height="14" visible="0">
+ <layer name="ice" width="22" height="14">
   <properties>
    <property name="texture" value="ice_dirt"/>
   </properties>
@@ -103,13 +97,13 @@
   <properties>
    <property name="texture" value="goal"/>
   </properties>
-  <object id="76" name="Door" gid="7" x="128.168" y="768.127" width="64" height="64"/>
+  <object id="76" name="Door" gid="7" x="408.361" y="823.337" width="64" height="64"/>
  </objectgroup>
  <objectgroup name="Avatar">
   <properties>
    <property name="texture" value="bear"/>
   </properties>
-  <object id="15" name="Avatar" gid="16" x="680.239" y="767.169" width="64" height="64">
+  <object id="15" name="Avatar" gid="16" x="701.467" y="335.281" width="64" height="64">
    <properties>
     <property name="texture" value="bear"/>
    </properties>
@@ -117,24 +111,16 @@
  </objectgroup>
  <objectgroup name="Ghosts"/>
  <objectgroup name="MagicPotions">
-  <object id="70" gid="22" x="1087.08" y="189.61" width="64" height="64">
+  <object id="70" gid="22" x="766.859" y="825.911" width="64" height="64">
    <properties>
     <property name="points" type="int" value="3"/>
     <property name="texture" value="potions"/>
    </properties>
   </object>
  </objectgroup>
- <layer name="lava" width="22" height="14">
-  <properties>
-   <property name="texture" value="lava_dirt"/>
-  </properties>
-  <data encoding="base64" compression="zlib">
-   eJxjYBgFhIA4EXgUDD4wFOKMVu4ZauZSCwAAEtsCVw==
-  </data>
- </layer>
  <objectgroup name="Stars">
-  <object id="78" gid="26" x="349.196" y="628.655" width="64" height="64"/>
-  <object id="79" gid="26" x="545.068" y="440.317" width="64" height="64"/>
-  <object id="80" gid="26" x="255.781" y="254.992" width="64" height="64"/>
+  <object id="78" gid="23" x="1161.93" y="390.868" width="64" height="64"/>
+  <object id="79" gid="23" x="659.511" y="129.999" width="64" height="64"/>
+  <object id="80" gid="23" x="136.392" y="508.19" width="64" height="64"/>
  </objectgroup>
 </map>

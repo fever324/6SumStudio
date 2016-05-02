@@ -211,7 +211,9 @@ void MapReader::createNonRemovableBlocks() {
 
 void MapReader::createMovingObstacles() {
     Vec2 _scale = gameController->getScale();
-    
+    if (map->getObjectGroup("Ghosts") == nullptr){
+        return;
+    }
     for(cocos2d::Value ghost : map->getObjectGroup("Ghosts")->getObjects()) {
         cocos2d::ValueMap ghostMap = ghost.asValueMap();
         string texture = ghostMap.at("texture").asString();
@@ -233,7 +235,9 @@ void MapReader::createMovingObstacles() {
 
 void MapReader::createMagicPotions() {
     Vec2 _scale = gameController->getScale();
-    
+    if (map->getObjectGroup("MagicPotions") == nullptr){
+        return;
+    }
     for(cocos2d::Value potion : map->getObjectGroup("MagicPotions")->getObjects()) {
         cocos2d::ValueMap potionMap = potion.asValueMap();
         string texture = potionMap.at("texture").asString();
