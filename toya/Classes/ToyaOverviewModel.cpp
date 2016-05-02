@@ -108,7 +108,7 @@ double OverviewModel::getCurrentDuration() {
 }
 
 void OverviewModel::enableButton(bool value) {
-    CCLOG("%i",value);
+//    CCLOG("%i",value);
     pauseButton->setEnabled(value);
     helpButton->setEnabled(value);
     pauseButton->setTouchEnabled(value);

@@ -514,7 +514,6 @@ void GameController::update(float dt) {
         // to fix the bug that release magic after touch
         if (_input->didRelease() && _selector->isSelected()) {
             if (_panel->getSpell() == DESTRUCTION_SPELL_SELECTED) {
-//                _panel->setSpell(DESTRUCTION_SPELL_SELECTED);
                 if (_selector->getObstacle()->getName() == "removable" && _panel->getCurrentMana() > 0 && _panel->isMagicCoolDown()) {
                     RemovableBlockModel* rmb = (RemovableBlockModel*) _selector->getObstacle();
                     rmb->destroy(_theWorld->getWorldNode(), _theWorld->getDebugNode(), _theWorld->getWorld());
@@ -523,7 +522,6 @@ void GameController::update(float dt) {
                     _panel->resetMagicCoolDown();
                 }
             } else if (_panel->getSpell() == FREEZING_SPELL_SELECTED) {
-//                _panel->setSpell(FREEZING_SPELL_SELECTED);
                 if(_selector->getObstacle()->getName() == "ghost" && _panel->getCurrentMana() > 0 && _panel->isMagicCoolDown()) {
                     MovingObstacleModel* movingObstacle = (MovingObstacleModel*) _selector->getObstacle();
                     movingObstacle->freeze(_theWorld->getWorldNode(), _theWorld->getDebugNode(), _theWorld->getWorld());
