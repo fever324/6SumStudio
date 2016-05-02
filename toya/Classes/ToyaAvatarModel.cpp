@@ -161,6 +161,7 @@ bool AvatarModel::init(const Vec2& pos, const Vec2& scale) {
         sprite->setScale(1/AVATAR_SHRINK);
         setSceneNode(sprite);
         
+        
 
         WireNode* draw = WireNode::create();
         draw->setColor(Color3B::YELLOW);
@@ -392,6 +393,8 @@ void AvatarModel::resetSceneNode() {
         
         pnode->addChild(_avatarBody);
         _avatarBody->setPosition(pnode->getContentSize().width/2.0f,pnode->getContentSize().height/2.0f);
+        
+        _avatarBody->setFrame(0);
         
     }
 }
