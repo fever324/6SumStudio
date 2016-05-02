@@ -203,9 +203,11 @@ void MapReader::createNonRemovableBlocks() {
 
 void MapReader::createMovingObstacles() {
     Vec2 _scale = gameController->getScale();
+    
     if (map->getObjectGroup("Ghosts") == nullptr){
         return;
     }
+    
     for(cocos2d::Value ghost : map->getObjectGroup("Ghosts")->getObjects()) {
         cocos2d::ValueMap ghostMap = ghost.asValueMap();
         string texture = ghostMap.at("texture").asString();
