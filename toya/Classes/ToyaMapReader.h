@@ -93,6 +93,8 @@ public:
     
     int getExpectedPlayTime();
     
+    Size getMapSize(){return mapSize;}
+    
     /**
      Returns number of stars in this level.
      */

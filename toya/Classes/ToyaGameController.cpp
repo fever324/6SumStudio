@@ -604,12 +604,41 @@ void GameController::setMap(bool value){
         _theWorld->stopFollow();
         _theWorld->getWorldNode()->setScale(_tscale);
         
-        //            Vec2 centerPosition_p = Vec2{512.0f, 288.0f};
-        //            float dist = _lastPos.getDistance(centerPosition_p);
-        //            float angle = _theWorld->getRotation();
-        //            _theWorld->setRotation(0);
-        //            _lastPos.x+dist*cos(angle * M_PI / 180.0f),_lastPos.y+sin(angle * M_PI / 180.0f) * dist)
-        //            _theWorld->getWorldNode()->setPosition(Vec2(_lastPos.x,_lastPos.y));
+        
+        
+        Size mapSize = _mapReader->getMapSize();
+        Vec2 centerPosition = _avatar->getPosition();
+        
+        // the center of the world
+        Vec2 centerPosition_p = Vec2{mapSize.width/2, mapSize.height/2};
+        
+        // the distance between the center of the world and the avatar
+        float dist = centerPosition.getDistance(centerPosition_p);
+        
+        float crossAngle = -_lastAngle - acos(abs(centerPosition_p.x-centerPosition.x) / dist) * 180.0f / M_PI;
+        float factor = 64*_tscale;
+        if (centerPosition.y > centerPosition_p.y) {
+            // avatar is in up area
+            _theWorld->getWorldNode()->setPosition(_lastPos.x-factor*dist*cos(crossAngle * M_PI / 180.0f), _lastPos.y-factor*dist*sin(crossAngle * M_PI / 180.0f));
+            if (centerPosition.x > centerPosition_p.x){
+                // right area
+                _theWorld->getWorldNode()->setPosition(_lastPos.x-factor*dist*cos(crossAngle * M_PI / 180.0f), _lastPos.y+factor*dist*sin(crossAngle * M_PI / 180.0f));
+            }
+        }else{
+            _theWorld->getWorldNode()->setPosition(_lastPos.x+factor*dist*cos(crossAngle * M_PI / 180.0f), _lastPos.y+factor*dist*sin(crossAngle * M_PI / 180.0f));
+            if (centerPosition.x < centerPosition_p.x){
+                // left area
+                _theWorld->getWorldNode()->setPosition(_lastPos.x-factor*dist*cos(crossAngle * M_PI / 180.0f), _lastPos.y-factor*dist*sin(crossAngle * M_PI / 180.0f));
+            }
+        }
+        
+        Vec2 hehe = _theWorld->getWorldNode()->getPosition();
+        CCLOG("########");
+        CCLOG("%f,%f", hehe.x, hehe.y);
+        CCLOG("%f,%f", cos(crossAngle * M_PI / 180.0f),sin(crossAngle * M_PI / 180.0f));
+        CCLOG("%f", crossAngle);
+    
+
         
         // show the background for pause
         _bgNode->setVisible(true);
