@@ -30,22 +30,16 @@
  <tileset firstgid="22" name="portion" tilewidth="64" tileheight="64" tilecount="1" columns="1">
   <image source="../textures/potion.png" width="64" height="64"/>
  </tileset>
- <tileset firstgid="23" name="lava_dirt" tilewidth="64" tileheight="64" tilecount="1" columns="1">
-  <image source="../textures/lava_dirt.png" width="64" height="64"/>
- </tileset>
- <tileset firstgid="24" name="volcano" tilewidth="64" tileheight="64" tilecount="2" columns="2">
+ <tileset firstgid="23" name="volcano" tilewidth="64" tileheight="64" tilecount="2" columns="2">
   <image source="../textures/volcano.png" width="128" height="64"/>
- </tileset>
- <tileset firstgid="26" name="star" tilewidth="64" tileheight="64" tilecount="1" columns="1">
-  <image source="../textures/star.png" width="64" height="64"/>
  </tileset>
  <layer name="rootLayer" width="22" height="14">
   <properties>
    <property name="backgroundImage" value="background"/>
    <property name="gravity" type="int" value="9"/>
-   <property name="initialMagicPoints" type="int" value="5"/>
+   <property name="initialMagicPoints" type="int" value="1"/>
    <property name="maxMagicPoints" type="int" value="10"/>
-   <property name="time" type="int" value="60"/>
+   <property name="time" type="int" value="40"/>
   </properties>
   <data encoding="base64" compression="zlib">
    eJxjYBgFo2AUjAL6ASYamg0ABYgAAw==
@@ -56,15 +50,15 @@
    <property name="texture" value="rock"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJxjYmBgYBqCmFqA3uYyUYEe6uGAiybGLHzmUuLGoWQuLjNpaS42swe6DMCGAbqeARk=
+   eJxjYmBgYKIRpjYYrOYOVDhQ277BGr6DwVxq5IHhEA7UNJcWGADHRwC9
   </data>
  </layer>
- <layer name="grass" width="22" height="14" visible="0">
+ <layer name="grass" width="22" height="14">
   <properties>
    <property name="texture" value="grass_dirt"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2BwA0YoRmePglGADgANYAAF
+   eJxjYBgFtAaMOPBwBMT6ixT/M6LRxKgnBo8C4sBQCj8AOTQAGw==
   </data>
  </layer>
  <layer name="sand" width="22" height="14">
@@ -72,7 +66,7 @@
    <property name="texture" value="sand_dirt"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJxjYBg+QGSA7cZnP7I8pfRQBoT8JIIDj4JRQAwAAAg7Abk=
+   eJxjYBgFo2AUjILhAQAE0AAB
   </data>
  </layer>
  <layer name="dirt" width="22" height="14">
@@ -80,18 +74,10 @@
    <property name="texture" value="dirt"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2BkAmEoRmfjU0sKJsZcSuwgFpCqHp85gx0AAIGxAoc=
+   eJxjYBh8QHiImTsKaA+IjTtS4lgYCY+C4QEAVYcAhg==
   </data>
  </layer>
- <layer name="volcano" width="22" height="14">
-  <properties>
-   <property name="texture" value="volcano"/>
-  </properties>
-  <data encoding="base64" compression="zlib">
-   eJxjYBgFo2DggcRAO2AUDAsAADuQABk=
-  </data>
- </layer>
- <layer name="ice" width="22" height="14" visible="0">
+ <layer name="ice" width="22" height="14">
   <properties>
    <property name="texture" value="ice_dirt"/>
   </properties>
@@ -109,13 +95,41 @@
   <properties>
    <property name="texture" value="bear"/>
   </properties>
-  <object id="15" name="Avatar" gid="16" x="680.239" y="767.169" width="64" height="64">
+  <object id="15" name="Avatar" gid="16" x="127.278" y="193.114" width="64" height="64">
    <properties>
     <property name="texture" value="bear"/>
    </properties>
   </object>
  </objectgroup>
- <objectgroup name="Ghosts"/>
+ <objectgroup name="Ghosts">
+  <object id="63" name="Sarah" gid="17" x="893.745" y="448.728" width="64" height="64">
+   <properties>
+    <property name="faceRight" type="bool" value="false"/>
+    <property name="point1X" type="float" value="-9"/>
+    <property name="point1Y" type="float" value="0"/>
+    <property name="speed" value="1"/>
+    <property name="texture" value="ghosts"/>
+   </properties>
+  </object>
+  <object id="78" name="Sarah" gid="17" x="1092.95" y="767.766" width="64" height="64">
+   <properties>
+    <property name="faceRight" type="bool" value="false"/>
+    <property name="point1X" type="float" value="-9"/>
+    <property name="point1Y" type="float" value="0"/>
+    <property name="speed" value="3"/>
+    <property name="texture" value="ghosts"/>
+   </properties>
+  </object>
+  <object id="79" name="Sarah" gid="17" x="896.666" y="703.316" width="64" height="64">
+   <properties>
+    <property name="faceRight" type="bool" value="false"/>
+    <property name="point1X" type="float" value="0"/>
+    <property name="point1Y" type="float" value="-3"/>
+    <property name="speed" value="1"/>
+    <property name="texture" value="ghosts"/>
+   </properties>
+  </object>
+ </objectgroup>
  <objectgroup name="MagicPotions">
   <object id="70" gid="22" x="1087.08" y="189.61" width="64" height="64">
    <properties>
@@ -124,17 +138,7 @@
    </properties>
   </object>
  </objectgroup>
- <layer name="lava" width="22" height="14">
-  <properties>
-   <property name="texture" value="lava_dirt"/>
-  </properties>
-  <data encoding="base64" compression="zlib">
-   eJxjYBgFhIA4EXgUDD4wFOKMVu4ZauZSCwAAEtsCVw==
-  </data>
- </layer>
- <objectgroup name="Stars">
-  <object id="78" gid="26" x="349.196" y="628.655" width="64" height="64"/>
-  <object id="79" gid="26" x="545.068" y="440.317" width="64" height="64"/>
-  <object id="80" gid="26" x="255.781" y="254.992" width="64" height="64"/>
+ <objectgroup name="volcano">
+  <object id="80" gid="24" x="605.176" y="515.375" width="64" height="64"/>
  </objectgroup>
 </map>
