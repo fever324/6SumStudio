@@ -84,7 +84,6 @@ public:
     void createLava();
     
     /* volcano*/
-    void createVolcanoBlocks(TMXLayer* layer);
     void createVolcano();
     
     void createBackground();

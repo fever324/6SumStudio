@@ -59,10 +59,12 @@ void MapReader::createLavaBlocks(TMXLayer* layer) {
 }
 
 /* volcano */
-void MapReader::createVolcanoBlocks(TMXLayer* layer) {
+void MapReader::createVolcano() {
     Size size = *new Size((Vec2)BLOCK_SIZE);
     Vec2 _scale = gameController->getScale();
-    
+    if (map->getObjectGroup("Volcanos") == nullptr){
+        return;
+    }
     for(cocos2d::Value volcano : map->getObjectGroup("Volcanos")->getObjects()) {
         cocos2d::ValueMap volMap = volcano.asValueMap();
         string vbase_pure = volMap.at("base_pure").asString();
@@ -103,9 +105,6 @@ void MapReader::createVolcanoBlocks(TMXLayer* layer) {
     }
 }
 
-void MapReader::createVolcano() {
-    createVolcanoBlocks(map->getLayer(V_BASE_LAYER));
-}
 
 
 void MapReader::createTheBlocks(TMXLayer* layer) {
@@ -204,6 +203,10 @@ void MapReader::createNonRemovableBlocks() {
 
 void MapReader::createMovingObstacles() {
     Vec2 _scale = gameController->getScale();
+    
+    if (map->getObjectGroup("Ghosts") == nullptr){
+        return;
+    }
     
     for(cocos2d::Value ghost : map->getObjectGroup("Ghosts")->getObjects()) {
         cocos2d::ValueMap ghostMap = ghost.asValueMap();

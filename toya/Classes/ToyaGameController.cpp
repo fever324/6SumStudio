@@ -615,28 +615,33 @@ void GameController::setMap(bool value){
         // the distance between the center of the world and the avatar
         float dist = centerPosition.getDistance(centerPosition_p);
         
-        float crossAngle = -_lastAngle - acos(abs(centerPosition_p.x-centerPosition.x) / dist) * 180.0f / M_PI;
+        
         float factor = 64*_tscale;
         if (centerPosition.y > centerPosition_p.y) {
             // avatar is in up area
-            _theWorld->getWorldNode()->setPosition(_lastPos.x-factor*dist*cos(crossAngle * M_PI / 180.0f), _lastPos.y-factor*dist*sin(crossAngle * M_PI / 180.0f));
             if (centerPosition.x > centerPosition_p.x){
                 // right area
-                _theWorld->getWorldNode()->setPosition(_lastPos.x-factor*dist*cos(crossAngle * M_PI / 180.0f), _lastPos.y+factor*dist*sin(crossAngle * M_PI / 180.0f));
+                float crossAngle = abs(int(_lastAngle) % 180) - acos(abs(centerPosition_p.x-centerPosition.x) / dist) * 180.0f / M_PI;
+                _theWorld->getWorldNode()->setPosition(_lastPos.x+factor*dist*cos(crossAngle * M_PI / 180.0f), _lastPos.y-factor*dist*sin(crossAngle * M_PI / 180.0f));
+            } else {
+                float crossAngle = -_lastAngle - acos(abs(centerPosition_p.x-centerPosition.x) / dist) * 180.0f / M_PI;
+                _theWorld->getWorldNode()->setPosition(_lastPos.x-factor*dist*cos(crossAngle * M_PI / 180.0f), _lastPos.y-factor*dist*sin(crossAngle * M_PI / 180.0f));
             }
         }else{
-            _theWorld->getWorldNode()->setPosition(_lastPos.x+factor*dist*cos(crossAngle * M_PI / 180.0f), _lastPos.y+factor*dist*sin(crossAngle * M_PI / 180.0f));
             if (centerPosition.x < centerPosition_p.x){
+                float crossAngle = abs(int(_lastAngle) % 180) + acos(abs(centerPosition_p.x-centerPosition.x) / dist) * 180.0f / M_PI;
                 // left area
                 _theWorld->getWorldNode()->setPosition(_lastPos.x-factor*dist*cos(crossAngle * M_PI / 180.0f), _lastPos.y-factor*dist*sin(crossAngle * M_PI / 180.0f));
+            }else{
+                float crossAngle = -_lastAngle - acos(abs(centerPosition_p.x-centerPosition.x) / dist) * 180.0f / M_PI;
+                _theWorld->getWorldNode()->setPosition(_lastPos.x+factor*dist*cos(crossAngle * M_PI / 180.0f), _lastPos.y+factor*dist*sin(crossAngle * M_PI / 180.0f));
             }
         }
         
         Vec2 hehe = _theWorld->getWorldNode()->getPosition();
         CCLOG("########");
         CCLOG("%f,%f", hehe.x, hehe.y);
-        CCLOG("%f,%f", cos(crossAngle * M_PI / 180.0f),sin(crossAngle * M_PI / 180.0f));
-        CCLOG("%f", crossAngle);
+
     
 
         
