@@ -63,50 +63,43 @@ void MapReader::createVolcanoBlocks(TMXLayer* layer) {
     Size size = *new Size((Vec2)BLOCK_SIZE);
     Vec2 _scale = gameController->getScale();
     
-    if (layer != nullptr) {
-        Size layerSize = layer->getLayerSize();
-        for (int y = 0; y < layerSize.height; y++) {
-            for (int x = 0; x < layerSize.width; x++) {
-                auto tileSprite = layer->getTileAt(Point(x, y));
-                if (tileSprite) {
-                    vector<Vec2> vertices(0);
-                    vertices.push_back(Vec2(x+0.1, layerSize.height - y));
-                    vertices.push_back(Vec2(x + 0.9, layerSize.height - y));
-                    vertices.push_back(Vec2(x + 0.9, layerSize.height - y - 0.3));
-                    vertices.push_back(Vec2(x + 1.5, layerSize.height - y - 1));
-                    vertices.push_back(Vec2(x - 0.5, layerSize.height - y - 1));
-                    vertices.push_back(Vec2(x + 0.1, layerSize.height - y - 0.3));
-                    
-                    string texture = "projector";
+    for(cocos2d::Value volcano : map->getObjectGroup("Volcanos")->getObjects()) {
+        cocos2d::ValueMap volMap = volcano.asValueMap();
+        string vbase_pure = volMap.at("base_pure").asString();
+        string vbase_fire = volMap.at("base_fire").asString();
+        string fire_ball = volMap.at("fire_ball").asString();
+        float fire_speed = volMap.at("speed").asFloat();
+        
+        float x = volMap.at("x").asFloat()*cscale / tileSize.width;
+        float y = volMap.at("y").asFloat()*cscale / tileSize.height + 2;
+        vector<Vec2> vertices(0);
+        vertices.push_back(Vec2(x+0.1, y));
+        vertices.push_back(Vec2(x + 0.9, y));
+        vertices.push_back(Vec2(x + 0.9, y - 0.3));
+        vertices.push_back(Vec2(x + 1.5, y - 1));
+        vertices.push_back(Vec2(x - 0.5, y - 1));
+        vertices.push_back(Vec2(x + 0.1, y - 0.3));
+        
+        float x_pos = (x+0.5) * tileSize.width;
+        float y_pos = (y-0.35)*tileSize.height;
 
-                    
-//                    float x_pos = x + 0.5;
-//                    
-//                    float y_pos = layerSize.height - y - 0.5;
-                    
-                    float x_pos = (x+0.5) * tileSize.width;
-                    float y_pos = (layerSize.height - y - 0.5)*tileSize.height;
-                    
-                    vector<Vec2> routes = {(Vec2){x_pos, y_pos}, (Vec2){0.0f, 1.0f}};
-                    
-                    Vec2 Pos = (Vec2){x_pos/tileSize.width, y_pos/tileSize.height};
-                    MovingObstacleModel* projector = MovingObstacleModel::create(2, 4, 4, texture, Pos, Size(1, 1), _scale, routes, 1.0f);
-                    gameController->addObstacle(projector, VOCALNO_PROJECT_DRAW_LAYER);
-                    projector->setName("lava");
-                
-                    Poly2 poly = Poly2(vertices);
-                    poly.triangulate();
-//                    layer->getProperty("texture").asString()
-                    Obstacle* obj = BlockFactory::getNonRemovableBlock(poly, _scale, "vbase_pure");
-//                    Obstacle* obj = BlockFactory::getNonRemovableBlock(poly, _scale, "rock");
-                    Obstacle* obj2 = BlockFactory::getRemovableBlock(Vec2(x+0.5,layerSize.height-y-0.35), size, gameController->getScale(),"vbase_fire");
-                    gameController->addObstacle(obj, VOCALNO_BASE_DRAW_LAYER);
-                    gameController->addObstacle(obj2, VOCALNO_BASE_DRAW_LAYER);
-                    obj->setName("base");
-                    obj2->setName("lava");
-                }
-            }
-        }
+        vector<Vec2> routes = {(Vec2){x_pos, y_pos}, (Vec2){0.0f, 1.0f}};
+        
+        Vec2 Pos = (Vec2){x_pos/tileSize.width, y_pos/tileSize.height};
+        MovingObstacleModel* projector = MovingObstacleModel::create(2, 4, 4, fire_ball, Pos, Size(1, 1), _scale, routes, fire_speed);
+        gameController->addObstacle(projector, VOCALNO_PROJECT_DRAW_LAYER);
+        projector->setName("lava");
+        
+        Poly2 poly = Poly2(vertices);
+        poly.triangulate();
+        //                    layer->getProperty("texture").asString()
+        Obstacle* obj = BlockFactory::getNonRemovableBlock(poly, _scale, vbase_pure);
+        //                    Obstacle* obj = BlockFactory::getNonRemovableBlock(poly, _scale, "rock");
+        Obstacle* obj2 = BlockFactory::getRemovableBlock(Vec2(x+0.5,y-0.35), size, gameController->getScale(),vbase_fire);
+        gameController->addObstacle(obj, VOCALNO_BASE_DRAW_LAYER);
+        gameController->addObstacle(obj2, VOCALNO_BASE_DRAW_LAYER);
+        obj->setName("base");
+        obj2->setName("lava");
     }
 }
 
