@@ -84,7 +84,6 @@ public:
     void createLava();
     
     /* volcano*/
-    void createVolcanoBlocks(TMXLayer* layer);
     void createVolcano();
     
     void createBackground();
@@ -92,6 +91,8 @@ public:
     void createMagicPotions();
     
     int getExpectedPlayTime();
+    
+    Size getMapSize(){return mapSize;}
     
     /**
      Returns number of stars in this level.

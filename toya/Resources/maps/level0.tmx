@@ -86,4 +86,20 @@
   <object id="78" gid="22" x="1373.09" y="556.625" width="64" height="64"/>
   <object id="79" gid="22" x="1406.03" y="727.03" width="64" height="64"/>
  </objectgroup>
+ <objectgroup name="Volcanos">
+  <properties>
+   <property name="base_fire" value="base_fire"/>
+   <property name="base_pure" value="base_pure"/>
+   <property name="fire_ball" value="projector"/>
+   <property name="speed" type="float" value="2"/>
+  </properties>
+  <object id="81" gid="1" x="381.939" y="192.606" width="64" height="64">
+   <properties>
+    <property name="base_fire" value="vbase_fire"/>
+    <property name="base_pure" value="vbase_pure"/>
+    <property name="fire_ball" value="projector"/>
+    <property name="speed" type="float" value="1"/>
+   </properties>
+  </object>
+ </objectgroup>
 </map>
