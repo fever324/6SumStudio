@@ -437,6 +437,7 @@ void GameController::update(float dt) {
     Vec2 goal_pos = _goalDoor->getPosition();
     
     if (_pretime > PRE_TIME - 2) {
+        _overview->enableAllButton(false);
         CCLOG("%f,%f",_theWorld->getWorldNode()->getPosition().x,_theWorld->getWorldNode()->getPosition().y);
         _oPos = _theWorld->getWorldNode()->getPosition();
         _pretime --;
@@ -456,6 +457,7 @@ void GameController::update(float dt) {
         return;
     }
     if (_pretime == 0) {
+        _overview->enableAllButton(true);
         _theWorld->runFollow();
     }
     
