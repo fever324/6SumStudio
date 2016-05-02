@@ -108,9 +108,9 @@ double OverviewModel::getCurrentDuration() {
 }
 
 void OverviewModel::enableButton(bool value) {
-    pauseButton->setEnabled(value);
+//    pauseButton->setEnabled(value);
     helpButton->setEnabled(value);
-    pauseButton->setTouchEnabled(value);
+//    pauseButton->setTouchEnabled(value);
     helpButton->setTouchEnabled(value);
 }
 
