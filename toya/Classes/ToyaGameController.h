@@ -137,9 +137,7 @@ protected:
      */
     void populate();
     
-    void addFirstTutorial(Vec2 pos);
-    void makeSpriteDisappear(Node* sender);
-    
+    void addFirstTutorial(Vec2 pos);    
     
 public:
     /**

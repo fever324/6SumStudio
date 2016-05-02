@@ -234,6 +234,7 @@ void GameController::dispose() {
         _selector->release();
     }
     if (_theWorld != nullptr) {
+        _rootnode->removeChild(_panel);
         _theWorld->clear();
         _theWorld->release();
     }
@@ -263,6 +264,8 @@ void GameController::reset() {
     toggleFail(false);
     toggleWin(false);
     
+    _rootnode->removeChild(_panel);
+
     populate();
 }
 
@@ -283,6 +286,9 @@ void GameController::clear() {
     toggleWin(false);
     _active = false;
     _cooldown = COOLDOWN;
+    
+    _rootnode->removeChild(_panel);
+
 }
 
 
@@ -322,7 +328,6 @@ void GameController::populate() {
     _mapReader->createTheMap();
     
     // need return objects
-    
     WorldController* world = _theWorld->getWorld();
     
     world->onBeginContact = [this](b2Contact* contact) {
@@ -341,6 +346,12 @@ void GameController::populate() {
     _avatar   = _mapReader->createAvatar();
     _panel    = _mapReader->createMagicPanel();
     _expectedPlayTime = _mapReader->getExpectedPlayTime();
+    
+    if(_currentLevel < 2) {
+        _panel->setVisible(false);
+    } else {
+        _panel->setVisible(true);
+    }
     
     _rootnode->addChild(_theWorld->getWorldNode(),GAME_WORLD_ORDER);
     _rootnode->addChild(_theWorld->getDebugNode(),DEBUG_NODE_ORDER);
@@ -445,7 +456,7 @@ void GameController::update(float dt) {
     
     // when pause or help shows, set input inactive, disable panel buttons
     if (_overview->didPause() || _overview->didHelp()) {
-        _input->setActive(false);
+//        _input->setActive(false);
         _panel->disableButton();
         _overview->enableButton(false);
         // if pause only
@@ -460,6 +471,20 @@ void GameController::update(float dt) {
         }else{
             toggleHelp(false);
         }
+        
+        if(_input->didZoom()) {
+            float originalScale = _theWorld->getWorldNode()->getScale();
+            _theWorld->getWorldNode()->setScale(originalScale+_input->getZoom()/1000);
+        }
+        
+        if(_input->didMoveSingleFinger()) {
+            Vec2 distance = _input->getSingleFingerMovement();
+            Vec2 originalPoint = _theWorld->getWorldNode()->getPosition();
+            
+            _theWorld->getWorldNode()->setPosition(originalPoint - distance);
+            
+        }
+        
     }else{
         togglePause(false);
         toggleHelp(false);
@@ -493,7 +518,7 @@ void GameController::update(float dt) {
         CCLOG("Shutting down");
         _rootnode->shutdown();
     }
-    if(_input->didRotate()) {
+    if(!_overview->didPause() && _input->didRotate()) {
         
         float cRotation = _theWorld->getRotation() + _input->getTurning()*2.0f;
         
@@ -642,17 +667,10 @@ void GameController::setMap(bool value){
             }
         }
         
-        Vec2 hehe = _theWorld->getWorldNode()->getPosition();
-        CCLOG("########");
-        CCLOG("%f,%f", hehe.x, hehe.y);
-
-    
-
-        
         // show the background for pause
         _bgNode->setVisible(true);
         // deactive the input
-        _input->setActive(false);
+//        _input->setActive(false);
     } else {
         _theWorld->runFollow();
         _theWorld->getWorldNode()->setScale(_lastScale);
@@ -962,13 +980,8 @@ void GameController::addFirstTutorial(Vec2 pos) {
     FiniteTimeAction* clockWise = RotateBy::create(1, 20.0f);
     FiniteTimeAction* antiClockWise = RotateBy::create(1, -20.0f);
     FiniteTimeAction* fadeout = FadeOut::create(2);
-
-//    FiniteTimeAction* actionMoveDone = CallFuncN::create(CC_CALLBACK_1(GameController::makeSpriteDisappear, this));
     
-    fingers->runAction(Sequence::create(clockWise,antiClockWise, clockWise, antiClockWise, fadeout, NULL));
+    fingers->runAction(Sequence::create(clockWise,antiClockWise, antiClockWise,clockWise,clockWise, antiClockWise,antiClockWise, clockWise, fadeout, NULL));
 
 }
 
-void GameController::makeSpriteDisappear(Node* sender) {
-    
-}
