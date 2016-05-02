@@ -467,7 +467,7 @@ void GameController::update(float dt) {
         
         return;
     }
-    if (_pretime == 0) {
+    if (!_overview->didPause() && !_overview->didHelp() &&_pretime == 0) {
         _overview->enableAllButton(true);
         _theWorld->runFollow();
     }
