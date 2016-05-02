@@ -367,6 +367,10 @@ void GameController::populate() {
     _theWorld->setFollow(_avatar);
     _avatar->setName("avatar");
     
+    if(_currentLevel == 0) {
+        addFirstTutorial(_avatar->getPosition());
+    }
+    
     _audio->audioBackgroundDeploy(0.1);
     _audio->audioEffectDeploy(0.3);
 }
@@ -978,4 +982,25 @@ int GameController::getOverallStarCount(bool levelCompleted,float time, int star
     }
     
     return n;
+}
+
+void GameController::addFirstTutorial(Vec2 pos) {
+    Sprite *fingers = Sprite::create("textures/fingers.png");
+    fingers->setPosition(pos);
+    
+    _avatar->getSceneNode()->addChild(fingers);
+    
+    
+    FiniteTimeAction* clockWise = RotateBy::create(1, 20.0f);
+    FiniteTimeAction* antiClockWise = RotateBy::create(1, -20.0f);
+    FiniteTimeAction* fadeout = FadeOut::create(2);
+
+//    FiniteTimeAction* actionMoveDone = CallFuncN::create(CC_CALLBACK_1(GameController::makeSpriteDisappear, this));
+    
+    fingers->runAction(Sequence::create(clockWise,antiClockWise, clockWise, antiClockWise, fadeout, NULL));
+
+}
+
+void GameController::makeSpriteDisappear(Node* sender) {
+    
 }
