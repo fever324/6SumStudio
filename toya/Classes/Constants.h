@@ -68,7 +68,6 @@
 #define FAIL_MENU_ORDER   3
 #define DEBUG_NODE_ORDER  4
 
-
 #define COOLDOWN    20
 
 /** The default value of gravity (going down) */
