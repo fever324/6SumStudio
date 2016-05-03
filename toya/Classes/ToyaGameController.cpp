@@ -982,9 +982,6 @@ void GameController::displayDeathPanel() {
     _audio->playDeathEffect();
     
     setFail(true);
-    double time = _overview->getCurrentPlayTime();
-    // _failMenu->showTime(time, -1);
-    
 }
 
 int GameController::getOverallStarCount(bool levelCompleted,float time, int starsFound) {
