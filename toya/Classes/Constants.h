@@ -71,5 +71,8 @@
 
 #define COOLDOWN    20
 
+/** The default value of gravity (going down) */
+#define DEFAULT_GRAVITY -2.5f
+
 
 #endif /* Constants_h */

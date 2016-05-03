@@ -55,8 +55,6 @@ using namespace std;
 #define DEFAULT_WIDTH   64.0
 /** Height of the game world in Box2d units */
 #define DEFAULT_HEIGHT  36.0
-/** The default value of gravity (going down) */
-#define DEFAULT_GRAVITY -5.0f
 
 #pragma mark Assset Constants
 /** The key for the earth texture in the asset manager */
@@ -514,8 +512,6 @@ void GameController::update(float dt) {
         if(_input->didZoom()) {
             float originalScale = _theWorld->getWorldNode()->getScale();
             if(originalScale <= 0.2) originalScale = 0.2;
-//            cout << _theWorld->getWorldNode()->getAnchorPoint().x << " " << _theWorld->getWorldNode()->getAnchorPoint().y << endl;
-//            _theWorld->getWorldNode()->ignoreAnchorPointForPosition(true);
             _theWorld->getWorldNode()->setScale(originalScale+_input->getZoom()/1000);
         }
         
@@ -524,7 +520,6 @@ void GameController::update(float dt) {
             Vec2 originalPoint = _theWorld->getWorldNode()->getPosition();
             
             _theWorld->getWorldNode()->setPosition(originalPoint - distance);
-            
         }
         
     }else{
