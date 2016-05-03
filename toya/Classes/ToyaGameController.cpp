@@ -182,6 +182,7 @@ bool GameController::init(RootLayer* root, InputController* input, int playLevel
 bool GameController::init(RootLayer* root, InputController* input, int playLevel, const Rect& rect, const Vec2& gravity) {
     
     _rootnode = root;
+    _starsFound = 0;
     Vec2 inputscale = Vec2(root->getScaleX(),root->getScaleY());
     
     // initialize the menus
@@ -266,6 +267,7 @@ void GameController::reset() {
     _cooldown = COOLDOWN;
     toggleFail(false);
     toggleWin(false);
+    _starsFound = 0;
     
     _rootnode->removeChild(_panel);
 
@@ -290,7 +292,7 @@ void GameController::clear() {
     toggleWin(false);
     _active = false;
     _cooldown = COOLDOWN;
-    
+    _starsFound = 0;
     _rootnode->removeChild(_panel);
 
 }

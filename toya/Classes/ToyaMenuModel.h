@@ -179,12 +179,21 @@ CC_CONSTRUCTOR_ACCESS:
         // Index 3 - 4 are the dark grey star
         if (stars == 1){
             // index 3 and 4 are the grey stars in win menu
+            _levelStarMap[0]->setVisible(true);
             _levelStarMap[1]->setVisible(false);
             _levelStarMap[2]->setVisible(false);
+            _levelStarMap[3]->setVisible(true);
+            _levelStarMap[4]->setVisible(true);
         } else if(stars ==2) {
+            _levelStarMap[0]->setVisible(true);
+            _levelStarMap[1]->setVisible(true);
             _levelStarMap[2]->setVisible(false);
             _levelStarMap[3]->setVisible(false);
+            _levelStarMap[4]->setVisible(true);
         } else {
+            _levelStarMap[0]->setVisible(true);
+            _levelStarMap[1]->setVisible(true);
+            _levelStarMap[2]->setVisible(true);
             _levelStarMap[3]->setVisible(false);
             _levelStarMap[4]->setVisible(false);
         }

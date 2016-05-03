@@ -107,10 +107,13 @@ bool MenuModel::init(std::string mtype, const Vec2& size, const Vec2& scale){
         LayerColor* bgColor = LayerColor::create(Color4B(0, 0, 0, 100));
         this->addChild(bgColor);
         
-        Button* replay = createButton(REPLAY_BUTTON_IMAGE, Vec2(215, 200));
-        Button* gomain = createButton(GOMAIN_BUTTON_IMAGE, Vec2(512, 200));
-        Button* next = createButton(NEXT_BUTTON_IMAGE, Vec2(731, 200));
+        Button* replay = createButton(REPLAY_BUTTON_IMAGE, Vec2(341.33*cscale, 200));
+        Button* gomain = createButton(GOMAIN_BUTTON_IMAGE, Vec2(size.x/2.0f*cscale, 200));
+        Button* next = createButton(NEXT_BUTTON_IMAGE, Vec2(682*cscale, 200));
         
+        replay->setScale(cscale);
+        gomain->setScale(cscale);
+        next->setScale(cscale);
         Vec2 mid = Vec2(0.5, 0.5);
         replay->setAnchorPoint(mid);
         gomain->setAnchorPoint(mid);
