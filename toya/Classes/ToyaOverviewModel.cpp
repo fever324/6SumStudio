@@ -110,8 +110,7 @@ double OverviewModel::getCurrentDuration() {
     return elapsed_millis(startTime, current_time()) / 1000.0f;
 }
 
-void OverviewModel::enableButton(bool value) {
-//    CCLOG("%i",value);
+void OverviewModel::enableAllButton(bool value) {
     pauseButton->setEnabled(value);
     helpButton->setEnabled(value);
     pauseButton->setTouchEnabled(value);

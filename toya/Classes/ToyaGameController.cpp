@@ -513,6 +513,9 @@ void GameController::update(float dt) {
         
         if(_input->didZoom()) {
             float originalScale = _theWorld->getWorldNode()->getScale();
+            if(originalScale <= 0.2) originalScale = 0.2;
+//            cout << _theWorld->getWorldNode()->getAnchorPoint().x << " " << _theWorld->getWorldNode()->getAnchorPoint().y << endl;
+//            _theWorld->getWorldNode()->ignoreAnchorPointForPosition(true);
             _theWorld->getWorldNode()->setScale(originalScale+_input->getZoom()/1000);
         }
         
