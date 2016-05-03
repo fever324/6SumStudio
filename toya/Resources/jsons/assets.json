@@ -159,6 +159,10 @@
         "die_bear": {
             "file":     "textures/dieBear.png",
             "wrap":     false
+        },
+        "greystar": {
+            "file":     "textures/greystar.png",
+            "wrap":     false
         }
         
   	},
