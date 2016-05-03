@@ -22,6 +22,8 @@ public:
     void update(float dt) override;
     
     void pickUp(Node* parent, Node* parentDebugNode, WorldController* world);
+    
+    bool isPickedUp(){return pickedUp;}
 };
 
 #endif /* ToyaStarModel_hpp */

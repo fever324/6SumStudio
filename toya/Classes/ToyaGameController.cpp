@@ -815,9 +815,13 @@ void GameController::beginContact(b2Contact* contact) {
     
     else if((bd1->getName() == "avatar" && bd2->getName() == "star") || (bd1->getName() == "star" && bd2->getName() == "avatar")) {
         StarModel* star = bd1->getName() == "star" ? (StarModel*)bd1 : (StarModel*)bd2;
-        star->pickUp(_theWorld->getWorldNode(), _theWorld->getDebugNode(), _theWorld->getWorld());
-        _audio->playPickupPotion();
-        _starsFound++;
+        // Handle multipple collision between 2 objects
+        if(!star->isPickedUp()){
+            star->pickUp(_theWorld->getWorldNode(), _theWorld->getDebugNode(), _theWorld->getWorld());
+            _audio->playPickupPotion();
+            _starsFound++;
+        }
+        
     }
     
     // If we hit the "win" door, we are done
