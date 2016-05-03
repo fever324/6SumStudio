@@ -422,10 +422,11 @@ void InputController::touchMovedCB(Touch* t, timestamp_t current) {
     } else if(_touchCount == 1) {
         if(t->getID() == _touch1.touchid) {
             swipe = checkSwipe(_touch1.start, t->getLocation(), current);
-            _singleFingerMoveDistance.x = _touch1.start.x - t->getLocation().x;
             
-            _singleFingerMoveDistance.y = _touch1.start.y - t->getLocation().y;
-            _touch1.start = t->getLocation();
+            _singleFingerMoveDistance.x = _touch1.stop.x - t->getLocation().x;
+            _singleFingerMoveDistance.y = _touch1.stop.y - t->getLocation().y;
+            _touch1.stop = t->getLocation();
+
         }
     }
     

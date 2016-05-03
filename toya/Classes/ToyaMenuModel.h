@@ -173,8 +173,20 @@ CC_CONSTRUCTOR_ACCESS:
         std::ostringstream s;
         s << "Time Cost  " << time << std::endl;
         _timenode->setString(s.str());
-        if (stars>=0){
-            _levelStarMap[stars]->setVisible(true);
+        CC_ASSERT(stars>=1 && stars <=3);
+        // All stars are set to visible initially
+        // Index 0 - 2 are the normal bright star
+        // Index 3 - 4 are the dark grey star
+        if (stars == 1){
+            // index 3 and 4 are the grey stars in win menu
+            _levelStarMap[1]->setVisible(false);
+            _levelStarMap[2]->setVisible(false);
+        } else if(stars ==2) {
+            _levelStarMap[2]->setVisible(false);
+            _levelStarMap[3]->setVisible(false);
+        } else {
+            _levelStarMap[3]->setVisible(false);
+            _levelStarMap[4]->setVisible(false);
         }
     }
     
