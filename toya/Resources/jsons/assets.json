@@ -112,6 +112,10 @@
             "file":     "textures/stars.png",
             "wrap":     false
         },
+        "star":    {
+            "file":     "textures/star.png",
+            "wrap":     false
+        },
         "destroy_animation":    {
             "file":     "textures/destroy_animation.png",
             "wrap":     false

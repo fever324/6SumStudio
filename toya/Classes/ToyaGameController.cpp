@@ -449,7 +449,6 @@ void GameController::update(float dt) {
     
     if (_pretime > PRE_TIME - 2) {
         _overview->enableAllButton(false);
-        CCLOG("%f,%f",_theWorld->getWorldNode()->getPosition().x,_theWorld->getWorldNode()->getPosition().y);
         _oPos = _theWorld->getWorldNode()->getPosition();
         _pretime --;
         return;

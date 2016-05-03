@@ -30,7 +30,8 @@ bool MenuModel::init(std::string mtype,const Vec2& size) {
  *  Actual position defines where the center of the pause button should be
  */
 bool MenuModel::init(std::string mtype, const Vec2& size, const Vec2& scale){
-    
+    float cscale = Director::getInstance()->getContentScaleFactor();
+
     // main menu
     if (mtype == "main") {
         // level selector page
@@ -45,7 +46,6 @@ bool MenuModel::init(std::string mtype, const Vec2& size, const Vec2& scale){
         
         Sprite* bg = Sprite::createWithTexture(image);
         Sprite* words= Sprite::createWithTexture(select);
-        float cscale = Director::getInstance()->getContentScaleFactor();
         bg->setScale(cscale);
         words->setScale(cscale);
         
@@ -126,16 +126,15 @@ bool MenuModel::init(std::string mtype, const Vec2& size, const Vec2& scale){
         winnode->setTTFConfig(AssetManager::getInstance()->getCurrent()->get<TTFont>(PRIMARY_FONT)->getTTF());
         
         Texture2D* image = AssetManager::getInstance()->getCurrent()->get<Texture2D>("winbg");
-        Sprite* bg = Sprite::createWithTexture(image,Rect(0,0,1024,576));
-        bg->setScale(0.5);
-        bg->setPosition(Vec2(size.x/2.0f,size.y/2.0f));
-        bg->ignoreAnchorPointForPosition(true);
-        bg->setAnchorPoint(Vec2(-0.5,-0.5));
+        Sprite* bg = Sprite::createWithTexture(image);
+        bg->setScale(cscale);
+        bg->setAnchorPoint(Vec2{0.5f, 0.5f});
+        bg->setPosition(Vec2(size.x/2, size.y/2));
         
         this->addChild(bg);
         
         
-        createLevelStars(6,scale,size);
+        createLevelStars(3,scale,size);
         
         this->addChild(replay);
         this->addChild(gomain);
@@ -182,7 +181,7 @@ bool MenuModel::init(std::string mtype, const Vec2& size, const Vec2& scale){
         failnode->setScale(0.5);
         
         Texture2D* image = AssetManager::getInstance()->getCurrent()->get<Texture2D>("failbg");
-        Sprite* bg = Sprite::createWithTexture(image,Rect(0,0,1024,576));
+        Sprite* bg = Sprite::createWithTexture(image);
         bg->setScale(0.5);
         bg->setPosition(Vec2(size.x/2.0f,size.y/2.0f));
         bg->ignoreAnchorPointForPosition(true);
@@ -219,10 +218,10 @@ bool MenuModel::init(std::string mtype, const Vec2& size, const Vec2& scale){
         gomain->setAnchorPoint(Vec2(0.5,0.5));
         mute->setAnchorPoint(Vec2(0.5,0.5));
         
-        replay->setPosition(Vec2(225, 100));
-        resume->setPosition(Vec2(415, 100));
-        gomain->setPosition(Vec2(605, 100));
-        mute->setPosition(Vec2(795, 100));
+        replay->setPosition(Vec2(225, 60));
+        resume->setPosition(Vec2(415, 60));
+        gomain->setPosition(Vec2(605, 60));
+        mute->setPosition(Vec2(795, 60));
 
         
         replay->addTouchEventListener(CC_CALLBACK_2(MenuModel::replayButtonTouchEvent, this));
@@ -261,19 +260,54 @@ MenuModel* MenuModel::create(std::string mtype,const Vec2& size){
 }
 
 void MenuModel::createLevelStars(int count, const Vec2& scale,const Vec2& screenSize){
+    
+    float cscale = Director::getInstance()->getContentScaleFactor();
+
     // create the stars after you finish the level successful
-    int i = 0;
-    for (; i < count; i++) {
-        Texture2D* starIMG = AssetManager::getInstance()->getCurrent()->get<Texture2D>("dirt");
-        Sprite* star = Sprite::createWithTexture(starIMG,Rect(0,0,64,64));
-        star->setScale(1);
-        star->setPosition(Vec2(screenSize.x/2.0f+i*80,screenSize.y/2.0f));
-        star->ignoreAnchorPointForPosition(true);
-        star->setAnchorPoint(Vec2(0,0));
-        star->setVisible(false);
-        _levelStarMap[i] = star;
-        this->addChild(star);
-    }
+    Texture2D* starIMG = AssetManager::getInstance()->getCurrent()->get<Texture2D>("star");
+    Texture2D* noStarIMG = AssetManager::getInstance()->getCurrent()->get<Texture2D>("dirt");
+    Sprite* star1 = Sprite::createWithTexture(starIMG);
+    Sprite* star2 = Sprite::createWithTexture(starIMG);
+    Sprite* star3 = Sprite::createWithTexture(starIMG);
+    Sprite* noStar2 = Sprite::createWithTexture(noStarIMG);
+    Sprite* noStar3 = Sprite::createWithTexture(noStarIMG);
+    
+    star1->setAnchorPoint(Vec2(0.5,0.5));
+    star2->setAnchorPoint(Vec2(0.5,0.5));
+    star3->setAnchorPoint(Vec2(0.5,0.5));
+    noStar2->setAnchorPoint(Vec2(0.5,0.5));
+    noStar3->setAnchorPoint(Vec2(0.5,0.5));
+    
+    star1->setScale(cscale);
+    star2->setScale(cscale);
+    star3->setScale(cscale);
+    noStar2->setScale(cscale);
+    noStar3->setScale(cscale);
+    
+    star1->setPosition(Vec2(268,338));
+    star2->setPosition(Vec2(512,455));
+    star3->setPosition(Vec2(756,338));
+    noStar2->setPosition(Vec2(512,455));
+    noStar3->setPosition(Vec2(756,338));
+    
+    _levelStarMap[0] = star1;
+    _levelStarMap[1] = star2;
+    _levelStarMap[2] = star3;
+    _levelStarMap[3] = noStar2;
+    _levelStarMap[4] = noStar3;
+    
+    star1->setVisible(true);
+    star2->setVisible(true);
+    star3->setVisible(true);
+    noStar2->setVisible(true);
+    noStar3->setVisible(true);
+    
+    this->addChild(star1);
+    this->addChild(star2);
+    this->addChild(star3);
+    this->addChild(noStar2);
+    this->addChild(noStar3);
+  
 }
 
 
