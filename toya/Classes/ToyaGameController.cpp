@@ -987,7 +987,7 @@ void GameController::displayDeathPanel() {
     
     setFail(true);
     double time = _overview->getCurrentPlayTime();
-    _failMenu->showTime(time, -1);
+    // _failMenu->showTime(time, -1);
     
 }
 
