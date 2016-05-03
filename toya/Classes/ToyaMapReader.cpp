@@ -268,7 +268,7 @@ int MapReader::createStars() {
         float y_pos = starMap.at("y").asFloat()*cscale + 1.5*tileSize.height;
         
         Vec2 starPos = (Vec2){x_pos/tileSize.width+0.5f, y_pos/tileSize.height};
-        StarModel* starObj = StarModel::create(2, 2, 2, texture, starPos, Size(1, 1), _scale);
+        StarModel* starObj = StarModel::create(1, 1, 3, texture, starPos, Size(1, 1), _scale);
         gameController->addObstacle(starObj, STAR_DRAW_LAYER);
         starObj->setName("star");
         starCount++;

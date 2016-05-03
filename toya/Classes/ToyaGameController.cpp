@@ -382,9 +382,8 @@ void GameController::populate() {
     _avatarToGoal = (_avatar->getPosition()).getDistance((_goalDoor->getPosition()));
     _maxPreTime = _avatarToGoal / PRE_SPEED;
     
-    if(_currentLevel == 0) {
-        addFirstTutorial(_avatar->getPosition());
-    }
+    addTutorial(_currentLevel, _avatar->getPosition());
+    
     
     _audio->audioBackgroundDeploy(0.1);
     _audio->audioEffectDeploy(0.3);
@@ -784,14 +783,29 @@ void GameController::beginContact(b2Contact* contact) {
         
         if(!ghost->isFrozen()) {
             displayDeathPanel();
-            _avatar->setDead();
+            if(!_avatar->isDead()) {
+                _avatar->setDead();
+                
+                _avatar->setLinearVelocity(1*sin(_theWorld->getRotation()), 2*cos(_theWorld->getRotation()));
+                Vec2 gravity = _theWorld->getGravity();
+                _theWorld->setGravity(-gravity*5);
+            }
+            
+
         }
     }
     
     if((bd1->getName() == "avatar" && bd2->getName() == "lava") ||
        (bd1->getName() == "lava" && bd2->getName() == "avatar")) {
         displayDeathPanel();
-        _avatar->setDead();
+
+        if(!_avatar->isDead()) {
+            _avatar->setDead();
+            
+            _avatar->setLinearVelocity(1*sin(_theWorld->getRotation()), 2*cos(_theWorld->getRotation()));
+            Vec2 gravity = _theWorld->getGravity();
+            _theWorld->setGravity(-gravity*5);
+        }
     }
     
     else if((bd1->getName() == "avatar" && bd2->getName() == "potion") || (bd1->getName() == "potion" && bd2->getName() == "avatar")) {
@@ -987,7 +1001,7 @@ void GameController::displayDeathPanel() {
     
     setFail(true);
     double time = _overview->getCurrentPlayTime();
-    _failMenu->showTime(time, -1);
+//    _failMenu->showTime(time, -1);
     
 }
 
@@ -1009,18 +1023,53 @@ int GameController::getOverallStarCount(bool levelCompleted,float time, int star
     return n;
 }
 
-void GameController::addFirstTutorial(Vec2 pos) {
-    Sprite *fingers = Sprite::create("textures/fingers.png");
-    fingers->setPosition(pos);
+void GameController::addTutorial(int i, Vec2 pos) {
     
-    _avatar->getSceneNode()->addChild(fingers);
-    
-    
-    FiniteTimeAction* clockWise = RotateBy::create(1, 20.0f);
-    FiniteTimeAction* antiClockWise = RotateBy::create(1, -20.0f);
-    FiniteTimeAction* fadeout = FadeOut::create(2);
-    
-    fingers->runAction(Sequence::create(clockWise,antiClockWise, antiClockWise,clockWise,clockWise, antiClockWise,antiClockWise, clockWise, fadeout, NULL));
+    if(i == 0) {
+        Sprite *fingers = Sprite::create("textures/fingers.png");
+        fingers->setPosition(pos);
+        
+        _avatar->getSceneNode()->addChild(fingers);
+        
+        
+        FiniteTimeAction* clockWise = RotateBy::create(1, 20.0f);
+        FiniteTimeAction* antiClockWise = RotateBy::create(1, -20.0f);
+        FiniteTimeAction* fadeout = FadeOut::create(2);
+        
+        fingers->runAction(Sequence::create(clockWise,antiClockWise, antiClockWise,clockWise,clockWise, antiClockWise,antiClockWise, clockWise, fadeout, NULL));
+    } else if (i == 2) {
+        ui::CheckBox* destroy = _panel->getDestroySpellCB();
+        
+        Sprite *finger1 = Sprite::create("textures/finger1.png");
+        Sprite *finger2 = Sprite::create("textures/finger2.png");
+        
+        finger1->setAnchorPoint(Vec2(0, 0.5));
+        finger1->setPosition(3, -2);
+        finger1->setScale(1.5);
+        
+        finger1->setAnchorPoint(Vec2(0, 0.5));
+
+        FiniteTimeAction* expand1 = ScaleBy::create(0.5, 1.2);
+        FiniteTimeAction* shrink1 = ScaleBy::create(0.5, 0.83333);
+        FiniteTimeAction* fadeOut1 = FadeOut::create(0.5);
+
+        
+        FiniteTimeAction* expand2 = ScaleBy::create(0.5, 1.2);
+        FiniteTimeAction* shrink2 = ScaleBy::create(0.5, 0.83333);
+        FiniteTimeAction* fadeOut2 = FadeOut::create(0.5);
+
+        destroy->addChild(finger1);
+        finger2->setScale(0.9);
+        float finger2x = 10 * 64;
+        float finger2y = 11.3 * 64;
+        finger2->setPosition(Vec2(finger2x, finger2y));
+        _theWorld->getWorldNode()->addChild(finger2,10);
+        
+        finger1->runAction(Sequence::create(expand1,shrink1,expand1,shrink1,expand1,shrink1,expand1,shrink1,expand1,shrink1,expand1,shrink1,expand1,shrink1,expand1,shrink1,expand1,shrink1,expand1,shrink1,expand1,shrink1,expand1,shrink1,expand1,shrink1,expand1,shrink1,expand1,shrink1,expand1,shrink1,expand1,shrink1,fadeOut1,NULL));
+        
+        finger2->runAction(Sequence::create(expand2, shrink2,expand2, shrink2,expand2, shrink2,expand2, shrink2,expand2, shrink2,expand2, shrink2,expand2, shrink2,expand2, shrink2,expand2, shrink2,expand2, shrink2,expand2, shrink2,expand2, shrink2,expand2, shrink2,expand2, shrink2,expand2, shrink2,expand2, shrink2, fadeOut2,NULL));
+    }
+ 
 
 }
 

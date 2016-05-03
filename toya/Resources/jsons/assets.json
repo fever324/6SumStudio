@@ -155,6 +155,10 @@
         "select_level": {
             "file":     "textures/select_level.png",
             "wrap":     false
+        },
+        "die_bear": {
+            "file":     "textures/dieBear.png",
+            "wrap":     false
         }
         
   	},

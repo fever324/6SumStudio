@@ -145,7 +145,7 @@ protected:
      */
     void populate();
     
-    void addFirstTutorial(Vec2 pos);    
+    void addTutorial(int i, Vec2 pos);
     
 public:
     /**

@@ -15,6 +15,12 @@
 #include <cornell/CUCapsuleObstacle.h>
 #include <cornell/CUWireNode.h>
 
+#include <cornell/CUPolygonNode.h>
+#include <cornell/CUAssetManager.h>
+#include <cornell/CUSceneManager.h>
+#include "Constants.h"
+
+
 using namespace cocos2d;
 
 /** The texture for the character avatar */
@@ -249,8 +255,10 @@ public:
         _animationFrameCount = 0;
         int state = isGrounded() ? 0 : 2 * AVATAR_ANIMATION_COLS;
         int base = isFacingRight() ? state : state + AVATAR_ANIMATION_COLS;
-
-        _avatarBody->setFrame(base + AVATAR_ANIMATION_COLS - 1);
+        if(!_isDead){
+            _avatarBody->setFrame(base + AVATAR_ANIMATION_COLS - 1);
+        }
+        
 
     }
     
@@ -381,7 +389,27 @@ CC_CONSTRUCTOR_ACCESS:
 
     void reset();
     
-    void setDead(){ _isDead = true;}
+    bool isDead() {return _isDead;}
+    void setDead(){
+        if(_isDead) {
+            return;
+        }
+        _isDead = true;
+        SceneManager* assets =  AssetManager::getInstance()->getCurrent();
+ 
+        //        std::cout << _textureKey << endl;
+        Texture2D* image = assets->get<Texture2D>("die_bear");
+        
+        Sprite* sprite = Sprite::createWithTexture(image);
+        if(!_faceRight) {
+            sprite->setFlippedX(true);
+        }
+        FiniteTimeAction* fadeOut = FadeTo::create(1, 0.4);
+        sprite->runAction(fadeOut);
+        getSceneNode()->removeChild(_avatarBody);
+        getSceneNode()->addChild(sprite);
+        
+    }
     void setWin(){ _isWin = true;}
     
 private:

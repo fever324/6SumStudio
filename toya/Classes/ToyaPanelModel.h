@@ -31,9 +31,9 @@ private:
     int _magicCoolDown;
     
     ui::CheckBox* _freezingSpellCB;
-    FreezingSpellModel* _freezingSpell;
-    
     ui::CheckBox* _destructionSpellCB;
+    
+    FreezingSpellModel* _freezingSpell;
     DestructionSpellModel* _destructionSpell;
     
     AnimationNode* magicBar;
@@ -50,6 +50,9 @@ public:
     void addMana(int mana);
     void setTotalMana(int mana){ _totalMana = mana; updateMagicBar(); updateButtons();}
     void setCurrentMana(int mana){ _currentMana = mana; updateMagicBar(); updateButtons();}
+    
+    ui::CheckBox* getFreezeSpellCB(){return _freezingSpellCB;}
+    ui::CheckBox* getDestroySpellCB(){return _destructionSpellCB;}
     
     int getSpell();
     void setSpell(int i);
