@@ -190,6 +190,10 @@
         "retro": {
             "file":    "fonts/arial.ttf",
             "size":     64.0
+        },
+        "phosphate": {
+            "file":    "fonts/Phosphate.ttc",
+            "size":     64.0
         }
   	}
 }

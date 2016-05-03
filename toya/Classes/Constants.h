@@ -40,7 +40,7 @@
 #define MAGIC_POTION_NAME "magicPotion"
 
 #define DEBUG_COLOR     Color3B::RED
-#define PRIMARY_FONT        "retro"
+#define PRIMARY_FONT        "phosphate"
 
 #define DESTRUCTION_COST 1
 #define FREEZE_COST      2

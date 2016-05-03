@@ -107,9 +107,15 @@ bool MenuModel::init(std::string mtype, const Vec2& size, const Vec2& scale){
         LayerColor* bgColor = LayerColor::create(Color4B(0, 0, 0, 100));
         this->addChild(bgColor);
         
-        Button* replay = createButton(REPLAY_BUTTON_IMAGE, Vec2(4*size.x/8-50, 200));
-        Button* gomain = createButton(GOMAIN_BUTTON_IMAGE, Vec2(4*size.x/8+50, 200));
-        Button* next = createButton(NEXT_BUTTON_IMAGE, Vec2(4*size.x/8+150, 200));
+        Button* replay = createButton(REPLAY_BUTTON_IMAGE, Vec2(215, 200));
+        Button* gomain = createButton(GOMAIN_BUTTON_IMAGE, Vec2(512, 200));
+        Button* next = createButton(NEXT_BUTTON_IMAGE, Vec2(731, 200));
+        
+        Vec2 mid = Vec2(0.5, 0.5);
+        replay->setAnchorPoint(mid);
+        gomain->setAnchorPoint(mid);
+        next->setAnchorPoint(mid);
+        
         replay->addTouchEventListener(CC_CALLBACK_2(MenuModel::replayButtonTouchEvent, this));
         gomain->addTouchEventListener(CC_CALLBACK_2(MenuModel::gomainButtonTouchEvent, this));
         next->addTouchEventListener(CC_CALLBACK_2(MenuModel::nextButtonTouchEvent, this));
@@ -233,16 +239,6 @@ bool MenuModel::init(std::string mtype, const Vec2& size, const Vec2& scale){
         this->addChild(resume);
         this->addChild(gomain);
         this->addChild(mute);
-
-//        Texture2D* image = AssetManager::getInstance()->getCurrent()->get<Texture2D>("failbg");
-//        Sprite* bg = Sprite::createWithTexture(image,Rect(0,0,1024,576));
-//        LayerColor* bg = LayerColor::create(Color4B(0, 0, 0, 255));
-//        bg->setScale(0.5);
-//        bg->setPosition(Vec2(size.x/2.0f,size.y/2.0f));
-//        bg->ignoreAnchorPointForPosition(true);
-//        bg->setAnchorPoint(Vec2(-0.5,-0.5));
-//
-//        this->addChild(bg);
     }
     
     return true;
