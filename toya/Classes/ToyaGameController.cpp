@@ -79,6 +79,7 @@ using namespace std;
 
 
 #define PRE_TIME   120
+#define PRE_SPEED   0.08
 
 #pragma mark Physics Constants
 
@@ -117,7 +118,6 @@ _complete(false),
 _selector(nullptr),
 _debug(false),
 _paused(false),
-_pretime(PRE_TIME),
 _preload(false),
 _reset(false),
 _overview(nullptr),
@@ -212,6 +212,7 @@ bool GameController::init(RootLayer* root, InputController* input, int playLevel
     
     
     populate();
+    _pretime = _maxPreTime;
     
     _active = true;
     _complete = false;
@@ -287,7 +288,7 @@ void GameController::clear() {
     setFail(false);
     _reset = false;
     toggleFail(false);
-    _pretime = PRE_TIME;
+    _pretime = _maxPreTime;
     toggleWin(false);
     _active = false;
     _cooldown = COOLDOWN;
@@ -378,6 +379,9 @@ void GameController::populate() {
     _theWorld->setFollow(_avatar);
     _avatar->setName("avatar");
     
+    _avatarToGoal = (_avatar->getPosition()).getDistance((_goalDoor->getPosition()));
+    _maxPreTime = _avatarToGoal / PRE_SPEED;
+    
     if(_currentLevel == 0) {
         addFirstTutorial(_avatar->getPosition());
     }
@@ -447,13 +451,13 @@ void GameController::update(float dt) {
     Size mapSize = _mapReader->getMapSize();
     Vec2 goal_pos = _goalDoor->getPosition();
     
-    if (_pretime > PRE_TIME - 2) {
+    if (_pretime > _maxPreTime - 2) {
         _overview->enableAllButton(false);
         _oPos = _theWorld->getWorldNode()->getPosition();
         _pretime --;
         return;
     }
-    if (_pretime == PRE_TIME - 2){
+    if (_pretime == _maxPreTime - 2){
         _theWorld->stopFollow();
         _nPos = goal_pos;
     }
@@ -461,7 +465,7 @@ void GameController::update(float dt) {
         _pretime --;
         // move the world from the goal door to avatar
         // stop the follow
-        _nPos = Vec2(_nPos.x+(-_oPos.x/mapSize.width-goal_pos.x)/PRE_TIME,_nPos.y+(-_oPos.y/mapSize.height/2-goal_pos.y)/PRE_TIME);
+        _nPos = Vec2(_nPos.x+(-_oPos.x/mapSize.width-goal_pos.x)/_maxPreTime,_nPos.y+(-_oPos.y/mapSize.height/2-goal_pos.y)/_maxPreTime);
         _theWorld->getWorldNode()->setPosition(Vec2(-_nPos.x*mapSize.width,-_nPos.y*mapSize.height*2));
         
         return;
