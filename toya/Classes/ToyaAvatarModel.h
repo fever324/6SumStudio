@@ -40,7 +40,7 @@ using namespace cocos2d;
 /** The amount to slow the character down */
 #define AVATAR_DAMPING    6.0f
 /** The maximum character speed */
-#define AVATAR_MAXSPEED    2.5f
+#define AVATAR_MAXSPEED    1.5f
 #define AVATAR_FRICTION 0.2f
 /** The density of the character */
 #define AVATAR_DENSITY    5.0f
