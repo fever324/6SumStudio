@@ -73,6 +73,7 @@ protected:
     // define the position of the world
     Vec2 _nPos;
     Vec2 _oPos;
+    float _avatarToGoal;
     
     // Physics objects for the game
     /** Reference to the goalDoor (for collision detection) */
@@ -122,6 +123,7 @@ protected:
     int _currentLevel;
     
     int _pretime;
+    int _maxPreTime;
     
     int _starsFound;
     int _maxStarCount;
