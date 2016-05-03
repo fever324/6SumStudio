@@ -83,14 +83,6 @@
    eJxjYBgFo2BkAmEoRmfjU0sKJsZcSuwgFpCqHp85gx0AAIGxAoc=
   </data>
  </layer>
- <layer name="volcano" width="22" height="14">
-  <properties>
-   <property name="texture" value="volcano"/>
-  </properties>
-  <data encoding="base64" compression="zlib">
-   eJxjYBgFo2DggcRAO2AUDAsAADuQABk=
-  </data>
- </layer>
  <layer name="ice" width="22" height="14" visible="0">
   <properties>
    <property name="texture" value="ice_dirt"/>

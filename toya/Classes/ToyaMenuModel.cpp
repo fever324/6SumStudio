@@ -265,7 +265,7 @@ void MenuModel::createLevelStars(int count, const Vec2& scale,const Vec2& screen
 
     // create the stars after you finish the level successful
     Texture2D* starIMG = AssetManager::getInstance()->getCurrent()->get<Texture2D>("star");
-    Texture2D* noStarIMG = AssetManager::getInstance()->getCurrent()->get<Texture2D>("dirt");
+    Texture2D* noStarIMG = AssetManager::getInstance()->getCurrent()->get<Texture2D>("greystar");
     Sprite* star1 = Sprite::createWithTexture(starIMG);
     Sprite* star2 = Sprite::createWithTexture(starIMG);
     Sprite* star3 = Sprite::createWithTexture(starIMG);

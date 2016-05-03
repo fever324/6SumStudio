@@ -34,8 +34,6 @@ using namespace cocos2d;
 
 #pragma mark -
 #pragma mark Physics Constants
-/** The default gravity of the world **/
-#define WORLD_GRAVITY  -5.0f
 /** The default wind resistance of the world*/
 #define WIND_RESISTANCE 0.0f
 
@@ -106,11 +104,11 @@ WorldModel* WorldModel::create(const Size& size, const Vec2& gravity) {
  * @return  true if the obstacle is initialized properly, false otherwise.
  */
 bool WorldModel::init() {
-    return init(Size(WORLD_WIDTH,WORLD_HEIGHT),Vec2(0,WORLD_GRAVITY));
+    return init(Size(WORLD_WIDTH,WORLD_HEIGHT),Vec2(0,DEFAULT_GRAVITY));
 }
 
 bool WorldModel::init(const Size& size) {
-    return init(size,Vec2(0,WORLD_GRAVITY));
+    return init(size,Vec2(0,DEFAULT_GRAVITY));
 }
 
 /**
@@ -206,7 +204,7 @@ void WorldModel::clear(){
     _worldnode->setRotation(0.0f);
     _debugnode->removeAllChildren();
     
-    _world->setGravity(Vec2(0, WORLD_GRAVITY));
+    _world->setGravity(Vec2(0, DEFAULT_GRAVITY));
     // Reset the debug background
     
     _follow = nullptr;

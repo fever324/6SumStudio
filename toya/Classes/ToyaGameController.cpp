@@ -55,8 +55,6 @@ using namespace std;
 #define DEFAULT_WIDTH   64.0
 /** Height of the game world in Box2d units */
 #define DEFAULT_HEIGHT  36.0
-/** The default value of gravity (going down) */
-#define DEFAULT_GRAVITY -5.0f
 
 #pragma mark Assset Constants
 /** The key for the earth texture in the asset manager */
@@ -512,6 +510,7 @@ void GameController::update(float dt) {
         
         if(_input->didZoom()) {
             float originalScale = _theWorld->getWorldNode()->getScale();
+            if(originalScale <= 0.2) originalScale = 0.2;
             _theWorld->getWorldNode()->setScale(originalScale+_input->getZoom()/1000);
         }
         
@@ -520,7 +519,6 @@ void GameController::update(float dt) {
             Vec2 originalPoint = _theWorld->getWorldNode()->getPosition();
             
             _theWorld->getWorldNode()->setPosition(originalPoint - distance);
-            
         }
         
     }else{
@@ -581,7 +579,6 @@ void GameController::update(float dt) {
         // to fix the bug that release magic after touch
         if (_input->didRelease() && _selector->isSelected()) {
             if (_panel->getSpell() == DESTRUCTION_SPELL_SELECTED) {
-//                _panel->setSpell(DESTRUCTION_SPELL_SELECTED);
                 if (_selector->getObstacle()->getName() == "removable" && _panel->getCurrentMana() > 0 && _panel->isMagicCoolDown()) {
                     RemovableBlockModel* rmb = (RemovableBlockModel*) _selector->getObstacle();
                     rmb->destroy(_theWorld->getWorldNode(), _theWorld->getDebugNode(), _theWorld->getWorld());
@@ -590,7 +587,6 @@ void GameController::update(float dt) {
                     _panel->resetMagicCoolDown();
                 }
             } else if (_panel->getSpell() == FREEZING_SPELL_SELECTED) {
-//                _panel->setSpell(FREEZING_SPELL_SELECTED);
                 if(_selector->getObstacle()->getName() == "ghost" && _panel->getCurrentMana() > 0 && _panel->isMagicCoolDown()) {
                     MovingObstacleModel* movingObstacle = (MovingObstacleModel*) _selector->getObstacle();
                     movingObstacle->freeze(_theWorld->getWorldNode(), _theWorld->getDebugNode(), _theWorld->getWorld());

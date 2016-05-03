@@ -21,6 +21,7 @@ bool StarModel::init(int stateCount, int rowCount, int columnCount, std::string 
         setName(REMOVABLE_OBJECT_NAME);
         setBodyType(b2_staticBody);
         setDrawScale(scale);
+        setSensor(true);
         
         WireNode* draw = WireNode::create();
         draw->setColor(Color3B::RED);
