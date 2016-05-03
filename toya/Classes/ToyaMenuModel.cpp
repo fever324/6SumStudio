@@ -207,6 +207,7 @@ bool MenuModel::init(std::string mtype, const Vec2& size, const Vec2& scale){
         _next = false;
         _resume = false;
         _mute = false;
+        _replay = false;
 
 
         Button* replay = Button::create(REPLAY_BUTTON_IMAGE);
