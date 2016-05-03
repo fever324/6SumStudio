@@ -146,8 +146,7 @@ void OverviewModel::reset() {
     startTime = current_time();
     reseted = false;
     paused = false;
-    pauseButton->setEnabled(true);
-    helpButton->setEnabled(true);
+    enableAllButton(false);
     resumeFromPause();
 }
 
