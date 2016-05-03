@@ -8,6 +8,7 @@
 #define RESET_BUTTON_IMAGE "textures/resetButton.png"
 #define HELP_BUTTON_NORMAL "textures/helpButton.png"
 #define HELP_BUTTON_DISABLE "textures/helpButton_disable.png"
+#define OVERVIEW_BUTTON_SELECTED "textures/resumeButton.png"
 using namespace cocos2d;
 
 
@@ -22,7 +23,7 @@ bool OverviewModel::init(const Vec2& pos) {
  */
 bool OverviewModel::init(const Vec2& pos, const Vec2& scale){
 
-    pauseButton = ui::Button::create(OVERVIEW_BUTTON_NORMAL,OVERVIEW_BUTTON_NORMAL,OVERVIEW_BUTTON_DISABLE);
+    pauseButton = ui::Button::create(OVERVIEW_BUTTON_NORMAL,OVERVIEW_BUTTON_SELECTED,OVERVIEW_BUTTON_DISABLE);
     helpButton = ui::Button::create(HELP_BUTTON_NORMAL,HELP_BUTTON_NORMAL,HELP_BUTTON_DISABLE);
 //    float cscale = Director::getInstance()->getContentScaleFactor();
 //    pauseButton->setScale(cscale);
@@ -78,8 +79,10 @@ void OverviewModel::pauseButtonTouchEvent(cocos2d::Ref *sender, ui::Widget::Touc
         case ui::Widget::TouchEventType::BEGAN:
             if(!paused) {
                 pauseButtonPressed();
+                pauseButton->loadTextureNormal(OVERVIEW_BUTTON_SELECTED);
             } else {
                 resumeFromPause();
+                pauseButton->loadTextureNormal(OVERVIEW_BUTTON_NORMAL);
             }
             break;
         default:
@@ -115,6 +118,13 @@ void OverviewModel::enableButton(bool value) {
     helpButton->setTouchEnabled(value);
 }
 
+void OverviewModel::enableButton(bool value) {
+//    pauseButton->setEnabled(value);
+    helpButton->setEnabled(value);
+//    pauseButton->setTouchEnabled(value);
+    helpButton->setTouchEnabled(value);
+}
+
 void OverviewModel::pauseButtonPressed() {
     currentPlayTime += getCurrentDuration();
     paused = true;
@@ -137,8 +147,7 @@ void OverviewModel::reset() {
     startTime = current_time();
     reseted = false;
     paused = false;
-    pauseButton->setEnabled(true);
-    helpButton->setEnabled(true);
+    enableAllButton(false);
     resumeFromPause();
 }
 

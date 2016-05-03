@@ -78,6 +78,7 @@ _touchListener(nullptr)
     _touch2.touchid = -1;
     
     _smoothedTurning = 0;
+    _zoomDistance = 0;
     
 }
 
@@ -338,6 +339,13 @@ bool InputController::checkRotate(timestamp_t current) {
     
     float temp = 0;
     
+    // Zoom
+    float oldDistance = _touch1.start.distance(_touch2.start);
+    float newDistance = _touch1.stop.distance(_touch2.stop);
+    _zoomDistance = newDistance - oldDistance;
+    
+    
+    //Rotation
     if ( _touch1.start.x < _touch2.start.x ){
         // t1 on the left
         
@@ -368,8 +376,12 @@ bool InputController::checkRotate(timestamp_t current) {
     if(elapsed_millis(_rotateTime,current) <= EVENT_ROTATE_TIME){
         _turning = temp;
         calculateNewSmoothedTurning(_turning);
+        
+        
         return true;
     }
+    
+    
     _rotateTime = current;
     _turning = 0.0f;
     return false;
@@ -410,6 +422,10 @@ void InputController::touchMovedCB(Touch* t, timestamp_t current) {
     } else if(_touchCount == 1) {
         if(t->getID() == _touch1.touchid) {
             swipe = checkSwipe(_touch1.start, t->getLocation(), current);
+            _singleFingerMoveDistance.x = _touch1.start.x - t->getLocation().x;
+            
+            _singleFingerMoveDistance.y = _touch1.start.y - t->getLocation().y;
+            _touch1.start = t->getLocation();
         }
     }
     

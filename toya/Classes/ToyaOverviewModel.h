@@ -121,6 +121,7 @@ CC_CONSTRUCTOR_ACCESS:
     void pauseButtonPressed();
     void resumeFromPause();
     void enableButton(bool value);
+    void enableAllButton(bool value);
     
     bool hasReseted() {return this->reseted;}
     void reset();

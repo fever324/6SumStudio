@@ -70,6 +70,11 @@ protected:
     /** The world scale (computed from root node) */
     Vec2 _scale;
     
+    // define the position of the world
+    Vec2 _nPos;
+    Vec2 _oPos;
+    float _avatarToGoal;
+    
     // Physics objects for the game
     /** Reference to the goalDoor (for collision detection) */
     ExitDoorModel* _goalDoor;
@@ -117,6 +122,9 @@ protected:
     // indicate current level
     int _currentLevel;
     
+    int _pretime;
+    int _maxPreTime;
+    
     int _starsFound;
     int _maxStarCount;
     
@@ -137,9 +145,7 @@ protected:
      */
     void populate();
     
-    void addFirstTutorial(Vec2 pos);
-    void makeSpriteDisappear(Node* sender);
-    
+    void addFirstTutorial(Vec2 pos);    
     
 public:
     /**

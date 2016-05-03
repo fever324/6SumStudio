@@ -52,6 +52,8 @@ private:
     bool  _keyExit;
     
     int swipe;
+    float _zoomDistance;
+    Vec2 _singleFingerMoveDistance;
     
     // whether the start key is down
     bool _keyStart;
@@ -75,7 +77,7 @@ private:
     float _keyTurning;
     
     float inputHistory[HISTORY_LENGTH] = {0.0f, 0.0f, 0.0f, 0.0f, 0.0f};
-    float inputHistoryWeights[HISTORY_LENGTH] = {0.7f, 0.2f, 0.07f, 0.02f, 0.01f};
+    float inputHistoryWeights[HISTORY_LENGTH] = {0.8f, 0.1f, 0.07f, 0.02f, 0.01f};
     float _smoothedTurning;
     
 protected:
@@ -198,14 +200,22 @@ public:
     /* return true if it is a rotation */
     bool didRotate() const { return _keyRotate; }
     
+    bool didZoom() const {return _zoomDistance != 0;}
+    
     // return status of start
     bool didStart() const { return _keyStart; }
     
     bool didSwipe() const {return swipe != 0; }
     
+    bool didMoveSingleFinger() const {return _singleFingerMoveDistance.x != 0 || _singleFingerMoveDistance.y != 0;}
+    
     int getSwipeDirection() {int temp = swipe; swipe = 0; return temp;}
     /** return turning */
     float getTurning() const { return _smoothedTurning; }
+    /** return zoom */
+    float getZoom()  { float temp = _zoomDistance; _zoomDistance =0; return temp;}
+    
+    Vec2 getSingleFingerMovement() {Vec2 temp = _singleFingerMoveDistance; _singleFingerMoveDistance.x =0; _singleFingerMoveDistance.y = 0; return temp;}
     
     /** return gravity */
     Vec2 getGravity(Vec2& gravity, float rotation) const {
