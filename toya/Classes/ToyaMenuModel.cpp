@@ -125,22 +125,23 @@ bool MenuModel::init(std::string mtype, const Vec2& size, const Vec2& scale){
         next->addTouchEventListener(CC_CALLBACK_2(MenuModel::nextButtonTouchEvent, this));
         
         Label* winnode = Label::create();
+        
         _timenode = Label::create();
-        
-        
         _timenode->setPosition(size.x/2.0f,size.y-300);
         _timenode->setTTFConfig(AssetManager::getInstance()->getCurrent()->get<TTFont>(PRIMARY_FONT)->getTTF());
+        _timenode->setScale(0.5);
+        
         
         _collectionNode = Label::create();
-        _collectionNode->setPosition(size.x/2.0f, size.y-300-50);
+        _collectionNode->setPosition(size.x/2.0f - 50, size.y-300-50);
         _collectionNode->setTTFConfig(AssetManager::getInstance()->getCurrent()->get<TTFont>(PRIMARY_FONT)->getTTF());
-        
         _collectionNode->setString("Honey: ");
+        _collectionNode->setScale(0.5);
         
-        winnode->setString("VICTORY!");
+        
+        winnode->setString("GOOD JOB");
         winnode->setColor(DEBUG_COLOR);
-        winnode->setPosition(size.x/2.0f,size.y-200);
-        
+        winnode->setPosition(size.x/2.0f,size.y-100);
         winnode->setTTFConfig(AssetManager::getInstance()->getCurrent()->get<TTFont>(PRIMARY_FONT)->getTTF());
         
         Texture2D* image = AssetManager::getInstance()->getCurrent()->get<Texture2D>("winbg");
@@ -298,16 +299,16 @@ void MenuModel::createWinMenuStars(const Vec2& scale,const Vec2& screenSize){
     noStar2->setAnchorPoint(Vec2(0.5,0.5));
     noStar3->setAnchorPoint(Vec2(0.5,0.5));
     
-    star1->setScale(cscale);
-    star2->setScale(cscale);
-    star3->setScale(cscale);
-    noStar2->setScale(cscale);
-    noStar3->setScale(cscale);
+    star1->setScale(cscale * 0.8);
+    star2->setScale(cscale * 0.8);
+    star3->setScale(cscale * 0.8);
+    noStar2->setScale(cscale * 0.8);
+    noStar3->setScale(cscale * 0.8);
     
     star1->setPosition(Vec2(268,338));
-    star2->setPosition(Vec2(512,455));
+    star2->setPosition(Vec2(512,392));
     star3->setPosition(Vec2(756,338));
-    noStar2->setPosition(Vec2(512,455));
+    noStar2->setPosition(Vec2(512,392));
     noStar3->setPosition(Vec2(756,338));
     
     _levelStarMap[0] = star1;
@@ -528,17 +529,17 @@ void MenuModel::createHoney(Node* node) {
     grey2->setAnchorPoint(leftMid);
     grey3->setAnchorPoint(leftMid);
     
-    honey1->setScale(cscale);
-    honey2->setScale(cscale);
-    honey3->setScale(cscale);
-    grey1->setScale(cscale);
-    grey2->setScale(cscale);
-    grey3->setScale(cscale);
+    honey1->setScale(cscale * 0.5);
+    honey2->setScale(cscale * 0.5);
+    honey3->setScale(cscale * 0.5);
+    grey1->setScale(cscale * 0.5);
+    grey2->setScale(cscale * 0.5);
+    grey3->setScale(cscale * 0.5);
     
     Vec2 leftNodeSize = node->getContentSize();
     float y = node->getPosition().y;
-    float width = honey1->getContentSize().width;
-    float x = node->getPosition().x + node->getContentSize().width/2;
+    float width = honey1->getContentSize().width * 0.5;
+    float x = node->getPosition().x + node->getContentSize().width/2 - 50;
     
     honey1->setPosition(Vec2(x,y));
     honey2->setPosition(Vec2(x+width,y));

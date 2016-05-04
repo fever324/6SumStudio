@@ -1076,9 +1076,27 @@ void GameController::addTutorial(int i, Vec2 pos) {
         finger2->setPosition(Vec2(finger2x, finger2y));
         _theWorld->getWorldNode()->addChild(finger2,10);
         
-        finger1->runAction(Sequence::create(expand1,shrink1,expand1,shrink1,expand1,shrink1,expand1,shrink1,expand1,shrink1,expand1,shrink1,expand1,shrink1,expand1,shrink1,expand1,shrink1,expand1,shrink1,expand1,shrink1,expand1,shrink1,expand1,shrink1,expand1,shrink1,expand1,shrink1,expand1,shrink1,expand1,shrink1,fadeOut1,NULL));
+        finger1->runAction(Sequence::create(expand1,shrink1,expand1,shrink1,expand1,shrink1,expand1,shrink1,expand1,shrink1,expand1,shrink1,expand1,shrink1,expand1,shrink1,expand1,shrink1,expand1,shrink1,expand1,shrink1,expand1,shrink1,expand1,shrink1,expand1,shrink1,expand1,shrink1,fadeOut1,NULL));
         
-        finger2->runAction(Sequence::create(expand2, shrink2,expand2, shrink2,expand2, shrink2,expand2, shrink2,expand2, shrink2,expand2, shrink2,expand2, shrink2,expand2, shrink2,expand2, shrink2,expand2, shrink2,expand2, shrink2,expand2, shrink2,expand2, shrink2,expand2, shrink2,expand2, shrink2,expand2, shrink2, fadeOut2,NULL));
+        finger2->runAction(Sequence::create(expand2, shrink2,expand2, shrink2,expand2, shrink2,expand2, shrink2,expand2, shrink2,expand2, shrink2,expand2, shrink2,expand2, shrink2,expand2, shrink2,expand2, shrink2,expand2, shrink2,expand2, shrink2,expand2, shrink2,expand2, fadeOut2,NULL));
+    } else if (i == 1) {
+        Sprite *finger = Sprite::create("textures/finger.png");
+        finger->setAnchorPoint(Vec2(0, 0.5));
+        finger->setPosition(0, -2);
+
+        FiniteTimeAction* expand1 = ScaleBy::create(0.5, 1.2);
+        FiniteTimeAction* shrink1 = ScaleBy::create(0.5, 0.83333);
+        FiniteTimeAction* fadeOut1 = FadeOut::create(0.5);
+        
+        ui::Button* pauseButton = _overview->getPauseButton();
+        
+        finger->runAction(Sequence::create(expand1,shrink1,expand1,shrink1,expand1,shrink1,expand1,shrink1,expand1,shrink1,expand1,shrink1,expand1,shrink1,expand1,shrink1,expand1,shrink1,expand1,shrink1,expand1,shrink1,expand1,shrink1,expand1,shrink1,expand1,shrink1,expand1,shrink1,expand1,shrink1,expand1,shrink1,fadeOut1,NULL));
+        
+        pauseButton->addChild(finger);
+        
+        
+
+
     }
  
 

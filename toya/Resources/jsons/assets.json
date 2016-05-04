@@ -171,6 +171,10 @@
         "grey_honey": {
             "file":     "textures/greyHoney.png",
             "wrap":     false
+        },
+        "finger": {
+            "file":     "textures/finger.png",
+            "wrap":     false
         }
         
   	},
@@ -200,7 +204,7 @@
             "size":     64.0
         },
         "phosphate": {
-            "file":    "fonts/Phosphate.ttc",
+            "file":    "fonts/phosphate.ttf",
             "size":     64.0
         }
   	}

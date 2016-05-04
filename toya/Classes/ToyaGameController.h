@@ -161,6 +161,7 @@ public:
     void addObstacle(Obstacle* obj, int zOrder);
     
     Vec2 getScale() {return _scale;}
+    
     SceneManager* getAssets(){return _assets;}
     RootLayer* getRootNode(){return _rootnode;}
 #pragma mark -
