@@ -585,6 +585,7 @@ void GameController::update(float dt) {
         _avatar->setFacingRight(direction == 1);
     }
     
+    
     if (_panel->getSpell() == DESTRUCTION_SPELL_SELECTED || _panel->getSpell() == FREEZING_SPELL_SELECTED) {
         // to fix the bug that release magic after touch
         if (_input->didRelease() && _selector->isSelected()) {
@@ -619,7 +620,6 @@ void GameController::update(float dt) {
         }
         
     }
-    
     
     
     // don't update the world when
@@ -799,15 +799,21 @@ void GameController::beginContact(b2Contact* contact) {
         }
     }
     // destroy ghost if the lava met the ghost
-    if((bd1->getName() == "ghost" && bd2->getName() == "lava") ||
-       (bd1->getName() == "lava" && bd2->getName() == "ghost")) {
+    if((bd1->getName() == "projector" && bd2->getName() == "ghost") ||
+       (bd1->getName() == "ghost" && bd2->getName() == "projector")) {
         MovingObstacleModel* ghost = bd1->getName() == "ghost" ? (MovingObstacleModel*)bd1 : (MovingObstacleModel*)bd2;
         ghost->setDead(_theWorld->getWorldNode(), _theWorld->getDebugNode(), _theWorld->getWorld());
-//        _theWorld->removeObstacle(ghost);
     }
+    // See if the ghost hit a wall
+//    else if (bd1->getName() == "ghost" || bd2->getName() == "ghost") {
+//        MovingObstacleModel* ghost = bd1->getName() == "ghost" ? (MovingObstacleModel*)bd1 : (MovingObstacleModel*)bd2;
+//        ghost->turnFace();
+//    }
     
     if((bd1->getName() == "avatar" && bd2->getName() == "lava") ||
-       (bd1->getName() == "lava" && bd2->getName() == "avatar")) {
+       (bd1->getName() == "lava" && bd2->getName() == "avatar") ||
+       (bd1->getName() == "avatar" && bd2->getName() == "projector") ||
+       (bd1->getName() == "projector" && bd2->getName() == "avatar")) {
         displayDeathPanel();
 
         if(!_avatar->isDead()) {
@@ -834,10 +840,6 @@ void GameController::beginContact(b2Contact* contact) {
             _audio->playPickupPotion();
             _starsFound++;
         }
-    }
-    
-    else if((bd1->getName() == "projector" && bd2->getName() == "ghost") || (bd1->getName() == "ghost" && bd2->getName() == "projector")) {
-        cout << "here" << endl;
     }
     
     // If we hit the "win" door, we are done
@@ -868,7 +870,6 @@ void GameController::beginContact(b2Contact* contact) {
         _avatar->setGrounded(true);
         _sensorFixtures.emplace(_avatar->getBottomSensorName() == fd1 ? fix2 : fix1);
     }
-    
 }
 
 
@@ -1059,7 +1060,7 @@ void GameController::addTutorial(int i, Vec2 pos) {
         Sprite *finger2 = Sprite::create("textures/finger2.png");
         
         finger1->setAnchorPoint(Vec2(0, 0.5));
-        finger1->setPosition(3, -2);
+        finger1->setPosition(3, -1);
         finger1->setScale(1.5);
         
         finger1->setAnchorPoint(Vec2(0, 0.5));
@@ -1113,10 +1114,6 @@ void GameController::addTutorial(int i, Vec2 pos) {
         finger->runAction(Sequence::create(expand1,shrink1,expand1,shrink1,expand1,shrink1,expand1,shrink1,expand1,shrink1,expand1,shrink1,expand1,shrink1,expand1,shrink1,expand1,shrink1,expand1,shrink1,expand1,shrink1,expand1,shrink1,expand1,shrink1,expand1,shrink1,expand1,shrink1,expand1,shrink1,expand1,shrink1,fadeOut1,NULL));
         
         pauseButton->addChild(finger);
-        
-        
-
-
     }
  
 

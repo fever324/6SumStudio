@@ -49,7 +49,8 @@ bool MovingObstacleModel::init(int stateCount, int rowCount, int columnCount, st
     
     if(AnimationBoxModel::init(stateCount, rowCount, columnCount, textureKey, pos, size, scale, ANIMATION_SPEED)) {
         setName(MOVING_OBSTACLE_NAME);
-        setBodyType(b2_dynamicBody);
+        if(textureKey == "projector") setBodyType(b2_staticBody);
+        if(textureKey == "ghosts") setBodyType(b2_dynamicBody);
         setGravityScale(0.0);
         
         setFriction(0.0f);      // HE WILL STICK TO WALLS IF YOU FORGET
@@ -177,9 +178,7 @@ void MovingObstacleModel::update(float dt) {
 }
 
 void MovingObstacleModel::setDead(cocos2d::Node *parent, cocos2d::Node *parentDebugNode, cocos2d::WorldController *world){
-//    _currState = DEAD_STATE;
     _currState = 0;
-//    getBody()->SetActive(false);
 
     _parent = parent;
     _parentDebugNode = parentDebugNode;
@@ -188,4 +187,5 @@ void MovingObstacleModel::setDead(cocos2d::Node *parent, cocos2d::Node *parentDe
     replaceAnimationTexture(1, 4, "ghost_dead");
     
     obstacleIsDead = true;
+    getSceneNode()->setScale(0.8);
 }

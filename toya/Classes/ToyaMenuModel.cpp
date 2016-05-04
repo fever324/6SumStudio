@@ -192,7 +192,7 @@ bool MenuModel::init(std::string mtype, const Vec2& size, const Vec2& scale){
         _timenode = Label::create();
         _timenode->setPosition(size.x/2.0f,size.y-300);
         _timenode->setTTFConfig(AssetManager::getInstance()->getCurrent()->get<TTFont>(PRIMARY_FONT)->getTTF());
-        _timenode->setScale(0.5);
+        _timenode->setScale(0.7);
         
         Label* failnode = Label::create();
         failnode->setColor(DEBUG_COLOR);
@@ -529,17 +529,17 @@ void MenuModel::createHoney(Node* node) {
     grey2->setAnchorPoint(leftMid);
     grey3->setAnchorPoint(leftMid);
     
-    honey1->setScale(cscale * 0.7);
-    honey2->setScale(cscale * 0.7);
-    honey3->setScale(cscale * 0.7);
-    grey1->setScale(cscale * 0.7);
-    grey2->setScale(cscale * 0.7);
-    grey3->setScale(cscale * 0.7);
+    honey1->setScale(cscale);
+    honey2->setScale(cscale);
+    honey3->setScale(cscale);
+    grey1->setScale(cscale);
+    grey2->setScale(cscale);
+    grey3->setScale(cscale);
     
     Vec2 leftNodeSize = node->getContentSize();
     float y = node->getPosition().y;
-    float width = honey1->getContentSize().width * 0.7;
-    float x = node->getPosition().x + node->getContentSize().width/2 - 30;
+    float width = honey1->getContentSize().width;
+    float x = node->getPosition().x + node->getContentSize().width/2 -30;
     
     honey1->setPosition(Vec2(x,y));
     honey2->setPosition(Vec2(x+width,y));
