@@ -22,6 +22,8 @@ private:
     
     float _angle;
     
+    bool obstacleIsDead;
+    
     std::vector<Vec2> _routes; // A list of points that define the routes of this moving obstacle.
     int _nextPos; // The index of next turing point on the route.
     double _freezeTime; // The time of freezing
@@ -34,6 +36,10 @@ public:
     
     void freeze(Node* parent, Node* parentDebugNode, WorldController* world);
     bool isFrozen();
+    
+    bool isDead() {return obstacleIsDead;}
+    void setDead(Node* parent, Node* parentDebugNode, WorldController* world);
+
 };
 
 #endif /* ToyaMovingObstacle_h */
