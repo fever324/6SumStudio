@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="35" height="35" tilewidth="64" tileheight="64" nextobjectid="100">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="35" height="35" tilewidth="64" tileheight="64" nextobjectid="102">
+ <properties>
+  <property name="point1X" type="float" value="1"/>
+ </properties>
  <tileset firstgid="1" name="texture" tilewidth="64" tileheight="64" tilecount="1" columns="1">
   <image source="../textures/texture.png" width="64" height="64"/>
  </tileset>
@@ -128,37 +131,10 @@
   </object>
  </objectgroup>
  <objectgroup name="Ghosts">
-  <object id="59" name="Wo" gid="17" x="1411.13" y="639.905" width="64" height="64">
-   <properties>
-    <property name="faceRight" type="bool" value="false"/>
-    <property name="point1X" type="float" value="-10"/>
-    <property name="point1Y" type="float" value="0"/>
-    <property name="speed" type="float" value="1"/>
-    <property name="texture" value="ghosts"/>
-   </properties>
-  </object>
-  <object id="61" name="Bob" gid="18" x="892.588" y="638.159" width="64" height="64">
-   <properties>
-    <property name="faceRight" type="bool" value="false"/>
-    <property name="point1X" type="float" value="10"/>
-    <property name="point1Y" type="float" value="0"/>
-    <property name="speed" type="float" value="1"/>
-    <property name="texture" value="ghosts"/>
-   </properties>
-  </object>
-  <object id="63" name="Sarah" gid="17" x="1089.34" y="957.965" width="64" height="64">
-   <properties>
-    <property name="faceRight" type="bool" value="false"/>
-    <property name="point1X" type="float" value="0"/>
-    <property name="point1Y" type="float" value="0"/>
-    <property name="speed" type="float" value="0"/>
-    <property name="texture" value="ghosts"/>
-   </properties>
-  </object>
-  <object id="67" name="Bob" gid="17" x="1149.74" y="1024.68" width="64" height="64">
+  <object id="67" name="Bob" gid="17" x="1106.24" y="631.142" width="64" height="64">
    <properties>
     <property name="faceRight" type="bool" value="true"/>
-    <property name="point1X" type="float" value="0"/>
+    <property name="point1X" type="float" value="1"/>
     <property name="point1Y" type="float" value="0"/>
     <property name="speed" type="float" value="0"/>
     <property name="texture" value="ghosts"/>
@@ -200,6 +176,15 @@
     <property name="texture" value="ghosts"/>
    </properties>
   </object>
+  <object id="101" name="Bob" gid="17" x="1098.9" y="1022.27" width="64" height="64">
+   <properties>
+    <property name="faceRight" type="bool" value="true"/>
+    <property name="point1X" type="float" value="1"/>
+    <property name="point1Y" type="float" value="0"/>
+    <property name="speed" type="float" value="0"/>
+    <property name="texture" value="ghosts"/>
+   </properties>
+  </object>
  </objectgroup>
  <objectgroup name="MagicPotions">
   <object id="94" gid="22" x="825.436" y="1660.72" width="64" height="64">
@@ -216,12 +201,12 @@
   </object>
  </objectgroup>
  <objectgroup name="Stars">
-  <object id="81" gid="25" x="1463.38" y="463.821" width="64" height="62"/>
+  <object id="81" gid="25" x="1513.78" y="521.425" width="64" height="62"/>
   <object id="86" gid="25" x="1065.44" y="2145.87" width="64" height="62"/>
   <object id="91" gid="25" x="132.103" y="1212.54" width="64" height="62"/>
  </objectgroup>
  <objectgroup name="Volcanos">
-  <object id="85" gid="26" x="1156.51" y="1647.63" width="128" height="64">
+  <object id="85" gid="26" x="1158.58" y="1660.06" width="128" height="64">
    <properties>
     <property name="base_fire" value="vbase_fire"/>
     <property name="base_pure" value="vbase_pure"/>

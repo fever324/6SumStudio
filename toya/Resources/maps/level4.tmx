@@ -102,7 +102,7 @@
   </object>
  </objectgroup>
  <objectgroup name="Ghosts">
-  <object id="63" name="Sarah" gid="17" x="893.745" y="448.728" width="64" height="64">
+  <object id="63" name="Sarah" gid="17" x="959.884" y="327.952" width="64" height="64">
    <properties>
     <property name="faceRight" type="bool" value="false"/>
     <property name="point1X" type="float" value="-9"/>
@@ -111,7 +111,7 @@
     <property name="texture" value="ghosts"/>
    </properties>
   </object>
-  <object id="78" name="Sarah" gid="17" x="1092.95" y="767.766" width="64" height="64">
+  <object id="78" name="Sarah" gid="17" x="1147.59" y="783.582" width="64" height="64">
    <properties>
     <property name="faceRight" type="bool" value="false"/>
     <property name="point1X" type="float" value="-9"/>
@@ -120,7 +120,7 @@
     <property name="texture" value="ghosts"/>
    </properties>
   </object>
-  <object id="79" name="Sarah" gid="17" x="896.666" y="703.316" width="64" height="64">
+  <object id="79" name="Sarah" gid="17" x="899.542" y="700.44" width="64" height="64">
    <properties>
     <property name="faceRight" type="bool" value="false"/>
     <property name="point1X" type="float" value="0"/>
