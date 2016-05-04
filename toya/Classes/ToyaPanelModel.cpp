@@ -14,6 +14,8 @@
 #define DESTROY_MAGIC_SELECTED_IMAGE "textures/destroy_magic_selected.png"
 #define DESTROY_MAGIC_DISABLED_IMAGE "textures/destroy_magic_disabled.png"
 
+#define RESET_MAGIC_COUNTER  120
+
 using namespace cocos2d;
 using namespace std;
 
@@ -99,12 +101,16 @@ void PanelModel::freezingTouchEvent(Ref *sender, ui::Widget::TouchEventType type
             if(_selection == DESTRUCTION_SPELL_SELECTED) {
                 _destructionSpellCB->setSelected(false);
                 _selection = FREEZING_SPELL_SELECTED;
+                _resetMagicCounter = RESET_MAGIC_COUNTER;
             }
             else if(_selection == FREEZING_SPELL_SELECTED) {
                 _selection = NO_SPELL_SELECTED;
             }
-            else
+            else {
                 _selection = FREEZING_SPELL_SELECTED;
+                _resetMagicCounter = RESET_MAGIC_COUNTER;
+            }
+            _freezingSpellCB->removeAllChildren();
             break;
         default:
             break;
@@ -117,12 +123,16 @@ void PanelModel::destructionTouchEvent(Ref *sender, ui::Widget::TouchEventType t
             if(_selection == FREEZING_SPELL_SELECTED) {
                 _freezingSpellCB->setSelected(false);
                 _selection = DESTRUCTION_SPELL_SELECTED;
+                _resetMagicCounter = RESET_MAGIC_COUNTER;
             }
             else if(_selection == DESTRUCTION_SPELL_SELECTED) {
                 _selection = NO_SPELL_SELECTED;
             }
-            else
+            else{
                 _selection = DESTRUCTION_SPELL_SELECTED;
+                _resetMagicCounter = RESET_MAGIC_COUNTER;
+            }
+            _destructionSpellCB->removeAllChildren();
             break;
         default:
             break;
@@ -134,6 +144,7 @@ int PanelModel::getSpell() {
 }
 void PanelModel::setSpell(int magic){
     if(magic == 0) {
+        _selection = 0;
         _freezingSpellCB->setSelected(false);
         _destructionSpellCB->setSelected(false);
     }
@@ -168,7 +179,7 @@ bool PanelModel::deduceMana(int cost) {
     _currentMana = _currentMana - cost;
     updateMagicBar();
     updateButtons();
-
+    _resetMagicCounter = RESET_MAGIC_COUNTER;
     return true;
 }
 
@@ -190,3 +201,16 @@ void PanelModel::reset(){
     _freezingSpellCB->setEnabled(true);
 }
 
+void PanelModel::update(float dt){
+    // deselect panel
+    if (_resetMagicCounter == 0 && getSpell() != 0) {
+        setSpell(0);
+    }
+    // decrease _resetMagicCounter
+    if (_resetMagicCounter > 0){
+        _resetMagicCounter --;
+    }
+    if (_magicCoolDown > 0) {
+        _magicCoolDown --;
+    }
+}

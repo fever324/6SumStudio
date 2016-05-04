@@ -585,6 +585,7 @@ void GameController::update(float dt) {
         _avatar->setFacingRight(direction == 1);
     }
     
+    
     if (_panel->getSpell() == DESTRUCTION_SPELL_SELECTED || _panel->getSpell() == FREEZING_SPELL_SELECTED) {
         // to fix the bug that release magic after touch
         if (_input->didRelease() && _selector->isSelected()) {
@@ -619,7 +620,6 @@ void GameController::update(float dt) {
         }
         
     }
-    
     
     
     // don't update the world when
@@ -799,8 +799,8 @@ void GameController::beginContact(b2Contact* contact) {
         }
     }
     // destroy ghost if the lava met the ghost
-    if((bd1->getName() == "ghost" && bd2->getName() == "lava") ||
-       (bd1->getName() == "lava" && bd2->getName() == "ghost")) {
+    if((bd1->getName() == "projector" && bd2->getName() == "ghost") ||
+       (bd1->getName() == "ghost" && bd2->getName() == "projector")) {
         MovingObstacleModel* ghost = bd1->getName() == "ghost" ? (MovingObstacleModel*)bd1 : (MovingObstacleModel*)bd2;
         ghost->setDead(_theWorld->getWorldNode(), _theWorld->getDebugNode(), _theWorld->getWorld());
     }
@@ -811,7 +811,9 @@ void GameController::beginContact(b2Contact* contact) {
     }
     
     if((bd1->getName() == "avatar" && bd2->getName() == "lava") ||
-       (bd1->getName() == "lava" && bd2->getName() == "avatar")) {
+       (bd1->getName() == "lava" && bd2->getName() == "avatar") ||
+       (bd1->getName() == "avatar" && bd2->getName() == "projector") ||
+       (bd1->getName() == "projector" && bd2->getName() == "avatar")) {
         displayDeathPanel();
 
         if(!_avatar->isDead()) {
@@ -1058,7 +1060,7 @@ void GameController::addTutorial(int i, Vec2 pos) {
         Sprite *finger2 = Sprite::create("textures/finger2.png");
         
         finger1->setAnchorPoint(Vec2(0, 0.5));
-        finger1->setPosition(3, -2);
+        finger1->setPosition(3, -1);
         finger1->setScale(1.5);
         
         finger1->setAnchorPoint(Vec2(0, 0.5));
@@ -1083,17 +1085,18 @@ void GameController::addTutorial(int i, Vec2 pos) {
         
         finger2->runAction(Sequence::create(expand2, shrink2,expand2, shrink2,expand2, shrink2,expand2, shrink2,expand2, shrink2,expand2, shrink2,expand2, shrink2,expand2, shrink2,expand2, shrink2,expand2, shrink2,expand2, shrink2,expand2, shrink2,expand2, shrink2,expand2, fadeOut2,NULL));
     } else if (i == 1) {
-        Sprite *fingers = Sprite::create("textures/swipe_finger.png");
-        fingers->setPosition(pos);
+        Sprite *swipe = Sprite::create("textures/swipe_finger.png");
+        swipe->setPosition(pos);
+        swipe->setPosition(0, -2);
+        _avatar->getSceneNode()->addChild(swipe);
         
-        _avatar->getSceneNode()->addChild(fingers);
         
+        FiniteTimeAction* left = MoveBy::create(0.3, Vec2(100.0, 0.0));
+        FiniteTimeAction* right = MoveBy::create(0.3, Vec2(-100.0, 0.0));
+        FiniteTimeAction* fadeout = FadeOut::create(0);
+        FiniteTimeAction* fadein = FadeIn::create(0.5);
         
-        FiniteTimeAction* left = MoveBy::create(0.5, Vec2(100.0, 0.0));
-        FiniteTimeAction* right = MoveBy::create(0.5, Vec2(-100.0, 0.0));
-        FiniteTimeAction* fadeout = FadeOut::create(2);
-        
-        fingers->runAction(Sequence::create(left,right,right,left,left,right,right,left,left,right,right,left,left,right,right,left,left,right,right,left,left,right,right,left,  fadeout, NULL));
+        swipe->runAction(Sequence::create(fadeout,left,fadein,right,right, fadeout, left, left,fadein,right,right, fadeout, left, left,fadein,right,right, fadeout, left, left,fadein,right,right, fadeout, left, left,fadein,right,right, fadeout, left, left,fadein,right,right, fadeout, left, left,fadein,right,right, fadeout, left, left,fadein,right,right, fadeout, left, left, NULL));
         
         
         Sprite *finger = Sprite::create("textures/finger.png");
@@ -1103,16 +1106,14 @@ void GameController::addTutorial(int i, Vec2 pos) {
         FiniteTimeAction* expand1 = ScaleBy::create(0.5, 1.2);
         FiniteTimeAction* shrink1 = ScaleBy::create(0.5, 0.83333);
         FiniteTimeAction* fadeOut1 = FadeOut::create(0.5);
+        FiniteTimeAction* fadeIn1 = FadeIn::create(0.5);
         
         ui::Button* pauseButton = _overview->getPauseButton();
+        
         
         finger->runAction(Sequence::create(expand1,shrink1,expand1,shrink1,expand1,shrink1,expand1,shrink1,expand1,shrink1,expand1,shrink1,expand1,shrink1,expand1,shrink1,expand1,shrink1,expand1,shrink1,expand1,shrink1,expand1,shrink1,expand1,shrink1,expand1,shrink1,expand1,shrink1,expand1,shrink1,expand1,shrink1,fadeOut1,NULL));
         
         pauseButton->addChild(finger);
-        
-        
-
-
     }
  
 
