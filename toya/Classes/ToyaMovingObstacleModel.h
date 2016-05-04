@@ -7,6 +7,10 @@
 #include "ToyaAnimationBoxModel.h"
 #include "cornell/CUAnimationNode.h"
 
+#define MOVING_OBSTACLE_DENSITY 5.0f
+#define MOVING_OBSTACLE_SSHRINK 0.2f
+#define SENSOR_HEIGHT   0.1f
+
 using namespace cocos2d;
 using namespace std;
 
@@ -37,9 +41,9 @@ public:
     void freeze(Node* parent, Node* parentDebugNode, WorldController* world);
     bool isFrozen();
     
-    bool isDead() {return obstacleIsDead;}
+    bool isDead() { return obstacleIsDead; }
     void setDead(Node* parent, Node* parentDebugNode, WorldController* world);
-
+    void turnFace() { _faceRight = !_faceRight; }
 };
 
 #endif /* ToyaMovingObstacle_h */

@@ -75,7 +75,7 @@
    <property name="texture" value="grass_dirt"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJztVtsOgCAI1T/30+vFzTGuCpqLs7m0hADhSCmJKNThyY0TNiTWMcZSE9NKzL8EKj+4vDmRV9Z4a9aSDkze029JH/cd1jm3fzcHJXxw6qxuyBGuJrSy0M9ovyWu1fITZrNHbWN3m/W+s9rAcR/UK8lwer1jBNc31IwXXj+bNPq+Sf2JizB7zoQu8j3BneK/qbzEOEHiu4X+X7TTAqu9fa60u/WnMr5h/WX2rIm/wMItUG5XfWBcSe056ceMHm3fu2qjZy8a1efehgfuqwqr
+   eJztVtsOgCAI1T/30+vFzTGuCpqLs7m0hADhSCmJKNThyY0TNiTWMcZSE9NKzL8EKj+4vDmRV9Z4a9aSDkze029JH/cd1jm3fzcHJXxw6qxuyBGuJrSy0M9ovyWu1fITZrNHbWN3m/W+s9rAcR/UK8lwer1jBNc31IwXXj+bNPq+Sf2JizB7zoQu8j3BneK/qbzEOEHiu4X+X7TTAqu9fW7k5qaMb1h/mT1r4i+wcAuU21UfGFdSe076MaNH2/eu2ujZi0b1ubfhAY9KCio=
   </data>
  </layer>
  <layer name="sand" width="43" height="34">
@@ -99,7 +99,7 @@
    <property name="texture" value="dirt"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJztVkEOwCAI2x/2/78uu5KCFVHB2MTDNlOqjtrnORMveEYjK3ZplbUy79HFPFT4BzRdVr/s6H2PHk//W2fG8sh5yA8sbYxmjUPWRfV7IDksniz/OHtGFVBF54/VfhBRH/VdNFAfav3e4mHGiE7GU7Q6rD7W3yQvqoPme8F4aRbs1rWiby5qIPLse/Mom+nY7Khlp1amszgZrRGZz+O3I/dG731h+fhs/7A0yHnoveTJAGbvMmmtAlZr9Jq8d/rKvWXyW+tbizsCo97oXd9J+AAznRLu
+   eJztVlsOwCAI2x12/7su+yUFKjIFsyZ+zJFSH1Su60zc4BuNqtilVeaqvEc/vkOHO6DpsuplR+1H9ETq3zozlkfGIT+wtDGaNQ6ZF+UfgeSweKrccfaMOqCLzher/SAjP6q7bKA61Ord42HGjE7GU7Q8rD7W3yQvyoPio2C8tAp261pRNz96IPPsR/tRtqdje0etd/J6OovTi0d5mJgMv515N0bfC8vHv/YPS4OMQ/OSpwKYvauktQtYrdlrir7pK/eW6d+8fx53Bma9Mbq+k/AAsvkTAQ==
   </data>
  </layer>
  <layer name="ice" width="43" height="34">

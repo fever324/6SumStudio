@@ -803,7 +803,11 @@ void GameController::beginContact(b2Contact* contact) {
        (bd1->getName() == "lava" && bd2->getName() == "ghost")) {
         MovingObstacleModel* ghost = bd1->getName() == "ghost" ? (MovingObstacleModel*)bd1 : (MovingObstacleModel*)bd2;
         ghost->setDead(_theWorld->getWorldNode(), _theWorld->getDebugNode(), _theWorld->getWorld());
-//        _theWorld->removeObstacle(ghost);
+    }
+    // See if the ghost hit a wall
+    else if (bd1->getName() == "ghost" || bd2->getName() == "ghost") {
+        MovingObstacleModel* ghost = bd1->getName() == "ghost" ? (MovingObstacleModel*)bd1 : (MovingObstacleModel*)bd2;
+        ghost->turnFace();
     }
     
     if((bd1->getName() == "avatar" && bd2->getName() == "lava") ||
@@ -836,10 +840,6 @@ void GameController::beginContact(b2Contact* contact) {
         }
     }
     
-    else if((bd1->getName() == "projector" && bd2->getName() == "ghost") || (bd1->getName() == "ghost" && bd2->getName() == "projector")) {
-        cout << "here" << endl;
-    }
-    
     // If we hit the "win" door, we are done
     else if((body1->GetUserData() == _avatar && body2->GetUserData() == _goalDoor) ||
             (body1->GetUserData() == _goalDoor && body2->GetUserData() == _avatar)) {
@@ -868,7 +868,6 @@ void GameController::beginContact(b2Contact* contact) {
         _avatar->setGrounded(true);
         _sensorFixtures.emplace(_avatar->getBottomSensorName() == fd1 ? fix2 : fix1);
     }
-    
 }
 
 
