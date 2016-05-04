@@ -189,8 +189,8 @@ bool GameController::init(RootLayer* root, InputController* input, int playLevel
     
     _pauseMenu = MenuModel::create("pause",Vec2(root->getContentSize().width,root->getContentSize().height), inputscale);
     _helpMenu = MenuModel::create("tutorial",Vec2(root->getContentSize().width,root->getContentSize().height), inputscale);
-    _winMenu = MenuModel::create("levelWin",Vec2(root->getContentSize().width,root->getContentSize().height), inputscale);;
-    _failMenu = MenuModel::create("levelFail",Vec2(root->getContentSize().width,root->getContentSize().height), inputscale);;
+    _winMenu = MenuModel::create("levelWin",Vec2(root->getContentSize().width,root->getContentSize().height), inputscale);
+    _failMenu = MenuModel::create("levelFail",Vec2(root->getContentSize().width,root->getContentSize().height), inputscale);
     togglePause(false);
     toggleWin(false);
     toggleFail(false);
@@ -294,7 +294,6 @@ void GameController::clear() {
     _cooldown = COOLDOWN;
     _starsFound = 0;
     _rootnode->removeChild(_panel);
-
 }
 
 
@@ -447,6 +446,9 @@ Vec2 GameController::getRelativePosition(const Vec2& physicalPosition, Vec2& cen
  */
 void GameController::update(float dt) {
 
+    if (_goalDoor == nullptr){
+        return;
+    }
     Size mapSize = _mapReader->getMapSize();
     Vec2 goal_pos = _goalDoor->getPosition();
     
@@ -479,13 +481,14 @@ void GameController::update(float dt) {
     
     // if didReplay, then reset with current level
     if (_failMenu->didReplay() || _winMenu->didReplay() || _pauseMenu->didReplay()){
+        CCLOG("%i,%i,%i",_failMenu->didReplay(),_winMenu->didReplay(),_pauseMenu->didReplay());
         _failMenu->resetStatus();
         _winMenu->resetStatus();
         _pauseMenu->resetStatus();
         reset();
     }
     
-    // if didNext, increase the current level and reset
+    // if didNext, increase the current level and regenerate
     if (_winMenu->didNext()){
         _winMenu->resetStatus();
         _currentLevel ++;
