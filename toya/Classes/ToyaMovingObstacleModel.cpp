@@ -160,7 +160,8 @@ void MovingObstacleModel::update(float dt) {
             }
         }
     }
-    else if(_currState == DEAD_STATE && _frameCount == 60) {
+    else if(_currState == DEAD_STATE && _frameCount == _columnCount * FRAME_PER_STEP) {
+
                  _parent->removeChild(getSceneNode());
                  _parentDebugNode->removeChild(getDebugNode());
                  
@@ -181,7 +182,7 @@ void MovingObstacleModel::setDead(cocos2d::Node *parent, cocos2d::Node *parentDe
     _parentDebugNode = parentDebugNode;
     _frameCount = 0;
     _world = world;
-    replaceAnimationTexture(1, 1, "stars");
+    replaceAnimationTexture(1, 1, "ghost_dead");
     
     obstacleIsDead = true;
 }

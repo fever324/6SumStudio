@@ -138,7 +138,14 @@
    </properties>
   </object>
  </objectgroup>
- <objectgroup name="volcano">
-  <object id="80" gid="24" x="605.176" y="515.375" width="64" height="64"/>
+ <objectgroup name="Volcanos">
+  <object id="80" gid="24" x="605.176" y="515.375" width="64" height="64">
+   <properties>
+    <property name="base_fire" value="vbase_fire"/>
+    <property name="base_pure" value="vbase_pure"/>
+    <property name="fire_ball" value="projector"/>
+    <property name="speed" type="int" value="1"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>
