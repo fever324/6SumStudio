@@ -184,7 +184,7 @@ public:
     void clear();
     
     void addObstacle(Obstacle* obj, int zOrder);
-//    void removeObstacle(BlockModel** objPtr);
+    void removeObstacle(Obstacle* obj);
     
     void addToWorldNode(PolygonNode* node, int priority);
     

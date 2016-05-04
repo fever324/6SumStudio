@@ -170,7 +170,13 @@ void WorldModel::update(float dt){
     _world->update(dt);
 //    _worldnode->update(dt);
 }
-
+void WorldModel::removeObstacle(Obstacle* obj){
+    _world->removeObstacle(obj);
+    if (obj->getSceneNode() != nullptr) {
+        _worldnode->removeChild(obj->getSceneNode());
+        _debugnode->removeChild(obj->getDebugNode());
+    }
+}
 void WorldModel::addObstacle(Obstacle* obj, int zOrder){
     _world->addObstacle(obj);
     if (obj->getSceneNode() != nullptr) {
