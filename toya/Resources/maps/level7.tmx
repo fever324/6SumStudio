@@ -145,10 +145,10 @@
     <property name="texture" value="ghosts"/>
    </properties>
   </object>
-  <object id="102" name="Bob" gid="17" x="66.0036" y="1343.68" width="64" height="64">
+  <object id="102" name="Bob" gid="17" x="124.761" y="1350.46" width="64" height="64">
    <properties>
     <property name="faceRight" type="bool" value="true"/>
-    <property name="point1X" type="float" value="7"/>
+    <property name="point1X" type="float" value="6"/>
     <property name="point1Y" type="float" value="0"/>
     <property name="speed" type="float" value="2"/>
     <property name="texture" value="ghosts"/>

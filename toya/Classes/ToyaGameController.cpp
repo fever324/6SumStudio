@@ -805,10 +805,10 @@ void GameController::beginContact(b2Contact* contact) {
         ghost->setDead(_theWorld->getWorldNode(), _theWorld->getDebugNode(), _theWorld->getWorld());
     }
     // See if the ghost hit a wall
-    else if (bd1->getName() == "ghost" || bd2->getName() == "ghost") {
-        MovingObstacleModel* ghost = bd1->getName() == "ghost" ? (MovingObstacleModel*)bd1 : (MovingObstacleModel*)bd2;
-        ghost->turnFace();
-    }
+//    else if (bd1->getName() == "ghost" || bd2->getName() == "ghost") {
+//        MovingObstacleModel* ghost = bd1->getName() == "ghost" ? (MovingObstacleModel*)bd1 : (MovingObstacleModel*)bd2;
+//        ghost->turnFace();
+//    }
     
     if((bd1->getName() == "avatar" && bd2->getName() == "lava") ||
        (bd1->getName() == "lava" && bd2->getName() == "avatar") ||
