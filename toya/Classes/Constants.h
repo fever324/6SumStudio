@@ -40,7 +40,7 @@
 #define MAGIC_POTION_NAME "magicPotion"
 
 #define DEBUG_COLOR     Color3B::RED
-#define PRIMARY_FONT        "retro"
+#define PRIMARY_FONT        "phosphate"
 
 #define DESTRUCTION_COST 1
 #define FREEZE_COST      2
@@ -69,7 +69,10 @@
 #define DEBUG_NODE_ORDER  4
 
 
-#define COOLDOWN    20
+#define COOLDOWN    50
+
+/** The default value of gravity (going down) */
+#define DEFAULT_GRAVITY -2.5f
 
 
 #endif /* Constants_h */

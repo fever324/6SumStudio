@@ -112,6 +112,10 @@
             "file":     "textures/stars.png",
             "wrap":     false
         },
+        "star":    {
+            "file":     "textures/star.png",
+            "wrap":     false
+        },
         "destroy_animation":    {
             "file":     "textures/destroy_animation.png",
             "wrap":     false
@@ -151,6 +155,22 @@
         "select_level": {
             "file":     "textures/select_level.png",
             "wrap":     false
+        },
+        "die_bear": {
+            "file":     "textures/dieBear.png",
+            "wrap":     false
+        },
+        "greystar": {
+            "file":     "textures/greystar.png",
+            "wrap":     false
+        },
+        "honey": {
+            "file":     "textures/honey.png",
+            "wrap":     false
+        },
+        "grey_honey": {
+            "file":     "textures/greyHoney.png",
+            "wrap":     false
         }
         
   	},
@@ -177,6 +197,10 @@
   	"fonts": {
         "retro": {
             "file":    "fonts/arial.ttf",
+            "size":     64.0
+        },
+        "phosphate": {
+            "file":    "fonts/Phosphate.ttc",
             "size":     64.0
         }
   	}

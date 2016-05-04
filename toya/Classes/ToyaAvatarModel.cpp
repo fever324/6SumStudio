@@ -1,15 +1,10 @@
 //
 //  ToyaAvatarModel.cpp
 //
-//  Author: Walker White
+//  Author: 6SumStudio
 //  Version: 1/15/15
 //
-
 #include "ToyaAvatarModel.h"
-#include <cornell/CUPolygonNode.h>
-#include <cornell/CUAssetManager.h>
-#include <cornell/CUSceneManager.h>
-#include "Constants.h"
 
 using namespace cocos2d;
 #define SIGNUM(x)  ((x > 0) - (x < 0))
@@ -342,6 +337,10 @@ void AvatarModel::applyForce() {
  *  Animates the avatar
  */
 void AvatarModel::animateAvatar() {
+    if(_isDead) {
+//        _avatarBody->setFrame(0);
+        return;
+    }
     if(_avatarBody->getFrame() == 0) {
         _cycle = 1;
     } else if (_avatarBody->getFrame() == AVATAR_ANIMATION_COLS-1) {

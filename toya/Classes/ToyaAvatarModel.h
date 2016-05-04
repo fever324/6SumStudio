@@ -15,6 +15,12 @@
 #include <cornell/CUCapsuleObstacle.h>
 #include <cornell/CUWireNode.h>
 
+#include <cornell/CUPolygonNode.h>
+#include <cornell/CUAssetManager.h>
+#include <cornell/CUSceneManager.h>
+#include "Constants.h"
+
+
 using namespace cocos2d;
 
 /** The texture for the character avatar */
@@ -30,11 +36,11 @@ using namespace cocos2d;
 /** The initial speed of avatar **/
 #define AVATAR_INITIAL_SPEED 0.5f
 /** The factor to multiply by the input */
-#define AVATAR_FORCE    10.0f
+#define AVATAR_FORCE   10.0f
 /** The amount to slow the character down */
-#define AVATAR_DAMPING    3.0f
+#define AVATAR_DAMPING    6.0f
 /** The maximum character speed */
-#define AVATAR_MAXSPEED    2.5f
+#define AVATAR_MAXSPEED    1.5f
 #define AVATAR_FRICTION 0.2f
 /** The density of the character */
 #define AVATAR_DENSITY    5.0f
@@ -249,8 +255,10 @@ public:
         _animationFrameCount = 0;
         int state = isGrounded() ? 0 : 2 * AVATAR_ANIMATION_COLS;
         int base = isFacingRight() ? state : state + AVATAR_ANIMATION_COLS;
-
-        _avatarBody->setFrame(base + AVATAR_ANIMATION_COLS - 1);
+        if(!_isDead){
+            _avatarBody->setFrame(base + AVATAR_ANIMATION_COLS - 1);
+        }
+        
 
     }
     
@@ -381,7 +389,27 @@ CC_CONSTRUCTOR_ACCESS:
 
     void reset();
     
-    void setDead(){ _isDead = true;}
+    bool isDead() {return _isDead;}
+    void setDead(){
+        if(_isDead) {
+            return;
+        }
+        _isDead = true;
+        SceneManager* assets =  AssetManager::getInstance()->getCurrent();
+ 
+        //        std::cout << _textureKey << endl;
+        Texture2D* image = assets->get<Texture2D>("die_bear");
+        
+        Sprite* sprite = Sprite::createWithTexture(image);
+        if(!_faceRight) {
+            sprite->setFlippedX(true);
+        }
+        FiniteTimeAction* fadeOut = FadeTo::create(1, 0.4);
+        sprite->runAction(fadeOut);
+        getSceneNode()->removeChild(_avatarBody);
+        getSceneNode()->addChild(sprite);
+        
+    }
     void setWin(){ _isWin = true;}
     
 private:
