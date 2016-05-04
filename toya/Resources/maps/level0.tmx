@@ -113,11 +113,7 @@
   </object>
  </objectgroup>
  <objectgroup name="MagicPotions" visible="0"/>
- <objectgroup name="Stars">
-  <object id="78" gid="22" x="1373.09" y="556.625" width="64" height="64"/>
-  <object id="79" gid="22" x="354.704" y="826.084" width="64" height="64"/>
-  <object id="80" gid="22" x="1433.62" y="809.32" width="64" height="64"/>
- </objectgroup>
+ <objectgroup name="Stars"/>
  <objectgroup name="Volcanos">
   <object id="86" gid="23" x="672.049" y="834.807" width="128" height="64">
    <properties>
