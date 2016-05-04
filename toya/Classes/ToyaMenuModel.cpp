@@ -140,7 +140,7 @@ bool MenuModel::init(std::string mtype, const Vec2& size, const Vec2& scale){
         
         
         winnode->setString("GOOD JOB");
-        winnode->setColor(DEBUG_COLOR);
+        // winnode->setColor(DEBUG_COLOR);
         winnode->setPosition(size.x/2.0f,size.y-100);
         winnode->setTTFConfig(AssetManager::getInstance()->getCurrent()->get<TTFont>(PRIMARY_FONT)->getTTF());
         
