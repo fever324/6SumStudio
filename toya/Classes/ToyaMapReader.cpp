@@ -90,7 +90,7 @@ void MapReader::createVolcano() {
         Vec2 Pos = (Vec2){x_pos/tileSize.width, y_pos/tileSize.height};
         MovingObstacleModel* projector = MovingObstacleModel::create(2, 4, 4, fire_ball, Pos, Size(1, 1), _scale, routes, fire_speed);
         gameController->addObstacle(projector, VOCALNO_PROJECT_DRAW_LAYER);
-        projector->setName("lava");
+        projector->setName("projector");
         
         Poly2 poly = Poly2(vertices);
         poly.triangulate();

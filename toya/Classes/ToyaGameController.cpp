@@ -802,7 +802,8 @@ void GameController::beginContact(b2Contact* contact) {
     if((bd1->getName() == "ghost" && bd2->getName() == "lava") ||
        (bd1->getName() == "lava" && bd2->getName() == "ghost")) {
         MovingObstacleModel* ghost = bd1->getName() == "ghost" ? (MovingObstacleModel*)bd1 : (MovingObstacleModel*)bd2;
-        _theWorld->removeObstacle(ghost);
+        ghost->setDead(_theWorld->getWorldNode(), _theWorld->getDebugNode(), _theWorld->getWorld());
+//        _theWorld->removeObstacle(ghost);
     }
     
     if((bd1->getName() == "avatar" && bd2->getName() == "lava") ||
@@ -833,7 +834,10 @@ void GameController::beginContact(b2Contact* contact) {
             _audio->playPickupPotion();
             _starsFound++;
         }
-        
+    }
+    
+    else if((bd1->getName() == "projector" && bd2->getName() == "ghost") || (bd1->getName() == "ghost" && bd2->getName() == "projector")) {
+        cout << "here" << endl;
     }
     
     // If we hit the "win" door, we are done
