@@ -341,7 +341,7 @@ void MenuModel::createLevelButtons(int count,const Vec2& size){
         Vec2 buttonPos = Vec2(size.x/8+60+i%4*size.x/4.0f, size.y-80- i/4*170);
         Button* levelButton = nullptr;
         
-        if(!pm->isLocked(i)){
+        if(pm->isLocked(i)){
             levelButton = createButton("textures/level"+std::to_string(i)+".png", buttonPos);
             levelButton->addTouchEventListener(CC_CALLBACK_2(MenuModel::levelButtonTouchEvent, this));
             

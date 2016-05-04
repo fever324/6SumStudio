@@ -68,6 +68,10 @@
             "file":     "textures/background2.png",
             "wrap":     false
         },
+        "background3": {
+            "file":     "textures/background3.jpg",
+            "wrap":     false
+        },
         "menubg": {
             "file":     "textures/menubg.png",
             "wrap":     false
@@ -82,7 +86,7 @@
         },
         "projector": {
             "file":     "textures/projector.png",
-            "wrap":     true
+            "wrap":     false
         },
         "vbase_fire": {
             "file":     "textures/vbase_fire.png",
