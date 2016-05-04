@@ -160,7 +160,8 @@ void MovingObstacleModel::update(float dt) {
             }
         }
     }
-    else if(_currState == DEAD_STATE && _frameCount == 60) {
+    else if(_currState == DEAD_STATE && _frameCount == _columnCount * FRAME_PER_STEP) {
+
                  _parent->removeChild(getSceneNode());
                  _parentDebugNode->removeChild(getDebugNode());
                  
