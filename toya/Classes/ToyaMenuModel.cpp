@@ -129,14 +129,14 @@ bool MenuModel::init(std::string mtype, const Vec2& size, const Vec2& scale){
         _timenode = Label::create();
         _timenode->setPosition(size.x/2.0f,size.y-300);
         _timenode->setTTFConfig(AssetManager::getInstance()->getCurrent()->get<TTFont>(PRIMARY_FONT)->getTTF());
-        _timenode->setScale(0.5);
+        _timenode->setScale(0.7);
         
         
         _collectionNode = Label::create();
-        _collectionNode->setPosition(size.x/2.0f - 50, size.y-300-50);
+        _collectionNode->setPosition(size.x/2.0f - 70, size.y-300-50);
         _collectionNode->setTTFConfig(AssetManager::getInstance()->getCurrent()->get<TTFont>(PRIMARY_FONT)->getTTF());
         _collectionNode->setString("Honey: ");
-        _collectionNode->setScale(0.5);
+        _collectionNode->setScale(0.7);
         
         
         winnode->setString("GOOD JOB");
@@ -192,7 +192,7 @@ bool MenuModel::init(std::string mtype, const Vec2& size, const Vec2& scale){
         _timenode = Label::create();
         _timenode->setPosition(size.x/2.0f,size.y-300);
         _timenode->setTTFConfig(AssetManager::getInstance()->getCurrent()->get<TTFont>(PRIMARY_FONT)->getTTF());
-        _timenode->setScale(0.5);
+        _timenode->setScale(0.7);
         
         Label* failnode = Label::create();
         failnode->setColor(DEBUG_COLOR);
@@ -529,17 +529,17 @@ void MenuModel::createHoney(Node* node) {
     grey2->setAnchorPoint(leftMid);
     grey3->setAnchorPoint(leftMid);
     
-    honey1->setScale(cscale * 0.5);
-    honey2->setScale(cscale * 0.5);
-    honey3->setScale(cscale * 0.5);
-    grey1->setScale(cscale * 0.5);
-    grey2->setScale(cscale * 0.5);
-    grey3->setScale(cscale * 0.5);
+    honey1->setScale(cscale);
+    honey2->setScale(cscale);
+    honey3->setScale(cscale);
+    grey1->setScale(cscale);
+    grey2->setScale(cscale);
+    grey3->setScale(cscale);
     
     Vec2 leftNodeSize = node->getContentSize();
     float y = node->getPosition().y;
-    float width = honey1->getContentSize().width * 0.5;
-    float x = node->getPosition().x + node->getContentSize().width/2 - 50;
+    float width = honey1->getContentSize().width;
+    float x = node->getPosition().x + node->getContentSize().width/2 -30;
     
     honey1->setPosition(Vec2(x,y));
     honey2->setPosition(Vec2(x+width,y));

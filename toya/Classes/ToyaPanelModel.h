@@ -28,6 +28,8 @@ private:
     int _currentMana;
     int _selection;
     
+    int _resetMagicCounter;
+    
     int _magicCoolDown;
     
     ui::CheckBox* _freezingSpellCB;
@@ -72,11 +74,7 @@ public:
         return _magicCoolDown == 0;
     }
     
-    void update(float dt) {
-        if (_magicCoolDown > 0) {
-            _magicCoolDown --;
-        }
-    }
+    void update(float dt);
     
 #pragma mark -
 #pragma mark Static Constructors
