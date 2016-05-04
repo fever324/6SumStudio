@@ -610,7 +610,7 @@
 						DevelopmentTeam = 9WEW4LG4VB;
 					};
 					5087E73D17EB910900C73F5D = {
-						DevelopmentTeam = 8DGY69RX2V;
+						DevelopmentTeam = 9WEW4LG4VB;
 					};
 				};
 			};
