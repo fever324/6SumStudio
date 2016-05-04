@@ -182,7 +182,7 @@ void MovingObstacleModel::setDead(cocos2d::Node *parent, cocos2d::Node *parentDe
     _parentDebugNode = parentDebugNode;
     _frameCount = 0;
     _world = world;
-    replaceAnimationTexture(1, 1, "stars");
+    replaceAnimationTexture(1, 1, "ghost_dead");
     
     obstacleIsDead = true;
 }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="30" height="25" tilewidth="64" tileheight="64" nextobjectid="81">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="30" height="25" tilewidth="64" tileheight="64" nextobjectid="87">
  <tileset firstgid="1" name="texture" tilewidth="64" tileheight="64" tilecount="1" columns="1">
   <image source="../textures/texture.png" width="64" height="64"/>
  </tileset>
@@ -29,6 +29,9 @@
  </tileset>
  <tileset firstgid="22" name="star" tilewidth="64" tileheight="64" tilecount="1" columns="1">
   <image source="../textures/star.png" width="120" height="120"/>
+ </tileset>
+ <tileset firstgid="23" name="volcano" tilewidth="128" tileheight="64" tilecount="1" columns="1">
+  <image source="../textures/volcano.png" width="128" height="64"/>
  </tileset>
  <layer name="rootLayer" width="30" height="25">
   <properties>
@@ -74,14 +77,6 @@
    eJxjYBgFo2AUjALqAaEB0i9EBTwKBh+gRrySE8ej9g5ve0fBKBiqAABFOwhf
   </data>
  </layer>
- <layer name="volcano" width="30" height="25" visible="0">
-  <properties>
-   <property name="texture" value="volcano"/>
-  </properties>
-  <data encoding="base64" compression="zlib">
-   eJztwTEBAAAAwqD1T20ND6AAAIB3Awu4AAE=
-  </data>
- </layer>
  <layer name="ice" width="30" height="25" visible="0">
   <properties>
    <property name="texture" value="ice_dirt"/>
@@ -106,11 +101,31 @@
    </properties>
   </object>
  </objectgroup>
- <objectgroup name="Ghosts" visible="0"/>
+ <objectgroup name="Ghosts">
+  <object id="85" gid="17" x="635.58" y="769.761" width="64" height="64">
+   <properties>
+    <property name="faceRight" type="bool" value="true"/>
+    <property name="point1X" type="float" value="3"/>
+    <property name="point1Y" type="float" value="0"/>
+    <property name="speed" type="float" value="2"/>
+    <property name="texture" value="ghosts"/>
+   </properties>
+  </object>
+ </objectgroup>
  <objectgroup name="MagicPotions" visible="0"/>
  <objectgroup name="Stars">
   <object id="78" gid="22" x="1373.09" y="556.625" width="64" height="64"/>
   <object id="79" gid="22" x="354.704" y="826.084" width="64" height="64"/>
   <object id="80" gid="22" x="1433.62" y="809.32" width="64" height="64"/>
+ </objectgroup>
+ <objectgroup name="Volcanos">
+  <object id="86" gid="23" x="672.049" y="834.807" width="128" height="64">
+   <properties>
+    <property name="base_fire" value="vbase_fire"/>
+    <property name="base_pure" value="vbase_pure"/>
+    <property name="fire_ball" value="projector"/>
+    <property name="speed" type="int" value="1"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>
