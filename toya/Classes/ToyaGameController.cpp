@@ -833,7 +833,10 @@ void GameController::beginContact(b2Contact* contact) {
             _audio->playPickupPotion();
             _starsFound++;
         }
-        
+    }
+    
+    else if((bd1->getName() == "projector" && bd2->getName() == "ghost") || (bd1->getName() == "ghost" && bd2->getName() == "projector")) {
+        cout << "here" << endl;
     }
     
     // If we hit the "win" door, we are done
