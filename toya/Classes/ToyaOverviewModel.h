@@ -110,6 +110,8 @@ CC_CONSTRUCTOR_ACCESS:
     
     void setEndTime(timestamp_t t){ endTime = t;}
     void setGameController(GameController* gc) { gameController = gc;}
+    ui::Button* getPauseButton() {return pauseButton;}
+
     
 #pragma mark - 
 #pragma mark Event Listeners
@@ -127,6 +129,7 @@ CC_CONSTRUCTOR_ACCESS:
     void reset();
     bool didPause(){ return paused;}
     bool didHelp(){ return showhelp;}
+    
 };
 
 #endif /* defined(__TOYA_OVERVIEW_MODEL_H__) */

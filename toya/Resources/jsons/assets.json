@@ -171,6 +171,10 @@
         "grey_honey": {
             "file":     "textures/greyHoney.png",
             "wrap":     false
+        },
+        "finger": {
+            "file":     "textures/finger.png",
+            "wrap":     false
         }
         
   	},

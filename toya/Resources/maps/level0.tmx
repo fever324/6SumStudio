@@ -28,7 +28,7 @@
   <image source="../textures/potion.png" width="64" height="64"/>
  </tileset>
  <tileset firstgid="22" name="star" tilewidth="64" tileheight="64" tilecount="1" columns="1">
-  <image source="../textures/star.png" width="64" height="64"/>
+  <image source="../textures/star.png" width="120" height="120"/>
  </tileset>
  <layer name="rootLayer" width="30" height="25">
   <properties>
@@ -47,7 +47,7 @@
    <property name="texture" value="rock"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJxjYBgFIwUw0RiP2otqL7XBqL2j9o7aO2rvqL3UsZfe9cIoGAXUAgDKYQEh
+   eJxjYBgF9AZMdMCD0V5qg1F7R+0dtXfU3lF7R+0lx96RVv/S295RQDsAAHG4AYc=
   </data>
  </layer>
  <layer name="grass" width="30" height="25">

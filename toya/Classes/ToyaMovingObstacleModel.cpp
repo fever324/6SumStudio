@@ -12,6 +12,8 @@
 
 #define ANIMATION_SPEED 13
 
+#define DEAD_STATE 3
+
 #pragma mark -
 #pragma mark Initializers
 
@@ -158,5 +160,28 @@ void MovingObstacleModel::update(float dt) {
             }
         }
     }
+    else if(_currState == DEAD_STATE && _frameCount == 60) {
+                 _parent->removeChild(getSceneNode());
+                 _parentDebugNode->removeChild(getDebugNode());
+                 
+                 _world->removeObstacle(this);
+                 
+                 _parent = nullptr;
+                 _parentDebugNode = nullptr;
+                 _world = nullptr;
+    }
     AnimationBoxModel::update(dt);
+}
+
+void MovingObstacleModel::setDead(cocos2d::Node *parent, cocos2d::Node *parentDebugNode, cocos2d::WorldController *world){
+    _currState = DEAD_STATE;
+    getBody()->SetActive(false);
+
+    _parent = parent;
+    _parentDebugNode = parentDebugNode;
+    _frameCount = 0;
+    _world = world;
+    replaceAnimationTexture(1, 1, "stars");
+    
+    obstacleIsDead = true;
 }
