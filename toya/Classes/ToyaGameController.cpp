@@ -1080,6 +1080,19 @@ void GameController::addTutorial(int i, Vec2 pos) {
         
         finger2->runAction(Sequence::create(expand2, shrink2,expand2, shrink2,expand2, shrink2,expand2, shrink2,expand2, shrink2,expand2, shrink2,expand2, shrink2,expand2, shrink2,expand2, shrink2,expand2, shrink2,expand2, shrink2,expand2, shrink2,expand2, shrink2,expand2, fadeOut2,NULL));
     } else if (i == 1) {
+        Sprite *fingers = Sprite::create("textures/swipe_finger.png");
+        fingers->setPosition(pos);
+        
+        _avatar->getSceneNode()->addChild(fingers);
+        
+        
+        FiniteTimeAction* left = MoveBy::create(0.5, Vec2(100.0, 0.0));
+        FiniteTimeAction* right = MoveBy::create(0.5, Vec2(-100.0, 0.0));
+        FiniteTimeAction* fadeout = FadeOut::create(2);
+        
+        fingers->runAction(Sequence::create(left,right,right,left,left,right,right,left,left,right,right,left,left,right,right,left,left,right,right,left,left,right,right,left,  fadeout, NULL));
+        
+        
         Sprite *finger = Sprite::create("textures/finger.png");
         finger->setAnchorPoint(Vec2(0, 0.5));
         finger->setPosition(0, -2);
