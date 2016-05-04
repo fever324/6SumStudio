@@ -175,6 +175,10 @@
         "finger": {
             "file":     "textures/finger.png",
             "wrap":     false
+        },
+        "ghost_dead": {
+            "file":     "textures/ghostDead.png",
+            "wrap":     false
         }
         
   	},
