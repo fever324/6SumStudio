@@ -451,6 +451,11 @@ void GameController::update(float dt) {
     }
     Size mapSize = _mapReader->getMapSize();
     Vec2 goal_pos = _goalDoor->getPosition();
+//    CCLOG("#############");
+//    CCLOG("%f,%f",_avatar->getPosition().x,_avatar->getPosition().y);
+//    CCLOG("%f,%f",_theWorld->getWorldNode()->getPosition().x,_theWorld->getWorldNode()->getPosition().y);
+//    CCLOG("%f,%f",_theWorld->getWorldNode()->getPosition().x/_avatar->getPosition().x,_theWorld->getWorldNode()->getPosition().y/_avatar->getPosition().y);
+//    CCLOG("%f,%f",mapSize.width,mapSize.height);
     
     if (_pretime > _maxPreTime - 2) {
         _overview->enableAllButton(false);
@@ -460,13 +465,13 @@ void GameController::update(float dt) {
     }
     if (_pretime == _maxPreTime - 2){
         _theWorld->stopFollow();
-        _nPos = goal_pos;
+        _nPos = Vec2(goal_pos.x-4,goal_pos.y-4);
     }
     if (_pretime > 0) {
         _pretime --;
         // move the world from the goal door to avatar
         // stop the follow
-        _nPos = Vec2(_nPos.x+(-_oPos.x/mapSize.width-goal_pos.x)/_maxPreTime,_nPos.y+(-_oPos.y/mapSize.height/2-goal_pos.y)/_maxPreTime);
+        _nPos = Vec2(_nPos.x+(-_oPos.x/mapSize.width-goal_pos.x+4)/_maxPreTime,_nPos.y+(-_oPos.y/mapSize.height/2-goal_pos.y+4)/_maxPreTime);
         _theWorld->getWorldNode()->setPosition(Vec2(-_nPos.x*mapSize.width,-_nPos.y*mapSize.height*2));
         
         return;
@@ -791,9 +796,13 @@ void GameController::beginContact(b2Contact* contact) {
                 Vec2 gravity = _theWorld->getGravity();
                 _theWorld->setGravity(-gravity*5);
             }
-            
-
         }
+    }
+    // destroy ghost if the lava met the ghost
+    if((bd1->getName() == "ghost" && bd2->getName() == "lava") ||
+       (bd1->getName() == "lava" && bd2->getName() == "ghost")) {
+        MovingObstacleModel* ghost = bd1->getName() == "ghost" ? (MovingObstacleModel*)bd1 : (MovingObstacleModel*)bd2;
+        _theWorld->removeObstacle(ghost);
     }
     
     if((bd1->getName() == "avatar" && bd2->getName() == "lava") ||
