@@ -835,7 +835,7 @@ void GameController::beginContact(b2Contact* contact) {
         // TODO: pause it
         double time = _overview->getCurrentPlayTime();
         int overallStar = getOverallStarCount(true, time, _starsFound);
-        _winMenu->showTime(time, overallStar);
+        _winMenu->showTime(time, _expectedPlayTime, overallStar, _starsFound);
         
         // Store the score in the file
         ProgressModel::getInstance()->writeData(_currentLevel, time, overallStar);
@@ -1001,10 +1001,7 @@ void GameController::displayDeathPanel() {
     _audio->audioTerminate();
     _audio->playDeathEffect();
     
-    setFail(true);
-    double time = _overview->getCurrentPlayTime();
-//    _failMenu->showTime(time, -1);
-    
+    setFail(true);    
 }
 
 int GameController::getOverallStarCount(bool levelCompleted,float time, int starsFound) {

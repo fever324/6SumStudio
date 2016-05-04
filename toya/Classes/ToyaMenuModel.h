@@ -28,6 +28,7 @@ private:
     CheckBox* pauseButton; //pause button
     Button* startButton;
     Label* _timenode;
+    Label* _collectionNode;
     
     
     // for level menu
@@ -59,7 +60,8 @@ private:
     std::map<int, Sprite*> _levelStarMap;
     
 protected:
-
+    // node is the time label to the left of the grey/bright honey icons
+    void createHoney(Node* node);
 public:
     
 CC_CONSTRUCTOR_ACCESS:
@@ -113,7 +115,7 @@ CC_CONSTRUCTOR_ACCESS:
     
     void createLevelButtons(int count, const Vec2& pos);
     
-    void createLevelStars(int count,const Vec2& scale, const Vec2& pos);
+    void createWinMenuStars(const Vec2& scale, const Vec2& pos);
     
     Button* createButton(const std::string& texture, const Vec2& pos);
     
@@ -169,37 +171,10 @@ CC_CONSTRUCTOR_ACCESS:
     
     void resetStatus(){_replay = false;_gomain = false; _next = false;_start = false; resetLevelButtons();}
     
-    void showTime(double time, int stars){
-        std::ostringstream s;
-        s << "Time Cost  " << time << std::endl;
-        _timenode->setString(s.str());
-        CC_ASSERT(stars>=1 && stars <=3);
-        // All stars are set to visible initially
-        // Index 0 - 2 are the normal bright star
-        // Index 3 - 4 are the dark grey star
-        if (stars == 1){
-            // index 3 and 4 are the grey stars in win menu
-            _levelStarMap[0]->setVisible(true);
-            _levelStarMap[1]->setVisible(false);
-            _levelStarMap[2]->setVisible(false);
-            _levelStarMap[3]->setVisible(true);
-            _levelStarMap[4]->setVisible(true);
-        } else if(stars ==2) {
-            _levelStarMap[0]->setVisible(true);
-            _levelStarMap[1]->setVisible(true);
-            _levelStarMap[2]->setVisible(false);
-            _levelStarMap[3]->setVisible(false);
-            _levelStarMap[4]->setVisible(true);
-        } else {
-            _levelStarMap[0]->setVisible(true);
-            _levelStarMap[1]->setVisible(true);
-            _levelStarMap[2]->setVisible(true);
-            _levelStarMap[3]->setVisible(false);
-            _levelStarMap[4]->setVisible(false);
-        }
-    }
+    void showTime(double time, double expectedTime, int stars, int nCollected);
     
     void resetLevelButtons();
+    
     
     
     void updateLevelButton(int level, std::string texture, std::string action){

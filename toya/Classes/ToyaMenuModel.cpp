@@ -107,17 +107,18 @@ bool MenuModel::init(std::string mtype, const Vec2& size, const Vec2& scale){
         LayerColor* bgColor = LayerColor::create(Color4B(0, 0, 0, 100));
         this->addChild(bgColor);
         
-        Button* replay = createButton(REPLAY_BUTTON_IMAGE, Vec2(341.33*cscale, 200));
-        Button* gomain = createButton(GOMAIN_BUTTON_IMAGE, Vec2(size.x/2.0f*cscale, 200));
-        Button* next = createButton(NEXT_BUTTON_IMAGE, Vec2(682*cscale, 200));
-        
-        replay->setScale(cscale);
-        gomain->setScale(cscale);
-        next->setScale(cscale);
+        Button* replay = Button::create(REPLAY_BUTTON_IMAGE);
+        Button* gomain = Button::create(GOMAIN_BUTTON_IMAGE);
+        Button* next = Button::create(NEXT_BUTTON_IMAGE);
+
         Vec2 mid = Vec2(0.5, 0.5);
         replay->setAnchorPoint(mid);
         gomain->setAnchorPoint(mid);
         next->setAnchorPoint(mid);
+        
+        replay->setPosition(Vec2(341.33, 100));
+        gomain->setPosition(Vec2(516, 100));
+        next->setPosition(Vec2(682, 100));
         
         replay->addTouchEventListener(CC_CALLBACK_2(MenuModel::replayButtonTouchEvent, this));
         gomain->addTouchEventListener(CC_CALLBACK_2(MenuModel::gomainButtonTouchEvent, this));
@@ -125,8 +126,16 @@ bool MenuModel::init(std::string mtype, const Vec2& size, const Vec2& scale){
         
         Label* winnode = Label::create();
         _timenode = Label::create();
+        
+        
         _timenode->setPosition(size.x/2.0f,size.y-300);
         _timenode->setTTFConfig(AssetManager::getInstance()->getCurrent()->get<TTFont>(PRIMARY_FONT)->getTTF());
+        
+        _collectionNode = Label::create();
+        _collectionNode->setPosition(size.x/2.0f, size.y-300-50);
+        _collectionNode->setTTFConfig(AssetManager::getInstance()->getCurrent()->get<TTFont>(PRIMARY_FONT)->getTTF());
+        
+        _collectionNode->setString("Honey: ");
         
         winnode->setString("VICTORY!");
         winnode->setColor(DEBUG_COLOR);
@@ -143,13 +152,15 @@ bool MenuModel::init(std::string mtype, const Vec2& size, const Vec2& scale){
         this->addChild(bg);
         
         
-        createLevelStars(3,scale,size);
+        createWinMenuStars(scale,size);
+        createHoney(_collectionNode);
         
         this->addChild(replay);
         this->addChild(gomain);
         this->addChild(next);
         this->addChild(winnode);
         this->addChild(_timenode);
+        this->addChild(_collectionNode);
 
     } else if (mtype == "levelFail") {
         /* create the fail page
@@ -187,24 +198,33 @@ bool MenuModel::init(std::string mtype, const Vec2& size, const Vec2& scale){
         failnode->setString("GAME OVER");
         failnode->setPosition(size.x/2.0f,size.y-200);
         failnode->setTTFConfig(AssetManager::getInstance()->getCurrent()->get<TTFont>(PRIMARY_FONT)->getTTF());
-        failnode->setScale(0.5);
+//        failnode->setScale(0.5);
         
         Texture2D* image = AssetManager::getInstance()->getCurrent()->get<Texture2D>("failbg");
         Sprite* bg = Sprite::createWithTexture(image);
-        bg->setScale(0.5);
-        bg->setPosition(Vec2(size.x/2.0f,size.y/2.0f));
-        bg->ignoreAnchorPointForPosition(true);
-        bg->setAnchorPoint(Vec2(-0.5,-0.5));
+        
+        Texture2D* deadBearIMG = AssetManager::getInstance()->getCurrent()->get<Texture2D>("die_bear");
+        Sprite* bearDeath = Sprite::createWithTexture(deadBearIMG);
+        bearDeath->setScale(2);
+        bearDeath->setPosition(size.x/2, size.y/2);
+        FiniteTimeAction* up = MoveTo::create(1, Vec2(size.x/2, size.y/2+20));
+        FiniteTimeAction* down = MoveTo::create(1, Vec2(size.x/2, size.y/2-20));
+        auto repeat = Sequence::create(up, down, NULL);
+        bearDeath->runAction(RepeatForever::create(repeat));
+
+        bg->setScale(cscale);
+        bg->setAnchorPoint(Vec2{0.5f, 0.5f});
+        bg->setPosition(Vec2(size.x/2, size.y/2));
+        
+
+
         
         this->addChild(bg);
-        
-        
-//        createLevelStars(6,scale,size);
-        
         this->addChild(replay);
         this->addChild(gomain);
         this->addChild(failnode);
         this->addChild(_timenode);
+        this->addChild(bearDeath);
 
     } else if (mtype == "pause") {
         /* create the pause page
@@ -258,7 +278,7 @@ MenuModel* MenuModel::create(std::string mtype,const Vec2& size){
     return nullptr;
 }
 
-void MenuModel::createLevelStars(int count, const Vec2& scale,const Vec2& screenSize){
+void MenuModel::createWinMenuStars(const Vec2& scale,const Vec2& screenSize){
     
     float cscale = Director::getInstance()->getContentScaleFactor();
 
@@ -482,6 +502,130 @@ void MenuModel::resetLevelButtons() {
             button->addChild(star);
 
         }
+    }
+}
+
+void MenuModel::createHoney(Node* node) {
+    
+    float cscale = Director::getInstance()->getContentScaleFactor();
+
+    Texture2D* honey = AssetManager::getInstance()->getCurrent()->get<Texture2D>("honey");
+    Texture2D* greyHoney = AssetManager::getInstance()->getCurrent()->get<Texture2D>("grey_honey");
+    
+    Sprite* honey1 = Sprite::createWithTexture(honey);
+    Sprite* honey2 = Sprite::createWithTexture(honey);
+    Sprite* honey3 = Sprite::createWithTexture(honey);
+    Sprite* grey1 = Sprite::createWithTexture(greyHoney);
+    Sprite* grey2 = Sprite::createWithTexture(greyHoney);
+    Sprite* grey3 = Sprite::createWithTexture(greyHoney);
+    
+    Vec2 leftMid = Vec2(0,0.5);
+    honey1->setAnchorPoint(leftMid);
+    honey2->setAnchorPoint(leftMid);
+    honey3->setAnchorPoint(leftMid);
+    grey1->setAnchorPoint(leftMid);
+    grey2->setAnchorPoint(leftMid);
+    grey3->setAnchorPoint(leftMid);
+    
+    honey1->setScale(cscale);
+    honey2->setScale(cscale);
+    honey3->setScale(cscale);
+    grey1->setScale(cscale);
+    grey2->setScale(cscale);
+    grey3->setScale(cscale);
+    
+    Vec2 leftNodeSize = node->getContentSize();
+    float y = node->getPosition().y;
+    float width = honey1->getContentSize().width;
+    float x = node->getPosition().x + node->getContentSize().width/2;
+    
+    honey1->setPosition(Vec2(x,y));
+    honey2->setPosition(Vec2(x+width,y));
+    honey3->setPosition(Vec2(x+width*2,y));
+    grey1->setPosition(Vec2(x,y));
+    grey2->setPosition(Vec2(x+width,y));
+    grey3->setPosition(Vec2(x+width*2,y));
+    
+    _levelStarMap[5] = honey1;
+    _levelStarMap[6] = honey2;
+    _levelStarMap[7] = honey3;
+    _levelStarMap[8] = grey1;
+    _levelStarMap[9] = grey2;
+    _levelStarMap[10] = grey3;
+    
+    addChild(honey1);
+    addChild(honey2);
+    addChild(honey3);
+    addChild(grey1);
+    addChild(grey2);
+    addChild(grey3);
+
+}
+
+void MenuModel::showTime(double time, double expectedTime, int stars, int nCollected) {
+    std::ostringstream s;
+    s << "Time:  " << time << "/" <<expectedTime <<std::endl;
+    _timenode->setString(s.str());
+    CC_ASSERT(stars>=1 && stars <=3);
+    // Index 0 - 2 are the normal bright star
+    // Index 3 - 4 are the dark grey star
+    // Index 5 - 7 are the bright honey
+    // Index 8 - 10 are the grey honey
+    if (stars == 1){
+        // index 3 and 4 are the grey stars in win menu
+        _levelStarMap[0]->setVisible(true);
+        _levelStarMap[1]->setVisible(false);
+        _levelStarMap[2]->setVisible(false);
+        _levelStarMap[3]->setVisible(true);
+        _levelStarMap[4]->setVisible(true);
+    } else if(stars ==2) {
+        _levelStarMap[0]->setVisible(true);
+        _levelStarMap[1]->setVisible(true);
+        _levelStarMap[2]->setVisible(false);
+        _levelStarMap[3]->setVisible(false);
+        _levelStarMap[4]->setVisible(true);
+    } else {
+        _levelStarMap[0]->setVisible(true);
+        _levelStarMap[1]->setVisible(true);
+        _levelStarMap[2]->setVisible(true);
+        _levelStarMap[3]->setVisible(false);
+        _levelStarMap[4]->setVisible(false);
+    }
+    
+    CC_ASSERT(nCollected >= 0 && nCollected <= 3);
+    
+    if (nCollected == 0) {
+        _levelStarMap[5]->setVisible(false);
+        _levelStarMap[6]->setVisible(false);
+        _levelStarMap[7]->setVisible(false);
+        _levelStarMap[8]->setVisible(true);
+        _levelStarMap[9]->setVisible(true);
+        _levelStarMap[10]->setVisible(true);
+
+    } else if (nCollected == 1) {
+        
+        _levelStarMap[5]->setVisible(true);
+        _levelStarMap[6]->setVisible(false);
+        _levelStarMap[7]->setVisible(false);
+        _levelStarMap[8]->setVisible(false);
+        _levelStarMap[9]->setVisible(true);
+        _levelStarMap[10]->setVisible(true);
+    } else if (nCollected == 2) {
+        
+        _levelStarMap[5]->setVisible(true);
+        _levelStarMap[6]->setVisible(true);
+        _levelStarMap[7]->setVisible(false);
+        _levelStarMap[8]->setVisible(false);
+        _levelStarMap[9]->setVisible(false);
+        _levelStarMap[10]->setVisible(true);
+    }else if (nCollected == 3) {
+        
+        _levelStarMap[5]->setVisible(true);
+        _levelStarMap[6]->setVisible(true);
+        _levelStarMap[7]->setVisible(true);
+        _levelStarMap[8]->setVisible(false);
+        _levelStarMap[9]->setVisible(false);
+        _levelStarMap[10]->setVisible(false);
     }
 }
 

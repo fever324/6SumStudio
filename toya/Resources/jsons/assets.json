@@ -163,6 +163,14 @@
         "greystar": {
             "file":     "textures/greystar.png",
             "wrap":     false
+        },
+        "honey": {
+            "file":     "textures/honey.png",
+            "wrap":     false
+        },
+        "grey_honey": {
+            "file":     "textures/greyHoney.png",
+            "wrap":     false
         }
         
   	},
