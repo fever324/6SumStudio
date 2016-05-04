@@ -75,15 +75,15 @@ void MapReader::createVolcano() {
         float x = volMap.at("x").asFloat()*cscale / tileSize.width;
         float y = volMap.at("y").asFloat()*cscale / tileSize.height + 2;
         vector<Vec2> vertices(0);
-        vertices.push_back(Vec2(x+0.1, y));
-        vertices.push_back(Vec2(x + 0.9, y));
-        vertices.push_back(Vec2(x + 0.9, y - 0.3));
-        vertices.push_back(Vec2(x + 1.5, y - 1));
-        vertices.push_back(Vec2(x - 0.5, y - 1));
-        vertices.push_back(Vec2(x + 0.1, y - 0.3));
+        vertices.push_back(Vec2(x+0.6, y));
+        vertices.push_back(Vec2(x + 1.4, y));
+        vertices.push_back(Vec2(x + 1.4, y - 0.3));
+        vertices.push_back(Vec2(x + 1.9, y - 1));
+        vertices.push_back(Vec2(x + 0.1, y - 1));
+        vertices.push_back(Vec2(x + 0.6, y - 0.3));
         
-        float x_pos = (x+0.5) * tileSize.width;
-        float y_pos = (y-0.35)*tileSize.height;
+        float x_pos = (x+1.0) * tileSize.width;
+        float y_pos = (y-0.5)*tileSize.height;
 
         vector<Vec2> routes = {(Vec2){x_pos, y_pos}, (Vec2){0.0f, 1.0f}};
         
@@ -97,7 +97,7 @@ void MapReader::createVolcano() {
         //                    layer->getProperty("texture").asString()
         Obstacle* obj = BlockFactory::getNonRemovableBlock(poly, _scale, vbase_pure);
         //                    Obstacle* obj = BlockFactory::getNonRemovableBlock(poly, _scale, "rock");
-        Obstacle* obj2 = BlockFactory::getRemovableBlock(Vec2(x+0.5,y-0.35), size, gameController->getScale(),vbase_fire);
+        Obstacle* obj2 = BlockFactory::getRemovableBlock(Vec2(x+1.0,y-0.35), size, gameController->getScale(),vbase_fire);
         gameController->addObstacle(obj, VOCALNO_BASE_DRAW_LAYER);
         gameController->addObstacle(obj2, VOCALNO_BASE_DRAW_LAYER);
         obj->setName("base");
@@ -257,7 +257,6 @@ int MapReader::createStars() {
     
     for(cocos2d::Value star : map->getObjectGroup("Stars")->getObjects()) {
         cocos2d::ValueMap starMap = star.asValueMap();
-//        string texture = starMap.at("texture").asString();
         string texture = "stars";
         
         float x_pos = starMap.at("x").asFloat()*cscale;
