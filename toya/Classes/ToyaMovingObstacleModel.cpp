@@ -49,7 +49,8 @@ bool MovingObstacleModel::init(int stateCount, int rowCount, int columnCount, st
     
     if(AnimationBoxModel::init(stateCount, rowCount, columnCount, textureKey, pos, size, scale, ANIMATION_SPEED)) {
         setName(MOVING_OBSTACLE_NAME);
-        setBodyType(b2_staticBody);
+        setBodyType(b2_dynamicBody);
+        setGravityScale(0.0);
         
         setFriction(0.0f);      // HE WILL STICK TO WALLS IF YOU FORGET
         setFixedRotation(true); // OTHERWISE, HE IS A WEEBLE WOBBLE
@@ -160,29 +161,31 @@ void MovingObstacleModel::update(float dt) {
             }
         }
     }
-    else if(_currState == DEAD_STATE && _frameCount == _columnCount * FRAME_PER_STEP) {
-
-                 _parent->removeChild(getSceneNode());
-                 _parentDebugNode->removeChild(getDebugNode());
-                 
-                 _world->removeObstacle(this);
-                 
-                 _parent = nullptr;
-                 _parentDebugNode = nullptr;
-                 _world = nullptr;
+    if(isDead() && _frameCount == _columnCount * FRAME_PER_STEP-1) {
+        getBody()->SetActive(false);
+        setIsAnimating(false);
+        _parent->removeChild(getSceneNode());
+        _parentDebugNode->removeChild(getDebugNode());
+     
+        _world->removeObstacle(this);
+     
+        _parent = nullptr;
+        _parentDebugNode = nullptr;
+        _world = nullptr;
     }
     AnimationBoxModel::update(dt);
 }
 
 void MovingObstacleModel::setDead(cocos2d::Node *parent, cocos2d::Node *parentDebugNode, cocos2d::WorldController *world){
-    _currState = DEAD_STATE;
-    getBody()->SetActive(false);
+//    _currState = DEAD_STATE;
+    _currState = 0;
+//    getBody()->SetActive(false);
 
     _parent = parent;
     _parentDebugNode = parentDebugNode;
     _frameCount = 0;
     _world = world;
-    replaceAnimationTexture(1, 1, "ghost_dead");
+    replaceAnimationTexture(1, 4, "ghost_dead");
     
     obstacleIsDead = true;
 }
