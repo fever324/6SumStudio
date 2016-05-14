@@ -1093,18 +1093,28 @@ void GameController::addTutorial(int i, Vec2 pos) {
         
         FiniteTimeAction* left = MoveBy::create(0.3, Vec2(100.0, 0.0));
         FiniteTimeAction* right = MoveBy::create(0.3, Vec2(-100.0, 0.0));
-        FiniteTimeAction* fadeout = FadeOut::create(0);
+        FiniteTimeAction* flip = FlipX::create(true);
+        FiniteTimeAction* flip_back = FlipX::create(false);
+        FiniteTimeAction* hide = FadeOut::create(0);
+        FiniteTimeAction* fadeout = FadeOut::create(0.5);
+        FiniteTimeAction* stay   = MoveBy::create(0.3, Vec2::ZERO);
         FiniteTimeAction* fadein = FadeIn::create(0.5);
         
-        swipe->runAction(Sequence::create(fadeout,left,fadein,right,right, fadeout, left, left,fadein,right,right, fadeout, left, left,fadein,right,right, fadeout, left, left,fadein,right,right, fadeout, left, left,fadein,right,right, fadeout, left, left,fadein,right,right, fadeout, left, left,fadein,right,right, fadeout, left, left,fadein,right,right, fadeout, left, left, NULL));
+        swipe->runAction(Sequence::create(hide,left,
+            fadein,right,right, fadeout, stay, flip, fadein, left, left, fadeout,stay,flip_back,
+            fadein,right,right, fadeout, stay, flip, fadein, left, left, fadeout,stay,flip_back,
+            fadein,right,right, fadeout, stay, flip, fadein, left, left, fadeout,stay,flip_back,
+            fadein,right,right, fadeout, stay, flip, fadein, left, left, fadeout,stay,flip_back,
+            fadein,right,right, fadeout, stay, flip, fadein, left, left, fadeout,stay,flip_back,
+            fadein,right,right, fadeout, stay, flip, fadein, left, left, fadeout, NULL));
         
         
         Sprite *finger = Sprite::create("textures/finger.png");
         finger->setAnchorPoint(Vec2(0, 0.5));
         finger->setPosition(0, -2);
 
-        FiniteTimeAction* expand1 = ScaleBy::create(0.5, 1.2);
-        FiniteTimeAction* shrink1 = ScaleBy::create(0.5, 0.83333);
+        FiniteTimeAction* expand1 = ScaleBy::create(0.5, 2.0);
+        FiniteTimeAction* shrink1 = ScaleBy::create(0.5, 0.5);
         FiniteTimeAction* fadeOut1 = FadeOut::create(0.5);
         FiniteTimeAction* fadeIn1 = FadeIn::create(0.5);
         
