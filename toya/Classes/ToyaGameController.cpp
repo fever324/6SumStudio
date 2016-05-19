@@ -350,6 +350,7 @@ void GameController::populate() {
     _goalDoor = _mapReader->createGoalDoor();
     _avatar   = _mapReader->createAvatar();
     _panel    = _mapReader->createMagicPanel();
+    _firstGhost = _mapReader->createMovingObstacles();
     _expectedPlayTime = _mapReader->getExpectedPlayTime();
     
     if(_currentLevel < 2) {
@@ -1018,10 +1019,12 @@ void GameController::preload() {
 }
 
 void GameController::displayDeathPanel() {
-    _audio->audioTerminate();
-    _audio->playDeathEffect();
-    
-    setFail(true);    
+    if(!_complete){
+        _audio->audioTerminate();
+        _audio->playDeathEffect();
+        
+        setFail(true);
+    }
 }
 
 int GameController::getOverallStarCount(bool levelCompleted,float time, int starsFound) {
@@ -1128,7 +1131,35 @@ void GameController::addTutorial(int i, Vec2 pos) {
         
         pauseButton->addChild(finger);
     } else if(i == 4) {
+        ui::CheckBox* freeze = _panel->getFreezeSpellCB();
+
+        Sprite *finger1 = Sprite::create("textures/finger1.png");
+        Sprite *finger2 = Sprite::create("textures/finger2.png");
         
+        finger1->setAnchorPoint(Vec2(0, 0.5));
+        finger1->setPosition(3, -20);
+        finger1->setScale(1.5);
+        
+        finger1->setAnchorPoint(Vec2(0, 0.5));
+        
+        FiniteTimeAction* expand1 = ScaleBy::create(0.5, 1.2);
+        FiniteTimeAction* shrink1 = ScaleBy::create(0.5, 0.83333);
+        FiniteTimeAction* fadeOut1 = FadeOut::create(0.5);
+        
+        
+        FiniteTimeAction* expand2 = ScaleBy::create(0.5, 1.2);
+        FiniteTimeAction* shrink2 = ScaleBy::create(0.5, 0.83333);
+        FiniteTimeAction* fadeOut2 = FadeOut::create(0.5);
+        
+        freeze->addChild(finger1);
+        finger2->setScale(0.5);
+        float finger2y = -20;
+        finger2->setPosition(Vec2(0, finger2y));
+        _firstGhost->getSceneNode()->addChild(finger2);
+        
+        finger1->runAction(Sequence::create(expand1,shrink1,expand1,shrink1,expand1,shrink1,expand1,shrink1,expand1,shrink1,expand1,shrink1,expand1,shrink1,expand1,shrink1,expand1,shrink1,expand1,shrink1,expand1,shrink1,expand1,shrink1,expand1,shrink1,expand1,shrink1,expand1,shrink1,fadeOut1,NULL));
+        
+        finger2->runAction(Sequence::create(expand2, shrink2,expand2, shrink2,expand2, shrink2,expand2, shrink2,expand2, shrink2,expand2, shrink2,expand2, shrink2,expand2, shrink2,expand2, shrink2,expand2, shrink2,expand2, shrink2,expand2, shrink2,expand2, shrink2,expand2, fadeOut2,NULL));
     }
  
 

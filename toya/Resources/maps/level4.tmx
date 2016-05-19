@@ -40,7 +40,7 @@
   <properties>
    <property name="backgroundImage" value="background"/>
    <property name="gravity" type="int" value="9"/>
-   <property name="initialMagicPoints" type="int" value="1"/>
+   <property name="initialMagicPoints" type="int" value="5"/>
    <property name="maxMagicPoints" type="int" value="10"/>
    <property name="time" type="int" value="40"/>
   </properties>
@@ -105,12 +105,12 @@
   </object>
  </objectgroup>
  <objectgroup name="Ghosts">
-  <object id="63" name="Sarah" gid="17" x="957.614" y="359.727" width="64" height="64">
+  <object id="63" name="Sarah" gid="17" x="889.525" y="316.604" width="64" height="64">
    <properties>
     <property name="faceRight" type="bool" value="false"/>
     <property name="point1X" type="float" value="0"/>
     <property name="point1Y" type="float" value="-2"/>
-    <property name="speed" value="1"/>
+    <property name="speed" value="2"/>
     <property name="texture" value="ghosts"/>
    </properties>
   </object>
@@ -124,7 +124,7 @@
   </object>
  </objectgroup>
  <objectgroup name="Volcanos">
-  <object id="80" gid="24" x="605.176" y="515.375" width="64" height="64">
+  <object id="80" gid="24" x="673.265" y="828.584" width="64" height="64">
    <properties>
     <property name="base_fire" value="vbase_fire"/>
     <property name="base_pure" value="vbase_pure"/>

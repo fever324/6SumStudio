@@ -21,6 +21,7 @@
 #include "ToyaExitDoorModel.h"
 #include "ToyaMenuModel.h"
 #include "ToyaAudioController.h"
+#include "ToyaMovingObstacleModel.h"
 
 #include <Box2D/Dynamics/Contacts/b2Contact.h>
 #include <Box2D/Collision/b2Collision.h>
@@ -84,6 +85,10 @@ protected:
     BoxObstacle* _barrier;
     BoxObstacle* _barrier1;
     BoxObstacle* _barrier2;
+    
+    // This ghost reference is for tutorial prupose.
+    // Should not be used anywhere else
+    MovingObstacleModel* _firstGhost;
 
     /** Reference to the player avatar */
     AvatarModel* _avatar;

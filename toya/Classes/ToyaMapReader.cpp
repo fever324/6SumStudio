@@ -198,20 +198,20 @@ void MapReader::createNonRemovableBlocks() {
     }
 }
 
-void MapReader::createMovingObstacles() {
+MovingObstacleModel* MapReader::createMovingObstacles() {
     Vec2 _scale = gameController->getScale();
     
     if (map->getObjectGroup("Ghosts") == nullptr){
-        return;
+        return nullptr;
     }
-    
+    MovingObstacleModel* firstGhost = nullptr;
     for(cocos2d::Value ghost : map->getObjectGroup("Ghosts")->getObjects()) {
         cocos2d::ValueMap ghostMap = ghost.asValueMap();
         string texture = ghostMap.at("texture").asString();
         
         float x_pos = ghostMap.at("x").asFloat()*cscale;
 
-        float y_pos = ghostMap.at("y").asFloat()*cscale + 1.5*tileSize.height;
+        float y_pos = ghostMap.at("y").asFloat()*cscale + tileSize.height;
         
 //        CCLOG("%f,%f", x_pos,y_pos);
         
@@ -221,7 +221,11 @@ void MapReader::createMovingObstacles() {
         MovingObstacleModel* ghostObj = MovingObstacleModel::create(2, 4, 4, texture, ghostPos, Size(1, 1), _scale, routes, ghostMap.at("speed").asFloat());
         gameController->addObstacle(ghostObj, BARRIER_DRAW_LAYER);
         ghostObj->setName("ghost");
+        if(firstGhost == nullptr) {
+            firstGhost = ghostObj;
+        }
     }
+    return firstGhost;
 }
 
 void MapReader::createMagicPotions() {

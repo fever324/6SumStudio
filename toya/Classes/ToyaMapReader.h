@@ -14,6 +14,7 @@
 #include "ToyaGameController.h"
 #include "ToyaExitDoorModel.h"
 #include "Constants.h"
+#include "ToyaMovingObstacleModel.h"
 
 #define DIRT_LAYER "dirt"
 #define ROCK_LAYER "rock"
@@ -70,7 +71,6 @@ public:
         createBackground();
         createRemovableBlocks();
         createNonRemovableBlocks();
-        createMovingObstacles();
         createMagicPotions();
         createLava();
         createVolcano();
@@ -87,7 +87,7 @@ public:
     void createVolcano();
     
     void createBackground();
-    void createMovingObstacles();
+    MovingObstacleModel* createMovingObstacles();
     void createMagicPotions();
     
     int getExpectedPlayTime();
