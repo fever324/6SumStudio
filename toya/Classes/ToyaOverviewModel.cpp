@@ -1,9 +1,9 @@
 #include "ToyaOverviewModel.h"
 
 
-#define OVERVIEW_BUTTON_NORMAL "textures/pauseButton.png"
-#define OVERVIEW_BUTTON_PRESSED "textures/pauseButton.png"
-#define OVERVIEW_BUTTON_DISABLE "textures/pauseButton_disable.png"
+#define OVERVIEW_BUTTON_NORMAL "textures/map.png"
+#define OVERVIEW_BUTTON_PRESSED "textures/map.png"
+#define OVERVIEW_BUTTON_DISABLE "textures/map.png"
 
 #define RESET_BUTTON_IMAGE "textures/resetButton.png"
 #define HELP_BUTTON_NORMAL "textures/helpButton.png"

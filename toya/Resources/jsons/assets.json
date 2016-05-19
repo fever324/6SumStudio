@@ -183,6 +183,11 @@
         "ghost_dead": {
             "file":     "textures/ghostDead.png",
             "wrap":     false
+        },
+        
+        "map_icon": {
+            "file":     "textures/map.png",
+            "wrap":     false
         }
         
   	},
