@@ -128,7 +128,7 @@ bool AvatarModel::init(const Vec2& pos, const Vec2& scale) {
     // Multiply by the scaling factor so we can be resolution independent
 //    Size avatarSize = Size(64*cscale*AVATAR_SHRINK/scale.x,80*cscale*AVATAR_SHRINK/scale.y);
     
-    Size avatarSize = Size(64/cscale/scale.x/AVATAR_SHRINK*0.65f,80/cscale/scale.y/AVATAR_SHRINK);
+    Size avatarSize = Size(64/cscale/scale.x/AVATAR_SHRINK*0.65f,80/cscale/scale.y/AVATAR_SHRINK*0.8f);
 //    Size avatarSize = Size(64/cscale/WORLD_SCALE_X/(scale.x/32)/AVATAR_SHRINK*0.65f,80/cscale/WORLD_SCALE_Y/(scale.y/32)/AVATAR_SHRINK);
     
     if (CapsuleObstacle::init(pos, avatarSize)) {
@@ -391,7 +391,7 @@ void AvatarModel::resetSceneNode() {
         _avatarBody = AnimationNode::create(image, AVATAR_ANIMATION_ROWS, AVATAR_ANIMATION_COLS, AVATAR_FRAMES);
         
         pnode->addChild(_avatarBody);
-        _avatarBody->setPosition(pnode->getContentSize().width/2.0f,pnode->getContentSize().height/2.0f);
+        _avatarBody->setPosition(pnode->getContentSize().width/2.0f,pnode->getContentSize().height/2.0f+6);
         
         _avatarBody->setFrame(0);
         

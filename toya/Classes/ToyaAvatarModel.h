@@ -255,6 +255,7 @@ public:
         _animationFrameCount = 0;
         int state = isGrounded() ? 0 : 2 * AVATAR_ANIMATION_COLS;
         int base = isFacingRight() ? state : state + AVATAR_ANIMATION_COLS;
+        
         if(!_isDead){
             _avatarBody->setFrame(base + AVATAR_ANIMATION_COLS - 1);
         }
