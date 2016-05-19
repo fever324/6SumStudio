@@ -580,7 +580,7 @@ void GameController::update(float dt) {
         _theWorld->setGravity(newGravity);
     }
     
-    if(_input->didSwipe()) {
+    if(!_overview->didPause() && _input->didSwipe()) {
         int direction = _input->getSwipeDirection();
         _avatar->setFacingRight(direction == 1);
     }
