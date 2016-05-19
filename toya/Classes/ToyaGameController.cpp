@@ -568,7 +568,7 @@ void GameController::update(float dt) {
         
         float cRotation = _theWorld->getRotation() + _input->getTurning()*2.0f;
         
-        if (cRotation > 360.0f) {
+        while (cRotation > 360.0f) {
             cRotation -= 360.0f;
         }
         _theWorld->setRotation(cRotation);
@@ -846,17 +846,20 @@ void GameController::beginContact(b2Contact* contact) {
     else if((body1->GetUserData() == _avatar && body2->GetUserData() == _goalDoor) ||
             (body1->GetUserData() == _goalDoor && body2->GetUserData() == _avatar)) {
         _goalDoor->open();
-        _audio->audioTerminate();
-        _audio->playEffect(WIN_EFFECT);
-        setComplete(true);
+        if(!_complete){
+            _audio->audioTerminate();
+            _audio->playEffect(WIN_EFFECT);
+            setComplete(true);
+            // TODO: pause it
+            double time = _overview->getCurrentPlayTime();
+            int overallStar = getOverallStarCount(true, time, _starsFound);
+            _winMenu->showTime(time, _expectedPlayTime, overallStar, _starsFound);
+            
+            // Store the score in the file
+            ProgressModel::getInstance()->writeData(_currentLevel, time, overallStar);
+
+        }
         _avatar->setLinearVelocity(Vec2(0.0f, 0.0f));
-        // TODO: pause it
-        double time = _overview->getCurrentPlayTime();
-        int overallStar = getOverallStarCount(true, time, _starsFound);
-        _winMenu->showTime(time, _expectedPlayTime, overallStar, _starsFound);
-        
-        // Store the score in the file
-        ProgressModel::getInstance()->writeData(_currentLevel, time, overallStar);
     }
     // See if we have hit a wall.
     else if ((_avatar->getLeftSensorName() == fd2 && _avatar != bd1) ||
@@ -1124,6 +1127,8 @@ void GameController::addTutorial(int i, Vec2 pos) {
         finger->runAction(Sequence::create(expand1,shrink1,expand1,shrink1,expand1,shrink1,expand1,shrink1,expand1,shrink1,expand1,shrink1,expand1,shrink1,expand1,shrink1,expand1,shrink1,expand1,shrink1,expand1,shrink1,expand1,shrink1,expand1,shrink1,expand1,shrink1,expand1,shrink1,expand1,shrink1,expand1,shrink1,fadeOut1,NULL));
         
         pauseButton->addChild(finger);
+    } else if(i == 4) {
+        
     }
  
 
