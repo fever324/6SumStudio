@@ -166,8 +166,8 @@ void OverviewModel::setGameController(GameController *gc, bool showTutorial)  {
     gameController = gc;
     this->setShowTutorial(showTutorial);
     if(showTutorial){
-        gameController->getRootNode()->addChild(leftZoom, 3);
-        gameController->getRootNode()->addChild(rightZoom, 3);
+        gameController->getRootNode()->addChild(leftZoom, 9);
+        gameController->getRootNode()->addChild(rightZoom, 9);
     }
 }
 void OverviewModel::enableButton(bool value) {

@@ -31,14 +31,14 @@
 #define GRASS_DIRT_TEXTURE "grass"
 
 #define REMOVABLE_DRAW_LAYER     3
-#define NONREMOVABLE_DRAW_LAYER  1
+#define NONREMOVABLE_DRAW_LAYER  2
 #define GOAL_DRAW_LAYER          3
-#define AVATAR_DRAW_LAYER        4
+#define AVATAR_DRAW_LAYER        5
 #define BARRIER_DRAW_LAYER       4
-#define POTION_DRAW_LAYER        5
-#define STAR_DRAW_LAYER          1
+#define POTION_DRAW_LAYER        8
+#define STAR_DRAW_LAYER          7
 #define VOCALNO_BASE_DRAW_LAYER       6
-#define VOCALNO_PROJECT_DRAW_LAYER       2
+#define VOCALNO_PROJECT_DRAW_LAYER       1
 
 static float BLOCK_SIZE[] = {1, 1};
 

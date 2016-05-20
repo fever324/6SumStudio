@@ -210,7 +210,7 @@
     <property name="speed" type="int" value="1"/>
    </properties>
   </object>
-  <object id="98" gid="26" x="574.021" y="1532.65" width="128" height="64">
+  <object id="98" gid="26" x="579.291" y="1535.81" width="128" height="64">
    <properties>
     <property name="base_fire" value="vbase_fire"/>
     <property name="base_pure" value="vbase_pure"/>
