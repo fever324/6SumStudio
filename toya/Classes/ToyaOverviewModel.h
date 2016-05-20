@@ -112,7 +112,7 @@ CC_CONSTRUCTOR_ACCESS:
     double getCurrentPlayTime();
     
     void setEndTime(timestamp_t t){ endTime = t;}
-    void setGameController(GameController* gc, bool showTutorial) { gameController = gc; this->setShowTutorial(showTutorial);}
+    void setGameController(GameController* gc, bool showTutorial);
     ui::Button* getPauseButton() {return pauseButton;}
 
     
