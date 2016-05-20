@@ -164,7 +164,7 @@ bool AvatarModel::init(const Vec2& pos, const Vec2& scale) {
         _bigHead = Sprite::createWithTexture(bigHeadTexture);
         getSceneNode()->addChild(_bigHead);
         _bigHead->setVisible(false);
-        
+        _bigHead->setScale(2.0, 2.0);
         FiniteTimeAction* expand = ScaleBy::create(0.3, 1.2);
         FiniteTimeAction* shrink = ScaleBy::create(0.3, 0.83333);
         

@@ -82,6 +82,8 @@ bool OverviewModel::init(const Vec2& pos, const Vec2& scale){
     leftZoom->runAction(r1);
     rightZoom->runAction(r2);
     
+    leftZoom->setVisible(false);
+    rightZoom->setVisible(false);
     
     //1024 * 768
     leftZoom->setPosition(256, 256);
@@ -160,10 +162,16 @@ void OverviewModel::enableAllButton(bool value) {
     helpButton->setTouchEnabled(value);
 }
 
+void OverviewModel::setGameController(GameController *gc, bool showTutorial)  {
+    gameController = gc;
+    this->setShowTutorial(showTutorial);
+    if(showTutorial){
+        gameController->getRootNode()->addChild(leftZoom, 3);
+        gameController->getRootNode()->addChild(rightZoom, 3);
+    }
+}
 void OverviewModel::enableButton(bool value) {
-//    pauseButton->setEnabled(value);
     helpButton->setEnabled(value);
-//    pauseButton->setTouchEnabled(value);
     helpButton->setTouchEnabled(value);
 }
 
@@ -172,8 +180,8 @@ void OverviewModel::pauseButtonPressed() {
     paused = true;
     gameController->setMap(true);
     if(showTutorial) {
-        gameController->getRootNode()->addChild(leftZoom, 3);
-        gameController->getRootNode()->addChild(rightZoom, 3);
+        leftZoom->setVisible(true);
+        rightZoom->setVisible(true);
     }
 }
 
@@ -184,8 +192,8 @@ void OverviewModel::resumeFromPause() {
     if (!showhelp) {
         gameController->setMap(false);
         if(showTutorial){
-            gameController->getRootNode()->removeChild(leftZoom);
-            gameController->getRootNode()->removeChild(rightZoom);
+            leftZoom->setVisible(false);
+            rightZoom->setVisible(false);
         }
     }
     showhelp = false;

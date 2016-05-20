@@ -204,6 +204,10 @@
         "lava_sprite": {
             "file":     "textures/lavasprite.png",
             "wrap":     false
+        },
+        "arrow": {
+            "file":     "textures/arrow.png",
+            "wrap":     false
         }
         
   	},
