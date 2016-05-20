@@ -128,7 +128,7 @@ bool AvatarModel::init(const Vec2& pos, const Vec2& scale) {
     // Multiply by the scaling factor so we can be resolution independent
 //    Size avatarSize = Size(64*cscale*AVATAR_SHRINK/scale.x,80*cscale*AVATAR_SHRINK/scale.y);
     
-    Size avatarSize = Size(64/cscale/scale.x/AVATAR_SHRINK*0.65f,80/cscale/scale.y/AVATAR_SHRINK*0.8f);
+    Size avatarSize = Size(64/cscale/scale.x/AVATAR_SHRINK*0.65f,76/cscale/scale.y/AVATAR_SHRINK*0.8f);
 //    Size avatarSize = Size(64/cscale/WORLD_SCALE_X/(scale.x/32)/AVATAR_SHRINK*0.65f,80/cscale/WORLD_SCALE_Y/(scale.y/32)/AVATAR_SHRINK);
     
     
