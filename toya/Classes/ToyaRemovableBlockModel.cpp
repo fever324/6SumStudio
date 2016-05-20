@@ -7,6 +7,8 @@
 #include <cornell/CUAssetManager.h>
 #include <cornell/CUSceneManager.h>
 #include <SimpleAudioEngine.h>
+#include <ctime>
+
 
 #define DESTROY_STATE 1
 #define DESTROY_EFFECT "audios/destroy.wav"
@@ -48,7 +50,9 @@ bool RemovableBlockModel::init(int stateCount, int rowCount, int columnCount, st
     AnimationBoxModel::init(stateCount, rowCount, columnCount, textureKey, pos, size, scale, ANIMATION_SPEED);
     setName(REMOVABLE_OBJECT_NAME);
     setBodyType(b2_staticBody);
-
+    
+    _animationNode->setFrame(rand()%columnCount);
+    destroyed = false;
     setIsAnimating(false);
     return true;
 }
@@ -59,6 +63,7 @@ void RemovableBlockModel::destroy(Node* parent, Node* parentDebugNode, WorldCont
     _parentDebugNode = parentDebugNode;
     _frameCount = 0;
     _world = world;
+    destroyed = true;
     
     replaceAnimationTexture(1, 4, "destroy_animation");
     _animationNode->setFrame(0);
@@ -68,9 +73,10 @@ void RemovableBlockModel::destroy(Node* parent, Node* parentDebugNode, WorldCont
 }
 
 void RemovableBlockModel::update(float dt) {
-
+    
     AnimationBoxModel::update(dt);
-    if(_frameCount == _columnCount * FRAME_PER_STEP) {
+    
+    if(destroyed && _frameCount == _columnCount * FRAME_PER_STEP) {
         _parent->removeChild(this->getSceneNode());
         _parentDebugNode->removeChild(this->getDebugNode());
         

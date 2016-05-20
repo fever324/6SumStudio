@@ -95,7 +95,8 @@ public:
 //    }
     
     static RemovableBlockModel* getRemovableBlock(const Vec2& pos, const Size& size, Vec2 scale, const std::string textureKey);
-    
+    static RemovableBlockModel* getRemovableBlock(int rowCount, int colCount, const Vec2& pos, const Size& size, Vec2 scale, const std::string textureKey);
+
     static PolygonObstacle* getNonRemovableBlock(const Poly2& poly, const Vec2& scale,
                                               const std::string& texture) {
         return getNonRemovableBlock(poly, scale, texture, true);

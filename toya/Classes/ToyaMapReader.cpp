@@ -50,7 +50,11 @@ void MapReader::createLavaBlocks(TMXLayer* layer) {
                 
                 if (tileSprite) {
                     Obstacle* obj = BlockFactory::getRemovableBlock(Vec2(x+0.5,layerSize.height-y-0.5), size, gameController->getScale(),layer->getProperty("texture").asString());
-                    gameController->addObstacle(obj, REMOVABLE_DRAW_LAYER);
+
+//                    AnimationBoxModel* obj = BlockFactory::getRemovableBlock(1,2,Vec2(x+0.5,layerSize.height-y-0.5), size, gameController->getScale(),"lava_sprite");
+                    
+//                    obj->setIsAnimating(true);
+                    gameController->addObstacle((Obstacle*)obj, REMOVABLE_DRAW_LAYER);
                     obj->setName("lava");
                 }
             }

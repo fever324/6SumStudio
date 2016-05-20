@@ -8,6 +8,14 @@ RemovableBlockModel* BlockFactory::getRemovableBlock(const Vec2& pos, const Size
     return removableBlock;
 }
 
+RemovableBlockModel* BlockFactory::getRemovableBlock(int rowCount, int colCount, const Vec2& pos, const Size& size, Vec2 scale, std::string textureKey) {
+    RemovableBlockModel* removableBlock = RemovableBlockModel::create(1, rowCount, colCount, textureKey, pos, size, scale);
+    return removableBlock;
+}
+
+
+
+
 MovingObstacleModel* BlockFactory::getMovingObstacle(int stateCount, int rowCount, int columnCount, std::string textureKey, const Vec2& pos, const Size& size, Vec2 scale, std::vector<Vec2>& routes, float speed, int faceRight) {
     MovingObstacleModel* movingObstacle = MovingObstacleModel::create(stateCount, rowCount, columnCount, textureKey, pos, size, scale, routes, speed);
     return movingObstacle;

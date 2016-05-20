@@ -27,6 +27,7 @@ class RemovableBlockModel : public AnimationBoxModel {  // Block demo game contr
 private:
     Node* _parent;
     Node* _parentDebugNode;
+    bool destroyed;
     WorldController* _world;
 public:
     static RemovableBlockModel* create(int stateCount, int rowCount, int columnCount, std::string textureKey, const Vec2& pos, const Size& size, Vec2 scale);

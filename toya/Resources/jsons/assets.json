@@ -200,6 +200,10 @@
         "right_zoom": {
             "file":     "textures/right-finger.png",
             "wrap":     false
+        },
+        "lava_sprite": {
+            "file":     "textures/lavasprite.png",
+            "wrap":     false
         }
         
   	},
