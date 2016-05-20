@@ -526,6 +526,7 @@ void GameController::update(float dt) {
         if(_input->didZoom()) {
             float originalScale = _theWorld->getWorldNode()->getScale();
             if(originalScale <= 0.2) originalScale = 0.2;
+            if(originalScale >= 1.5) originalScale = 1.5;
             _theWorld->getWorldNode()->setScale(originalScale+_input->getZoom()/1000);
         }
         
