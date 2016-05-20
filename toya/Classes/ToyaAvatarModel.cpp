@@ -336,12 +336,13 @@ void AvatarModel::applyForce() {
     }
     
     // Velocity too high, clamp it
-    if (fabs(getVX()) >= getMaxSpeed()) {
-        setVX(SIGNUM(getVX())*getMaxSpeed());
+    if (fabs(_body->GetLinearVelocity().x) >= getMaxSpeed() || fabs(_body->GetLinearVelocity().y) >= getMaxSpeed()) {
+//        setVX(SIGNUM(getVX())*getMaxSpeed());
     } else {
         float angle = getAngle();
 //        float 
         b2Vec2 force(getMovement()* cos(angle),getMovement() * sin(angle));
+        
 
         _body->ApplyForce(force,_body->GetPosition(),true);
     }

@@ -75,7 +75,7 @@
 #define DEFAULT_GRAVITY -2.5f
 
 
-#define ROCK_FRICTION 0.8
+#define ROCK_FRICTION 0.6
 #define DIRT_FRICTION 0.5
 #define ICE_FRICTION 0.01
 #define SAND_FRICTION 5

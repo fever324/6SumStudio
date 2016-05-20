@@ -408,7 +408,6 @@ void GameController::addObstacle(Obstacle* obj, int zOrder) {
 
 Vec2 GameController::getRelativePosition(const Vec2& physicalPosition, Vec2& centerPosition, float turningAngle) {
     
-    CCLOG("%f,%f",physicalPosition.x,physicalPosition.y);
     
     Vec2 centerPosition_p = Vec2{512.0f, 288.0f};
     float dist = physicalPosition.getDistance(centerPosition_p);
@@ -430,7 +429,6 @@ Vec2 GameController::getRelativePosition(const Vec2& physicalPosition, Vec2& cen
     float relativeY = centerPosition.y - WORLD_SCALE_Y/2 + originalY / 576.0f * WORLD_SCALE_Y;
     Vec2 relativePosition = *new Vec2(relativeX, relativeY);
     
-    CCLOG("%f,%f",relativePosition.x,relativePosition.y);
     
     return relativePosition;
 }
@@ -487,7 +485,6 @@ void GameController::update(float dt) {
     
     // if didReplay, then reset with current level
     if (_failMenu->didReplay() || _winMenu->didReplay() || _pauseMenu->didReplay()){
-        CCLOG("%i,%i,%i",_failMenu->didReplay(),_winMenu->didReplay(),_pauseMenu->didReplay());
         _failMenu->resetStatus();
         _winMenu->resetStatus();
         _pauseMenu->resetStatus();
