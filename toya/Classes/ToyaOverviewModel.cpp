@@ -77,8 +77,8 @@ bool OverviewModel::init(const Vec2& pos, const Vec2& scale){
     RepeatForever* r1 = RepeatForever::create(leftSequence);
     RepeatForever* r2 = RepeatForever::create(rightSequence);
     
-    leftZoom->setScale(2.0, 2.0);
-    rightZoom->setScale(2.0, 2.0);
+    leftZoom->setScale(0.5);
+    rightZoom->setScale(0.5);
     leftZoom->runAction(r1);
     rightZoom->runAction(r2);
     
