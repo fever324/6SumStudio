@@ -21,6 +21,7 @@
 #include "Constants.h"
 
 
+
 using namespace cocos2d;
 
 /** The texture for the character avatar */
@@ -68,6 +69,9 @@ private:
 protected:
     /** Avatar body animation node */
     AnimationNode* _avatarBody;
+    
+    /** Big head of avatar for overview */
+    Sprite* _bigHead;
     /** Animation phase cycle */
     int _cycle;
     /** Update cycle per animation */
@@ -389,6 +393,8 @@ CC_CONSTRUCTOR_ACCESS:
     void setAvatarTexture(std::string strip) { _avatarTexture = strip; }
 
     void reset();
+    
+    void setBigHeadShown(bool shown);
     
     bool isDead() {return _isDead;}
     void setDead(){

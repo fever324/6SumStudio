@@ -32,6 +32,7 @@ public:
      * @return  An auto-released physics object
      */
     bool _isRemovable;
+    Sprite* _overviewIcon;
     static ExitDoorModel* create();
 
     /**
@@ -107,6 +108,7 @@ CC_CONSTRUCTOR_ACCESS:
 #pragma mark -
 #pragma mark Instance methods
     void open();
+    void showOverviewIcon(bool show){ _overviewIcon->setVisible(show);}
 
 };
 

@@ -188,6 +188,10 @@
         "map_icon": {
             "file":     "textures/map.png",
             "wrap":     false
+        },
+        "big_head": {
+            "file":     "textures/bighead.png",
+            "wrap":     false
         }
         
   	},

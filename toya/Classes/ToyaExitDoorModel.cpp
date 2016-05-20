@@ -71,6 +71,22 @@ bool ExitDoorModel::init(const Vec2 &pos, const Size &size) {
         sprite->setScale(cscale/DOOR_SHRINK);
         setSceneNode(sprite);
         
+        Texture2D* overviewTexture = am->get<Texture2D>("goal");
+        
+        _overviewIcon = Sprite::createWithTexture(overviewTexture);
+        getSceneNode()->addChild(_overviewIcon);
+        _overviewIcon->setVisible(false);
+        _overviewIcon->setScale(2.0f, 2.0f);
+        
+        FiniteTimeAction* expand = ScaleBy::create(0.3, 1.2);
+        FiniteTimeAction* shrink = ScaleBy::create(0.3, 0.83333);
+        
+        
+        Sequence* s = Sequence::create(expand, shrink, NULL);
+        RepeatForever* r = RepeatForever::create(s);
+        _overviewIcon->runAction(r);
+
+        
         return true;
     }
     

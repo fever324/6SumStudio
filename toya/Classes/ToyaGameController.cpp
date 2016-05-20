@@ -509,8 +509,12 @@ void GameController::update(float dt) {
         // if pause only
         if (_overview->didPause() && !_overview->didHelp()) {
             togglePause(true);
+            _avatar->setBigHeadShown(true);
+            _goalDoor->showOverviewIcon(true);
         }else{
             togglePause(false);
+            _avatar->setBigHeadShown(false);
+            _goalDoor->showOverviewIcon(false);
         }
         // if help
         if (_overview->didHelp()){
@@ -538,6 +542,8 @@ void GameController::update(float dt) {
         _input->setActive(true);
         _panel->enableButton();
         _overview->enableButton(true);
+        _avatar->setBigHeadShown(false);
+        _goalDoor->showOverviewIcon(false);
     }
 
     if (_pauseMenu->didGoMain()) {

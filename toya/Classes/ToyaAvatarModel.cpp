@@ -131,6 +131,7 @@ bool AvatarModel::init(const Vec2& pos, const Vec2& scale) {
     Size avatarSize = Size(64/cscale/scale.x/AVATAR_SHRINK*0.65f,80/cscale/scale.y/AVATAR_SHRINK*0.8f);
 //    Size avatarSize = Size(64/cscale/WORLD_SCALE_X/(scale.x/32)/AVATAR_SHRINK*0.65f,80/cscale/WORLD_SCALE_Y/(scale.y/32)/AVATAR_SHRINK);
     
+    
     if (CapsuleObstacle::init(pos, avatarSize)) {
         _animationFrameCount = 0;
         _cycle = 1;
@@ -156,6 +157,21 @@ bool AvatarModel::init(const Vec2& pos, const Vec2& scale) {
         sprite->setScale(1/AVATAR_SHRINK);
         setSceneNode(sprite);
         
+        
+        SceneManager* am = AssetManager::getInstance()->getCurrent();
+        Texture2D* bigHeadTexture = am->get<Texture2D>("big_head");
+        
+        _bigHead = Sprite::createWithTexture(bigHeadTexture);
+        getSceneNode()->addChild(_bigHead);
+        _bigHead->setVisible(false);
+        
+        FiniteTimeAction* expand = ScaleBy::create(0.3, 1.2);
+        FiniteTimeAction* shrink = ScaleBy::create(0.3, 0.83333);
+        
+        
+        Sequence* s = Sequence::create(expand, shrink, NULL);
+        RepeatForever* r = RepeatForever::create(s);
+        _bigHead->runAction(r);
         
 
         WireNode* draw = WireNode::create();
@@ -434,4 +450,8 @@ void AvatarModel::resetDebugNode() {
     _sensorNode->setColor(DEBUG_COLOR);
     _sensorNode->setPosition(Vec2(_debug->getContentSize().width/2.0f, 0.0f));
     _debug->addChild(_sensorNode);
+}
+
+void AvatarModel::setBigHeadShown(bool shown) {
+    _bigHead->setVisible(shown);
 }
