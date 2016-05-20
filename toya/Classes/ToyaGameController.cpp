@@ -365,7 +365,7 @@ void GameController::populate() {
     
     // overview panel
     _overview = OverviewModel::create(Vec2(_rootnode->getContentSize().width,_rootnode->getContentSize().height), Vec2(_rootnode->getScaleX(),_rootnode->getScaleY()));
-    _overview->setGameController(this);
+    _overview->setGameController(this, _currentLevel == 1);
     _rootnode->addChild(_overview,PAUSE_BUTTON_ORDER);
     
     setDebug(false);

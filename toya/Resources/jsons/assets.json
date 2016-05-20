@@ -192,6 +192,14 @@
         "big_head": {
             "file":     "textures/bighead.png",
             "wrap":     false
+        },
+        "left_zoom": {
+            "file":     "textures/left-finger.png",
+            "wrap":     false
+        },
+        "right_zoom": {
+            "file":     "textures/right-finger.png",
+            "wrap":     false
         }
         
   	},
