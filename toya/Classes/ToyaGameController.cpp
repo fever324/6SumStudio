@@ -584,7 +584,7 @@ void GameController::update(float dt) {
         
         Vec2 gravity = Vec2(DEFAULT_GRAVITY,DEFAULT_GRAVITY);
         Vec2 newGravity = _input->getGravity(gravity,cRotation);
-        
+        CCLOG("%f,%f",newGravity.x,newGravity.y);
         _theWorld->setGravity(newGravity);
     }
     

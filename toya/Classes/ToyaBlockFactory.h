@@ -117,7 +117,7 @@ public:
         
         // Set the physics attributes (cannot be absorbed in to a method because we may change these macros)
         obstacle->setDensity(BASIC_DENSITY);
-        obstacle->setFriction(BASIC_FRICTION);
+        obstacle->setFriction(ROCK_FRICTION);
         obstacle->setRestitution(BASIC_RESTITUTION);
         
         if (debug == true) {

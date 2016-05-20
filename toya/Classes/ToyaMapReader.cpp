@@ -120,6 +120,15 @@ void MapReader::createTheBlocks(TMXLayer* layer) {
                 auto tileSprite = layer->getTileAt(Point(x, y));
                 if (tileSprite) {
                     Obstacle* obj = BlockFactory::getRemovableBlock(Vec2(x+0.5,layerSize.height-y-0.5), size, gameController->getScale(),layer->getProperty("texture").asString());
+                    if (layer->getLayerName() == "dirt"){
+                        obj->setFriction(DIRT_FRICTION);
+                    } else if (layer->getLayerName() == "grass"){
+                        obj->setFriction(GRASS_FRICTION);
+                    } else if ( layer->getLayerName() == "ice"){
+                        obj->setFriction(ICE_FRICTION);
+                    } else if (layer->getLayerName() == "sand"){
+                        obj->setFriction(SAND_FRICTION);
+                    }
                     gameController->addObstacle(obj, REMOVABLE_DRAW_LAYER);
                 }
             }
