@@ -31,6 +31,7 @@ private:
     bool showhelp;
     bool paused;
     bool reseted;
+    bool showTutorial;
 
     double currentPlayTime;
     timestamp_t startTime;
@@ -39,6 +40,8 @@ private:
     GameController* gameController;
     
     double getCurrentDuration();
+    Sprite* leftZoom;
+    Sprite* rightZoom;
     
     
 protected:
@@ -109,7 +112,7 @@ CC_CONSTRUCTOR_ACCESS:
     double getCurrentPlayTime();
     
     void setEndTime(timestamp_t t){ endTime = t;}
-    void setGameController(GameController* gc) { gameController = gc;}
+    void setGameController(GameController* gc, bool showTutorial) { gameController = gc; this->setShowTutorial(showTutorial);}
     ui::Button* getPauseButton() {return pauseButton;}
 
     
@@ -129,6 +132,7 @@ CC_CONSTRUCTOR_ACCESS:
     void reset();
     bool didPause(){ return paused;}
     bool didHelp(){ return showhelp;}
+    void setShowTutorial(bool show) { showTutorial = show;}
     
 };
 

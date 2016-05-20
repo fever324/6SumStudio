@@ -49,6 +49,49 @@ bool OverviewModel::init(const Vec2& pos, const Vec2& scale){
     
     startTime = current_time();
     currentPlayTime = 0;
+    
+    
+    // Tutorial zoom
+    SceneManager* am = AssetManager::getInstance()->getCurrent();
+    Texture2D* leftTexture = am->get<Texture2D>("left_zoom");
+    Texture2D* rightTexture = am->get<Texture2D>("right_zoom");
+    
+    leftZoom = Sprite::createWithTexture(leftTexture);
+    rightZoom = Sprite::createWithTexture(rightTexture);
+    
+    FiniteTimeAction* moveLeftDown = MoveBy::create(0.5, Vec2(-40,-30));
+    FiniteTimeAction* moveRightUp  = MoveBy::create(0, Vec2(40 ,30));
+    
+    FiniteTimeAction* moveRightDown = MoveBy::create(0.5, Vec2(40,-30));
+    FiniteTimeAction* moveLeftUp = MoveBy::create(0, Vec2(-40 ,30));
+    
+    FiniteTimeAction* fadeIn1 = FadeIn::create(0.3);
+    FiniteTimeAction* fadeIn2 = FadeIn::create(0.3);
+    
+    FiniteTimeAction* fadeOut1 = FadeOut::create(0.3);
+    FiniteTimeAction* fadeOut2 = FadeOut::create(0.3);
+    
+    Sequence* leftSequence = Sequence::create(moveLeftDown, fadeOut1, moveRightUp, fadeIn1, NULL);
+    Sequence* rightSequence = Sequence::create(moveRightDown, fadeOut2, moveLeftUp, fadeIn2, NULL);
+    
+    RepeatForever* r1 = RepeatForever::create(leftSequence);
+    RepeatForever* r2 = RepeatForever::create(rightSequence);
+    
+    leftZoom->setScale(2.0, 2.0);
+    rightZoom->setScale(2.0, 2.0);
+    leftZoom->runAction(r1);
+    rightZoom->runAction(r2);
+    
+    
+    //1024 * 768
+    leftZoom->setPosition(256, 256);
+    rightZoom->setPosition(768, 256);
+    
+    
+    
+
+    
+    
     return true;
 }
 
@@ -128,6 +171,10 @@ void OverviewModel::pauseButtonPressed() {
     currentPlayTime += getCurrentDuration();
     paused = true;
     gameController->setMap(true);
+    if(showTutorial) {
+        gameController->getRootNode()->addChild(leftZoom, 3);
+        gameController->getRootNode()->addChild(rightZoom, 3);
+    }
 }
 
 void OverviewModel::resumeFromPause() {
@@ -136,6 +183,10 @@ void OverviewModel::resumeFromPause() {
     // only reset the map from pause
     if (!showhelp) {
         gameController->setMap(false);
+        if(showTutorial){
+            gameController->getRootNode()->removeChild(leftZoom);
+            gameController->getRootNode()->removeChild(rightZoom);
+        }
     }
     showhelp = false;
 }
