@@ -72,6 +72,11 @@
             "file":     "textures/background3.jpg",
             "wrap":     false
         },
+        "background4": {
+            "file":     "textures/background4.png",
+            "wrap":     false
+        },
+
         "menubg": {
             "file":     "textures/menubg.png",
             "wrap":     false

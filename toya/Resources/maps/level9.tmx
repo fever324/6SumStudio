@@ -56,7 +56,7 @@
  </tileset>
  <layer name="rootLayer" width="35" height="35">
   <properties>
-   <property name="backgroundImage" value="background2"/>
+   <property name="backgroundImage" value="background3"/>
    <property name="gravity" type="int" value="9"/>
    <property name="initialMagicPoints" type="int" value="10"/>
    <property name="maxMagicPoints" type="int" value="10"/>
@@ -149,7 +149,7 @@
     <property name="texture" value="ghosts"/>
    </properties>
   </object>
-  <object id="97" gid="17" x="1535.77" y="511.183" width="64" height="64">
+  <object id="97" gid="17" x="1507.8" y="531.159" width="64" height="64">
    <properties>
     <property name="faceRight" type="bool" value="false"/>
     <property name="point1X" type="float" value="-5"/>
