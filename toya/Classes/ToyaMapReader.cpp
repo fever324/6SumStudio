@@ -91,7 +91,7 @@ void MapReader::createVolcano() {
 
         vector<Vec2> routes = {(Vec2){x_pos, y_pos}, (Vec2){0.0f, 1.0f}};
         
-        Vec2 Pos = (Vec2){x_pos/tileSize.width, y_pos/tileSize.height};
+        Vec2 Pos = (Vec2){x_pos/tileSize.width, y_pos/tileSize.height+0.1f};
         MovingObstacleModel* projector = MovingObstacleModel::create(2, 4, 4, fire_ball, Pos, Size(1, 1), _scale, routes, fire_speed);
         projector->setName("projector");
         gameController->addObstacle(projector, VOCALNO_PROJECT_DRAW_LAYER);
